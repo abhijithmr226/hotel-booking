@@ -17,7 +17,7 @@ window.getGlobalTaxRate = function() {
 
 async function syncUserSession(firebaseUser) {
   const profile = await getUserByUid(firebaseUser.uid);
-  const adminEmail = "admin@hotelsnearme.com";
+  const adminEmail = "directrajeev@gmail.com";
   const role = profile?.role || (firebaseUser.email === adminEmail ? "admin" : "user");
   const userData = {
     uid: firebaseUser.uid,
@@ -1488,7 +1488,7 @@ function initLoginPage() {
         const result = await signInWithEmailAndPassword(auth, email, password);
         const user = result.user;
         const profile = await getUserByUid(user.uid);
-        const role = profile?.role || (email === "admin@hotelsnearme.com" ? "admin" : "user");
+        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
         const userData = {
           uid: user.uid || profile?.uid,
           name: profile?.name || user.displayName || email.split("@")[0],
@@ -1582,7 +1582,7 @@ function initLoginPage() {
         const result = await signInWithEmailAndPassword(auth, email, password);
         const user = result.user;
         const profile = await getUserByUid(user.uid);
-        const role = profile?.role || (email === "admin@hotelsnearme.com" ? "admin" : "user");
+        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
         if (role !== "admin") {
           setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
           showMsg("Access denied. This account does not have admin privileges.");
@@ -3804,7 +3804,7 @@ window.renderAdminSystemUsersTable = function() {
   }
 
   tbody.innerHTML = localSystemUsers.map(u => {
-    const isMainAdmin = u.email === "admin@hotelsnearme.com";
+    const isMainAdmin = u.email === "directrajeev@gmail.com";
     const deleteBtn = isMainAdmin ? "" : `<button class="btn btn-outline btn-sm text-danger" style="padding:2px 8px; border-color:#FFD2D2; border-radius:15px; font-size:11px;" onclick="window.removeSystemUser('${u.id}')"><i class="fas fa-trash-alt"></i> Remove</button>`;
     
     let roleBg = "#EAF3FC";
