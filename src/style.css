@@ -2622,6 +2622,53 @@ footer ul a:hover {
 }
 
 /* ============================================================
+   AMENITY CHECKBOX LABEL (Add Hotel Modal)
+   ============================================================ */
+
+.amenity-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+  color: var(--text-main);
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  transition: border-color .2s, background .2s;
+  user-select: none;
+}
+
+.amenity-checkbox-label:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.amenity-checkbox-label input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   ADMIN HOTEL CARDS TABLE IMPROVEMENTS
+   ============================================================ */
+
+.hotel-admin-card-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* ============================================================
    MOBILE NAVIGATION & HEADER IMPROVEMENTS
    ============================================================ */
 

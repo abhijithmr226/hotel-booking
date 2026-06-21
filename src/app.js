@@ -1994,7 +1994,10 @@ async function initAdminPage() {
       const imageUrl = document.getElementById("new-hotel-image")?.value?.trim() || "/assets/images/riverside.png";
       const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919876543210";
       const description = document.getElementById("new-hotel-description")?.value?.trim() || `${name} is a premium hotel in ${district}, Kerala offering excellent service and stays.`;
+      const checkInTime = document.getElementById("new-hotel-checkin")?.value?.trim() || "12:00 PM";
+      const checkOutTime = document.getElementById("new-hotel-checkout")?.value?.trim() || "11:00 AM";
       const featured = document.getElementById("new-hotel-featured")?.checked || false;
+      const trending = document.getElementById("new-hotel-trending")?.checked || false;
       const mapUrl = document.getElementById("new-hotel-map")?.value?.trim() || "";
       
       // Collect extra gallery images
@@ -2062,10 +2065,10 @@ async function initAdminPage() {
         description: description,
         amenities: selectedAmenities,
         highlights: [{ title: "New Resort", desc: "Top quality facilities freshly set up" }],
-        details: { checkIn: "12:00 PM", checkOut: "11:00 AM", propertyType: "Hotel", roomCount: totalInventory || 10, starRating: "4 Star", languages: "English, Malayalam", station: "Station nearby", airport: "Airport nearby" },
+        details: { checkIn: checkInTime, checkOut: checkOutTime, propertyType: "Hotel", roomCount: totalInventory || 10, starRating: "4 Star", languages: "English, Malayalam", station: "Station nearby", airport: "Airport nearby" },
         nearby: [],
         featured: featured,
-        trending: false,
+        trending: trending,
         status: "active"
       };
 
@@ -2076,9 +2079,9 @@ async function initAdminPage() {
         await addRoom(roomObj);
       }
 
-      alert("Hotel and Room configurations added successfully!");
       window.closeAddHotelModal();
       hotelForm.reset();
+      showAdminToast(`✅ "${name}" has been published to the website!`, "success");
 
       // Reset dynamic room rows container back to a single row
       const container = document.getElementById("room-types-container");
@@ -2502,6 +2505,68 @@ window.submitAddHotelForm = function() {
   }
 };
 
+// ── Admin Toast Notification ──────────────────────────────────────────────
+function showAdminToast(message, type = "success") {
+  let container = document.getElementById("admin-toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "admin-toast-container";
+    container.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;";
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement("div");
+  const bgColor = type === "success" ? "#108569" : type === "error" ? "#dc3545" : "#1a3c34";
+  toast.style.cssText = `background:${bgColor};color:#fff;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);display:flex;align-items:center;gap:10px;min-width:260px;max-width:380px;animation:toastIn .3s ease;`;
+  toast.innerHTML = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(100%)";
+    toast.style.transition = "opacity .3s ease, transform .3s ease";
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+// ── Add Hotel Modal: Live Preview ─────────────────────────────────────────
+window.updateHotelPreview = function() {
+  const name = document.getElementById("new-hotel-name")?.value || "Hotel Name Preview";
+  const district = document.getElementById("new-hotel-district")?.value || "District";
+  const price = document.getElementById("new-hotel-price")?.value;
+  const category = (document.getElementById("new-hotel-category")?.value || "Category").replace(/[^\w\s&]/g, "").trim();
+  const imgUrl = document.getElementById("new-hotel-image")?.value?.trim();
+
+  const nameEl = document.getElementById("preview-name");
+  const locEl = document.getElementById("preview-location");
+  const priceEl = document.getElementById("preview-price");
+  const catEl = document.getElementById("preview-category");
+  const imgEl = document.getElementById("preview-img");
+
+  if (nameEl) nameEl.textContent = name || "Hotel Name Preview";
+  if (locEl) locEl.innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary);margin-right:4px;"></i>${district}, Kerala`;
+  if (priceEl) priceEl.textContent = price ? `₹${parseInt(price).toLocaleString("en-IN")}` : "₹—";
+  if (catEl) catEl.textContent = category || "Category";
+  if (imgEl && imgUrl) {
+    const testImg = new Image();
+    testImg.onload = () => { imgEl.src = imgUrl; };
+    testImg.src = imgUrl;
+  }
+};
+
+window.previewMainImage = function() {
+  const url = document.getElementById("new-hotel-image")?.value?.trim();
+  if (!url) { showAdminToast("Please paste an image URL first.", "error"); return; }
+  const imgEl = document.getElementById("preview-img");
+  if (imgEl) {
+    imgEl.src = url;
+    imgEl.onerror = () => {
+      imgEl.src = "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60";
+      showAdminToast("⚠️ Could not load that image URL. Please check the link.", "error");
+    };
+    document.getElementById("hotel-preview-strip")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    showAdminToast("Image preview updated!", "success");
+  }
+};
+
 window.openAddHotelModal = function() {
   document.getElementById("add-hotel-modal").classList.add("open");
 };
@@ -2571,37 +2636,78 @@ function renderHotelsTableData(list) {
   const tbody = document.getElementById("admin-hotels-tbody");
   if (!tbody) return;
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px;">No hotels found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:40px; color:var(--text-secondary);">
+      <i class="fas fa-hotel" style="font-size:32px; margin-bottom:12px; display:block; opacity:.3;"></i>
+      No hotels found. Click <strong>Add New Hotel</strong> to add your first property.
+    </td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(h => {
     const isFeatured = !!h.featured;
+    const isTrending = !!h.trending;
+    const isActive = h.status === 'active';
+    const placeholderImg = "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60";
     return `
-      <tr>
+      <tr style="transition:background .15s;" onmouseover="this.style.background='#fafffe'" onmouseout="this.style.background=''">
         <td>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${h.image}" style="width:36px; height:36px; border-radius:6px; object-fit:cover;">
-            <span style="font-weight:600;">${h.name}</span>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img src="${h.image || placeholderImg}" class="hotel-admin-card-img"
+              onerror="this.src='${placeholderImg}'"
+              alt="${h.name}">
+            <div>
+              <div style="font-weight:700; font-size:14px; color:var(--dark); line-height:1.3;">${h.name}</div>
+              <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">
+                ${isFeatured ? '<span style="background:#FFF3CD;color:#856404;padding:1px 7px;border-radius:10px;font-weight:600;font-size:10px;margin-right:4px;">⭐ Featured</span>' : ''}
+                ${isTrending ? '<span style="background:#FDECEA;color:#c0392b;padding:1px 7px;border-radius:10px;font-weight:600;font-size:10px;">🔥 Trending</span>' : ''}
+              </div>
+            </div>
           </div>
         </td>
-        <td>${h.district}</td>
-        <td>${h.category}</td>
-        <td>₹${h.price.toLocaleString("en-IN")}</td>
-        <td><i class="fas fa-star" style="color:#FF9A02;"></i> ${h.rating}</td>
+        <td style="font-size:13px; color:var(--text-secondary);">${h.district || '—'}, Kerala</td>
         <td>
-          <button class="status-badge ${h.status === 'active' ? 'confirmed' : 'cancelled'}" style="border:none; cursor:pointer;" onclick="toggleHotelStatus('${h.id}', '${h.status}')">
-            ${h.status === 'active' ? 'Active' : 'Hidden'}
+          <span style="background:var(--primary-light); color:var(--primary); padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;">${h.category || '—'}</span>
+        </td>
+        <td style="font-weight:700; color:var(--dark); font-size:14px;">₹${(h.price || 0).toLocaleString("en-IN")}<span style="font-size:10px; font-weight:400; color:var(--text-secondary);">/night</span></td>
+        <td>
+          <div style="display:flex; align-items:center; gap:4px;">
+            <i class="fas fa-star" style="color:#FF9A02; font-size:12px;"></i>
+            <span style="font-weight:600; font-size:13px;">${h.rating || '—'}</span>
+            <span style="font-size:11px; color:var(--text-secondary);">(${h.reviewsCount || 0})</span>
+          </div>
+        </td>
+        <td>
+          <button onclick="toggleHotelStatus('${h.id}', '${h.status}')"
+            style="border:none; cursor:pointer; padding:5px 14px; border-radius:20px; font-size:12px; font-weight:700; transition:all .2s;
+              background:${isActive ? 'rgba(16,133,105,.1)' : 'rgba(220,53,69,.08)'};
+              color:${isActive ? '#108569' : '#dc3545'};">
+            <i class="fas fa-${isActive ? 'check-circle' : 'eye-slash'}" style="margin-right:4px;"></i>${isActive ? 'Live' : 'Hidden'}
           </button>
         </td>
         <td>
-          <button class="status-badge ${isFeatured ? 'confirmed' : 'pending'}" style="border:none; cursor:pointer;" onclick="toggleHotelFeatured('${h.id}', ${isFeatured})">
-            ${isFeatured ? 'Featured' : 'Standard'}
+          <button onclick="toggleHotelFeatured('${h.id}', ${isFeatured})"
+            style="border:none; cursor:pointer; padding:5px 14px; border-radius:20px; font-size:12px; font-weight:700; transition:all .2s;
+              background:${isFeatured ? 'rgba(245,158,11,.12)' : 'var(--light)'};
+              color:${isFeatured ? '#b45309' : 'var(--text-secondary)'};">
+            ${isFeatured ? '⭐ Featured' : '☆ Standard'}
           </button>
         </td>
         <td>
-          <div style="display:flex; gap:6px;">
-            <button class="btn btn-outline btn-sm" onclick="openEditHotelModal('${h.id}')" style="padding:4px 8px;"><i class="fas fa-edit"></i></button>
-            <button class="btn btn-outline btn-sm text-danger" onclick="deleteHotelProperty('${h.id}')" style="padding:4px 8px; border-color:#FF5A5F; color:#FF5A5F;"><i class="fas fa-trash"></i></button>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <a href="/hotel.html?id=${h.id}" target="_blank" title="View on Website"
+              style="width:30px; height:30px; border-radius:8px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:12px; text-decoration:none; transition:all .2s;"
+              onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+            <button onclick="openEditHotelModal('${h.id}')" title="Edit"
+              style="width:30px; height:30px; border-radius:8px; border:1px solid var(--border); background:none; cursor:pointer; color:var(--text-main); font-size:12px; transition:all .2s;"
+              onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button onclick="deleteHotelProperty('${h.id}')" title="Delete"
+              style="width:30px; height:30px; border-radius:8px; border:1px solid #ffd0d0; background:none; cursor:pointer; color:#dc3545; font-size:12px; transition:all .2s;"
+              onmouseover="this.style.background='#fff5f5'" onmouseout="this.style.background=''">
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
         </td>
       </tr>

@@ -23,6 +23,8 @@ CREATE TABLE hotels (
     price INTEGER DEFAULT 0,
     tax INTEGER DEFAULT 0,
     image TEXT,
+    images JSONB DEFAULT '[]'::jsonb,
+    map_url TEXT DEFAULT '',
     whatsapp TEXT,
     distance TEXT,
     badge TEXT,
@@ -33,7 +35,8 @@ CREATE TABLE hotels (
     nearby JSONB DEFAULT '[]'::jsonb,
     featured BOOLEAN DEFAULT false,
     trending BOOLEAN DEFAULT false,
-    status TEXT DEFAULT 'active'
+    status TEXT DEFAULT 'active',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE rooms (
@@ -67,7 +70,7 @@ CREATE TABLE users (
     phone TEXT,
     photo_url TEXT,
     role TEXT DEFAULT 'user',
-    password TEXT, -- hashed for custom email/password authentication
+    password TEXT,
     created_at TEXT
 );
 

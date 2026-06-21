@@ -25,6 +25,19 @@ const pool = new Pool({
     : false
 });
 
+// ─── Non-destructive migrations ────────────────────────────────────────────
+async function runMigrations(client) {
+  const migrations = [
+    `ALTER TABLE hotels ADD COLUMN IF NOT EXISTS images JSONB DEFAULT '[]'::jsonb`,
+    `ALTER TABLE hotels ADD COLUMN IF NOT EXISTS map_url TEXT DEFAULT ''`,
+    `ALTER TABLE hotels ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP`,
+  ];
+  for (const sql of migrations) {
+    try { await client.query(sql); } catch (e) { /* column already exists */ }
+  }
+  console.log('✅ Migrations applied.');
+}
+
 // Test connection and auto-initialize schema
 pool.connect(async (err, client, release) => {
   if (err) {
@@ -43,6 +56,8 @@ pool.connect(async (err, client, release) => {
   try {
     await client.query('SELECT 1 FROM hotels LIMIT 1');
     console.log('✅ Database tables verified.');
+    // Run non-destructive migrations to add any missing columns
+    await runMigrations(client);
   } catch (schemaErr) {
     console.log('ℹ️  Tables do not exist. Initializing schema.sql...');
     try {
