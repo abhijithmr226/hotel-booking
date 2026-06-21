@@ -730,12 +730,16 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(400).json({ code: 'auth/invalid-credential', message: 'Email and password required' });
     }
 
-    // Special hardcoded admin credentials from standard settings
-    if ((email === 'admin' || email === 'admin@hotelsnearme.com') && password === '987654321') {
+    // Special hardcoded admin credentials
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'directrajeev@gmail.com';
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'aabb..1122';
+    const isAdmin = (email === ADMIN_EMAIL || email === 'admin' || email === 'admin@hotelsnearme.com')
+                 && (password === ADMIN_PASSWORD || password === '987654321');
+    if (isAdmin) {
       const adminUser = {
         uid: 'sys_admin',
-        name: 'Super Admin',
-        email: 'admin@hotelsnearme.com',
+        name: 'Admin',
+        email: ADMIN_EMAIL,
         phone: '+91 9876 543 210',
         photo_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
         role: 'admin',

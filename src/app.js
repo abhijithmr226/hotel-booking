@@ -1579,31 +1579,37 @@ function initLoginPage() {
       if (!email || !password) { showMsg("Please enter admin email and password."); return; }
       setBtnLoading("admin-btn", true, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
       try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
-        const user = result.user;
-        const profile = await getUserByUid(user.uid);
-        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
-        if (role !== "admin") {
+        const resp = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+          showMsg(data.message || "Invalid email or password.");
+          return;
+        }
+        if (data.role !== "admin") {
           setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
           showMsg("Access denied. This account does not have admin privileges.");
           return;
         }
-        const userData = {
-          uid: user.uid || profile?.uid || "sys_admin",
-          name: profile?.name || "Admin",
-          email,
-          phone: profile?.phone || "",
-          photoURL: profile?.photoURL || "",
+        localStorage.setItem("hbooking_session_type", "local");
+        localStorage.setItem("hbooking_user", JSON.stringify({
+          uid: data.uid || "sys_admin",
+          name: data.name || "Admin",
+          email: data.email || email,
+          phone: data.phone || "",
+          photoURL: data.photoURL || "",
           role: "admin",
           status: "active"
-        };
-        localStorage.setItem("hbooking_session_type", "local");
-        localStorage.setItem("hbooking_user", JSON.stringify(userData));
+        }));
         showMsg("Admin access granted! Redirecting...", "success");
         setTimeout(() => { window.location.href = "/admin.html"; }, 800);
       } catch (err) {
         setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-        showMsg(formatFirebaseError(err.code || err.message));
+        showMsg("Connection error. Please try again.");
       }
     });
   }
