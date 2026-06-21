@@ -48,49 +48,18 @@
       <p>Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</p>
       
       <!-- Search Form Widget -->
-      <form class="search-widget" id="search-form" style="position: relative;">
-        <div class="search-field" style="position: relative;">
-          <i class="fas fa-map-marker-alt"></i>
-          <div class="field-content">
-            <label for="search-location">Where are you going?</label>
-            <input type="text" id="search-location" placeholder="Search city, district or hotel" required autocomplete="off">
-            <div id="search-autocomplete-box" style="display:none; position: absolute; top: calc(100% + 15px); left: 0; width: 100%; min-width: 280px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 100; max-height: 250px; overflow-y: auto; color: var(--text-main);"></div>
-          </div>
+      <form class="search-widget" id="search-form">
+        <div class="search-simple-field">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search-location" placeholder="City, hotel name or district…" autocomplete="off" required>
+          <div id="search-autocomplete-box"></div>
         </div>
-        
-        <div class="search-field">
-          <i class="fas fa-calendar-alt"></i>
-          <div class="field-content">
-            <label for="search-checkin">Check In</label>
-            <input type="date" id="search-checkin">
-          </div>
-        </div>
-        
-        <div class="search-field">
-          <i class="fas fa-calendar-check"></i>
-          <div class="field-content">
-            <label for="search-checkout">Check Out</label>
-            <input type="date" id="search-checkout">
-          </div>
-        </div>
-        
-        <div class="search-field">
-          <i class="fas fa-users"></i>
-          <div class="field-content">
-            <label for="search-guests">Guests & Rooms</label>
-            <select id="search-guests">
-              <option value="2 Guests, 1 Room">2 Guests, 1 Room</option>
-              <option value="1 Guest, 1 Room">1 Guest, 1 Room</option>
-              <option value="4 Guests, 2 Rooms">4 Guests, 2 Rooms</option>
-              <option value="More options">More options...</option>
-            </select>
-          </div>
-        </div>
-        
-        <button type="button" class="btn btn-secondary" id="btn-toggle-filters" style="border-radius: 50px; height: 52px; margin: 0 10px; font-size:14px; white-space:nowrap;">
-          <i class="fas fa-sliders-h" style="margin-right:6px;"></i> Filters
+        <button type="button" class="search-filter-btn" id="btn-toggle-filters" title="Filters">
+          <i class="fas fa-sliders-h"></i><span>Filters</span>
         </button>
-        <button type="submit" class="btn btn-primary">Search Hotels</button>
+        <button type="submit" class="btn btn-primary search-submit-btn">
+          <i class="fas fa-search"></i> Search
+        </button>
       </form>
 
       <!-- Advanced Filters Panel -->
