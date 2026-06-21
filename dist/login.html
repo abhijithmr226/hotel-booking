@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Admin Dashboard Access - HotelsNearMeInKerala</title>
+  
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <style>
+    body {
+      background: linear-gradient(135deg, #0A192F 0%, #172A45 100%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    .auth-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+    }
+    .auth-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .logo-wrapper {
+      margin-bottom: 30px;
+    }
+    .logo-wrapper img {
+      max-height: 50px;
+    }
+    .auth-header h2 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .auth-header p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .input-icon-wrapper {
+      position: relative;
+    }
+    .input-icon-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 16px;
+    }
+    .input-icon-wrapper input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 14px 14px 14px 44px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    .input-icon-wrapper input:focus {
+      border-color: var(--primary);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 0 3px rgba(16, 133, 105, 0.2);
+    }
+    .btn-primary {
+      width: 100%;
+      background: var(--primary);
+      color: #white;
+      border: none;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    #auth-message {
+      display: none;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .back-to-site {
+      margin-top: 25px;
+      display: block;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.3s;
+    }
+    .back-to-site:hover {
+      color: #fff;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/app-BEAUg118.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/app-BSBgDRzB.css">
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="logo-wrapper">
+        <a href="/index.html">
+          <img src="/logo.png" alt="HotelsNearMeInKerala">
+        </a>
+      </div>
+      
+      <div class="auth-header">
+        <h2>Admin Dashboard Access</h2>
+        <p>Please enter the system passcode to verify authority.</p>
+      </div>
+      
+      <form id="auth-form">
+        <div class="form-group">
+          <label for="auth-password">Enter Passcode *</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="auth-password" placeholder="•••••••••" required autofocus>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" id="auth-submit-btn">
+          Authenticate <i class="fas fa-unlock-alt"></i>
+        </button>
+      </form>
+
+      <!-- Status Messages -->
+      <div id="auth-message"></div>
+      
+      <a href="/index.html" class="back-to-site">
+        <i class="fas fa-arrow-left" style="margin-right: 6px;"></i> Back to homepage
+      </a>
+    </div>
+  </div>
+
+  <!-- App Script -->
+</body>
+</html>

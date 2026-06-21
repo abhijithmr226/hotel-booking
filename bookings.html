@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>My Bookings - HotelsNearMeInKerala</title>
+  <script>
+    (function() {
+      try {
+        var userJson = localStorage.getItem('hbooking_user');
+        if (!userJson) { window.location.replace('/login.html'); document.documentElement.style.display='none'; }
+      } catch(e) { window.location.replace('/login.html'); }
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .bookings-page { padding: 40px 0 80px; min-height: 70vh; }
+    .bookings-header { margin-bottom: 32px; }
+    .bookings-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .bookings-header p { color: var(--text-secondary); font-size: 15px; }
+
+    .bookings-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+    .booking-filter-tab {
+      padding: 8px 20px; border-radius: 30px; border: 1.5px solid var(--border);
+      background: #fff; color: var(--text-secondary); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif;
+    }
+    .booking-filter-tab.active, .booking-filter-tab:hover {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+
+    .bookings-empty {
+      text-align: center; padding: 80px 20px; background: #fff;
+      border: 1px solid var(--border); border-radius: 16px;
+    }
+    .bookings-empty i { font-size: 52px; color: var(--border); margin-bottom: 20px; }
+    .bookings-empty h3 { font-size: 20px; margin-bottom: 8px; }
+    .bookings-empty p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
+
+    .booking-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; margin-bottom: 20px; transition: box-shadow 0.2s;
+      display: grid; grid-template-columns: 100px 1fr auto;
+    }
+    .booking-card:hover { box-shadow: var(--shadow-md); }
+    .booking-card-img { width: 100px; min-height: 120px; object-fit: cover; }
+    .booking-card-body { padding: 20px; }
+    .booking-card-body h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .booking-card-meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+    .booking-card-meta span { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+    .booking-card-meta span i { color: var(--primary); font-size: 12px; }
+    .booking-card-id { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+    .booking-card-actions { padding: 20px; display: flex; flex-direction: column; justify-content: center; gap: 10px; align-items: flex-end; border-left: 1px solid var(--border); min-width: 140px; }
+    .booking-card-amount { font-size: 20px; font-weight: 800; color: var(--dark); }
+    .booking-card-amount span { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px;
+      border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+    }
+    .status-pill.confirmed { background: #E8F7F3; color: #108569; }
+    .status-pill.pending { background: #FFF5E6; color: #E58E00; }
+    .status-pill.cancelled { background: #FCEAEA; color: #DC3545; }
+    .status-pill.completed { background: #E8F0FE; color: #2B76D9; }
+    .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .bookings-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .booking-stat-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; text-align: center;
+    }
+    .booking-stat-card .stat-num { font-size: 28px; font-weight: 800; color: var(--dark); font-family: 'Outfit', sans-serif; }
+    .booking-stat-card .stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+    @media (max-width: 768px) {
+      .booking-card { grid-template-columns: 1fr; }
+      .booking-card-img { width: 100%; height: 160px; }
+      .booking-card-actions { border-left: none; border-top: 1px solid var(--border); flex-direction: row; justify-content: space-between; align-items: center; }
+      .bookings-stats-row { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="/index.html" class="logo">
+        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li class="active"><a href="/bookings.html">My Bookings</a></li>
+          <li><a href="/index.html#popular-destinations">Destinations</a></li>
+        </ul>
+      </nav>
+      <div class="header-right" id="header-user-menu">
+        <a href="/login.html" class="btn btn-primary" id="header-login-btn">
+          <i class="fas fa-user"></i> Sign In
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="bookings-page">
+    <div class="container">
+      <div class="bookings-header">
+        <h1>My Bookings</h1>
+        <p>Track and manage all your hotel reservations in one place</p>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="bookings-stats-row" id="bookings-stats-row">
+        <div class="booking-stat-card">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">Total Bookings</div>
+        </div>
+        <div class="booking-stat-card">
+          <div class="stat-num" id="stat-confirmed" style="color:#108569;">0</div>
+          <div class="stat-label">Confirmed</div>
+        </div>
+        <div class="booking-stat-card">
+          <div class="stat-num" id="stat-pending" style="color:#E58E00;">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="booking-stat-card">
+          <div class="stat-num" id="stat-amount" style="font-size:20px;">₹0</div>
+          <div class="stat-label">Total Spent</div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="bookings-tabs">
+        <button class="booking-filter-tab active" data-filter="all">All Bookings</button>
+        <button class="booking-filter-tab" data-filter="confirmed">Confirmed</button>
+        <button class="booking-filter-tab" data-filter="pending">Pending</button>
+        <button class="booking-filter-tab" data-filter="cancelled">Cancelled</button>
+      </div>
+
+      <!-- Bookings List -->
+      <div id="bookings-list">
+        <div style="text-align:center; padding:60px 20px; color:var(--text-secondary);">
+          <i class="fas fa-spinner fa-spin" style="font-size:32px; margin-bottom:16px;"></i>
+          <p>Loading your bookings...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">
+        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
+        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across Kerala.</p>
+        <div class="footer-socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/index.html#hotels-near-you">Hotels</a></li>
+          <li><a href="/index.html#popular-destinations">Destinations</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Cancellation Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
