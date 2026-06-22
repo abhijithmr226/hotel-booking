@@ -2579,6 +2579,154 @@ window.submitAddHotelForm = function() {
   }
 };
 
+// ── Cloudinary Upload Utility ─────────────────────────────────────────────
+const CLD_CLOUD = "hotelsnearme";
+const CLD_PRESET = "hotels_upload";
+const CLD_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLD_CLOUD}/image/upload`;
+
+async function cldUploadFile(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", CLD_PRESET);
+  fd.append("folder", "kerala_hotels");
+  fd.append("quality", "auto");
+  fd.append("fetch_format", "auto");
+  const res = await fetch(CLD_UPLOAD_URL, { method: "POST", body: fd });
+  if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.status}`);
+  const data = await res.json();
+  return data.secure_url;
+}
+
+function cldSetZoneImage(zoneId, fieldId, url) {
+  const zone = document.getElementById(zoneId);
+  const field = document.getElementById(fieldId);
+  if (!zone) return;
+  if (!url) {
+    zone.classList.remove("has-image");
+    const inner = zone.querySelector(".cld-drop-inner");
+    if (inner) inner.style.display = "";
+    const img = zone.querySelector("img");
+    if (img) img.remove();
+    const overlay = zone.querySelector(".cld-overlay");
+    if (overlay) overlay.remove();
+    if (field) field.value = "";
+    return;
+  }
+  zone.classList.add("has-image");
+  let img = zone.querySelector("img");
+  if (!img) { img = document.createElement("img"); zone.appendChild(img); }
+  img.src = url;
+  img.alt = "Hotel photo";
+  let overlay = zone.querySelector(".cld-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "cld-overlay";
+    overlay.innerHTML = `<i class="fas fa-camera"></i> Change Photo`;
+    zone.appendChild(overlay);
+  }
+  const inner = zone.querySelector(".cld-drop-inner");
+  if (inner) inner.style.display = "none";
+  if (field) field.value = url;
+}
+
+function cldSetSlotImage(slotId, fieldId, url) {
+  const slot = document.getElementById(slotId);
+  const field = document.getElementById(fieldId);
+  if (!slot) return;
+  if (!url) {
+    slot.classList.remove("has-image");
+    slot.innerHTML = `<i class="fas fa-plus"></i><span>${slot.dataset.label || ""}</span>`;
+    if (field) field.value = "";
+    return;
+  }
+  slot.classList.add("has-image");
+  const label = slot.dataset.label || slot.querySelector("span")?.textContent || "";
+  slot.innerHTML = `
+    <img src="${url}" alt="Gallery photo">
+    <div class="cld-slot-overlay"><i class="fas fa-camera"></i> Change</div>
+  `;
+  if (!slot.dataset.label) slot.dataset.label = label;
+  if (field) field.value = url;
+}
+
+function cldShowZoneSpinner(zoneId, isZone) {
+  const el = document.getElementById(zoneId);
+  if (!el) return;
+  if (isZone) {
+    el.innerHTML = `<div class="cld-uploading"><div class="cld-spinner"></div> Uploading…</div>`;
+  } else {
+    el.innerHTML = `<div class="cld-spinner"></div>`;
+  }
+}
+
+window.triggerCldPick = function(zoneId, fieldId, isZone) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/jpeg,image/png,image/webp,image/jpg";
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+    cldShowZoneSpinner(zoneId, isZone);
+    try {
+      const url = await cldUploadFile(file);
+      if (isZone) {
+        cldSetZoneImage(zoneId, fieldId, url);
+        if (fieldId === "new-hotel-image") updateHotelPreview();
+      } else {
+        cldSetSlotImage(zoneId, fieldId, url);
+      }
+      showAdminToast(`<i class="fas fa-check-circle" style="font-size:16px;"></i> Photo uploaded successfully!`, "success");
+    } catch(err) {
+      showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your Cloudinary settings`, "error");
+      if (isZone) {
+        const zone = document.getElementById(zoneId);
+        if (zone) zone.innerHTML = `<div class="cld-drop-inner"><i class="fas fa-cloud-upload-alt"></i><span>Click or drag &amp; drop to upload</span></div>`;
+      } else {
+        const slot = document.getElementById(zoneId);
+        if (slot) slot.innerHTML = `<i class="fas fa-plus"></i><span>Photo</span>`;
+      }
+    }
+  };
+  input.click();
+};
+
+window.handleCldDrop = async function(event, zoneId, fieldId, isZone) {
+  event.preventDefault();
+  const el = document.getElementById(zoneId);
+  if (el) el.classList.remove("drag-over");
+  const file = event.dataTransfer?.files?.[0];
+  if (!file || !file.type.startsWith("image/")) return;
+  cldShowZoneSpinner(zoneId, isZone);
+  try {
+    const url = await cldUploadFile(file);
+    if (isZone) {
+      cldSetZoneImage(zoneId, fieldId, url);
+      if (fieldId === "new-hotel-image") updateHotelPreview();
+    } else {
+      cldSetSlotImage(zoneId, fieldId, url);
+    }
+    showAdminToast(`<i class="fas fa-check-circle" style="font-size:16px;"></i> Photo uploaded successfully!`, "success");
+  } catch(err) {
+    showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your Cloudinary settings`, "error");
+    if (isZone) {
+      const zone = document.getElementById(zoneId);
+      if (zone) zone.innerHTML = `<div class="cld-drop-inner"><i class="fas fa-cloud-upload-alt"></i><span>Click or drag &amp; drop to upload</span></div>`;
+    } else {
+      const slot = document.getElementById(zoneId);
+      if (slot) slot.innerHTML = `<i class="fas fa-plus"></i><span>Photo</span>`;
+    }
+  }
+};
+
+// Also reset upload zones when Add Hotel modal is closed/reopened
+const _origCloseAdd = window.closeAddHotelModal;
+window.closeAddHotelModal = function() {
+  _origCloseAdd?.();
+  ["cld-add-main"].forEach(id => cldSetZoneImage(id, id === "cld-add-main" ? "new-hotel-image" : "", ""));
+  [["cld-add-g2","new-hotel-img2"],["cld-add-g3","new-hotel-img3"],
+   ["cld-add-g4","new-hotel-img4"],["cld-add-g5","new-hotel-img5"]].forEach(([z,f]) => cldSetSlotImage(z,f,""));
+};
+
 // ── Admin Toast Notification ──────────────────────────────────────────────
 function showAdminToast(message, type = "success") {
   let container = document.getElementById("admin-toast-container");
@@ -2656,18 +2804,26 @@ window.openEditHotelModal = function(hotelId) {
   document.getElementById("edit-hotel-price").value = h.price;
   document.getElementById("edit-hotel-status").value = h.status || "active";
   document.getElementById("edit-hotel-featured").checked = !!h.featured;
-  const imgField = document.getElementById("edit-hotel-image");
-  if (imgField) imgField.value = h.image || "";
   const waField = document.getElementById("edit-hotel-whatsapp");
   if (waField) waField.value = h.whatsapp || "";
   const mapField = document.getElementById("edit-hotel-map");
   if (mapField) mapField.value = h.mapUrl || "";
-  // Prefill gallery images
+
+  // Pre-populate Cloudinary upload zones with existing images
+  const imgField = document.getElementById("edit-hotel-image");
+  if (imgField) imgField.value = h.image || "";
+  cldSetZoneImage("cld-edit-main", "edit-hotel-image", h.image || "");
+
   const extras = Array.isArray(h.images) ? h.images : [];
-  for (let i = 2; i <= 5; i++) {
-    const f = document.getElementById(`edit-hotel-img${i}`);
-    if (f) f.value = extras[i - 2] || "";
-  }
+  const zoneIds = ["cld-edit-g2","cld-edit-g3","cld-edit-g4","cld-edit-g5"];
+  const fieldIds = ["edit-hotel-img2","edit-hotel-img3","edit-hotel-img4","edit-hotel-img5"];
+  zoneIds.forEach((zid, i) => {
+    const url = extras[i] || "";
+    const f = document.getElementById(fieldIds[i]);
+    if (f) f.value = url;
+    cldSetSlotImage(zid, fieldIds[i], url);
+  });
+
   document.getElementById("edit-hotel-modal").classList.add("open");
 };
 window.closeEditHotelModal = function() {

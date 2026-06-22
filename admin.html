@@ -805,31 +805,43 @@ Sitemap: https://hotelkerala.com/sitemap.xml</pre>
           <div style="flex:1; height:1px; background:var(--border);"></div>
         </div>
 
+        <!-- hidden URL holders (read by the form submit handler) -->
+        <input type="hidden" id="new-hotel-image">
+        <input type="hidden" id="new-hotel-img2">
+        <input type="hidden" id="new-hotel-img3">
+        <input type="hidden" id="new-hotel-img4">
+        <input type="hidden" id="new-hotel-img5">
+
+        <!-- Cover photo uploader -->
         <div class="form-group">
-          <label for="new-hotel-image">Main Cover Photo URL *</label>
-          <div style="display:flex; gap:8px; align-items:stretch;">
-            <input type="text" id="new-hotel-image" placeholder="https://images.unsplash.com/... or any image URL" style="flex:1;" oninput="updateHotelPreview()">
-            <button type="button" onclick="previewMainImage()" style="background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); border-radius:8px; padding:0 14px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap;"><i class="fas fa-eye"></i> Preview</button>
+          <label>Main Cover Photo <span style="color:var(--primary);">*</span></label>
+          <div class="cld-drop-zone" id="cld-add-main" onclick="triggerCldPick('cld-add-main','new-hotel-image',true)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-main','new-hotel-image',true)">
+            <div class="cld-drop-inner" id="cld-add-main-inner">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Click or drag &amp; drop to upload cover photo</span>
+              <small>JPEG / PNG / WebP · auto-compressed by Cloudinary</small>
+            </div>
           </div>
-          <p style="font-size:11px; color:var(--text-secondary); margin-top:4px;"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> Tip: Use <a href="https://unsplash.com" target="_blank" style="color:var(--primary);">Unsplash</a>, Cloudinary, or any direct image link.</p>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="form-group" style="margin-bottom:0;">
-            <label>Gallery Photo 2</label>
-            <input type="text" id="new-hotel-img2" placeholder="https://...">
+
+        <!-- Gallery multi-uploader -->
+        <div class="form-group">
+          <label>Gallery Photos <span style="font-weight:400; color:var(--text-secondary);">(up to 4 extra shots)</span></label>
+          <div class="cld-gallery-grid" id="cld-add-gallery">
+            <div class="cld-gallery-slot" id="cld-add-g2" onclick="triggerCldPick('cld-add-g2','new-hotel-img2',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g2','new-hotel-img2',false)">
+              <i class="fas fa-plus"></i><span>Photo 2</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-add-g3" onclick="triggerCldPick('cld-add-g3','new-hotel-img3',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g3','new-hotel-img3',false)">
+              <i class="fas fa-plus"></i><span>Photo 3</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-add-g4" onclick="triggerCldPick('cld-add-g4','new-hotel-img4',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g4','new-hotel-img4',false)">
+              <i class="fas fa-plus"></i><span>Photo 4</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-add-g5" onclick="triggerCldPick('cld-add-g5','new-hotel-img5',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g5','new-hotel-img5',false)">
+              <i class="fas fa-plus"></i><span>Photo 5</span>
+            </div>
           </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label>Gallery Photo 3</label>
-            <input type="text" id="new-hotel-img3" placeholder="https://...">
-          </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label>Gallery Photo 4</label>
-            <input type="text" id="new-hotel-img4" placeholder="https://...">
-          </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label>Gallery Photo 5</label>
-            <input type="text" id="new-hotel-img5" placeholder="https://...">
-          </div>
+          <p style="font-size:11px; color:var(--text-secondary); margin-top:6px;"><i class="fas fa-info-circle" style="color:var(--primary);"></i> Images are automatically compressed and stored on Cloudinary CDN.</p>
         </div>
 
         <!-- ── STEP 3: AMENITIES ── -->
@@ -978,29 +990,40 @@ Sitemap: https://hotelkerala.com/sitemap.xml</pre>
         </div>
 
         <p class="form-section-title"><i class="fas fa-images"></i> Photos</p>
+
+        <!-- hidden URL holders -->
+        <input type="hidden" id="edit-hotel-image">
+        <input type="hidden" id="edit-hotel-img2">
+        <input type="hidden" id="edit-hotel-img3">
+        <input type="hidden" id="edit-hotel-img4">
+        <input type="hidden" id="edit-hotel-img5">
+
         <div class="form-group">
-          <label for="edit-hotel-image">Main Image URL</label>
-          <input type="text" id="edit-hotel-image" placeholder="https://... (leave blank to keep existing)">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Gallery Image 2</label>
-            <input type="text" id="edit-hotel-img2" placeholder="https://...">
-          </div>
-          <div class="form-group">
-            <label>Gallery Image 3</label>
-            <input type="text" id="edit-hotel-img3" placeholder="https://...">
+          <label>Main Cover Photo</label>
+          <div class="cld-drop-zone cld-compact" id="cld-edit-main" onclick="triggerCldPick('cld-edit-main','edit-hotel-image',true)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-main','edit-hotel-image',true)">
+            <div class="cld-drop-inner" id="cld-edit-main-inner">
+              <i class="fas fa-camera"></i>
+              <span>Click or drop to replace cover photo</span>
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Gallery Image 4</label>
-            <input type="text" id="edit-hotel-img4" placeholder="https://...">
+        <div class="form-group">
+          <label>Gallery Photos</label>
+          <div class="cld-gallery-grid">
+            <div class="cld-gallery-slot" id="cld-edit-g2" onclick="triggerCldPick('cld-edit-g2','edit-hotel-img2',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g2','edit-hotel-img2',false)">
+              <i class="fas fa-plus"></i><span>Photo 2</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-edit-g3" onclick="triggerCldPick('cld-edit-g3','edit-hotel-img3',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g3','edit-hotel-img3',false)">
+              <i class="fas fa-plus"></i><span>Photo 3</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-edit-g4" onclick="triggerCldPick('cld-edit-g4','edit-hotel-img4',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g4','edit-hotel-img4',false)">
+              <i class="fas fa-plus"></i><span>Photo 4</span>
+            </div>
+            <div class="cld-gallery-slot" id="cld-edit-g5" onclick="triggerCldPick('cld-edit-g5','edit-hotel-img5',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g5','edit-hotel-img5',false)">
+              <i class="fas fa-plus"></i><span>Photo 5</span>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Gallery Image 5</label>
-            <input type="text" id="edit-hotel-img5" placeholder="https://...">
-          </div>
+          <p style="font-size:11px; color:var(--text-secondary); margin-top:6px;"><i class="fas fa-info-circle" style="color:var(--primary);"></i> Leave unchanged to keep existing photos. Upload only what you want to replace.</p>
         </div>
 
         <p class="form-section-title"><i class="fas fa-map-marker-alt"></i> Location Map</p>
