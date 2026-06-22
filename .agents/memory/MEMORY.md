@@ -1,1 +1,5 @@
 - [Kerala Hotel Booking Platform](kerala-hotel-platform.md) — stack, data flow, key bugs fixed, seed data approach for this project
+- [Hotel data formats](hotel-data-formats.md) — highlights/nearby stored as string[] in DB; rendering must handle both string[] and {name,dist}[] object formats
+- [WhatsApp & toasts](whatsapp-toasts.md) — showAdminToast() for admin panel; showBookingToast() for hotel detail (defined inline, not imported); floating #float-whatsapp-btn set dynamically from hotel.whatsapp in initHotelDetailPage
+- [Categories & URL routing](categories-url.md) — 16 categories in CATEGORIES array (data.js); ?category= and ?district= URL params handled in initLandingPage; categories.html is standalone page with live category search
+- [Schema seed order](schema-seed.md) — schema.sql has original 12 hotels + 8 new category hotels (013-020) + 13 reviews all as ON CONFLICT DO NOTHING; seeding also works live via POST /api/hotels and /api/reviews

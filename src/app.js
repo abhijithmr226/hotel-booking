@@ -300,6 +300,24 @@ async function initLandingPage() {
   const activeHotels = hotels.filter(h => h.status === "active");
   await renderHotelsGrid("hotels-near-you-grid", activeHotels);
   await renderHotelsGrid("featured-hotels-grid", activeHotels.filter(h => h.featured).slice(0, 4));
+
+  // Handle URL params: ?category= or ?district= from categories.html or external links
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCategory = urlParams.get("category");
+  const urlDistrict = urlParams.get("district");
+  if (urlCategory) {
+    const catEl = document.getElementById("filter-category");
+    if (catEl) catEl.value = urlCategory;
+    const fp = document.getElementById("advanced-filters-panel");
+    if (fp) fp.style.display = "block";
+    await applyAdvancedFilters(hotels);
+    setTimeout(() => document.getElementById("hotels-near-you")?.scrollIntoView({ behavior: "smooth" }), 300);
+  } else if (urlDistrict) {
+    const locEl = document.getElementById("search-location");
+    if (locEl) locEl.value = urlDistrict;
+    await applyAdvancedFilters(hotels);
+    setTimeout(() => document.getElementById("hotels-near-you")?.scrollIntoView({ behavior: "smooth" }), 300);
+  }
   initNearbyHotels(hotels);
   onDataChange((source) => {
     if (source === "hotels") {
@@ -676,6 +694,21 @@ async function initHotelDetailPage() {
   document.getElementById("hotel-badge-tag").innerText = selectedHotel.badge || selectedHotel.category;
   document.getElementById("hotel-desc").innerHTML = selectedHotel.description;
   document.getElementById("sidebar-hotel-whatsapp").innerText = `+${selectedHotel.whatsapp}`;
+
+  // Set floating WhatsApp button for hotel-specific number
+  const floatWa = document.getElementById("float-whatsapp-btn");
+  if (floatWa && selectedHotel.whatsapp) {
+    const waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    const waMsg = encodeURIComponent(`Hi! I found ${selectedHotel.name} on HotelsNearMeInKerala.com and would like to enquire about availability and rates.`);
+    floatWa.href = `https://wa.me/${waNum}?text=${waMsg}`;
+    floatWa.title = `WhatsApp ${selectedHotel.name}`;
+  }
+
+  // Update mobile WhatsApp nav button to open booking modal instead
+  const mobWaBtn = document.getElementById("mob-wa-btn");
+  if (mobWaBtn) {
+    mobWaBtn.onclick = (e) => { e.preventDefault(); openBookingModal(); };
+  }
   
   // ── Dynamic Multi-Image Gallery ────────────────────────────────────────────
   // Build full image list: primary image + extra images from admin
@@ -711,23 +744,36 @@ async function initHotelDetailPage() {
     }
   }
 
-  // ── Dynamic Google Map Embed ───────────────────────────────────────────────
+  // ── Dynamic Map Embed (OpenStreetMap, no API key needed) ──────────────────
   const mapIframe = document.getElementById("hotel-map-iframe");
   const mapPlaceholder = document.getElementById("hotel-map-placeholder");
   const mapLink = document.getElementById("hotel-map-link");
   if (mapIframe && mapPlaceholder) {
-    if (selectedHotel.mapUrl && selectedHotel.mapUrl.trim()) {
-      mapIframe.src = selectedHotel.mapUrl.trim();
-      mapIframe.style.display = "block";
-      mapPlaceholder.style.display = "none";
-      if (mapLink) {
-        mapLink.href = selectedHotel.mapUrl.trim();
-        mapLink.style.display = "";
-      }
-    } else {
-      mapIframe.style.display = "none";
-      mapPlaceholder.style.display = "flex";
-      if (mapLink) mapLink.style.display = "none";
+    // Build embed URL: extract query from mapUrl or use hotel location
+    let rawUrl = (selectedHotel.mapUrl || "").trim();
+    let locationQuery = selectedHotel.location || selectedHotel.name;
+    // Try to extract the ?q= param from a Google Maps URL
+    try {
+      const urlObj = new URL(rawUrl);
+      const q = urlObj.searchParams.get("q");
+      if (q) locationQuery = q;
+    } catch(e) { /* invalid URL, use location */ }
+    // Build an OpenStreetMap embed URL (works without API key)
+    const osmQuery = encodeURIComponent(locationQuery + ", Kerala, India");
+    const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=74.0,8.0,78.0,13.0&layer=mapnik&marker=&query=${osmQuery}`;
+    // Use Google Maps embed format (works without API key)
+    const googleEmbedSrc = `https://maps.google.com/maps?q=${osmQuery}&output=embed&hl=en&z=14`;
+    mapIframe.src = googleEmbedSrc;
+    mapIframe.style.display = "block";
+    mapIframe.style.width = "100%";
+    mapIframe.style.height = "320px";
+    mapIframe.style.border = "none";
+    mapIframe.style.borderRadius = "8px";
+    mapPlaceholder.style.display = "none";
+    if (mapLink) {
+      mapLink.href = rawUrl || `https://maps.google.com/?q=${osmQuery}`;
+      mapLink.style.display = "";
+      mapLink.innerHTML = `<i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Open in Google Maps`;
     }
   }
 
@@ -742,45 +788,53 @@ async function initHotelDetailPage() {
     `).join("");
   }
 
-  // Render Highlights
+  // Render Highlights (handles both string[] and {title,desc}[] formats)
   const hlGrid = document.getElementById("highlights-grid");
   if (hlGrid && selectedHotel.highlights) {
-    hlGrid.innerHTML = selectedHotel.highlights.map(h => `
+    hlGrid.innerHTML = selectedHotel.highlights.map(h => {
+      const title = typeof h === "string" ? h : (h.title || h);
+      const desc = typeof h === "string" ? "" : (h.desc || "");
+      return `
       <div class="highlight-item">
-        <i class="fas fa-sparkles"></i>
+        <i class="fas fa-check-circle" style="color:var(--primary);margin-right:8px;"></i>
         <div>
-          <h4>${h.title}</h4>
-          <p>${h.desc}</p>
+          <h4>${title}</h4>
+          ${desc ? `<p style="font-size:12px;color:var(--text-secondary);margin:2px 0 0;">${desc}</p>` : ""}
         </div>
-      </div>
-    `).join("");
+      </div>`;
+    }).join("");
   }
 
   // Render Details Table
   const table = document.getElementById("details-table-body");
   if (table && selectedHotel.details) {
     const d = selectedHotel.details;
-    table.innerHTML = `
-      <tr><td>Check-in</td><td>${d.checkIn}</td></tr>
-      <tr><td>Check-out</td><td>${d.checkOut}</td></tr>
-      <tr><td>Property Type</td><td>${d.propertyType}</td></tr>
-      <tr><td>Room Count</td><td>${d.roomCount} Rooms</td></tr>
-      <tr><td>Rating</td><td>${d.starRating}</td></tr>
-      <tr><td>Languages Spoken</td><td>${d.languages}</td></tr>
-      <tr><td>Nearest Railway Station</td><td>${d.station}</td></tr>
-      <tr><td>Nearest Airport</td><td>${d.airport}</td></tr>
-    `;
+    const rows = [
+      ["Check-in", d.checkIn],
+      ["Check-out", d.checkOut],
+      ["Property Type", d.propertyType],
+      ["Rooms", d.roomCount ? `${d.roomCount} Rooms` : null],
+      ["Star Rating", d.starRating],
+      ["Languages", d.languages],
+      ["Nearest Railway Station", d.station],
+      ["Nearest Airport", d.airport],
+    ].filter(([, v]) => v != null && v !== "undefined");
+    table.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
   }
 
-  // Render Nearby
+  // Render Nearby (handles both string[] and {name,distance}[] formats)
   const nearbyList = document.getElementById("nearby-attractions-list");
   if (nearbyList && selectedHotel.nearby) {
-    nearbyList.innerHTML = selectedHotel.nearby.map(n => `
-      <div class="hotel-card" style="box-shadow: none; border: 1px solid var(--border); padding: 15px; border-radius: 8px;">
-        <h4 style="font-size: 14px; margin-bottom: 5px;">${n.name}</h4>
-        <span style="font-size: 12px; color: var(--text-secondary);"><i class="fas fa-walking"></i> ${n.distance}</span>
-      </div>
-    `).join("");
+    nearbyList.innerHTML = selectedHotel.nearby.map(n => {
+      const name = typeof n === "string" ? n : (n.name || n);
+      const dist = typeof n === "string" ? "" : (n.distance || "");
+      return `
+      <div style="box-shadow:none; border:1px solid var(--border); padding:14px 16px; border-radius:10px; background:var(--white);">
+        <div style="font-size:18px; margin-bottom:6px;">🏛️</div>
+        <h4 style="font-size: 13px; font-weight:600; margin-bottom: 4px; color:var(--text-main);">${name}</h4>
+        ${dist ? `<span style="font-size: 11px; color: var(--text-secondary);"><i class="fas fa-walking"></i> ${dist}</span>` : ""}
+      </div>`;
+    }).join("");
   }
 
   // Set initial dates for widget
@@ -1486,6 +1540,20 @@ function closeBookingModal() {
   modal.classList.remove("open");
 }
 
+function showBookingToast(message) {
+  let toast = document.getElementById("booking-toast-popup");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "booking-toast-popup";
+    toast.style.cssText = "position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#10B981;color:#fff;padding:14px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:opacity 0.4s;font-family:inherit;max-width:90vw;text-align:center;";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.style.opacity = "1";
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => { toast.style.opacity = "0"; }, 3000);
+}
+
 async function submitWhatsAppBooking(e) {
   e.preventDefault();
 
@@ -1592,8 +1660,8 @@ Please confirm availability. Thank you!`;
   closeBookingModal();
   document.getElementById("whatsapp-booking-form").reset();
 
-  alert(`Booking Created successfully!\nBooking Code: #${bookingId}\nRedirecting you to WhatsApp...`);
-  window.open(waUrl, "_blank");
+  showBookingToast(`✅ Booking #${bookingId} created! Opening WhatsApp...`);
+  setTimeout(() => window.open(waUrl, "_blank"), 600);
 }
 
 // -------------------------------------------------------------

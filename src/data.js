@@ -10,14 +10,22 @@ export const DESTINATIONS = [
 ];
 
 export const CATEGORIES = [
-  { name: "Beach Resorts", icon: "fa-umbrella-beach" },
-  { name: "Hill Station Hotels", icon: "fa-mountain" },
-  { name: "Houseboats", icon: "fa-ship" },
-  { name: "Homestays", icon: "fa-home" },
-  { name: "Luxury Resorts", icon: "fa-gem" },
-  { name: "Budget Hotels", icon: "fa-wallet" },
-  { name: "Business Hotels", icon: "fa-briefcase" },
-  { name: "Family Hotels", icon: "fa-users" }
+  { name: "Beach Resorts", icon: "fa-umbrella-beach", desc: "Sun, sand & the Arabian Sea" },
+  { name: "Hill Station Hotels", icon: "fa-mountain", desc: "Cool misty mountain escapes" },
+  { name: "Houseboats", icon: "fa-ship", desc: "Float through Kerala backwaters" },
+  { name: "Homestays", icon: "fa-home", desc: "Live with local Kerala families" },
+  { name: "Luxury Resorts", icon: "fa-gem", desc: "World-class comfort & service" },
+  { name: "Budget Hotels", icon: "fa-wallet", desc: "Comfortable stays, great value" },
+  { name: "Business Hotels", icon: "fa-briefcase", desc: "Work-ready, city-center stays" },
+  { name: "Family Hotels", icon: "fa-users", desc: "Kid-friendly, spacious & fun" },
+  { name: "Ayurveda Resorts", icon: "fa-spa", desc: "Ancient healing & wellness" },
+  { name: "Eco Lodges", icon: "fa-leaf", desc: "Sustainable, nature-first stays" },
+  { name: "Treehouse Stays", icon: "fa-tree", desc: "Sleep above the forest canopy" },
+  { name: "Heritage Hotels", icon: "fa-landmark", desc: "Palaces, mansions & history" },
+  { name: "Wildlife Resorts", icon: "fa-paw", desc: "Next to national parks & jungles" },
+  { name: "Couple Retreats", icon: "fa-heart", desc: "Romantic getaways in Kerala" },
+  { name: "Pilgrimage Stays", icon: "fa-pray", desc: "Near temples, churches & mosques" },
+  { name: "Backpacker Hostels", icon: "fa-bed", desc: "Social, affordable, vibrant stays" }
 ];
 
 const DEFAULT_SETTINGS = {

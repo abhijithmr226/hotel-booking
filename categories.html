@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Hotel Categories in Kerala | All Stay Types - HotelsNearMeInKerala.com</title>
+  <meta name="description" content="Browse all hotel categories in Kerala — Beach Resorts, Houseboats, Ayurveda Resorts, Treehouse Stays, Heritage Hotels, Wildlife Resorts, Eco Lodges and more across God's Own Country.">
+  <meta name="keywords" content="Kerala hotel categories, beach resorts Kerala, houseboats Kerala, Ayurveda resorts Kerala, treehouse stays Kerala, heritage hotels Kerala, eco lodges Kerala, wildlife resorts Kerala">
+  <link rel="canonical" href="https://hotelsnearmeinkera.la/categories.html">
+  <meta property="og:title" content="Hotel Categories in Kerala | All Stay Types">
+  <meta property="og:description" content="Browse all stay categories across Kerala — from luxury houseboats to treehouse jungle retreats.">
+  <meta property="og:image" content="/Landing-Page.png">
+  <meta property="og:url" content="https://hotelsnearmeinkera.la/categories.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    .cat-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #00b368 100%);
+      padding: 60px 20px 80px;
+      text-align: center;
+      color: #fff;
+    }
+    .cat-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
+    .cat-hero p { font-size: 16px; opacity: 0.9; max-width: 540px; margin: 0 auto 30px; }
+    .cat-breadcrumb { font-size: 13px; opacity: 0.8; margin-bottom: 20px; }
+    .cat-breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; }
+    .cat-breadcrumb a:hover { color: #fff; }
+    .all-categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .cat-big-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+    }
+    .cat-big-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    }
+    .cat-big-card-icon {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      transition: background 0.2s;
+    }
+    .cat-big-card:hover .cat-big-card-icon {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    }
+    .cat-big-card-body {
+      padding: 18px;
+      flex: 1;
+    }
+    .cat-big-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .cat-big-card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .cat-big-card-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      background: #f0fdf4;
+      border-radius: 20px;
+      padding: 4px 10px;
+      display: inline-block;
+    }
+    .cat-search-bar {
+      max-width: 500px;
+      margin: -30px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+    .cat-search-bar input {
+      width: 100%;
+      padding: 18px 50px 18px 20px;
+      border-radius: 50px;
+      border: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .cat-search-bar i {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 18px;
+    }
+    @media (max-width: 900px) {
+      .all-categories-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
+    @media (max-width: 600px) {
+      .cat-hero h1 { font-size: 26px; }
+      .all-categories-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 40px 16px; }
+      .cat-big-card-icon { height: 80px; font-size: 32px; }
+      .cat-big-card-name { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container">
+      <a href="/index.html" class="logo">
+        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
+      </a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav id="main-nav">
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/index.html#hotels-near-you">Hotels</a></li>
+          <li><a href="/index.html#popular-destinations">Destinations</a></li>
+          <li class="active"><a href="/categories.html">Categories</a></li>
+        </ul>
+      </nav>
+      <div class="header-right" id="header-user-menu">
+        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
+        <a href="/login.html" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">List Your Property</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="cat-hero">
+    <div class="cat-breadcrumb">
+      <a href="/index.html">Home</a> &rsaquo; All Categories
+    </div>
+    <h1>Browse All Stay Categories</h1>
+    <p>From floating houseboats on Kerala's backwaters to misty hill-station retreats — find the perfect type of stay for your trip.</p>
+    <div class="cat-search-bar">
+      <input type="text" id="cat-search-input" placeholder="Search categories — e.g. Treehouse, Ayurveda…" oninput="filterCategories(this.value)">
+      <i class="fas fa-search"></i>
+    </div>
+  </section>
+
+  <!-- Categories Grid -->
+  <main>
+    <div class="all-categories-grid" id="all-categories-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Popular Destinations by Category -->
+    <section style="max-width:1200px; margin:0 auto; padding:0 20px 60px;">
+      <h2 style="font-size:26px; font-weight:700; margin-bottom:24px; color:var(--text-main);">Popular Destinations</h2>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;" id="dest-grid">
+        <!-- populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background:var(--dark); color:#fff; padding:40px 20px;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; align-items:center;">
+      <div>
+        <img src="/logo.png" alt="Logo" style="height:32px; filter:brightness(0) invert(1); margin-bottom:10px;">
+        <p style="font-size:13px; color:rgba(255,255,255,0.6);">God's Own Country, your perfect stay.</p>
+      </div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="/index.html" style="color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none;">Home</a>
+        <a href="/categories.html" style="color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none;">Categories</a>
+        <a href="/index.html#popular-destinations" style="color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none;">Destinations</a>
+        <a href="/index.html#hotels-near-you" style="color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none;">All Hotels</a>
+        <a href="/login.html" style="color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none;">Sign In</a>
+      </div>
+    </div>
+    <div style="max-width:1200px; margin:24px auto 0; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; text-align:center;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.4);">&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="/index.html" class="mob-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="/index.html#hotels-near-you" class="mob-nav-item"><i class="fas fa-search"></i><span>Search</span></a>
+    <a href="/categories.html" class="mob-nav-item active"><i class="fas fa-th-large"></i><span>Categories</span></a>
+    <a href="/bookings.html" class="mob-nav-item"><i class="fas fa-calendar-check"></i><span>Bookings</span></a>
+    <a href="/login.html" class="mob-nav-item"><i class="fas fa-user"></i><span>Account</span></a>
+  </nav>
+
+  <script type="module">
+    import { CATEGORIES } from '/src/data.js';
+
+    const CATEGORY_EMOJIS = {
+      "Beach Resorts": "🏖️",
+      "Hill Station Hotels": "⛰️",
+      "Houseboats": "🚢",
+      "Homestays": "🏡",
+      "Luxury Resorts": "💎",
+      "Budget Hotels": "💰",
+      "Business Hotels": "💼",
+      "Family Hotels": "👨‍👩‍👧",
+      "Ayurveda Resorts": "🧘",
+      "Eco Lodges": "🌿",
+      "Treehouse Stays": "🌳",
+      "Heritage Hotels": "🏛️",
+      "Wildlife Resorts": "🐘",
+      "Couple Retreats": "❤️",
+      "Pilgrimage Stays": "🙏",
+      "Backpacker Hostels": "🎒"
+    };
+
+    const DESTINATIONS = [
+      { name: "Kochi", district: "Ernakulam", icon: "🏙️", desc: "Historic port city & backwater gateway" },
+      { name: "Munnar", district: "Idukki", icon: "🍃", desc: "Tea gardens & misty hill escapes" },
+      { name: "Alleppey", district: "Alappuzha", icon: "🚢", desc: "Venice of the East, houseboat capital" },
+      { name: "Wayanad", district: "Wayanad", icon: "🌿", desc: "Rainforests, tribes & wildlife" },
+      { name: "Kovalam", district: "Thiruvananthapuram", icon: "🌊", desc: "Iconic crescent beaches & Ayurveda" },
+      { name: "Thekkady", district: "Idukki", icon: "🐘", desc: "Periyar Tiger Reserve & spice trails" }
+    ];
+
+    let allCategories = [...CATEGORIES];
+
+    function renderCategories(cats) {
+      const grid = document.getElementById("all-categories-grid");
+      if (!grid) return;
+      if (cats.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-secondary);">
+          <i class="fas fa-search" style="font-size:48px;margin-bottom:16px;opacity:0.3;display:block;"></i>
+          <p style="font-size:16px;">No categories found. Try a different search.</p>
+        </div>`;
+        return;
+      }
+      grid.innerHTML = cats.map(cat => {
+        const emoji = CATEGORY_EMOJIS[cat.name] || "🏨";
+        const slug = encodeURIComponent(cat.name);
+        return `
+          <a href="/index.html?category=${slug}" class="cat-big-card" title="Hotels in ${cat.name} in Kerala">
+            <div class="cat-big-card-icon">${emoji}</div>
+            <div class="cat-big-card-body">
+              <div class="cat-big-card-name">${cat.name}</div>
+              <div class="cat-big-card-desc">${cat.desc || ""}</div>
+              <span class="cat-big-card-count"><i class="fas fa-hotel" style="margin-right:4px;"></i>View Hotels</span>
+            </div>
+          </a>`;
+      }).join("");
+    }
+
+    window.filterCategories = function(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) { renderCategories(allCategories); return; }
+      renderCategories(allCategories.filter(c =>
+        c.name.toLowerCase().includes(q) || (c.desc || "").toLowerCase().includes(q)
+      ));
+    };
+
+    function renderDestinations() {
+      const grid = document.getElementById("dest-grid");
+      if (!grid) return;
+      grid.innerHTML = DESTINATIONS.map(d => `
+        <a href="/index.html?district=${encodeURIComponent(d.district)}" style="text-decoration:none;">
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;transition:box-shadow 0.2s,transform 0.2s;cursor:pointer;" onmouseenter="this.style.boxShadow='0 6px 24px rgba(0,0,0,0.12)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+            <div style="font-size:36px;flex-shrink:0;">${d.icon}</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:4px;">${d.name}</div>
+              <div style="font-size:12px;color:var(--text-secondary);">${d.desc}</div>
+            </div>
+          </div>
+        </a>`).join("");
+    }
+
+    renderCategories(allCategories);
+    renderDestinations();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+    if (menuBtn && nav) {
+      menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
+    }
+
+    // Prefilter if URL has ?category=
+    const params = new URLSearchParams(window.location.search);
+    const prefilter = params.get("category");
+    if (prefilter) {
+      const input = document.getElementById("cat-search-input");
+      if (input) { input.value = prefilter; filterCategories(prefilter); }
+    }
+  </script>
+</body>
+</html>

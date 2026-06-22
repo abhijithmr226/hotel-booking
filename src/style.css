@@ -3125,3 +3125,158 @@ footer ul a:hover {
   color: #FF5A5F;
 }
 
+
+/* ============================================================
+   MOBILE BOTTOM NAVIGATION
+   ============================================================ */
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 8000;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
+    padding: 0;
+    height: 60px;
+    align-items: stretch;
+    justify-content: space-around;
+  }
+
+  .mob-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 500;
+    transition: color 0.2s;
+    padding: 4px 0;
+  }
+
+  .mob-nav-item i {
+    font-size: 18px;
+    display: block;
+  }
+
+  .mob-nav-item.active,
+  .mob-nav-item:hover {
+    color: var(--primary);
+  }
+
+  .mob-nav-wa {
+    color: #25D366 !important;
+  }
+
+  /* Push page content above bottom nav */
+  body {
+    padding-bottom: 60px;
+  }
+
+  /* Show floating WhatsApp button on mobile */
+  #float-whatsapp-btn,
+  #float-whatsapp-home {
+    display: flex !important;
+    bottom: 72px;
+  }
+}
+
+/* ============================================================
+   MOBILE HERO & SEARCH IMPROVEMENTS
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 60px 16px 40px;
+  }
+
+  .hero-title {
+    font-size: 26px !important;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 14px !important;
+  }
+
+  .search-form-wrapper {
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
+  .search-input-group {
+    width: 100%;
+  }
+
+  .search-btn {
+    width: 100%;
+    border-radius: 10px !important;
+    justify-content: center;
+    padding: 14px !important;
+  }
+
+  .hotel-card {
+    border-radius: 12px;
+  }
+
+  .hotel-card-img {
+    height: 180px;
+  }
+  
+  .hotel-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .filter-panel {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .filter-cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .category-card {
+    padding: 14px 8px;
+  }
+  
+  .category-card .category-icon {
+    font-size: 22px;
+    width: 44px;
+    height: 44px;
+  }
+
+  /* destination cards */
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-title {
+    font-size: 22px !important;
+  }
+
+  /* mobile header */
+  .header-right .btn-outline {
+    display: none;
+  }
+}

@@ -104,7 +104,7 @@
           <li class="active"><a href="/index.html">Home</a></li>
           <li><a href="#hotels-near-you">Hotels</a></li>
           <li><a href="#popular-destinations">Destinations</a></li>
-          <li><a href="#categories">Categories</a></li>
+          <li><a href="/categories.html">Categories</a></li>
         </ul>
       </nav>
       
@@ -160,14 +160,22 @@
             <label style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Category</label>
             <select id="filter-category" style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
               <option value="">All Categories</option>
-              <option value="Beach Resorts">Beach Resorts</option>
-              <option value="Hill Station Hotels">Hill Station Hotels</option>
-              <option value="Houseboats">Houseboats</option>
-              <option value="Homestays">Homestays</option>
-              <option value="Luxury Resorts">Luxury Resorts</option>
-              <option value="Budget Hotels">Budget Hotels</option>
-              <option value="Business Hotels">Business Hotels</option>
-              <option value="Family Hotels">Family Hotels</option>
+              <option value="Beach Resorts">🏖️ Beach Resorts</option>
+              <option value="Hill Station Hotels">⛰️ Hill Station Hotels</option>
+              <option value="Houseboats">🚢 Houseboats</option>
+              <option value="Homestays">🏡 Homestays</option>
+              <option value="Luxury Resorts">💎 Luxury Resorts</option>
+              <option value="Budget Hotels">💰 Budget Hotels</option>
+              <option value="Business Hotels">💼 Business Hotels</option>
+              <option value="Family Hotels">👨‍👩‍👧 Family Hotels</option>
+              <option value="Ayurveda Resorts">🧘 Ayurveda Resorts</option>
+              <option value="Eco Lodges">🌿 Eco Lodges</option>
+              <option value="Treehouse Stays">🌳 Treehouse Stays</option>
+              <option value="Heritage Hotels">🏛️ Heritage Hotels</option>
+              <option value="Wildlife Resorts">🐘 Wildlife Resorts</option>
+              <option value="Couple Retreats">❤️ Couple Retreats</option>
+              <option value="Pilgrimage Stays">🙏 Pilgrimage Stays</option>
+              <option value="Backpacker Hostels">🎒 Backpacker Hostels</option>
             </select>
           </div>
           <div class="filter-col">
@@ -342,6 +350,43 @@
           <div class="category-icon"><i class="fas fa-users"></i></div>
           <span>Family Hotels</span>
         </div>
+        <div class="category-card" data-category="Ayurveda Resorts">
+          <div class="category-icon"><i class="fas fa-spa"></i></div>
+          <span>Ayurveda</span>
+        </div>
+        <div class="category-card" data-category="Eco Lodges">
+          <div class="category-icon"><i class="fas fa-leaf"></i></div>
+          <span>Eco Lodges</span>
+        </div>
+        <div class="category-card" data-category="Treehouse Stays">
+          <div class="category-icon"><i class="fas fa-tree"></i></div>
+          <span>Treehouse Stays</span>
+        </div>
+        <div class="category-card" data-category="Heritage Hotels">
+          <div class="category-icon"><i class="fas fa-landmark"></i></div>
+          <span>Heritage Hotels</span>
+        </div>
+        <div class="category-card" data-category="Wildlife Resorts">
+          <div class="category-icon"><i class="fas fa-paw"></i></div>
+          <span>Wildlife Resorts</span>
+        </div>
+        <div class="category-card" data-category="Couple Retreats">
+          <div class="category-icon"><i class="fas fa-heart"></i></div>
+          <span>Couple Retreats</span>
+        </div>
+        <div class="category-card" data-category="Pilgrimage Stays">
+          <div class="category-icon"><i class="fas fa-pray"></i></div>
+          <span>Pilgrimage Stays</span>
+        </div>
+        <div class="category-card" data-category="Backpacker Hostels">
+          <div class="category-icon"><i class="fas fa-bed"></i></div>
+          <span>Backpacker Hostels</span>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:24px;">
+        <a href="/categories.html" class="btn btn-outline" style="border-radius:30px; padding:10px 28px; font-size:14px; font-weight:600;">
+          <i class="fas fa-th-large" style="margin-right:8px;"></i>View All Categories
+        </a>
       </div>
     </div>
   </section>
@@ -524,6 +569,35 @@
       <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp Button (shown on mobile) -->
+  <a href="https://wa.me/919876543210?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala." target="_blank" id="float-whatsapp-home" style="display:none; position:fixed; bottom:80px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <a href="/index.html" class="mob-nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#hotels-near-you" class="mob-nav-item" onclick="document.getElementById('search-location').focus()">
+      <i class="fas fa-search"></i>
+      <span>Search</span>
+    </a>
+    <a href="#categories" class="mob-nav-item">
+      <i class="fas fa-th-large"></i>
+      <span>Categories</span>
+    </a>
+    <a href="/bookings.html" class="mob-nav-item">
+      <i class="fas fa-calendar-check"></i>
+      <span>Bookings</span>
+    </a>
+    <a href="/login.html" class="mob-nav-item" id="mob-account-btn">
+      <i class="fas fa-user"></i>
+      <span>Account</span>
+    </a>
+  </nav>
 
   <!-- App Script -->
   <script type="module" src="/src/app.js"></script>

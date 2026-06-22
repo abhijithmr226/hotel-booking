@@ -511,6 +511,35 @@
     </div>
   </footer>
 
+  <!-- Floating WhatsApp Button -->
+  <a id="float-whatsapp-btn" href="#" target="_blank" style="display:none; position:fixed; bottom:24px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <a href="/index.html" class="mob-nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="/index.html#hotels-near-you" class="mob-nav-item">
+      <i class="fas fa-search"></i>
+      <span>Search</span>
+    </a>
+    <a href="#" class="mob-nav-item mob-nav-wa" id="mob-wa-btn" onclick="document.getElementById('float-whatsapp-btn').click(); return false;">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp</span>
+    </a>
+    <a href="/bookings.html" class="mob-nav-item">
+      <i class="fas fa-calendar-check"></i>
+      <span>Bookings</span>
+    </a>
+    <a href="/login.html" class="mob-nav-item">
+      <i class="fas fa-user"></i>
+      <span>Account</span>
+    </a>
+  </nav>
+
   <!-- App Script -->
   <script type="module" src="/src/app.js"></script>
 </body>
