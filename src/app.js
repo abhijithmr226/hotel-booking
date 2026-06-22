@@ -2580,7 +2580,7 @@ window.submitAddHotelForm = function() {
 };
 
 // ── Cloudinary Upload Utility ─────────────────────────────────────────────
-const CLD_CLOUD = "hotelsnearme";
+const CLD_CLOUD = "dkapxxypu";
 const CLD_PRESET = "hotels_upload";
 const CLD_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLD_CLOUD}/image/upload`;
 
