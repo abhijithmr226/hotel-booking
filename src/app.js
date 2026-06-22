@@ -227,11 +227,79 @@ function initMobileNav() {
 // -------------------------------------------------------------
 // LANDING PAGE CONTROLLER
 // -------------------------------------------------------------
+// Kerala district → approximate coordinates mapping
+const KERALA_DISTRICT_COORDS = {
+  "Thiruvananthapuram": { lat: 8.5241, lon: 76.9366 },
+  "Trivandrum":         { lat: 8.5241, lon: 76.9366 },
+  "Kollam":             { lat: 8.8932, lon: 76.6141 },
+  "Pathanamthitta":     { lat: 9.2648, lon: 76.7870 },
+  "Alappuzha":          { lat: 9.4981, lon: 76.3388 },
+  "Kottayam":           { lat: 9.5916, lon: 76.5222 },
+  "Idukki":             { lat: 9.9189, lon: 77.1025 },
+  "Munnar":             { lat: 10.0889, lon: 77.0595 },
+  "Ernakulam":          { lat: 10.0105, lon: 76.3527 },
+  "Kochi":              { lat: 9.9312, lon: 76.2673 },
+  "Thrissur":           { lat: 10.5276, lon: 76.2144 },
+  "Palakkad":           { lat: 10.7867, lon: 76.6548 },
+  "Malappuram":         { lat: 11.0730, lon: 76.0740 },
+  "Kozhikode":          { lat: 11.2588, lon: 75.7804 },
+  "Wayanad":            { lat: 11.6854, lon: 76.1320 },
+  "Kannur":             { lat: 11.8745, lon: 75.3704 },
+  "Kasaragod":          { lat: 12.4996, lon: 74.9869 },
+  "Varkala":            { lat: 8.7379, lon: 76.7163 },
+  "Kovalam":            { lat: 8.4004, lon: 76.9782 },
+  "Kumarakom":          { lat: 9.6160, lon: 76.4323 },
+  "Thekkady":           { lat: 9.5979, lon: 77.1700 },
+  "Bekal":              { lat: 12.3972, lon: 75.0395 },
+};
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+async function initNearbyHotels(allHotels) {
+  const section = document.getElementById("nearby-hotels-section");
+  const label = document.getElementById("nearby-hotels-label");
+  const grid = document.getElementById("nearby-hotels-grid");
+  if (!section || !grid) return;
+
+  if (!navigator.geolocation) return;
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude } = pos.coords;
+      const active = allHotels.filter(h => h.status === "active");
+
+      const withDist = active.map(h => {
+        const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()];
+        const dist = coords ? haversineKm(latitude, longitude, coords.lat, coords.lon) : 9999;
+        return { ...h, _dist: dist };
+      }).sort((a, b) => a._dist - b._dist).slice(0, 6);
+
+      if (withDist.length === 0) return;
+
+      const nearest = withDist[0];
+      const distKm = Math.round(nearest._dist);
+      if (label) label.textContent = `Showing hotels near your location${distKm < 500 ? ` (closest: ${distKm} km away)` : " in Kerala"}`;
+
+      section.style.display = "block";
+      renderHotelsGrid("nearby-hotels-grid", withDist);
+    },
+    () => {},
+    { timeout: 8000, maximumAge: 300000 }
+  );
+}
+
 async function initLandingPage() {
   let hotels = await getHotels();
   const activeHotels = hotels.filter(h => h.status === "active");
   renderHotelsGrid("hotels-near-you-grid", activeHotels);
   renderHotelsGrid("featured-hotels-grid", activeHotels.filter(h => h.featured).slice(0, 4));
+  initNearbyHotels(hotels);
   onDataChange((source) => {
     if (source === "hotels") {
       getHotels().then((list) => {
