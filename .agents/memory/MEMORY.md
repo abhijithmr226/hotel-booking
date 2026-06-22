@@ -1,0 +1,1 @@
+- [Kerala Hotel Booking Platform](kerala-hotel-platform.md) — stack, data flow, key bugs fixed, seed data approach for this project

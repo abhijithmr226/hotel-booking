@@ -296,25 +296,28 @@ async function initNearbyHotels(allHotels) {
 
 async function initLandingPage() {
   let hotels = await getHotels();
+  window._currentHotelsRef = hotels;
   const activeHotels = hotels.filter(h => h.status === "active");
-  renderHotelsGrid("hotels-near-you-grid", activeHotels);
-  renderHotelsGrid("featured-hotels-grid", activeHotels.filter(h => h.featured).slice(0, 4));
+  await renderHotelsGrid("hotels-near-you-grid", activeHotels);
+  await renderHotelsGrid("featured-hotels-grid", activeHotels.filter(h => h.featured).slice(0, 4));
   initNearbyHotels(hotels);
   onDataChange((source) => {
     if (source === "hotels") {
-      getHotels().then((list) => {
+      getHotels().then(async (list) => {
         hotels = list;
-        applyAdvancedFilters(hotels);
-        renderHotelsGrid("featured-hotels-grid", hotels.filter((h) => h.status === "active" && h.featured).slice(0, 4));
+        window._currentHotelsRef = hotels;
+        await applyAdvancedFilters(hotels);
+        await renderHotelsGrid("featured-hotels-grid", hotels.filter((h) => h.status === "active" && h.featured).slice(0, 4));
       });
     }
   });
   // Hook Search Form
   const searchForm = document.getElementById("search-form");
   if (searchForm) {
-    searchForm.addEventListener("submit", (e) => {
+    searchForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      applyAdvancedFilters(hotels);
+      await applyAdvancedFilters(hotels);
+      document.getElementById("hotels-near-you")?.scrollIntoView({ behavior: "smooth" });
     });
   }
 
@@ -339,6 +342,7 @@ async function initLandingPage() {
   ];
   filterInputs.forEach(el => {
     if (el) el.addEventListener("change", () => applyAdvancedFilters(hotels));
+    if (el) el.addEventListener("input", () => updateFilterBadge());
   });
   document.querySelectorAll(".filter-amenity").forEach(el => {
     el.addEventListener("change", () => applyAdvancedFilters(hotels));
@@ -399,53 +403,57 @@ async function initLandingPage() {
   // Hook Category clicks to filter
   const catCards = document.querySelectorAll(".category-card");
   catCards.forEach(card => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", async () => {
       const catName = card.dataset.category;
       document.getElementById("filter-category").value = catName;
+      await applyAdvancedFilters(hotels);
       document.getElementById("hotels-near-you").scrollIntoView({ behavior: "smooth" });
-      applyAdvancedFilters(hotels);
     });
   });
 
   // Hook Destination clicks to filter
   const destCards = document.querySelectorAll(".destination-card");
   destCards.forEach(card => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", async () => {
       const destName = card.dataset.destination;
       document.getElementById("search-location").value = destName;
+      await applyAdvancedFilters(hotels);
       document.getElementById("hotels-near-you").scrollIntoView({ behavior: "smooth" });
-      applyAdvancedFilters(hotels);
     });
   });
 
   // Hook District tag clicks to filter
   const distTags = document.querySelectorAll(".district-tag");
   distTags.forEach(tag => {
-    tag.addEventListener("click", () => {
+    tag.addEventListener("click", async () => {
       const destName = tag.innerText.trim();
       document.getElementById("search-location").value = destName;
+      await applyAdvancedFilters(hotels);
       const targetSec = document.getElementById("hotels-near-you");
       if (targetSec) targetSec.scrollIntoView({ behavior: "smooth" });
-      applyAdvancedFilters(hotels);
     });
   });
 }
 
-function applyAdvancedFilters(hotels) {
-  const query = document.getElementById("search-location").value.toLowerCase();
-  const minPrice = parseInt(document.getElementById("filter-price-min").value) || 0;
-  const maxPrice = parseInt(document.getElementById("filter-price-max").value) || Infinity;
-  const minRating = parseFloat(document.getElementById("filter-rating").value) || 0;
-  const category = document.getElementById("filter-category").value;
-  const sort = document.getElementById("filter-sorting").value;
+async function applyAdvancedFilters(hotels) {
+  const query = (document.getElementById("search-location")?.value || "").toLowerCase().trim();
+  const minPrice = parseInt(document.getElementById("filter-price-min")?.value) || 0;
+  const maxPriceRaw = parseInt(document.getElementById("filter-price-max")?.value);
+  const maxPrice = maxPriceRaw > 0 ? maxPriceRaw : Infinity;
+  const minRating = parseFloat(document.getElementById("filter-rating")?.value) || 0;
+  const category = document.getElementById("filter-category")?.value || "";
+  const sort = document.getElementById("filter-sorting")?.value || "recommended";
   
   const selectedAmenities = Array.from(document.querySelectorAll(".filter-amenity:checked")).map(el => el.value);
 
   let filtered = hotels.filter(h => {
     if (h.status !== "active") return false;
-    const locMatch = !query || h.location.toLowerCase().includes(query) || h.name.toLowerCase().includes(query) || h.district.toLowerCase().includes(query);
-    const priceMatch = h.price >= minPrice && h.price <= maxPrice;
-    const ratingMatch = h.rating >= minRating;
+    const loc = (h.location || "").toLowerCase();
+    const name = (h.name || "").toLowerCase();
+    const district = (h.district || "").toLowerCase();
+    const locMatch = !query || loc.includes(query) || name.includes(query) || district.includes(query);
+    const priceMatch = (h.price || 0) >= minPrice && (h.price || 0) <= maxPrice;
+    const ratingMatch = (h.rating || 0) >= minRating;
     const catMatch = !category || h.category === category;
     const amenitiesMatch = selectedAmenities.every(amenity => h.amenities && h.amenities.includes(amenity));
 
@@ -453,24 +461,97 @@ function applyAdvancedFilters(hotels) {
   });
 
   if (sort === "price-low") {
-    filtered.sort((a, b) => a.price - b.price);
+    filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
   } else if (sort === "price-high") {
-    filtered.sort((a, b) => b.price - a.price);
+    filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
   } else if (sort === "rating-high") {
-    filtered.sort((a, b) => b.rating - a.rating);
+    filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
   }
 
   const gridTitle = document.querySelector("#hotels-near-you h2");
   if (gridTitle) gridTitle.innerText = query ? `Search Results for "${query}"` : "Hotels Near You";
-  renderHotelsGrid("hotels-near-you-grid", filtered);
+
+  // Update results count
+  const countEl = document.getElementById("filter-results-count");
+  const totalActive = hotels.filter(h => h.status === "active").length;
+  const hasActiveFilters = query || minPrice > 0 || maxPrice < Infinity || minRating > 0 || category || selectedAmenities.length > 0;
+  if (countEl) {
+    if (hasActiveFilters) {
+      countEl.style.display = "inline";
+      countEl.innerHTML = filtered.length === totalActive
+        ? `<span style="color:var(--primary);font-weight:600;">${filtered.length}</span> hotels`
+        : `<span style="color:var(--primary);font-weight:600;">${filtered.length}</span> of ${totalActive} hotels`;
+    } else {
+      countEl.style.display = "none";
+    }
+  }
+
+  // Update filter badge on Filters button
+  updateFilterBadge();
+
+  await renderHotelsGrid("hotels-near-you-grid", filtered);
 }
+
+function updateFilterBadge() {
+  const query = (document.getElementById("search-location")?.value || "").trim();
+  const minPrice = parseInt(document.getElementById("filter-price-min")?.value) || 0;
+  const maxPrice = parseInt(document.getElementById("filter-price-max")?.value) || 0;
+  const minRating = document.getElementById("filter-rating")?.value || "";
+  const category = document.getElementById("filter-category")?.value || "";
+  const selectedAmenities = document.querySelectorAll(".filter-amenity:checked").length;
+
+  let count = 0;
+  if (minPrice > 0) count++;
+  if (maxPrice > 0) count++;
+  if (minRating) count++;
+  if (category) count++;
+  count += selectedAmenities;
+
+  const btn = document.getElementById("btn-toggle-filters");
+  if (!btn) return;
+  const existingBadge = btn.querySelector(".filter-badge");
+  if (existingBadge) existingBadge.remove();
+  if (count > 0) {
+    const badge = document.createElement("span");
+    badge.className = "filter-badge";
+    badge.style.cssText = "background:var(--primary);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;";
+    badge.textContent = count;
+    btn.appendChild(badge);
+  }
+}
+
+window.clearAllFilters = function() {
+  const searchInput = document.getElementById("search-location");
+  const priceMin = document.getElementById("filter-price-min");
+  const priceMax = document.getElementById("filter-price-max");
+  const rating = document.getElementById("filter-rating");
+  const category = document.getElementById("filter-category");
+  const sorting = document.getElementById("filter-sorting");
+  if (searchInput) searchInput.value = "";
+  if (priceMin) priceMin.value = "";
+  if (priceMax) priceMax.value = "";
+  if (rating) rating.value = "";
+  if (category) category.value = "";
+  if (sorting) sorting.value = "recommended";
+  document.querySelectorAll(".filter-amenity:checked").forEach(el => el.checked = false);
+  // Re-run filters with no criteria (shows all)
+  if (window._currentHotelsRef) applyAdvancedFilters(window._currentHotelsRef);
+};
 
 async function renderHotelsGrid(containerId, hotelsList) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   if (hotelsList.length === 0) {
-    container.innerHTML = `<div style="grid-column: span 4; text-align: center; padding: 40px; color: var(--text-secondary);">No hotels found matching your search.</div>`;
+    container.innerHTML = `
+      <div style="grid-column: span 4; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+        <h3 style="font-size:18px; color:var(--text-main); margin-bottom:8px;">No hotels found</h3>
+        <p style="font-size:14px; margin-bottom:20px;">Try adjusting your filters or search for a different destination.</p>
+        <button onclick="clearAllFilters()" style="background:var(--primary); color:#fff; border:none; border-radius:30px; padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">
+          <i class="fas fa-times" style="margin-right:6px;"></i> Clear Filters
+        </button>
+      </div>`;
     return;
   }
 
@@ -489,29 +570,32 @@ async function renderHotelsGrid(containerId, hotelsList) {
 
   container.innerHTML = hotelsList.map(h => {
     const isFav = userFavIds.includes(h.id);
+    const price = h.price || 0;
+    const rating = h.rating || 0;
+    const reviewsCount = h.reviewsCount || 0;
     return `
     <div class="hotel-card" data-hotel-id="${h.id}">
       <div class="hotel-card-image">
-        <img src="${h.image}" alt="${h.name}">
-        <span class="hotel-card-tag">${h.badge || h.category}</span>
+        <img src="${h.image || '/assets/images/riverside.png'}" alt="${h.name}" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
         <button class="hotel-card-save" onclick="event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
         </button>
       </div>
       <div class="hotel-card-content">
         <div class="hotel-card-rating">
-          <i class="fas fa-star"></i> ${h.rating} <span>(${h.reviewsCount} reviews)</span>
+          <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
         </div>
         <h3>${h.name}</h3>
         <div class="hotel-card-loc">
-          <i class="fas fa-map-marker-alt"></i> ${h.location}
+          <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
         </div>
         <div class="hotel-card-footer">
           <div class="hotel-card-price">
-            <span class="price-num">₹${h.price.toLocaleString("en-IN")}</span>
+            <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
             <span class="price-unit">/night</span>
           </div>
-          <a href="hotel.html?id=${h.id}" class="btn btn-outline btn-sm">View Details</a>
+          <a href="/hotel.html?id=${h.id}" class="btn btn-outline btn-sm">View Details</a>
         </div>
       </div>
     </div>
@@ -579,6 +663,11 @@ async function initHotelDetailPage() {
   document.title = `${selectedHotel.name} - HotelsNearMeInKerala`;
   document.getElementById("hotel-title").innerText = selectedHotel.name;
   document.getElementById("breadcrumb-current").innerText = selectedHotel.name;
+  const bDistrict = document.getElementById("breadcrumb-district");
+  const bHotelsIn = document.getElementById("breadcrumb-hotels-in");
+  const dist = selectedHotel.district || "Kerala";
+  if (bDistrict) { bDistrict.innerText = dist; bDistrict.href = `/?district=${encodeURIComponent(dist)}`; }
+  if (bHotelsIn) { bHotelsIn.innerText = `Hotels in ${dist}`; bHotelsIn.href = `/?district=${encodeURIComponent(dist)}`; }
   document.getElementById("hotel-stars").innerHTML = `<i class="fas fa-star"></i>`.repeat(Math.floor(selectedHotel.rating));
   document.getElementById("hotel-rating-score").innerText = selectedHotel.rating;
   document.getElementById("hotel-reviews-count").innerText = `(${selectedHotel.reviewsCount} reviews)`;
@@ -819,7 +908,8 @@ async function initHotelDetailPage() {
       }
       
       const reviewsCountEl = document.getElementById("hotel-reviews-count");
-      if (reviewsCountEl) reviewsCountEl.innerText = `(0 reviews)`;
+      const storedCount = selectedHotel.reviewsCount || 0;
+      if (reviewsCountEl) reviewsCountEl.innerText = `(${storedCount} reviews)`;
 
       const overallScoreEl = document.getElementById("detail-overall-score");
       if (overallScoreEl) overallScoreEl.innerText = selectedHotel.rating || "4.5";
@@ -833,7 +923,8 @@ async function initHotelDetailPage() {
       }
 
       const overallTextEl = document.getElementById("detail-overall-text");
-      if (overallTextEl) overallTextEl.innerText = `New Stay (0 reviews)`;
+      const rLabel = (selectedHotel.rating || 4.5) >= 4.5 ? "Excellent" : (selectedHotel.rating || 4.5) >= 4.0 ? "Very Good" : "Good";
+      if (overallTextEl) overallTextEl.innerText = storedCount > 0 ? `${rLabel} (${storedCount} reviews)` : `New Stay (0 reviews)`;
       
       return;
     }
@@ -2229,9 +2320,9 @@ async function initAdminPage() {
       if (extraImages.length > 0) updates.images = extraImages;
 
       await updateHotel(hotelId, updates);
-      alert("Hotel Details Updated!");
       window.closeEditHotelModal();
       editHotelForm.reset();
+      showAdminToast(`✅ "${name}" updated and live on the website!`, "success");
       await refreshAdminData();
     });
   }

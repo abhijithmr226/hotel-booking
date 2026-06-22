@@ -166,6 +166,8 @@
               <option value="Homestays">Homestays</option>
               <option value="Luxury Resorts">Luxury Resorts</option>
               <option value="Budget Hotels">Budget Hotels</option>
+              <option value="Business Hotels">Business Hotels</option>
+              <option value="Family Hotels">Family Hotels</option>
             </select>
           </div>
           <div class="filter-col">
@@ -178,7 +180,7 @@
             </select>
           </div>
         </div>
-        <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 20px;">
+        <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 20px; align-items:center;">
           <span style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: inline-block; align-self: center; margin-right: 10px;">Amenities:</span>
           <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Free Wi-Fi" style="accent-color:var(--primary);"> Free WiFi</label>
           <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Swimming Pool" style="accent-color:var(--primary);"> Pool</label>
@@ -187,18 +189,19 @@
           <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Air Conditioning" style="accent-color:var(--primary);"> AC</label>
           <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Lake View" style="accent-color:var(--primary);"> Lake View</label>
           <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Spa & Wellness" style="accent-color:var(--primary);"> Spa</label>
+          <button type="button" id="btn-clear-filters" onclick="clearAllFilters()" style="margin-left:auto; font-size:12px; font-weight:600; color:var(--primary); background:none; border:1.5px solid var(--primary); border-radius:30px; padding:6px 16px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:5px;"><i class="fas fa-times"></i> Clear Filters</button>
         </div>
       </div>
       
       <!-- Category quick-links under search -->
       <div class="hero-quick-links">
         <span class="hero-ql-label">Popular:</span>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kochi'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Kochi</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Munnar'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Munnar</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Alappuzha'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Alappuzha</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Wayanad'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Wayanad</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kovalam'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Kovalam</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Houseboats'; document.getElementById('search-form').dispatchEvent(new Event('submit'))">Houseboats</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kochi'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kochi</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Munnar'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Munnar</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Alappuzha'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Alappuzha</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Wayanad'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Wayanad</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kovalam'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kovalam</button>
+        <button class="hero-ql" onclick="document.getElementById('search-location').value='Houseboats'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Houseboats</button>
       </div>
     </div>
   </section>
@@ -269,7 +272,10 @@
           <h2>Hotels Near You</h2>
           <p>Based on your current location and searches</p>
         </div>
-        <a href="#" class="btn btn-outline">View all</a>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span id="filter-results-count" style="font-size:13px; color:var(--text-secondary); font-weight:500; display:none;"></span>
+          <a href="#" class="btn btn-outline">View all</a>
+        </div>
       </div>
       
       <div class="grid hotels-grid" id="hotels-near-you-grid">
