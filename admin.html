@@ -1,1247 +1,2744 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <title>Admin Dashboard - HotelsNearMeInKerala</title>
-  
-  <!-- ADMIN GUARD: Runs synchronously before page renders -->
-  <script>
-    (function() {
-      try {
-        var userJson = localStorage.getItem('hbooking_user');
-        if (!userJson) {
-          window.location.replace('/login.html');
-          document.documentElement.style.display = 'none';
-        } else {
-          var user = JSON.parse(userJson);
-          if (user.role !== 'admin') {
-            window.location.replace('/index.html');
-            document.documentElement.style.display = 'none';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Admin Dashboard - HotelsNearMeInKerala</title>
+
+    <!-- ADMIN GUARD: Runs synchronously before page renders -->
+    <script>
+      (function () {
+        try {
+          var userJson = localStorage.getItem("hbooking_user");
+          if (!userJson) {
+            window.location.replace("/login.html");
+            document.documentElement.style.display = "none";
+          } else {
+            var user = JSON.parse(userJson);
+            if (user.role !== "admin") {
+              window.location.replace("/index.html");
+              document.documentElement.style.display = "none";
+            }
           }
+        } catch (e) {
+          window.location.replace("/login.html");
         }
-      } catch(e) {
-        window.location.replace('/login.html');
-      }
-    })();
-  </script>
-  
-  <!-- Font Awesome CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Global Stylesheet -->
-  <link rel="stylesheet" href="/src/style.css">
-</head>
-<body>
+      })();
+    </script>
 
-  <div class="admin-layout">
-    <!-- Left Sidebar (Photo 3) -->
-    <aside class="admin-sidebar">
-      <div class="sidebar-logo">
-        <a href="/index.html">
-          <img src="/logo.png" alt="HotelsNearMeInKerala">
-        </a>
-      </div>
-      
-      <div class="sidebar-user">
-        <div style="width:38px; height:38px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; border: 1.5px solid rgba(255,255,255,0.3); flex-shrink:0;">
-          <i class="fas fa-user-shield" style="color:#fff; font-size:16px;"></i>
-        </div>
-        <div class="sidebar-user-info">
-          <h4 id="admin-profile-name">Admin</h4>
-          <span>Super Admin</span>
-        </div>
-      </div>
-      
-      <ul class="sidebar-menu">
-        <li class="active" data-tab="dashboard"><a href="#"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-        <li data-tab="hotels"><a href="#"><i class="fas fa-hotel"></i> Hotels</a></li>
-        <li data-tab="rooms"><a href="#"><i class="fas fa-door-open"></i> Rooms</a></li>
-        <li data-tab="seo"><a href="#"><i class="fas fa-globe"></i> SEO & Pages</a></li>
-        <li data-tab="settings"><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-        <li><a href="#" id="admin-logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-      </ul>
-    </aside>
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-    <!-- Main Content Panel -->
-    <main class="admin-main">
-      <!-- Header -->
-      <header class="admin-header">
-        <div class="admin-header-left">
-          <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
-          <div class="admin-search">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search hotels, bookings, users...">
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="admin-layout">
+      <!-- Left Sidebar (Photo 3) -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-logo">
+          <a href="/index.html">
+            <img src="/logo.png" alt="HotelsNearMeInKerala" />
+          </a>
+        </div>
+
+        <div class="sidebar-user">
+          <div
+            style="
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              background: var(--primary);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border: 1.5px solid rgba(255, 255, 255, 0.3);
+              flex-shrink: 0;
+            "
+          >
+            <i
+              class="fas fa-user-shield"
+              style="color: #fff; font-size: 16px"
+            ></i>
+          </div>
+          <div class="sidebar-user-info">
+            <h4 id="admin-profile-name">Admin</h4>
+            <span>Super Admin</span>
           </div>
         </div>
-        
-        <div class="admin-header-right">
-          <div class="notification-bell">
-            <i class="far fa-bell"></i>
-            <span class="notification-count">5</span>
-          </div>
-          <a href="/index.html" class="btn btn-outline btn-sm">Visit Website <i class="fas fa-external-link-alt" style="margin-left: 6px;"></i></a>
-        </div>
-      </header>
 
-      <!-- Body -->
-      <div class="admin-body">
-        
-        <!-- =========================================================
+        <ul class="sidebar-menu">
+          <li class="active" data-tab="dashboard">
+            <a href="#"><i class="fas fa-chart-line"></i> Dashboard</a>
+          </li>
+          <li data-tab="hotels">
+            <a href="#"><i class="fas fa-hotel"></i> Hotels</a>
+          </li>
+          <li data-tab="rooms">
+            <a href="#"><i class="fas fa-door-open"></i> Rooms</a>
+          </li>
+          <li data-tab="seo">
+            <a href="#"><i class="fas fa-globe"></i> SEO & Pages</a>
+          </li>
+          <li data-tab="settings">
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+          </li>
+          <li>
+            <a href="#" id="admin-logout-btn"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Panel -->
+      <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+          <div class="admin-header-left">
+            <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <div class="admin-search">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="Search hotels, bookings, users..."
+              />
+            </div>
+          </div>
+
+          <div class="admin-header-right">
+            <div class="notification-bell">
+              <i class="far fa-bell"></i>
+              <span class="notification-count">5</span>
+            </div>
+            <a href="/index.html" class="btn btn-outline btn-sm"
+              >Visit Website
+              <i class="fas fa-external-link-alt" style="margin-left: 6px"></i
+            ></a>
+          </div>
+        </header>
+
+        <!-- Body -->
+        <div class="admin-body">
+          <!-- =========================================================
              1. DASHBOARD TAB SECTION
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-dashboard">
-          <div class="admin-title-row">
-            <div>
-              <h1>Dashboard</h1>
-              <p>Welcome back, Admin! Here's what's happening with your platform today.</p>
+          <div class="admin-tab-content" id="tab-dashboard">
+            <div class="admin-title-row">
+              <div>
+                <h1>Dashboard</h1>
+                <p>
+                  Welcome back, Admin! Here's what's happening with your
+                  platform today.
+                </p>
+              </div>
+              <div class="admin-date-picker">
+                <i class="far fa-calendar-alt"></i>
+                <span>Live Updates Mode</span>
+              </div>
             </div>
-            <div class="admin-date-picker">
-              <i class="far fa-calendar-alt"></i>
-              <span>Live Updates Mode</span>
+
+            <!-- Stats Cards Grid -->
+            <div
+              class="grid admin-stats-grid"
+              style="grid-template-columns: repeat(2, 1fr); gap: 20px"
+            >
+              <div class="stat-card">
+                <div class="stat-card-icon hotels">
+                  <i class="fas fa-hotel"></i>
+                </div>
+                <div class="stat-card-info">
+                  <span>Total Hotels</span>
+                  <h3 id="metric-hotels-count">8</h3>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div
+                  class="stat-card-icon rooms"
+                  style="background: #ebf3fc; color: #2b76d9"
+                >
+                  <i class="fas fa-door-open"></i>
+                </div>
+                <div class="stat-card-info">
+                  <span>Total Rooms</span>
+                  <h3 id="metric-rooms-count">6</h3>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stays List Grid -->
+            <div
+              class="grid admin-details-grid"
+              style="grid-template-columns: 1fr; gap: 20px; margin-top: 20px"
+            >
+              <div class="table-card">
+                <div class="table-card-header">
+                  <h3>Registered Properties Overview</h3>
+                  <button
+                    class="btn btn-outline btn-sm"
+                    onclick="switchAdminTab('hotels')"
+                  >
+                    Manage All
+                  </button>
+                </div>
+                <div
+                  class="top-hotel-list"
+                  id="top-performing-hotels-list"
+                  style="margin-top: 15px"
+                >
+                  <!-- Hydrated Dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions Bar -->
+            <div class="admin-actions-bar" style="margin-top: 20px">
+              <h3 style="font-size: 15px; font-weight: 700">Quick Actions</h3>
+              <div class="action-btns-group">
+                <button
+                  class="btn btn-primary btn-sm"
+                  onclick="openAddHotelModal()"
+                >
+                  <i class="fas fa-plus"></i> Add Hotel
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  onclick="openAddRoomModal()"
+                >
+                  <i class="fas fa-door-closed"></i> Add Room
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  onclick="switchAdminTab('seo')"
+                >
+                  <i class="fas fa-globe"></i> SEO & Homepage Editor
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  onclick="switchAdminTab('settings')"
+                >
+                  <i class="fas fa-sliders-h"></i> System Settings
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Stats Cards Grid -->
-          <div class="grid admin-stats-grid" style="grid-template-columns: repeat(2, 1fr); gap: 20px;">
-            <div class="stat-card">
-              <div class="stat-card-icon hotels"><i class="fas fa-hotel"></i></div>
-              <div class="stat-card-info">
-                <span>Total Hotels</span>
-                <h3 id="metric-hotels-count">8</h3>
-              </div>
-            </div>
-            
-            <div class="stat-card">
-              <div class="stat-card-icon rooms" style="background: #EBF3FC; color: #2B76D9;"><i class="fas fa-door-open"></i></div>
-              <div class="stat-card-info">
-                <span>Total Rooms</span>
-                <h3 id="metric-rooms-count">6</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stays List Grid -->
-          <div class="grid admin-details-grid" style="grid-template-columns: 1fr; gap: 20px; margin-top: 20px;">
-            <div class="table-card">
-              <div class="table-card-header">
-                <h3>Registered Properties Overview</h3>
-                <button class="btn btn-outline btn-sm" onclick="switchAdminTab('hotels')">Manage All</button>
-              </div>
-              <div class="top-hotel-list" id="top-performing-hotels-list" style="margin-top: 15px;">
-                <!-- Hydrated Dynamically -->
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick Actions Bar -->
-          <div class="admin-actions-bar" style="margin-top: 20px;">
-            <h3 style="font-size: 15px; font-weight: 700;">Quick Actions</h3>
-            <div class="action-btns-group">
-              <button class="btn btn-primary btn-sm" onclick="openAddHotelModal()"><i class="fas fa-plus"></i> Add Hotel</button>
-              <button class="btn btn-secondary btn-sm" onclick="openAddRoomModal()"><i class="fas fa-door-closed"></i> Add Room</button>
-              <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('seo')"><i class="fas fa-globe"></i> SEO & Homepage Editor</button>
-              <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('settings')"><i class="fas fa-sliders-h"></i> System Settings</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
+          <!-- =========================================================
              2. HOTELS TAB SECTION
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-hotels" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Hotels & Properties</h1>
-              <p>Manage all hotel listings, status toggles, featured properties, and owners.</p>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="openAddHotelModal()"><i class="fas fa-plus"></i> Add New Hotel</button>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-search" style="width:100%; max-width:400px; margin-bottom: 20px; border: 1px solid var(--border);">
-              <i class="fas fa-search"></i>
-              <input type="text" id="search-hotels-input" placeholder="Search hotels by name, category, city..." oninput="renderAdminHotelsTable()">
-            </div>
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Hotel Name</th>
-                    <th>City/District</th>
-                    <th>Category</th>
-                    <th>Base Price</th>
-                    <th>Rating</th>
-                    <th>Status</th>
-                    <th>Featured</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-hotels-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             3. ROOMS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-rooms" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Room Management</h1>
-              <p>Configure room configurations, pricing per night, availability status, and inventory limits.</p>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="openAddRoomModal()"><i class="fas fa-plus"></i> Add New Room</button>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div style="display:flex; gap: 15px; margin-bottom: 20px; flex-wrap:wrap;">
-              <div class="admin-search" style="max-width:300px; border: 1px solid var(--border);">
-                <i class="fas fa-search"></i>
-                <input type="text" id="search-rooms-input" placeholder="Search room type/number..." oninput="renderAdminRoomsTable()">
+          <div class="admin-tab-content" id="tab-hotels" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Hotels & Properties</h1>
+                <p>
+                  Manage all hotel listings, status toggles, featured
+                  properties, and owners.
+                </p>
               </div>
-              <select id="filter-rooms-hotel" style="border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size:13px; font-weight:600;" onchange="renderAdminRoomsTable()">
-                <option value="">All Hotels</option>
-              </select>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="openAddHotelModal()"
+              >
+                <i class="fas fa-plus"></i> Add New Hotel
+              </button>
             </div>
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Room Type</th>
-                    <th>Hotel Property</th>
-                    <th>Room #</th>
-                    <th>Price</th>
-                    <th>Capacity</th>
-                    <th>Beds</th>
-                    <th>Inventory</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-rooms-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             4. BOOKINGS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-bookings" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Platform Bookings</h1>
-              <p>Review reservations, manage check-in workflows, process cancellations, and handle refunds.</p>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="openManualBookingModal()"><i class="fas fa-plus"></i> Manual Booking</button>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div style="display:flex; gap: 15px; margin-bottom: 20px; flex-wrap:wrap;">
-              <div class="admin-search" style="max-width:300px; border: 1px solid var(--border);">
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                class="admin-search"
+                style="
+                  width: 100%;
+                  max-width: 400px;
+                  margin-bottom: 20px;
+                  border: 1px solid var(--border);
+                "
+              >
                 <i class="fas fa-search"></i>
-                <input type="text" id="search-bookings-input" placeholder="Search ID, guest name or phone..." oninput="renderAdminBookingsTable()">
+                <input
+                  type="text"
+                  id="search-hotels-input"
+                  placeholder="Search hotels by name, category, city..."
+                  oninput="renderAdminHotelsTable()"
+                />
               </div>
-              <select id="filter-bookings-status" style="border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size:13px; font-weight:600;" onchange="renderAdminBookingsTable()">
-                <option value="">All Statuses</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Pending">Pending</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Completed">Completed</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Refunded">Refunded</option>
-              </select>
-            </div>
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Booking ID</th>
-                    <th>Guest Details</th>
-                    <th>Hotel & Room</th>
-                    <th>Check-in / Out</th>
-                    <th>Total Price</th>
-                    <th>Booking Status</th>
-                    <th>Payment</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-bookings-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             5. USERS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-users" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Registered Users</h1>
-              <p>Review database customers, inspect booking history, and manage profile status.</p>
-            </div>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-search" style="width:100%; max-width:400px; margin-bottom: 20px; border: 1px solid var(--border);">
-              <i class="fas fa-search"></i>
-              <input type="text" id="search-users-input" placeholder="Search user by name, email, phone..." oninput="renderAdminUsersTable()">
-            </div>
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Email Address</th>
-                    <th>Phone</th>
-                    <th>Registered On</th>
-                    <th>Role</th>
-                    <th>Account Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-users-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             6. REVIEWS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-reviews" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Review Moderation</h1>
-              <p>Moderate customer reviews, delete spam ratings, and post official manager replies.</p>
-            </div>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>User</th>
-                    <th>Hotel</th>
-                    <th>Rating</th>
-                    <th>Review Content</th>
-                    <th>Submitted On</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-reviews-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             7. OFFERS & COUPONS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-offers" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Offers & Coupons</h1>
-              <p>Configure marketing discount codes, expiry guidelines, and usage thresholds.</p>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="openAddCouponModal()"><i class="fas fa-plus"></i> Add Coupon</button>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Code</th>
-                    <th>Discount (%)</th>
-                    <th>Expiry Date</th>
-                    <th>Usage Limit</th>
-                    <th>Times Used</th>
-                    <th>Min Spend Required</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-coupons-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================================
-             8. PAYMENTS TAB SECTION
-             ========================================================= -->
-        <div class="admin-tab-content" id="tab-payments" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Payments & Transactions</h1>
-              <p>Audit invoice transactions, configure payment gateway settings, and handle manual refund requests.</p>
-            </div>
-          </div>
-          <div class="grid admin-charts-grid" style="grid-template-columns: 2fr 1fr; margin-top:20px;">
-            <div class="table-card">
-              <h3 style="font-size:15px; margin-bottom:15px;">Transactions Ledger</h3>
               <div class="admin-table-wrapper">
                 <table class="admin-table">
                   <thead>
                     <tr>
-                      <th>Transaction ID</th>
-                      <th>Booking ID</th>
-                      <th>Guest Name</th>
-                      <th>Method</th>
-                      <th>Amount</th>
-                      <th>Payment Status</th>
-                      <th>Date</th>
+                      <th>Hotel Name</th>
+                      <th>City/District</th>
+                      <th>Category</th>
+                      <th>Base Price</th>
+                      <th>Rating</th>
+                      <th>Status</th>
+                      <th>Featured</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody id="admin-payments-tbody">
+                  <tbody id="admin-hotels-tbody">
                     <!-- Hydrated dynamically -->
                   </tbody>
                 </table>
               </div>
             </div>
-            
-            <div class="table-card">
-              <h3 style="font-size:15px; margin-bottom:15px;">Gateway Configuration</h3>
-              <form class="modal-form" id="gateway-settings-form">
-                <div class="form-group">
-                  <label for="gateway-currency">Default Currency</label>
-                  <select id="gateway-currency" class="booking-input" style="width:100%;">
-                    <option value="INR">INR (₹)</option>
-                    <option value="USD">USD ($)</option>
-                  </select>
+          </div>
+
+          <!-- =========================================================
+             3. ROOMS TAB SECTION
+             ========================================================= -->
+          <div class="admin-tab-content" id="tab-rooms" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Room Management</h1>
+                <p>
+                  Configure room configurations, pricing per night, availability
+                  status, and inventory limits.
+                </p>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="openAddRoomModal()"
+              >
+                <i class="fas fa-plus"></i> Add New Room
+              </button>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                style="
+                  display: flex;
+                  gap: 15px;
+                  margin-bottom: 20px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div
+                  class="admin-search"
+                  style="max-width: 300px; border: 1px solid var(--border)"
+                >
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="search-rooms-input"
+                    placeholder="Search room type/number..."
+                    oninput="renderAdminRoomsTable()"
+                  />
                 </div>
-                <div class="form-group">
-                  <label for="gateway-whatsapp">WhatsApp Booking Number</label>
-                  <input type="text" id="gateway-whatsapp" value="919876543210" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-                </div>
-                <div class="form-group">
-                  <label for="gateway-auto-invoice">Auto-Generate Invoice PDF</label>
-                  <select id="gateway-auto-invoice" class="booking-input" style="width:100%;">
-                    <option value="yes">Yes, on confirm</option>
-                    <option value="no">No, manual only</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px; border-radius:30px;">Save Settings</button>
-              </form>
+                <select
+                  id="filter-rooms-hotel"
+                  style="
+                    border: 1px solid var(--border);
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  onchange="renderAdminRoomsTable()"
+                >
+                  <option value="">All Hotels</option>
+                </select>
+              </div>
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Room Type</th>
+                      <th>Hotel Property</th>
+                      <th>Room #</th>
+                      <th>Price</th>
+                      <th>Capacity</th>
+                      <th>Beds</th>
+                      <th>Inventory</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-rooms-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
+             4. BOOKINGS TAB SECTION
+             ========================================================= -->
+          <div
+            class="admin-tab-content"
+            id="tab-bookings"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>Platform Bookings</h1>
+                <p>
+                  Review reservations, manage check-in workflows, process
+                  cancellations, and handle refunds.
+                </p>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="openManualBookingModal()"
+              >
+                <i class="fas fa-plus"></i> Manual Booking
+              </button>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                style="
+                  display: flex;
+                  gap: 15px;
+                  margin-bottom: 20px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div
+                  class="admin-search"
+                  style="max-width: 300px; border: 1px solid var(--border)"
+                >
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="search-bookings-input"
+                    placeholder="Search ID, guest name or phone..."
+                    oninput="renderAdminBookingsTable()"
+                  />
+                </div>
+                <select
+                  id="filter-bookings-status"
+                  style="
+                    border: 1px solid var(--border);
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  onchange="renderAdminBookingsTable()"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Checked In">Checked In</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Refunded">Refunded</option>
+                </select>
+              </div>
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Booking ID</th>
+                      <th>Guest Details</th>
+                      <th>Hotel & Room</th>
+                      <th>Check-in / Out</th>
+                      <th>Total Price</th>
+                      <th>Booking Status</th>
+                      <th>Payment</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-bookings-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+             5. USERS TAB SECTION
+             ========================================================= -->
+          <div class="admin-tab-content" id="tab-users" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Registered Users</h1>
+                <p>
+                  Review database customers, inspect booking history, and manage
+                  profile status.
+                </p>
+              </div>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                class="admin-search"
+                style="
+                  width: 100%;
+                  max-width: 400px;
+                  margin-bottom: 20px;
+                  border: 1px solid var(--border);
+                "
+              >
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="search-users-input"
+                  placeholder="Search user by name, email, phone..."
+                  oninput="renderAdminUsersTable()"
+                />
+              </div>
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Email Address</th>
+                      <th>Phone</th>
+                      <th>Registered On</th>
+                      <th>Role</th>
+                      <th>Account Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-users-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+             6. REVIEWS TAB SECTION
+             ========================================================= -->
+          <div class="admin-tab-content" id="tab-reviews" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Review Moderation</h1>
+                <p>
+                  Moderate customer reviews, delete spam ratings, and post
+                  official manager replies.
+                </p>
+              </div>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Hotel</th>
+                      <th>Rating</th>
+                      <th>Review Content</th>
+                      <th>Submitted On</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-reviews-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+             7. OFFERS & COUPONS TAB SECTION
+             ========================================================= -->
+          <div class="admin-tab-content" id="tab-offers" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Offers & Coupons</h1>
+                <p>
+                  Configure marketing discount codes, expiry guidelines, and
+                  usage thresholds.
+                </p>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="openAddCouponModal()"
+              >
+                <i class="fas fa-plus"></i> Add Coupon
+              </button>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Discount (%)</th>
+                      <th>Expiry Date</th>
+                      <th>Usage Limit</th>
+                      <th>Times Used</th>
+                      <th>Min Spend Required</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-coupons-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+             8. PAYMENTS TAB SECTION
+             ========================================================= -->
+          <div
+            class="admin-tab-content"
+            id="tab-payments"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>Payments & Transactions</h1>
+                <p>
+                  Audit invoice transactions, configure payment gateway
+                  settings, and handle manual refund requests.
+                </p>
+              </div>
+            </div>
+            <div
+              class="grid admin-charts-grid"
+              style="grid-template-columns: 2fr 1fr; margin-top: 20px"
+            >
+              <div class="table-card">
+                <h3 style="font-size: 15px; margin-bottom: 15px">
+                  Transactions Ledger
+                </h3>
+                <div class="admin-table-wrapper">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Transaction ID</th>
+                        <th>Booking ID</th>
+                        <th>Guest Name</th>
+                        <th>Method</th>
+                        <th>Amount</th>
+                        <th>Payment Status</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-payments-tbody">
+                      <!-- Hydrated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="table-card">
+                <h3 style="font-size: 15px; margin-bottom: 15px">
+                  Gateway Configuration
+                </h3>
+                <form class="modal-form" id="gateway-settings-form">
+                  <div class="form-group">
+                    <label for="gateway-currency">Default Currency</label>
+                    <select
+                      id="gateway-currency"
+                      class="booking-input"
+                      style="width: 100%"
+                    >
+                      <option value="INR">INR (₹)</option>
+                      <option value="USD">USD ($)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="gateway-whatsapp"
+                      >WhatsApp Booking Number</label
+                    >
+                    <input
+                      type="text"
+                      id="gateway-whatsapp"
+                      value="919876543210"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="gateway-auto-invoice"
+                      >Auto-Generate Invoice PDF</label
+                    >
+                    <select
+                      id="gateway-auto-invoice"
+                      class="booking-input"
+                      style="width: 100%"
+                    >
+                      <option value="yes">Yes, on confirm</option>
+                      <option value="no">No, manual only</option>
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="width: 100%; margin-top: 10px; border-radius: 30px"
+                  >
+                    Save Settings
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
              9. REPORTS & ANALYTICS TAB SECTION
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-reports" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Reports & Performance</h1>
-              <p>Export reservation files, track occupancy rates, and evaluate monthly platform revenue.</p>
-            </div>
-            <div style="display:flex; gap:10px;">
-              <button class="btn btn-secondary btn-sm" onclick="exportDataCSV()"><i class="fas fa-file-csv"></i> Export CSV</button>
-              <button class="btn btn-outline btn-sm" onclick="window.print()"><i class="fas fa-file-pdf"></i> Export PDF (Print)</button>
-            </div>
-          </div>
-          <div class="grid admin-stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-top:20px;">
-            <div class="stat-card">
-              <div class="stat-card-icon bookings" style="background:#EBF3FC; color:#2B76D9;"><i class="fas fa-percentage"></i></div>
-              <div class="stat-card-info">
-                <span>Average Occupancy Rate</span>
-                <h3 id="report-occupancy-rate">64.8%</h3>
+          <div class="admin-tab-content" id="tab-reports" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>Reports & Performance</h1>
+                <p>
+                  Export reservation files, track occupancy rates, and evaluate
+                  monthly platform revenue.
+                </p>
+              </div>
+              <div style="display: flex; gap: 10px">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  onclick="exportDataCSV()"
+                >
+                  <i class="fas fa-file-csv"></i> Export CSV
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="window.print()">
+                  <i class="fas fa-file-pdf"></i> Export PDF (Print)
+                </button>
               </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-card-icon revenue"><i class="fas fa-ban"></i></div>
-              <div class="stat-card-info">
-                <span>Booking Cancellation Rate</span>
-                <h3 id="report-cancellation-rate">11.2%</h3>
+            <div
+              class="grid admin-stats-grid"
+              style="grid-template-columns: repeat(3, 1fr); margin-top: 20px"
+            >
+              <div class="stat-card">
+                <div
+                  class="stat-card-icon bookings"
+                  style="background: #ebf3fc; color: #2b76d9"
+                >
+                  <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-card-info">
+                  <span>Average Occupancy Rate</span>
+                  <h3 id="report-occupancy-rate">64.8%</h3>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-icon revenue">
+                  <i class="fas fa-ban"></i>
+                </div>
+                <div class="stat-card-info">
+                  <span>Booking Cancellation Rate</span>
+                  <h3 id="report-cancellation-rate">11.2%</h3>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div
+                  class="stat-card-icon hotels"
+                  style="background: #eaf3fc; color: #2b76d9"
+                >
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-card-info">
+                  <span>Monthly User Growth</span>
+                  <h3 id="report-user-growth">+15.3%</h3>
+                </div>
               </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-card-icon hotels" style="background:#EAF3FC; color:#2B76D9;"><i class="fas fa-chart-line"></i></div>
-              <div class="stat-card-info">
-                <span>Monthly User Growth</span>
-                <h3 id="report-user-growth">+15.3%</h3>
+            <div class="table-card" style="margin-top: 24px">
+              <h3 style="font-size: 15px; margin-bottom: 15px">
+                Revenue Generated by District
+              </h3>
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>District</th>
+                      <th>Hotels Registered</th>
+                      <th>Reservations Count</th>
+                      <th>Platform Revenue</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-district-performance-tbody">
+                    <!-- Injected dynamically -->
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-          <div class="table-card" style="margin-top:24px;">
-            <h3 style="font-size:15px; margin-bottom:15px;">Revenue Generated by District</h3>
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>District</th>
-                    <th>Hotels Registered</th>
-                    <th>Reservations Count</th>
-                    <th>Platform Revenue</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-district-performance-tbody">
-                  <!-- Injected dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
              10. SEO & PAGES TAB SECTION
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-seo" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>SEO & Homepage Editor</h1>
-              <p>Adjust banner titles, verify XML sitemaps, and add FAQs dynamically.</p>
+          <div class="admin-tab-content" id="tab-seo" style="display: none">
+            <div class="admin-title-row">
+              <div>
+                <h1>SEO & Homepage Editor</h1>
+                <p>
+                  Adjust banner titles, verify XML sitemaps, and add FAQs
+                  dynamically.
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="grid admin-charts-grid" style="grid-template-columns: 1.5fr 1fr; margin-top:20px;">
-            <div class="table-card">
-              <h3 style="font-size:15px; margin-bottom:15px;">Homepage Editor</h3>
-              <form class="modal-form" id="seo-editor-form">
-                <div class="form-group">
-                  <label>Hero Title</label>
-                  <input type="text" id="seo-hero-title" value="Find The Perfect Stay Anywhere in Kerala" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-                </div>
-                <div class="form-group">
-                  <label>Hero Subtext</label>
-                  <textarea id="seo-hero-subtext" rows="2" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</textarea>
-                </div>
-                <div class="form-group">
-                  <label>Platform Trust Badge Text</label>
-                  <input type="text" id="seo-trust-badge" value="Trusted by 25,000+ Happy Travelers" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px; border-radius:30px;">Publish Changes</button>
-              </form>
-            </div>
-            
-            <div class="table-card">
-              <h3 style="font-size:15px; margin-bottom:15px;">SEO Metadata & Sitemap</h3>
-              <div style="font-size:13px; display:flex; flex-direction:column; gap:12px;">
-                <div>
-                  <strong>Sitemap URL:</strong> <a href="#" style="color:var(--primary); text-decoration:underline;">/sitemap.xml</a>
-                  <span class="status-badge confirmed" style="display:inline-block; margin-left:8px; font-size:10px; padding:2px 6px;">Generated</span>
-                </div>
-                <div>
-                  <strong>Robots Config:</strong> <a href="#" style="color:var(--primary); text-decoration:underline;">/robots.txt</a>
-                  <span class="status-badge confirmed" style="display:inline-block; margin-left:8px; font-size:10px; padding:2px 6px;">Active</span>
-                </div>
-                <div style="border-top:1px solid var(--border); padding-top:10px; margin-top:10px;">
-                  <label style="font-size:11px; color:var(--text-secondary); font-weight:600; display:block; margin-bottom:4px;">Robots.txt Content</label>
-                  <pre style="background:var(--light); padding:10px; border-radius:6px; font-size:11px; margin:0;">User-agent: *
+            <div
+              class="grid admin-charts-grid"
+              style="grid-template-columns: 1.5fr 1fr; margin-top: 20px"
+            >
+              <div class="table-card">
+                <h3 style="font-size: 15px; margin-bottom: 15px">
+                  Homepage Editor
+                </h3>
+                <form class="modal-form" id="seo-editor-form">
+                  <div class="form-group">
+                    <label>Hero Title</label>
+                    <input
+                      type="text"
+                      id="seo-hero-title"
+                      value="Find The Perfect Stay Anywhere in Kerala"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Hero Subtext</label>
+                    <textarea
+                      id="seo-hero-subtext"
+                      rows="2"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    >
+Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</textarea
+                    >
+                  </div>
+                  <div class="form-group">
+                    <label>Platform Trust Badge Text</label>
+                    <input
+                      type="text"
+                      id="seo-trust-badge"
+                      value="Trusted by 25,000+ Happy Travelers"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="width: 100%; margin-top: 10px; border-radius: 30px"
+                  >
+                    Publish Changes
+                  </button>
+                </form>
+              </div>
+
+              <div class="table-card">
+                <h3 style="font-size: 15px; margin-bottom: 15px">
+                  SEO Metadata & Sitemap
+                </h3>
+                <div
+                  style="
+                    font-size: 13px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                  "
+                >
+                  <div>
+                    <strong>Sitemap URL:</strong>
+                    <a
+                      href="#"
+                      style="color: var(--primary); text-decoration: underline"
+                      >/sitemap.xml</a
+                    >
+                    <span
+                      class="status-badge confirmed"
+                      style="
+                        display: inline-block;
+                        margin-left: 8px;
+                        font-size: 10px;
+                        padding: 2px 6px;
+                      "
+                      >Generated</span
+                    >
+                  </div>
+                  <div>
+                    <strong>Robots Config:</strong>
+                    <a
+                      href="#"
+                      style="color: var(--primary); text-decoration: underline"
+                      >/robots.txt</a
+                    >
+                    <span
+                      class="status-badge confirmed"
+                      style="
+                        display: inline-block;
+                        margin-left: 8px;
+                        font-size: 10px;
+                        padding: 2px 6px;
+                      "
+                      >Active</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      border-top: 1px solid var(--border);
+                      padding-top: 10px;
+                      margin-top: 10px;
+                    "
+                  >
+                    <label
+                      style="
+                        font-size: 11px;
+                        color: var(--text-secondary);
+                        font-weight: 600;
+                        display: block;
+                        margin-bottom: 4px;
+                      "
+                      >Robots.txt Content</label
+                    >
+                    <pre
+                      style="
+                        background: var(--light);
+                        padding: 10px;
+                        border-radius: 6px;
+                        font-size: 11px;
+                        margin: 0;
+                      "
+                    >
+User-agent: *
 Allow: /
 Disallow: /admin
-Sitemap: https://hotelkerala.com/sitemap.xml</pre>
+Sitemap: https://hotelkerala.com/sitemap.xml</pre
+                    >
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
              11. PLATFORM SETTINGS TAB SECTION
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-settings" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>System Settings</h1>
-              <p>Configure general parameters, global tax percentages, SMS notification systems, and layouts.</p>
+          <div
+            class="admin-tab-content"
+            id="tab-settings"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>System Settings</h1>
+                <p>
+                  Configure general parameters, global tax percentages, SMS
+                  notification systems, and layouts.
+                </p>
+              </div>
+            </div>
+            <div class="table-card" style="margin-top: 20px; max-width: 600px">
+              <form class="modal-form" id="settings-editor-form">
+                <div
+                  class="grid"
+                  style="grid-template-columns: 1fr 1fr; gap: 15px"
+                >
+                  <div class="form-group">
+                    <label>Platform Name</label>
+                    <input
+                      type="text"
+                      id="settings-platform-name"
+                      value="HotelsNearMeInKerala.com"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Base Tax Rate (%)</label>
+                    <input
+                      type="number"
+                      id="settings-tax-rate"
+                      value="18"
+                      style="
+                        width: 100%;
+                        border: 1px solid var(--border);
+                        padding: 10px;
+                        border-radius: 6px;
+                      "
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Platform Logo URL</label>
+                  <input
+                    type="text"
+                    id="settings-logo-url"
+                    value="/logo.png"
+                    style="
+                      width: 100%;
+                      border: 1px solid var(--border);
+                      padding: 10px;
+                      border-radius: 6px;
+                    "
+                  />
+                </div>
+                <div
+                  class="form-group"
+                  style="
+                    margin-top: 15px;
+                    border-top: 1px solid var(--border);
+                    padding-top: 15px;
+                  "
+                >
+                  <h4 style="font-size: 13px; margin-bottom: 10px">
+                    Platform Notifications
+                  </h4>
+                  <label
+                    class="checkbox-label"
+                    style="
+                      font-size: 13px;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      margin-bottom: 8px;
+                    "
+                    ><input
+                      type="checkbox"
+                      id="settings-notify-email"
+                      checked
+                      style="accent-color: var(--primary)"
+                    />
+                    Send automatic Email Booking confirmations to guests</label
+                  >
+                  <label
+                    class="checkbox-label"
+                    style="
+                      font-size: 13px;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      margin-bottom: 8px;
+                    "
+                    ><input
+                      type="checkbox"
+                      id="settings-notify-whatsapp"
+                      checked
+                      style="accent-color: var(--primary)"
+                    />
+                    Send WhatsApp / SMS notification to hotel managers on new
+                    reservation</label
+                  >
+                  <label
+                    class="checkbox-label"
+                    style="
+                      font-size: 13px;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                    "
+                    ><input
+                      type="checkbox"
+                      id="settings-enable-sound"
+                      checked
+                      style="accent-color: var(--primary)"
+                    />
+                    Enable Real-Time dashboard updates sound</label
+                  >
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="width: 100%; margin-top: 20px; border-radius: 30px"
+                >
+                  Save Configuration
+                </button>
+              </form>
             </div>
           </div>
-          <div class="table-card" style="margin-top:20px; max-width:600px;">
-            <form class="modal-form" id="settings-editor-form">
-              <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="form-group">
-                  <label>Platform Name</label>
-                  <input type="text" id="settings-platform-name" value="HotelsNearMeInKerala.com" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-                </div>
-                <div class="form-group">
-                  <label>Base Tax Rate (%)</label>
-                  <input type="number" id="settings-tax-rate" value="18" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Platform Logo URL</label>
-                <input type="text" id="settings-logo-url" value="/logo.png" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
-              </div>
-              <div class="form-group" style="margin-top:15px; border-top:1px solid var(--border); padding-top:15px;">
-                <h4 style="font-size:13px; margin-bottom:10px;">Platform Notifications</h4>
-                <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:8px; margin-bottom:8px;"><input type="checkbox" id="settings-notify-email" checked style="accent-color:var(--primary);"> Send automatic Email Booking confirmations to guests</label>
-                <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:8px; margin-bottom:8px;"><input type="checkbox" id="settings-notify-whatsapp" checked style="accent-color:var(--primary);"> Send WhatsApp / SMS notification to hotel managers on new reservation</label>
-                <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:8px;"><input type="checkbox" id="settings-enable-sound" checked style="accent-color:var(--primary);"> Enable Real-Time dashboard updates sound</label>
-              </div>
-              <button type="submit" class="btn btn-primary" style="width:100%; margin-top:20px; border-radius:30px;">Save Configuration</button>
-            </form>
-          </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
              12. SYSTEM USERS & ROLE ROLES
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-system-users" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>System Administrative Users</h1>
-              <p>Configure team members, assignment credentials, role hierarchy levels, and permissions.</p>
+          <div
+            class="admin-tab-content"
+            id="tab-system-users"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>System Administrative Users</h1>
+                <p>
+                  Configure team members, assignment credentials, role hierarchy
+                  levels, and permissions.
+                </p>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="window.openAddSystemUserModal()"
+              >
+                <i class="fas fa-plus"></i> Add Team User
+              </button>
             </div>
-            <button class="btn btn-primary btn-sm" onclick="window.openAddSystemUserModal()"><i class="fas fa-plus"></i> Add Team User</button>
-          </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-table-wrapper">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Email Address</th>
-                    <th>Full Name</th>
-                    <th>Role Group</th>
-                    <th>Allowed Permissions</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-system-users-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
+            <div class="table-card" style="margin-top: 20px">
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Email Address</th>
+                      <th>Full Name</th>
+                      <th>Role Group</th>
+                      <th>Allowed Permissions</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-system-users-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
              13. SYSTEM AUDIT SECURITY LOGS
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-audit-logs" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>Audit & Security Logs</h1>
-              <p>Track administrator actions, price changes, sitemap updates, configuration events, and logins.</p>
+          <div
+            class="admin-tab-content"
+            id="tab-audit-logs"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>Audit & Security Logs</h1>
+                <p>
+                  Track administrator actions, price changes, sitemap updates,
+                  configuration events, and logins.
+                </p>
+              </div>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                class="admin-table-wrapper"
+                style="max-height: 500px; overflow-y: auto"
+              >
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Operator</th>
+                      <th>Action Event</th>
+                      <th>Entity Type</th>
+                      <th>Entity ID</th>
+                      <th>Previous Value</th>
+                      <th>New Value / Details</th>
+                      <th>Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-audit-logs-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <div class="table-card" style="margin-top:20px;">
-            <div class="admin-table-wrapper" style="max-height: 500px; overflow-y: auto;">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Operator</th>
-                    <th>Action Event</th>
-                    <th>Entity Type</th>
-                    <th>Entity ID</th>
-                    <th>Previous Value</th>
-                    <th>New Value / Details</th>
-                    <th>Timestamp</th>
-                  </tr>
-                </thead>
-                <tbody id="admin-audit-logs-tbody">
-                  <!-- Hydrated dynamically -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
 
-        <!-- =========================================================
+          <!-- =========================================================
              14. AI ASSISTANT PANEL
              ========================================================= -->
-        <div class="admin-tab-content" id="tab-ai-assistant" style="display:none;">
-          <div class="admin-title-row">
-            <div>
-              <h1>AI Booking Intelligence</h1>
-              <p>Ask our booking intelligence assistant for room pricing optimization and insights.</p>
-            </div>
-          </div>
-          <div class="grid admin-charts-grid" style="grid-template-columns: 2fr 1fr; margin-top:20px;">
-            <div class="table-card" style="display:flex; flex-direction:column; height: 420px; padding:0; overflow:hidden;">
-              <div style="padding:15px; border-bottom:1px solid var(--border); background:#F8FAF9; display:flex; align-items:center; gap:8px;">
-                <i class="fas fa-brain" style="color:var(--primary);"></i>
-                <h4 style="font-size:14px; margin:0;">AI Support Chat</h4>
+          <div
+            class="admin-tab-content"
+            id="tab-ai-assistant"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>AI Booking Intelligence</h1>
+                <p>
+                  Ask our booking intelligence assistant for room pricing
+                  optimization and insights.
+                </p>
               </div>
-              <div id="ai-chat-output" style="flex:1; padding:20px; overflow-y:auto; font-size:13px; display:flex; flex-direction:column; gap:12px; text-align: left;">
-                <div class="ai-msg" style="background:var(--light); padding:10px 14px; border-radius:12px; align-self:flex-start; max-width:80%;">
-                  Hello! I am your AI Booking assistant. I analyze occupancy and pricing. Type your question below!
+            </div>
+            <div
+              class="grid admin-charts-grid"
+              style="grid-template-columns: 2fr 1fr; margin-top: 20px"
+            >
+              <div
+                class="table-card"
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  height: 420px;
+                  padding: 0;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    padding: 15px;
+                    border-bottom: 1px solid var(--border);
+                    background: #f8faf9;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <i class="fas fa-brain" style="color: var(--primary)"></i>
+                  <h4 style="font-size: 14px; margin: 0">AI Support Chat</h4>
+                </div>
+                <div
+                  id="ai-chat-output"
+                  style="
+                    flex: 1;
+                    padding: 20px;
+                    overflow-y: auto;
+                    font-size: 13px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    text-align: left;
+                  "
+                >
+                  <div
+                    class="ai-msg"
+                    style="
+                      background: var(--light);
+                      padding: 10px 14px;
+                      border-radius: 12px;
+                      align-self: flex-start;
+                      max-width: 80%;
+                    "
+                  >
+                    Hello! I am your AI Booking assistant. I analyze occupancy
+                    and pricing. Type your question below!
+                  </div>
+                </div>
+                <div
+                  style="
+                    padding: 12px;
+                    border-top: 1px solid var(--border);
+                    display: flex;
+                    gap: 10px;
+                  "
+                >
+                  <input
+                    type="text"
+                    id="ai-chat-input"
+                    placeholder="e.g. Give me pricing suggestions for Leela Kovalam..."
+                    style="
+                      flex: 1;
+                      border: 1px solid var(--border);
+                      padding: 10px;
+                      border-radius: 30px;
+                      outline: none;
+                      font-size: 13px;
+                    "
+                    onkeypress="handleAIChatKeyPress(event)"
+                  />
+                  <button
+                    class="btn btn-primary btn-sm"
+                    style="
+                      border-radius: 50%;
+                      width: 38px;
+                      height: 38px;
+                      padding: 0;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                    onclick="sendAIChat()"
+                  >
+                    <i class="fas fa-paper-plane" style="font-size: 12px"></i>
+                  </button>
                 </div>
               </div>
-              <div style="padding:12px; border-top:1px solid var(--border); display:flex; gap:10px;">
-                <input type="text" id="ai-chat-input" placeholder="e.g. Give me pricing suggestions for Leela Kovalam..." style="flex:1; border:1px solid var(--border); padding:10px; border-radius:30px; outline:none; font-size:13px;" onkeypress="handleAIChatKeyPress(event)">
-                <button class="btn btn-primary btn-sm" style="border-radius:50%; width:38px; height:38px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="sendAIChat()"><i class="fas fa-paper-plane" style="font-size:12px;"></i></button>
-              </div>
-            </div>
-            
-            <div class="table-card">
-              <h3 style="font-size:14px; margin-bottom:12px;">Automated Insights</h3>
-              <div style="font-size:12px; display:flex; flex-direction:column; gap:15px;">
-                <div style="padding:10px; background:#FFF5E6; border-left:3px solid #E58E00; border-radius:4px;">
-                  <strong>Price Alert Munnar:</strong> Weekend occupancy is projected to reach 92%. Recommend raising rates by 12%.
+
+              <div class="table-card">
+                <h3 style="font-size: 14px; margin-bottom: 12px">
+                  Automated Insights
+                </h3>
+                <div
+                  style="
+                    font-size: 12px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                  "
+                >
+                  <div
+                    style="
+                      padding: 10px;
+                      background: #fff5e6;
+                      border-left: 3px solid #e58e00;
+                      border-radius: 4px;
+                    "
+                  >
+                    <strong>Price Alert Munnar:</strong> Weekend occupancy is
+                    projected to reach 92%. Recommend raising rates by 12%.
+                  </div>
+                  <div
+                    style="
+                      padding: 10px;
+                      background: #e8f7f3;
+                      border-left: 3px solid #108569;
+                      border-radius: 4px;
+                    "
+                  >
+                    <strong>High Demand Beachfront:</strong> The Riverside
+                    Retreat has received 3 cancellations. Re-listing
+                    immediately.
+                  </div>
                 </div>
-                <div style="padding:10px; background:#E8F7F3; border-left:3px solid #108569; border-radius:4px;">
-                  <strong>High Demand Beachfront:</strong> The Riverside Retreat has received 3 cancellations. Re-listing immediately.
-                </div>
               </div>
             </div>
           </div>
         </div>
-
-      </div>
-    </main>
-  </div>
-
-  <!-- Add Hotel Modal — Full featured -->
-  <div class="modal-overlay" id="add-hotel-modal" style="z-index:1100;">
-    <div class="modal-box" style="max-width:760px; padding:0; overflow:hidden;">
-
-      <!-- Modal Header -->
-      <div style="background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); padding:24px 28px; display:flex; align-items:center; justify-content:space-between;">
-        <div>
-          <h3 style="color:#fff; font-size:18px; font-weight:700; margin:0;"><i class="fas fa-hotel" style="margin-right:10px; opacity:.85;"></i>Add New Hotel</h3>
-          <p style="color:rgba(255,255,255,.7); font-size:12px; margin:4px 0 0;">Fill in the details below — hotel appears on the website instantly after saving.</p>
-        </div>
-        <button onclick="closeAddHotelModal()" style="background:rgba(255,255,255,.15); border:none; border-radius:8px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:18px; line-height:1;">&times;</button>
-      </div>
-
-      <!-- Live Preview Strip -->
-      <div id="hotel-preview-strip" style="background:#f8fffe; border-bottom:1px solid var(--border); padding:14px 28px; display:flex; align-items:center; gap:14px;">
-        <img id="preview-img" src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60" style="width:56px; height:56px; border-radius:10px; object-fit:cover; border:2px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60'">
-        <div style="flex:1; min-width:0;">
-          <div id="preview-name" style="font-weight:700; font-size:15px; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Hotel Name Preview</div>
-          <div id="preview-location" style="font-size:12px; color:var(--text-secondary); margin-top:2px;"><i class="fas fa-map-marker-alt" style="color:var(--primary); margin-right:4px;"></i>District, Kerala</div>
-        </div>
-        <div style="text-align:right; flex-shrink:0;">
-          <div id="preview-price" style="font-size:18px; font-weight:800; color:var(--primary);">₹—</div>
-          <div style="font-size:11px; color:var(--text-secondary);">per night</div>
-        </div>
-        <span id="preview-category" style="background:var(--primary-light); color:var(--primary); font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; white-space:nowrap;">Category</span>
-      </div>
-
-      <form class="modal-form" id="add-hotel-form" style="padding:24px 28px; max-height:64vh; overflow-y:auto;">
-
-        <!-- ── STEP 1: BASIC INFO ── -->
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-          <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">1</div>
-          <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--dark);">Hotel Information</h4>
-          <div style="flex:1; height:1px; background:var(--border);"></div>
-        </div>
-
-        <div class="form-group">
-          <label for="new-hotel-name">Hotel Name *</label>
-          <input type="text" id="new-hotel-name" placeholder="e.g. Spice Heritage Resort & Spa" required oninput="updateHotelPreview()">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="new-hotel-district">District / Location *</label>
-            <select id="new-hotel-district" onchange="updateHotelPreview()">
-              <option value="Alappuzha">Alappuzha</option>
-              <option value="Kasaragod">Kasaragod</option>
-              <option value="Kannur">Kannur</option>
-              <option value="Kochi">Kochi</option>
-              <option value="Kollam">Kollam</option>
-              <option value="Kovalam">Kovalam</option>
-              <option value="Kozhikode">Kozhikode</option>
-              <option value="Malappuram">Malappuram</option>
-              <option value="Munnar">Munnar</option>
-              <option value="Palakkad">Palakkad</option>
-              <option value="Thiruvananthapuram">Trivandrum</option>
-              <option value="Thrissur">Thrissur</option>
-              <option value="Varkala">Varkala</option>
-              <option value="Wayanad">Wayanad</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="new-hotel-category">Category *</label>
-            <select id="new-hotel-category" onchange="updateHotelPreview()">
-              <option value="Beach Resorts">🏖️ Beach Resorts</option>
-              <option value="Hill Station Hotels">⛰️ Hill Station Hotels</option>
-              <option value="Houseboats">⛵ Houseboats</option>
-              <option value="Homestays">🏠 Homestays</option>
-              <option value="Luxury Resorts">💎 Luxury Resorts</option>
-              <option value="Budget Hotels">💰 Budget Hotels</option>
-              <option value="Business Hotels">💼 Business Hotels</option>
-              <option value="Family Hotels">👨‍👩‍👧 Family Hotels</option>
-              <option value="Eco Resorts">🌿 Eco Resorts</option>
-              <option value="Heritage Hotels">🏛️ Heritage Hotels</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="new-hotel-price">Base Price / Night (₹) *</label>
-            <input type="number" id="new-hotel-price" placeholder="e.g. 2500" required min="100" oninput="updateHotelPreview()">
-          </div>
-          <div class="form-group">
-            <label for="new-hotel-whatsapp">WhatsApp (with country code)</label>
-            <input type="text" id="new-hotel-whatsapp" placeholder="919876543210">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="new-hotel-description">Description *</label>
-          <textarea id="new-hotel-description" rows="3" placeholder="Describe the hotel — location highlights, views, amenities and what makes it special..." required style="resize:vertical;"></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="new-hotel-checkin">Check-in Time</label>
-            <input type="text" id="new-hotel-checkin" value="12:00 PM">
-          </div>
-          <div class="form-group">
-            <label for="new-hotel-checkout">Check-out Time</label>
-            <input type="text" id="new-hotel-checkout" value="11:00 AM">
-          </div>
-        </div>
-
-        <!-- ── STEP 2: PHOTOS ── -->
-        <div style="display:flex; align-items:center; gap:10px; margin:20px 0 16px;">
-          <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">2</div>
-          <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--dark);">Photos &amp; Media</h4>
-          <div style="flex:1; height:1px; background:var(--border);"></div>
-        </div>
-
-        <!-- hidden URL holders (read by the form submit handler) -->
-        <input type="hidden" id="new-hotel-image">
-        <input type="hidden" id="new-hotel-img2">
-        <input type="hidden" id="new-hotel-img3">
-        <input type="hidden" id="new-hotel-img4">
-        <input type="hidden" id="new-hotel-img5">
-
-        <!-- Cover photo uploader -->
-        <div class="form-group">
-          <label>Main Cover Photo <span style="color:var(--primary);">*</span></label>
-          <div class="cld-drop-zone" id="cld-add-main" onclick="triggerCldPick('cld-add-main','new-hotel-image',true)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-main','new-hotel-image',true)">
-            <div class="cld-drop-inner" id="cld-add-main-inner">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <span>Click or drag &amp; drop to upload cover photo</span>
-              <small>JPEG / PNG / WebP · auto-compressed by Cloudinary</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gallery multi-uploader -->
-        <div class="form-group">
-          <label>Gallery Photos <span style="font-weight:400; color:var(--text-secondary);">(up to 4 extra shots)</span></label>
-          <div class="cld-gallery-grid" id="cld-add-gallery">
-            <div class="cld-gallery-slot" id="cld-add-g2" onclick="triggerCldPick('cld-add-g2','new-hotel-img2',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g2','new-hotel-img2',false)">
-              <i class="fas fa-plus"></i><span>Photo 2</span>
-            </div>
-            <div class="cld-gallery-slot" id="cld-add-g3" onclick="triggerCldPick('cld-add-g3','new-hotel-img3',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g3','new-hotel-img3',false)">
-              <i class="fas fa-plus"></i><span>Photo 3</span>
-            </div>
-            <div class="cld-gallery-slot" id="cld-add-g4" onclick="triggerCldPick('cld-add-g4','new-hotel-img4',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g4','new-hotel-img4',false)">
-              <i class="fas fa-plus"></i><span>Photo 4</span>
-            </div>
-            <div class="cld-gallery-slot" id="cld-add-g5" onclick="triggerCldPick('cld-add-g5','new-hotel-img5',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-add-g5','new-hotel-img5',false)">
-              <i class="fas fa-plus"></i><span>Photo 5</span>
-            </div>
-          </div>
-          <p style="font-size:11px; color:var(--text-secondary); margin-top:6px;"><i class="fas fa-info-circle" style="color:var(--primary);"></i> Images are automatically compressed and stored on Cloudinary CDN.</p>
-        </div>
-
-        <!-- ── STEP 3: AMENITIES ── -->
-        <div style="display:flex; align-items:center; gap:10px; margin:20px 0 16px;">
-          <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">3</div>
-          <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--dark);">Amenities</h4>
-          <div style="flex:1; height:1px; background:var(--border);"></div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px 12px; margin-bottom:4px;">
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Free Wi-Fi" checked> 📶 Free Wi-Fi</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Restaurant"> 🍽️ Restaurant</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Swimming Pool"> 🏊 Pool</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Spa & Wellness"> 💆 Spa</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Gym"> 🏋️ Gym</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Air Conditioning" checked> ❄️ AC</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Room Service"> 🛎️ Room Service</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Free Parking"> 🅿️ Free Parking</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Beach Access"> 🏖️ Beach Access</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Airport Transfer"> ✈️ Airport Transfer</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Bar & Lounge"> 🍹 Bar & Lounge</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Kids Play Area"> 🎠 Kids Area</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Laundry"> 👕 Laundry</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="Valet Parking"> 🚗 Valet Parking</label>
-          <label class="amenity-checkbox-label"><input type="checkbox" name="amenity" value="CCTV Security"> 🔒 CCTV</label>
-        </div>
-
-        <!-- ── STEP 4: ROOM TYPES ── -->
-        <div style="display:flex; align-items:center; gap:10px; margin:20px 0 16px;">
-          <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">4</div>
-          <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--dark);">Room Types</h4>
-          <span style="font-size:11px; color:var(--text-secondary); font-weight:400;">Add at least 1 room type</span>
-          <div style="flex:1; height:1px; background:var(--border);"></div>
-        </div>
-
-        <div id="room-types-container">
-          <div class="room-type-entry" style="background:var(--light); border-radius:10px; padding:14px; margin-bottom:10px; border:1px solid var(--border); position:relative;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-              <span style="font-size:12px; font-weight:700; color:var(--primary); background:var(--primary-light); padding:3px 10px; border-radius:20px;">Room Type #1</span>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Room Type Name *</label>
-                <input type="text" name="rt-name" placeholder="e.g. Deluxe Room, Suite" required>
-              </div>
-              <div class="form-group">
-                <label>Price / Night (₹) *</label>
-                <input type="number" name="rt-price" placeholder="e.g. 3500" min="100" required>
-              </div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
-              <div class="form-group" style="margin-bottom:0;">
-                <label>Max Guests</label>
-                <input type="number" name="rt-capacity" value="2" min="1">
-              </div>
-              <div class="form-group" style="margin-bottom:0;">
-                <label>Beds</label>
-                <input type="number" name="rt-beds" value="1" min="1">
-              </div>
-              <div class="form-group" style="margin-bottom:0;">
-                <label>Total Rooms</label>
-                <input type="number" name="rt-inventory" value="5" min="1">
-              </div>
-            </div>
-          </div>
-        </div>
-        <button type="button" onclick="addRoomTypeRow()" style="background:none; border:2px dashed var(--primary); color:var(--primary); padding:10px 16px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; width:100%; margin-bottom:4px; transition:background .2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='none'">
-          <i class="fas fa-plus" style="margin-right:6px;"></i> Add Another Room Type
-        </button>
-
-        <!-- ── STEP 5: MAP & SETTINGS ── -->
-        <div style="display:flex; align-items:center; gap:10px; margin:20px 0 16px;">
-          <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;">5</div>
-          <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--dark);">Map &amp; Settings</h4>
-          <div style="flex:1; height:1px; background:var(--border);"></div>
-        </div>
-
-        <div class="form-group">
-          <label for="new-hotel-map">Google Maps Embed URL <span style="font-weight:400; color:var(--text-secondary);">(optional)</span></label>
-          <input type="text" id="new-hotel-map" placeholder="https://www.google.com/maps/embed?pb=...">
-          <p style="font-size:11px; color:var(--text-secondary); margin-top:4px;"><i class="fas fa-info-circle"></i> Google Maps → find hotel → Share → Embed a map → copy the <code>src="..."</code> URL</p>
-        </div>
-
-        <div style="display:flex; gap:16px; flex-wrap:wrap; padding:14px 16px; background:var(--light); border-radius:10px; border:1px solid var(--border);">
-          <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer; text-transform:none; letter-spacing:0; color:var(--text-main);">
-            <input type="checkbox" id="new-hotel-featured" style="accent-color:var(--primary); width:16px; height:16px;">
-            ⭐ Featured Property <span style="font-weight:400; color:var(--text-secondary);">(homepage spotlight)</span>
-          </label>
-          <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer; text-transform:none; letter-spacing:0; color:var(--text-main);">
-            <input type="checkbox" id="new-hotel-trending" style="accent-color:var(--primary); width:16px; height:16px;">
-            🔥 Trending <span style="font-weight:400; color:var(--text-secondary);">(badge on listing card)</span>
-          </label>
-        </div>
-
-      </form>
-
-      <div style="padding:16px 28px; border-top:1px solid var(--border); background:#fff; display:flex; gap:10px;">
-        <button type="button" onclick="closeAddHotelModal()" style="flex:0 0 auto; background:none; border:1.5px solid var(--border); border-radius:30px; padding:11px 20px; font-size:13px; font-weight:600; color:var(--text-secondary); cursor:pointer;">Cancel</button>
-        <button type="button" id="save-hotel-btn" onclick="submitAddHotelForm()" class="btn btn-primary" style="flex:1; border-radius:30px; font-size:14px; font-weight:700; padding:13px;">
-          <i class="fas fa-plus-circle" style="margin-right:8px;"></i> Save Hotel &amp; Publish to Website
-        </button>
-      </div>
+      </main>
     </div>
-  </div>
 
-  <!-- Edit Hotel Modal -->
-
-  <div class="modal-overlay" id="edit-hotel-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i class="fas fa-edit" style="color:var(--primary); margin-right:8px;"></i> Edit Hotel</h3>
-        <button class="modal-close" onclick="closeEditHotelModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="edit-hotel-form">
-        <input type="hidden" id="edit-hotel-id">
-
-        <p class="form-section-title"><i class="fas fa-info-circle"></i> Basic Info</p>
-        <div class="form-group">
-          <label for="edit-hotel-name">Hotel Name *</label>
-          <input type="text" id="edit-hotel-name" required>
+    <!-- Add Hotel Modal — Full featured -->
+    <div class="modal-overlay" id="add-hotel-modal" style="z-index: 1100">
+      <div
+        class="modal-box"
+        style="max-width: 760px; padding: 0; overflow: hidden"
+      >
+        <!-- Modal Header -->
+        <div
+          style="
+            background: linear-gradient(
+              135deg,
+              var(--primary) 0%,
+              var(--primary-dark) 100%
+            );
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <div>
+            <h3
+              style="color: #fff; font-size: 18px; font-weight: 700; margin: 0"
+            >
+              <i
+                class="fas fa-hotel"
+                style="margin-right: 10px; opacity: 0.85"
+              ></i
+              >Add New Hotel
+            </h3>
+            <p
+              style="
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 12px;
+                margin: 4px 0 0;
+              "
+            >
+              Fill in the details below — hotel appears on the website instantly
+              after saving.
+            </p>
+          </div>
+          <button
+            onclick="closeAddHotelModal()"
+            style="
+              background: rgba(255, 255, 255, 0.15);
+              border: none;
+              border-radius: 8px;
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              color: #fff;
+              font-size: 18px;
+              line-height: 1;
+            "
+          >
+            &times;
+          </button>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="edit-hotel-price">Price / Night (₹) *</label>
-            <input type="number" id="edit-hotel-price" required>
+
+        <!-- Live Preview Strip -->
+        <div
+          id="hotel-preview-strip"
+          style="
+            background: #f8fffe;
+            border-bottom: 1px solid var(--border);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+          "
+        >
+          <img
+            id="preview-img"
+            src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60"
+            style="
+              width: 56px;
+              height: 56px;
+              border-radius: 10px;
+              object-fit: cover;
+              border: 2px solid var(--border);
+            "
+            onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60'"
+          />
+          <div style="flex: 1; min-width: 0">
+            <div
+              id="preview-name"
+              style="
+                font-weight: 700;
+                font-size: 15px;
+                color: var(--dark);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              "
+            >
+              Hotel Name Preview
+            </div>
+            <div
+              id="preview-location"
+              style="
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-top: 2px;
+              "
+            >
+              <i
+                class="fas fa-map-marker-alt"
+                style="color: var(--primary); margin-right: 4px"
+              ></i
+              >District, Kerala
+            </div>
           </div>
-          <div class="form-group">
-            <label for="edit-hotel-whatsapp">WhatsApp Number</label>
-            <input type="text" id="edit-hotel-whatsapp" placeholder="919876543210">
+          <div style="text-align: right; flex-shrink: 0">
+            <div
+              id="preview-price"
+              style="font-size: 18px; font-weight: 800; color: var(--primary)"
+            >
+              ₹—
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary)">
+              per night
+            </div>
           </div>
+          <span
+            id="preview-category"
+            style="
+              background: var(--primary-light);
+              color: var(--primary);
+              font-size: 11px;
+              font-weight: 600;
+              padding: 4px 10px;
+              border-radius: 20px;
+              white-space: nowrap;
+            "
+            >Category</span
+          >
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="edit-hotel-status">Status</label>
-            <select id="edit-hotel-status">
-              <option value="active">Active</option>
-              <option value="hidden">Hidden</option>
-            </select>
+
+        <form
+          class="modal-form"
+          id="add-hotel-form"
+          style="padding: 24px 28px; max-height: 64vh; overflow-y: auto"
+        >
+          <!-- ── STEP 1: BASIC INFO ── -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 16px;
+            "
+          >
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+              "
+            >
+              1
+            </div>
+            <h4
+              style="
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--dark);
+              "
+            >
+              Hotel Information
+            </h4>
+            <div style="flex: 1; height: 1px; background: var(--border)"></div>
           </div>
-          <div class="form-group" style="display:flex; align-items:flex-end; padding-bottom:2px;">
-            <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0; cursor:pointer; margin-bottom:0;">
-              <input type="checkbox" id="edit-hotel-featured" style="accent-color:var(--primary); width:16px; height:16px;">
-              Featured Property
+
+          <div class="form-group">
+            <label for="new-hotel-name">Hotel Name *</label>
+            <input
+              type="text"
+              id="new-hotel-name"
+              placeholder="e.g. Spice Heritage Resort & Spa"
+              required
+              oninput="updateHotelPreview()"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="new-hotel-district">District / Location *</label>
+              <select id="new-hotel-district" onchange="updateHotelPreview()">
+                <option value="Alappuzha">Alappuzha</option>
+                <option value="Kasaragod">Kasaragod</option>
+                <option value="Kannur">Kannur</option>
+                <option value="Kochi">Kochi</option>
+                <option value="Kollam">Kollam</option>
+                <option value="Kovalam">Kovalam</option>
+                <option value="Kozhikode">Kozhikode</option>
+                <option value="Malappuram">Malappuram</option>
+                <option value="Munnar">Munnar</option>
+                <option value="Palakkad">Palakkad</option>
+                <option value="Thiruvananthapuram">Trivandrum</option>
+                <option value="Thrissur">Thrissur</option>
+                <option value="Varkala">Varkala</option>
+                <option value="Wayanad">Wayanad</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="new-hotel-category">Category *</label>
+              <select id="new-hotel-category" onchange="updateHotelPreview()">
+                <option value="Beach Resorts">🏖️ Beach Resorts</option>
+                <option value="Hill Station Hotels">
+                  ⛰️ Hill Station Hotels
+                </option>
+                <option value="Houseboats">⛵ Houseboats</option>
+                <option value="Homestays">🏠 Homestays</option>
+                <option value="Luxury Resorts">💎 Luxury Resorts</option>
+                <option value="Budget Hotels">💰 Budget Hotels</option>
+                <option value="Business Hotels">💼 Business Hotels</option>
+                <option value="Family Hotels">👨‍👩‍👧 Family Hotels</option>
+                <option value="Eco Resorts">🌿 Eco Resorts</option>
+                <option value="Heritage Hotels">🏛️ Heritage Hotels</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="new-hotel-price">Base Price / Night (₹) *</label>
+              <input
+                type="number"
+                id="new-hotel-price"
+                placeholder="e.g. 2500"
+                required
+                min="100"
+                oninput="updateHotelPreview()"
+              />
+            </div>
+            <div class="form-group">
+              <label for="new-hotel-whatsapp"
+                >WhatsApp (with country code)</label
+              >
+              <input
+                type="text"
+                id="new-hotel-whatsapp"
+                placeholder="919876543210"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-hotel-description">Description *</label>
+            <textarea
+              id="new-hotel-description"
+              rows="3"
+              placeholder="Describe the hotel — location highlights, views, amenities and what makes it special..."
+              required
+              style="resize: vertical"
+            ></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="new-hotel-checkin">Check-in Time</label>
+              <input type="text" id="new-hotel-checkin" value="12:00 PM" />
+            </div>
+            <div class="form-group">
+              <label for="new-hotel-checkout">Check-out Time</label>
+              <input type="text" id="new-hotel-checkout" value="11:00 AM" />
+            </div>
+          </div>
+
+          <!-- ── STEP 2: PHOTOS ── -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin: 20px 0 16px;
+            "
+          >
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+              "
+            >
+              2
+            </div>
+            <h4
+              style="
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--dark);
+              "
+            >
+              Photos &amp; Media
+            </h4>
+            <div style="flex: 1; height: 1px; background: var(--border)"></div>
+          </div>
+
+          <!-- hidden URL holders (read by the form submit handler) -->
+          <input type="hidden" id="new-hotel-image" />
+          <input type="hidden" id="new-hotel-img2" />
+          <input type="hidden" id="new-hotel-img3" />
+          <input type="hidden" id="new-hotel-img4" />
+          <input type="hidden" id="new-hotel-img5" />
+
+          <!-- Cover photo uploader -->
+          <div class="form-group">
+            <label
+              >Main Cover Photo
+              <span style="color: var(--primary)">*</span></label
+            >
+            <div
+              class="cld-drop-zone"
+              id="cld-add-main"
+              onclick="triggerCldPick('cld-add-main','new-hotel-image',true)"
+              ondragover="event.preventDefault();this.classList.add('drag-over')"
+              ondragleave="this.classList.remove('drag-over')"
+              ondrop="handleCldDrop(event,'cld-add-main','new-hotel-image',true)"
+            >
+              <div class="cld-drop-inner" id="cld-add-main-inner">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Click or drag &amp; drop to upload cover photo</span>
+                <small>JPEG / PNG / WebP · auto-compressed by Cloudinary</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery multi-uploader -->
+          <div class="form-group">
+            <label
+              >Gallery Photos
+              <span style="font-weight: 400; color: var(--text-secondary)"
+                >(up to 4 extra shots)</span
+              ></label
+            >
+            <div class="cld-gallery-grid" id="cld-add-gallery">
+              <div
+                class="cld-gallery-slot"
+                id="cld-add-g2"
+                onclick="triggerCldPick('cld-add-g2','new-hotel-img2',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-add-g2','new-hotel-img2',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 2</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-add-g3"
+                onclick="triggerCldPick('cld-add-g3','new-hotel-img3',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-add-g3','new-hotel-img3',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 3</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-add-g4"
+                onclick="triggerCldPick('cld-add-g4','new-hotel-img4',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-add-g4','new-hotel-img4',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 4</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-add-g5"
+                onclick="triggerCldPick('cld-add-g5','new-hotel-img5',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-add-g5','new-hotel-img5',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 5</span>
+              </div>
+            </div>
+            <p
+              style="
+                font-size: 11px;
+                color: var(--text-secondary);
+                margin-top: 6px;
+              "
+            >
+              <i class="fas fa-info-circle" style="color: var(--primary)"></i>
+              Images are automatically compressed and stored on Cloudinary CDN.
+            </p>
+          </div>
+
+          <!-- ── STEP 3: AMENITIES ── -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin: 20px 0 16px;
+            "
+          >
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+              "
+            >
+              3
+            </div>
+            <h4
+              style="
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--dark);
+              "
+            >
+              Amenities
+            </h4>
+            <div style="flex: 1; height: 1px; background: var(--border)"></div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 6px 12px;
+              margin-bottom: 4px;
+            "
+          >
+            <label class="amenity-checkbox-label"
+              ><input
+                type="checkbox"
+                name="amenity"
+                value="Free Wi-Fi"
+                checked
+              />
+              📶 Free Wi-Fi</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Restaurant" /> 🍽️
+              Restaurant</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Swimming Pool" /> 🏊
+              Pool</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Spa & Wellness" />
+              💆 Spa</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Gym" /> 🏋️
+              Gym</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input
+                type="checkbox"
+                name="amenity"
+                value="Air Conditioning"
+                checked
+              />
+              ❄️ AC</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Room Service" /> 🛎️
+              Room Service</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Free Parking" /> 🅿️
+              Free Parking</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Beach Access" /> 🏖️
+              Beach Access</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Airport Transfer" />
+              ✈️ Airport Transfer</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Bar & Lounge" /> 🍹
+              Bar & Lounge</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Kids Play Area" />
+              🎠 Kids Area</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Laundry" /> 👕
+              Laundry</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="Valet Parking" /> 🚗
+              Valet Parking</label
+            >
+            <label class="amenity-checkbox-label"
+              ><input type="checkbox" name="amenity" value="CCTV Security" /> 🔒
+              CCTV</label
+            >
+          </div>
+
+          <!-- ── STEP 4: ROOM TYPES ── -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin: 20px 0 16px;
+            "
+          >
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+              "
+            >
+              4
+            </div>
+            <h4
+              style="
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--dark);
+              "
+            >
+              Room Types
+            </h4>
+            <span
+              style="
+                font-size: 11px;
+                color: var(--text-secondary);
+                font-weight: 400;
+              "
+              >Add at least 1 room type</span
+            >
+            <div style="flex: 1; height: 1px; background: var(--border)"></div>
+          </div>
+
+          <div id="room-types-container">
+            <div
+              class="room-type-entry"
+              style="
+                background: var(--light);
+                border-radius: 10px;
+                padding: 14px;
+                margin-bottom: 10px;
+                border: 1px solid var(--border);
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 10px;
+                "
+              >
+                <span
+                  style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--primary);
+                    background: var(--primary-light);
+                    padding: 3px 10px;
+                    border-radius: 20px;
+                  "
+                  >Room Type #1</span
+                >
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Room Type Name *</label>
+                  <input
+                    type="text"
+                    name="rt-name"
+                    placeholder="e.g. Deluxe Room, Suite"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Price / Night (₹) *</label>
+                  <input
+                    type="number"
+                    name="rt-price"
+                    placeholder="e.g. 3500"
+                    min="100"
+                    required
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr 1fr;
+                  gap: 10px;
+                "
+              >
+                <div class="form-group" style="margin-bottom: 0">
+                  <label>Max Guests</label>
+                  <input type="number" name="rt-capacity" value="2" min="1" />
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                  <label>Beds</label>
+                  <input type="number" name="rt-beds" value="1" min="1" />
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                  <label>Total Rooms</label>
+                  <input type="number" name="rt-inventory" value="5" min="1" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onclick="addRoomTypeRow()"
+            style="
+              background: none;
+              border: 2px dashed var(--primary);
+              color: var(--primary);
+              padding: 10px 16px;
+              border-radius: 10px;
+              font-size: 12px;
+              font-weight: 700;
+              cursor: pointer;
+              width: 100%;
+              margin-bottom: 4px;
+              transition: background 0.2s;
+            "
+            onmouseover="this.style.background='var(--primary-light)'"
+            onmouseout="this.style.background='none'"
+          >
+            <i class="fas fa-plus" style="margin-right: 6px"></i> Add Another
+            Room Type
+          </button>
+
+          <!-- ── STEP 5: MAP & SETTINGS ── -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin: 20px 0 16px;
+            "
+          >
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+              "
+            >
+              5
+            </div>
+            <h4
+              style="
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--dark);
+              "
+            >
+              Map &amp; Settings
+            </h4>
+            <div style="flex: 1; height: 1px; background: var(--border)"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="new-hotel-map"
+              >Google Maps Embed URL
+              <span style="font-weight: 400; color: var(--text-secondary)"
+                >(optional)</span
+              ></label
+            >
+            <input
+              type="text"
+              id="new-hotel-map"
+              placeholder="https://www.google.com/maps/embed?pb=..."
+            />
+            <p
+              style="
+                font-size: 11px;
+                color: var(--text-secondary);
+                margin-top: 4px;
+              "
+            >
+              <i class="fas fa-info-circle"></i> Google Maps → find hotel →
+              Share → Embed a map → copy the <code>src="..."</code> URL
+            </p>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: 16px;
+              flex-wrap: wrap;
+              padding: 14px 16px;
+              background: var(--light);
+              border-radius: 10px;
+              border: 1px solid var(--border);
+            "
+          >
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                text-transform: none;
+                letter-spacing: 0;
+                color: var(--text-main);
+              "
+            >
+              <input
+                type="checkbox"
+                id="new-hotel-featured"
+                style="accent-color: var(--primary); width: 16px; height: 16px"
+              />
+              ⭐ Featured Property
+              <span style="font-weight: 400; color: var(--text-secondary)"
+                >(homepage spotlight)</span
+              >
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                text-transform: none;
+                letter-spacing: 0;
+                color: var(--text-main);
+              "
+            >
+              <input
+                type="checkbox"
+                id="new-hotel-trending"
+                style="accent-color: var(--primary); width: 16px; height: 16px"
+              />
+              🔥 Trending
+              <span style="font-weight: 400; color: var(--text-secondary)"
+                >(badge on listing card)</span
+              >
             </label>
           </div>
+        </form>
+
+        <div
+          style="
+            padding: 16px 28px;
+            border-top: 1px solid var(--border);
+            background: #fff;
+            display: flex;
+            gap: 10px;
+          "
+        >
+          <button
+            type="button"
+            onclick="closeAddHotelModal()"
+            style="
+              flex: 0 0 auto;
+              background: none;
+              border: 1.5px solid var(--border);
+              border-radius: 30px;
+              padding: 11px 20px;
+              font-size: 13px;
+              font-weight: 600;
+              color: var(--text-secondary);
+              cursor: pointer;
+            "
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="save-hotel-btn"
+            onclick="submitAddHotelForm()"
+            class="btn btn-primary"
+            style="
+              flex: 1;
+              border-radius: 30px;
+              font-size: 14px;
+              font-weight: 700;
+              padding: 13px;
+            "
+          >
+            <i class="fas fa-plus-circle" style="margin-right: 8px"></i> Save
+            Hotel &amp; Publish to Website
+          </button>
         </div>
+      </div>
+    </div>
 
-        <p class="form-section-title"><i class="fas fa-images"></i> Photos</p>
+    <!-- Edit Hotel Modal -->
 
-        <!-- hidden URL holders -->
-        <input type="hidden" id="edit-hotel-image">
-        <input type="hidden" id="edit-hotel-img2">
-        <input type="hidden" id="edit-hotel-img3">
-        <input type="hidden" id="edit-hotel-img4">
-        <input type="hidden" id="edit-hotel-img5">
+    <div class="modal-overlay" id="edit-hotel-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>
+            <i
+              class="fas fa-edit"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Edit Hotel
+          </h3>
+          <button class="modal-close" onclick="closeEditHotelModal()">
+            &times;
+          </button>
+        </div>
+        <form class="modal-form" id="edit-hotel-form">
+          <input type="hidden" id="edit-hotel-id" />
 
-        <div class="form-group">
-          <label>Main Cover Photo</label>
-          <div class="cld-drop-zone cld-compact" id="cld-edit-main" onclick="triggerCldPick('cld-edit-main','edit-hotel-image',true)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-main','edit-hotel-image',true)">
-            <div class="cld-drop-inner" id="cld-edit-main-inner">
-              <i class="fas fa-camera"></i>
-              <span>Click or drop to replace cover photo</span>
+          <p class="form-section-title">
+            <i class="fas fa-info-circle"></i> Basic Info
+          </p>
+          <div class="form-group">
+            <label for="edit-hotel-name">Hotel Name *</label>
+            <input type="text" id="edit-hotel-name" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="edit-hotel-price">Price / Night (₹) *</label>
+              <input type="number" id="edit-hotel-price" required />
+            </div>
+            <div class="form-group">
+              <label for="edit-hotel-whatsapp">WhatsApp Number</label>
+              <input
+                type="text"
+                id="edit-hotel-whatsapp"
+                placeholder="919876543210"
+              />
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Gallery Photos</label>
-          <div class="cld-gallery-grid">
-            <div class="cld-gallery-slot" id="cld-edit-g2" onclick="triggerCldPick('cld-edit-g2','edit-hotel-img2',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g2','edit-hotel-img2',false)">
-              <i class="fas fa-plus"></i><span>Photo 2</span>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="edit-hotel-status">Status</label>
+              <select id="edit-hotel-status">
+                <option value="active">Active</option>
+                <option value="hidden">Hidden</option>
+              </select>
             </div>
-            <div class="cld-gallery-slot" id="cld-edit-g3" onclick="triggerCldPick('cld-edit-g3','edit-hotel-img3',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g3','edit-hotel-img3',false)">
-              <i class="fas fa-plus"></i><span>Photo 3</span>
-            </div>
-            <div class="cld-gallery-slot" id="cld-edit-g4" onclick="triggerCldPick('cld-edit-g4','edit-hotel-img4',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g4','edit-hotel-img4',false)">
-              <i class="fas fa-plus"></i><span>Photo 4</span>
-            </div>
-            <div class="cld-gallery-slot" id="cld-edit-g5" onclick="triggerCldPick('cld-edit-g5','edit-hotel-img5',false)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleCldDrop(event,'cld-edit-g5','edit-hotel-img5',false)">
-              <i class="fas fa-plus"></i><span>Photo 5</span>
+            <div
+              class="form-group"
+              style="display: flex; align-items: flex-end; padding-bottom: 2px"
+            >
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  text-transform: none;
+                  letter-spacing: 0;
+                  cursor: pointer;
+                  margin-bottom: 0;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="edit-hotel-featured"
+                  style="
+                    accent-color: var(--primary);
+                    width: 16px;
+                    height: 16px;
+                  "
+                />
+                Featured Property
+              </label>
             </div>
           </div>
-          <p style="font-size:11px; color:var(--text-secondary); margin-top:6px;"><i class="fas fa-info-circle" style="color:var(--primary);"></i> Leave unchanged to keep existing photos. Upload only what you want to replace.</p>
-        </div>
 
-        <p class="form-section-title"><i class="fas fa-map-marker-alt"></i> Location Map</p>
-        <div class="form-group">
-          <label for="edit-hotel-map">Google Maps Embed URL</label>
-          <input type="text" id="edit-hotel-map" placeholder="https://www.google.com/maps/embed?pb=...">
-          <p style="font-size:11px; color:var(--text-secondary); margin-top:3px;">Google Maps &rarr; Share &rarr; Embed a map &rarr; copy the src URL</p>
-        </div>
+          <p class="form-section-title"><i class="fas fa-images"></i> Photos</p>
 
-      </form>
-      <div class="modal-form-footer">
-        <button type="button" onclick="document.getElementById('edit-hotel-form').requestSubmit()" class="btn btn-primary" style="width:100%; border-radius:30px; font-size:14px; padding:13px;">
-          <i class="fas fa-save" style="margin-right:8px;"></i> Update Hotel Details
+          <!-- hidden URL holders -->
+          <input type="hidden" id="edit-hotel-image" />
+          <input type="hidden" id="edit-hotel-img2" />
+          <input type="hidden" id="edit-hotel-img3" />
+          <input type="hidden" id="edit-hotel-img4" />
+          <input type="hidden" id="edit-hotel-img5" />
+
+          <div class="form-group">
+            <label>Main Cover Photo</label>
+            <div
+              class="cld-drop-zone cld-compact"
+              id="cld-edit-main"
+              onclick="triggerCldPick('cld-edit-main','edit-hotel-image',true)"
+              ondragover="event.preventDefault();this.classList.add('drag-over')"
+              ondragleave="this.classList.remove('drag-over')"
+              ondrop="handleCldDrop(event,'cld-edit-main','edit-hotel-image',true)"
+            >
+              <div class="cld-drop-inner" id="cld-edit-main-inner">
+                <i class="fas fa-camera"></i>
+                <span>Click or drop to replace cover photo</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Gallery Photos</label>
+            <div class="cld-gallery-grid">
+              <div
+                class="cld-gallery-slot"
+                id="cld-edit-g2"
+                onclick="triggerCldPick('cld-edit-g2','edit-hotel-img2',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-edit-g2','edit-hotel-img2',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 2</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-edit-g3"
+                onclick="triggerCldPick('cld-edit-g3','edit-hotel-img3',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-edit-g3','edit-hotel-img3',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 3</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-edit-g4"
+                onclick="triggerCldPick('cld-edit-g4','edit-hotel-img4',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-edit-g4','edit-hotel-img4',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 4</span>
+              </div>
+              <div
+                class="cld-gallery-slot"
+                id="cld-edit-g5"
+                onclick="triggerCldPick('cld-edit-g5','edit-hotel-img5',false)"
+                ondragover="event.preventDefault();this.classList.add('drag-over')"
+                ondragleave="this.classList.remove('drag-over')"
+                ondrop="handleCldDrop(event,'cld-edit-g5','edit-hotel-img5',false)"
+              >
+                <i class="fas fa-plus"></i><span>Photo 5</span>
+              </div>
+            </div>
+            <p
+              style="
+                font-size: 11px;
+                color: var(--text-secondary);
+                margin-top: 6px;
+              "
+            >
+              <i class="fas fa-info-circle" style="color: var(--primary)"></i>
+              Leave unchanged to keep existing photos. Upload only what you want
+              to replace.
+            </p>
+          </div>
+
+          <p class="form-section-title">
+            <i class="fas fa-map-marker-alt"></i> Location Map
+          </p>
+          <div class="form-group">
+            <label for="edit-hotel-map">Google Maps Embed URL</label>
+            <input
+              type="text"
+              id="edit-hotel-map"
+              placeholder="https://www.google.com/maps/embed?pb=..."
+            />
+            <p
+              style="
+                font-size: 11px;
+                color: var(--text-secondary);
+                margin-top: 3px;
+              "
+            >
+              Google Maps &rarr; Share &rarr; Embed a map &rarr; copy the src
+              URL
+            </p>
+          </div>
+        </form>
+        <div class="modal-form-footer">
+          <button
+            type="button"
+            onclick="document.getElementById('edit-hotel-form').requestSubmit()"
+            class="btn btn-primary"
+            style="
+              width: 100%;
+              border-radius: 30px;
+              font-size: 14px;
+              padding: 13px;
+            "
+          >
+            <i class="fas fa-save" style="margin-right: 8px"></i> Update Hotel
+            Details
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Room Modal -->
+    <div class="modal-overlay" id="add-room-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>
+            <i
+              class="fas fa-door-open"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Add New Room
+          </h3>
+          <button class="modal-close" onclick="closeAddRoomModal()">
+            &times;
+          </button>
+        </div>
+        <form class="modal-form" id="add-room-form">
+          <p class="form-section-title">
+            <i class="fas fa-hotel"></i> Assign to Hotel
+          </p>
+          <div class="form-group">
+            <label>Hotel Property *</label>
+            <select id="add-room-hotel-select" required></select>
+          </div>
+
+          <p class="form-section-title">
+            <i class="fas fa-bed"></i> Room Details
+          </p>
+          <div class="form-group">
+            <label>Room Type / Name *</label>
+            <input
+              type="text"
+              id="add-room-type"
+              placeholder="e.g. Deluxe Ocean View, Premium Suite"
+              required
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Room Number *</label>
+              <input
+                type="text"
+                id="add-room-number"
+                placeholder="e.g. 101"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Price / Night (₹) *</label>
+              <input
+                type="number"
+                id="add-room-price"
+                placeholder="e.g. 4500"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Guest Capacity *</label>
+              <input type="number" id="add-room-capacity" value="2" required />
+            </div>
+            <div class="form-group">
+              <label>Beds Count *</label>
+              <input type="number" id="add-room-beds" value="1" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Available Inventory (rooms of this type) *</label>
+            <input type="number" id="add-room-inventory" value="5" required />
+          </div>
+        </form>
+        <div class="modal-form-footer">
+          <button
+            type="button"
+            onclick="document.getElementById('add-room-form').requestSubmit()"
+            class="btn btn-primary"
+            style="
+              width: 100%;
+              border-radius: 30px;
+              font-size: 14px;
+              padding: 13px;
+            "
+          >
+            <i class="fas fa-plus-circle" style="margin-right: 8px"></i> Save
+            Room Type
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Booking Modal -->
+    <div class="modal-overlay" id="add-booking-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Create Reservation (Manual)</h3>
+          <button class="modal-close" onclick="closeManualBookingModal()">
+            &times;
+          </button>
+        </div>
+        <form class="modal-form" id="manual-booking-form">
+          <div class="form-group">
+            <label>Select Hotel Property *</label>
+            <select
+              id="booking-hotel-select"
+              style="
+                width: 100%;
+                border: 1px solid var(--border);
+                padding: 10px;
+                border-radius: 6px;
+                background: transparent;
+              "
+              required
+            ></select>
+          </div>
+          <div class="form-group">
+            <label>Select Room Type *</label>
+            <select
+              id="booking-room-select-admin"
+              style="
+                width: 100%;
+                border: 1px solid var(--border);
+                padding: 10px;
+                border-radius: 6px;
+                background: transparent;
+              "
+              required
+            ></select>
+          </div>
+          <div class="form-group">
+            <label>Guest Full Name *</label>
+            <input
+              type="text"
+              id="booking-guest-name"
+              required
+              placeholder="Guest full name"
+            />
+          </div>
+          <div class="form-group">
+            <label>Guest Phone Number *</label>
+            <input
+              type="text"
+              id="booking-guest-phone"
+              required
+              placeholder="Guest phone number"
+            />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px">
+            <div class="form-group">
+              <label>Check-in Date *</label>
+              <input type="date" id="booking-checkin" required />
+            </div>
+            <div class="form-group">
+              <label>Check-out Date *</label>
+              <input type="date" id="booking-checkout" required />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; border-radius: 30px; margin-top: 10px"
+          >
+            Register Booking
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Coupon Modal -->
+    <div class="modal-overlay" id="add-coupon-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Create Platform Coupon</h3>
+          <button class="modal-close" onclick="closeAddCouponModal()">
+            &times;
+          </button>
+        </div>
+        <form class="modal-form" id="add-coupon-form">
+          <div class="form-group">
+            <label>Coupon Code *</label>
+            <input
+              type="text"
+              id="new-coupon-code"
+              placeholder="e.g. DISCO50"
+              required
+              style="text-transform: uppercase"
+            />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px">
+            <div class="form-group">
+              <label>Discount (%) *</label>
+              <input
+                type="number"
+                id="new-coupon-pct"
+                placeholder="e.g. 20"
+                required
+                max="100"
+              />
+            </div>
+            <div class="form-group">
+              <label>Min Booking Spend (₹) *</label>
+              <input
+                type="number"
+                id="new-coupon-min"
+                placeholder="e.g. 2500"
+                required
+              />
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px">
+            <div class="form-group">
+              <label>Usage Limit Count *</label>
+              <input
+                type="number"
+                id="new-coupon-limit"
+                placeholder="e.g. 100"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Expiry Date *</label>
+              <input type="date" id="new-coupon-expiry" required />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; border-radius: 30px; margin-top: 10px"
+          >
+            Publish Coupon
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Reply to Review Modal -->
+    <div class="modal-overlay" id="review-reply-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Reply to Guest Review</h3>
+          <button class="modal-close" onclick="closeReviewReplyModal()">
+            &times;
+          </button>
+        </div>
+        <form class="modal-form" id="review-reply-form">
+          <input type="hidden" id="reply-review-id" />
+          <div class="form-group">
+            <label>Guest Review Content</label>
+            <div
+              id="reply-review-text"
+              style="
+                background: var(--light);
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 12px;
+                color: var(--text-secondary);
+                line-height: 1.4;
+              "
+            ></div>
+          </div>
+          <div class="form-group">
+            <label for="reply-manager-text">Official Reply Text *</label>
+            <textarea
+              id="reply-manager-text"
+              rows="4"
+              required
+              placeholder="Post your official hospital response..."
+              style="
+                width: 100%;
+                border: 1px solid var(--border);
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 13px;
+                resize: none;
+                outline: none;
+                font-family: inherit;
+              "
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; border-radius: 30px"
+          >
+            Publish Official Response
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Invoice Viewer Modal -->
+    <div class="modal-overlay" id="view-invoice-modal" style="z-index: 1100">
+      <div class="modal-box" style="max-width: 600px; width: 90%">
+        <div class="modal-header">
+          <h3>Invoice Generator</h3>
+          <button class="modal-close" onclick="closeInvoiceModal()">
+            &times;
+          </button>
+        </div>
+        <div
+          id="invoice-print-area"
+          style="
+            padding: 24px;
+            font-size: 13px;
+            color: var(--text-main);
+            font-family: &quot;Courier New&quot;, monospace;
+            border: 1px dashed var(--border);
+            background: #fcfcfb;
+            text-align: left;
+          "
+        >
+          <!-- Injected dynamically -->
+        </div>
+        <button
+          class="btn btn-primary"
+          style="width: 100%; border-radius: 30px; margin-top: 20px"
+          onclick="printInvoice()"
+        >
+          <i class="fas fa-print"></i> Print Invoice / Save PDF
         </button>
       </div>
     </div>
-  </div>
 
-  <!-- Add Room Modal -->
-  <div class="modal-overlay" id="add-room-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i class="fas fa-door-open" style="color:var(--primary); margin-right:8px;"></i> Add New Room</h3>
-        <button class="modal-close" onclick="closeAddRoomModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="add-room-form">
-
-        <p class="form-section-title"><i class="fas fa-hotel"></i> Assign to Hotel</p>
-        <div class="form-group">
-          <label>Hotel Property *</label>
-          <select id="add-room-hotel-select" required></select>
+    <!-- Add System User Modal -->
+    <div class="modal-overlay" id="add-system-user-modal" style="z-index: 1100">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Add Administrative Team User</h3>
+          <button
+            class="modal-close"
+            onclick="window.closeAddSystemUserModal()"
+          >
+            &times;
+          </button>
         </div>
-
-        <p class="form-section-title"><i class="fas fa-bed"></i> Room Details</p>
-        <div class="form-group">
-          <label>Room Type / Name *</label>
-          <input type="text" id="add-room-type" placeholder="e.g. Deluxe Ocean View, Premium Suite" required>
-        </div>
-        <div class="form-row">
+        <form class="modal-form" id="add-system-user-form">
           <div class="form-group">
-            <label>Room Number *</label>
-            <input type="text" id="add-room-number" placeholder="e.g. 101" required>
+            <label>Email Address *</label>
+            <input
+              type="email"
+              id="new-sys-email"
+              required
+              placeholder="e.g. manager@hotelkerala.com"
+            />
           </div>
           <div class="form-group">
-            <label>Price / Night (₹) *</label>
-            <input type="number" id="add-room-price" placeholder="e.g. 4500" required>
+            <label>Full Name *</label>
+            <input
+              type="text"
+              id="new-sys-name"
+              required
+              placeholder="e.g. Thomas Jacob"
+            />
           </div>
-        </div>
-        <div class="form-row">
           <div class="form-group">
-            <label>Guest Capacity *</label>
-            <input type="number" id="add-room-capacity" value="2" required>
+            <label>Role Group *</label>
+            <select
+              id="new-sys-role"
+              style="
+                width: 100%;
+                border: 1px solid var(--border);
+                padding: 10px;
+                border-radius: 6px;
+                background: transparent;
+              "
+              required
+            >
+              <option value="Super Admin">Super Admin</option>
+              <option value="Hotel Manager">Hotel Manager</option>
+              <option value="Support Staff">Support Staff</option>
+            </select>
           </div>
           <div class="form-group">
-            <label>Beds Count *</label>
-            <input type="number" id="add-room-beds" value="1" required>
+            <label>Allowed Permissions *</label>
+            <input
+              type="text"
+              id="new-sys-permissions"
+              required
+              value="Read, Update, Check-in, Check-out"
+              placeholder="e.g. Read, Reply Reviews"
+            />
           </div>
-        </div>
-        <div class="form-group">
-          <label>Available Inventory (rooms of this type) *</label>
-          <input type="number" id="add-room-inventory" value="5" required>
-        </div>
-
-      </form>
-      <div class="modal-form-footer">
-        <button type="button" onclick="document.getElementById('add-room-form').requestSubmit()" class="btn btn-primary" style="width:100%; border-radius:30px; font-size:14px; padding:13px;">
-          <i class="fas fa-plus-circle" style="margin-right:8px;"></i> Save Room Type
-        </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; border-radius: 30px; margin-top: 10px"
+          >
+            Add System User
+          </button>
+        </form>
       </div>
     </div>
-  </div>
 
-  <!-- Manual Booking Modal -->
-  <div class="modal-overlay" id="add-booking-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Create Reservation (Manual)</h3>
-        <button class="modal-close" onclick="closeManualBookingModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="manual-booking-form">
-        <div class="form-group">
-          <label>Select Hotel Property *</label>
-          <select id="booking-hotel-select" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px; background:transparent;" required></select>
-        </div>
-        <div class="form-group">
-          <label>Select Room Type *</label>
-          <select id="booking-room-select-admin" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px; background:transparent;" required></select>
-        </div>
-        <div class="form-group">
-          <label>Guest Full Name *</label>
-          <input type="text" id="booking-guest-name" required placeholder="Guest full name">
-        </div>
-        <div class="form-group">
-          <label>Guest Phone Number *</label>
-          <input type="text" id="booking-guest-phone" required placeholder="Guest phone number">
-        </div>
-        <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="form-group">
-            <label>Check-in Date *</label>
-            <input type="date" id="booking-checkin" required>
-          </div>
-          <div class="form-group">
-            <label>Check-out Date *</label>
-            <input type="date" id="booking-checkout" required>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; border-radius:30px; margin-top:10px;">Register Booking</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Add Coupon Modal -->
-  <div class="modal-overlay" id="add-coupon-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Create Platform Coupon</h3>
-        <button class="modal-close" onclick="closeAddCouponModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="add-coupon-form">
-        <div class="form-group">
-          <label>Coupon Code *</label>
-          <input type="text" id="new-coupon-code" placeholder="e.g. DISCO50" required style="text-transform:uppercase;">
-        </div>
-        <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="form-group">
-            <label>Discount (%) *</label>
-            <input type="number" id="new-coupon-pct" placeholder="e.g. 20" required max="100">
-          </div>
-          <div class="form-group">
-            <label>Min Booking Spend (₹) *</label>
-            <input type="number" id="new-coupon-min" placeholder="e.g. 2500" required>
-          </div>
-        </div>
-        <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="form-group">
-            <label>Usage Limit Count *</label>
-            <input type="number" id="new-coupon-limit" placeholder="e.g. 100" required>
-          </div>
-          <div class="form-group">
-            <label>Expiry Date *</label>
-            <input type="date" id="new-coupon-expiry" required>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; border-radius:30px; margin-top:10px;">Publish Coupon</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Reply to Review Modal -->
-  <div class="modal-overlay" id="review-reply-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Reply to Guest Review</h3>
-        <button class="modal-close" onclick="closeReviewReplyModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="review-reply-form">
-        <input type="hidden" id="reply-review-id">
-        <div class="form-group">
-          <label>Guest Review Content</label>
-          <div id="reply-review-text" style="background:var(--light); padding:10px; border-radius:6px; font-size:12px; color:var(--text-secondary); line-height:1.4;"></div>
-        </div>
-        <div class="form-group">
-          <label for="reply-manager-text">Official Reply Text *</label>
-          <textarea id="reply-manager-text" rows="4" required placeholder="Post your official hospital response..." style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px; font-size:13px; resize:none; outline:none; font-family:inherit;"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; border-radius:30px;">Publish Official Response</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Invoice Viewer Modal -->
-  <div class="modal-overlay" id="view-invoice-modal" style="z-index:1100;">
-    <div class="modal-box" style="max-width: 600px; width:90%;">
-      <div class="modal-header">
-        <h3>Invoice Generator</h3>
-        <button class="modal-close" onclick="closeInvoiceModal()">&times;</button>
-      </div>
-      <div id="invoice-print-area" style="padding: 24px; font-size:13px; color:var(--text-main); font-family:'Courier New', monospace; border:1px dashed var(--border); background:#FCFCFB; text-align: left;">
-        <!-- Injected dynamically -->
-      </div>
-      <button class="btn btn-primary" style="width:100%; border-radius:30px; margin-top:20px;" onclick="printInvoice()"><i class="fas fa-print"></i> Print Invoice / Save PDF</button>
-    </div>
-  </div>
-
-  <!-- Add System User Modal -->
-  <div class="modal-overlay" id="add-system-user-modal" style="z-index:1100;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Add Administrative Team User</h3>
-        <button class="modal-close" onclick="window.closeAddSystemUserModal()">&times;</button>
-      </div>
-      <form class="modal-form" id="add-system-user-form">
-        <div class="form-group">
-          <label>Email Address *</label>
-          <input type="email" id="new-sys-email" required placeholder="e.g. manager@hotelkerala.com">
-        </div>
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="new-sys-name" required placeholder="e.g. Thomas Jacob">
-        </div>
-        <div class="form-group">
-          <label>Role Group *</label>
-          <select id="new-sys-role" style="width:100%; border:1px solid var(--border); padding:10px; border-radius:6px; background:transparent;" required>
-            <option value="Super Admin">Super Admin</option>
-            <option value="Hotel Manager">Hotel Manager</option>
-            <option value="Support Staff">Support Staff</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Allowed Permissions *</label>
-          <input type="text" id="new-sys-permissions" required value="Read, Update, Check-in, Check-out" placeholder="e.g. Read, Reply Reviews">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; border-radius:30px; margin-top:10px;">Add System User</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- App Script -->
-  <script type="module" src="/src/app.js"></script>
-</body>
+    <!-- App Script -->
+    <script type="module" src="/src/app.js"></script>
+  </body>
 </html>

@@ -594,7 +594,7 @@ app.delete('/api/reviews/:id', async (req, res) => {
 });
 
 // SYSTEM USERS
-app.get('/api/system-users', async (req, res) => {
+app.get(['/api/system-users', '/api/system_users'], async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM system_users');
     res.json(result.rows.map(mapSystemUserRow));
@@ -603,7 +603,7 @@ app.get('/api/system-users', async (req, res) => {
   }
 });
 
-app.post('/api/system-users', async (req, res) => {
+app.post(['/api/system-users', '/api/system_users'], async (req, res) => {
   try {
     const u = req.body;
     await pool.query(
@@ -617,7 +617,7 @@ app.post('/api/system-users', async (req, res) => {
   }
 });
 
-app.delete('/api/system-users/:id', async (req, res) => {
+app.delete(['/api/system-users/:id', '/api/system_users/:id'], async (req, res) => {
   try {
     await pool.query('DELETE FROM system_users WHERE id = $1', [req.params.id]);
     res.json({ message: 'System user deleted' });
@@ -627,7 +627,7 @@ app.delete('/api/system-users/:id', async (req, res) => {
 });
 
 // AUDIT LOGS
-app.get('/api/audit-logs', async (req, res) => {
+app.get(['/api/audit-logs', '/api/audit_logs'], async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM audit_logs ORDER BY timestamp DESC');
     res.json(result.rows.map(mapAuditLogRow));
@@ -636,7 +636,7 @@ app.get('/api/audit-logs', async (req, res) => {
   }
 });
 
-app.post('/api/audit_logs', async (req, res) => {
+app.post(['/api/audit-logs', '/api/audit_logs'], async (req, res) => {
   try {
     const log = req.body;
     await pool.query(
