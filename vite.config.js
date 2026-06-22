@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   server: {
-    port: 80,
+    port: 5000,
     host: true,
     allowedHosts: true,
     proxy: {
