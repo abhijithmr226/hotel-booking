@@ -78,9 +78,6 @@
           <li data-tab="hotels">
             <a href="#"><i class="fas fa-hotel"></i> Hotels</a>
           </li>
-          <li data-tab="rooms">
-            <a href="#"><i class="fas fa-door-open"></i> Rooms</a>
-          </li>
           <li data-tab="seo">
             <a href="#"><i class="fas fa-globe"></i> SEO & Pages</a>
           </li>
@@ -157,18 +154,6 @@
                 </div>
               </div>
 
-              <div class="stat-card">
-                <div
-                  class="stat-card-icon rooms"
-                  style="background: #ebf3fc; color: #2b76d9"
-                >
-                  <i class="fas fa-door-open"></i>
-                </div>
-                <div class="stat-card-info">
-                  <span>Total Rooms</span>
-                  <h3 id="metric-rooms-count">6</h3>
-                </div>
-              </div>
             </div>
 
             <!-- Stays List Grid -->
@@ -205,12 +190,6 @@
                   onclick="openAddHotelModal()"
                 >
                   <i class="fas fa-plus"></i> Add Hotel
-                </button>
-                <button
-                  class="btn btn-secondary btn-sm"
-                  onclick="openAddRoomModal()"
-                >
-                  <i class="fas fa-door-closed"></i> Add Room
                 </button>
                 <button
                   class="btn btn-secondary btn-sm"
@@ -288,84 +267,7 @@
           </div>
 
           <!-- =========================================================
-             3. ROOMS TAB SECTION
-             ========================================================= -->
-          <div class="admin-tab-content" id="tab-rooms" style="display: none">
-            <div class="admin-title-row">
-              <div>
-                <h1>Room Management</h1>
-                <p>
-                  Configure room configurations, pricing per night, availability
-                  status, and inventory limits.
-                </p>
-              </div>
-              <button
-                class="btn btn-primary btn-sm"
-                onclick="openAddRoomModal()"
-              >
-                <i class="fas fa-plus"></i> Add New Room
-              </button>
-            </div>
-            <div class="table-card" style="margin-top: 20px">
-              <div
-                style="
-                  display: flex;
-                  gap: 15px;
-                  margin-bottom: 20px;
-                  flex-wrap: wrap;
-                "
-              >
-                <div
-                  class="admin-search"
-                  style="max-width: 300px; border: 1px solid var(--border)"
-                >
-                  <i class="fas fa-search"></i>
-                  <input
-                    type="text"
-                    id="search-rooms-input"
-                    placeholder="Search room type/number..."
-                    oninput="renderAdminRoomsTable()"
-                  />
-                </div>
-                <select
-                  id="filter-rooms-hotel"
-                  style="
-                    border: 1px solid var(--border);
-                    padding: 8px 16px;
-                    border-radius: 20px;
-                    font-size: 13px;
-                    font-weight: 600;
-                  "
-                  onchange="renderAdminRoomsTable()"
-                >
-                  <option value="">All Hotels</option>
-                </select>
-              </div>
-              <div class="admin-table-wrapper">
-                <table class="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Room Type</th>
-                      <th>Hotel Property</th>
-                      <th>Room #</th>
-                      <th>Price</th>
-                      <th>Capacity</th>
-                      <th>Beds</th>
-                      <th>Inventory</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="admin-rooms-tbody">
-                    <!-- Hydrated dynamically -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- =========================================================
-             4. BOOKINGS TAB SECTION
+             3. BOOKINGS TAB SECTION
              ========================================================= -->
           <div
             class="admin-tab-content"

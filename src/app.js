@@ -377,11 +377,20 @@ async function initLandingPage() {
         return;
       }
 
+      // All 14 Kerala districts + popular sub-destinations
       const suggestionsSet = new Set([
-        "Kollam", "Thiruvananthapuram", "Trivandrum", "Kochi", "Ernakulam", "Alappuzha", 
-        "Kottayam", "Pathanamthitta", "Idukki", "Munnar", "Thrissur", "Palakkad", 
-        "Malappuram", "Kozhikode", "Wayanad", "Kannur", "Kasaragod", "Varkala", "Kovalam",
-        "Kumarakom", "Thekkady", "Bekal", "Vagamon", "Kumily"
+        // 14 Official Kerala Districts
+        "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha",
+        "Kottayam", "Idukki", "Ernakulam", "Thrissur", "Palakkad",
+        "Malappuram", "Kozhikode", "Wayanad", "Kannur", "Kasaragod",
+        // Aliases & popular sub-destinations
+        "Trivandrum", "Kochi", "Fort Kochi", "Mattancherry",
+        "Munnar", "Thekkady", "Kumily", "Varkala", "Kovalam",
+        "Kumarakom", "Alleppey", "Bekal", "Vagamon", "Thrissur",
+        "Guruvayur", "Kozhikode", "Calicut", "Thalassery", "Kannur",
+        "Kalpetta", "Sultan Bathery", "Mananthavady", "Nelliyampathy",
+        "Palani", "Chalakudy", "Irinjalakuda", "Thrippunithura",
+        "Marari", "Cherai", "Vypeen", "Periyar", "Athirapally"
       ]);
       hotels.forEach(h => {
         if (h.status === "active") {
@@ -983,29 +992,38 @@ async function initHotelDetailPage() {
       return;
     }
 
-    hotelReviewsList.innerHTML = approvedReviews.map(r => `
-      <div class="review-card" style="border-bottom: 1px solid var(--border); padding-bottom: 20px; text-align: left;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${r.userPhoto || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
-            <div>
-              <h4 style="font-size:13px; font-weight:600;">${r.userName}</h4>
-              <span style="font-size:10px; color:var(--text-secondary);">${r.createdAt?.split("T")[0] || r.createdAt}</span>
-            </div>
+    hotelReviewsList.innerHTML = approvedReviews.map(r => {
+      const reviewText = r.comment || r.reviewText || "";
+      const dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" }) : "";
+      const initials = (r.userName || "G").charAt(0).toUpperCase();
+      const avatarColors = ["#4285F4","#EA4335","#34A853","#FBBC05","#AA46BB","#0097A7"];
+      const avatarColor = avatarColors[(r.userName || "G").charCodeAt(0) % avatarColors.length];
+      const hasPhoto = r.userPhoto && !r.userPhoto.includes("pravatar");
+      const avatarHtml = hasPhoto
+        ? `<img src="${r.userPhoto}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">`
+        : `<div style="width:42px;height:42px;border-radius:50%;background:${avatarColor};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;">${initials}</div>`;
+      const stars = `<span style="color:#FF9A02;font-size:13px;">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`;
+      return `
+      <div style="padding:18px 0; border-bottom:1px solid var(--border); display:flex; gap:14px; align-items:flex-start;">
+        ${avatarHtml}
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+            <span style="font-size:14px;font-weight:600;color:var(--text-main);">${r.userName}</span>
+            <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;"><i class="fas fa-check-circle" style="margin-right:3px;"></i>Verified Stay</span>
           </div>
-          <div style="color:#FF9A02; font-size:12px;">
-            ${`<i class="fas fa-star"></i>`.repeat(r.rating)}${`<i class="far fa-star"></i>`.repeat(5 - r.rating)}
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            ${stars}
+            ${dateStr ? `<span style="font-size:11px;color:var(--text-secondary);">${dateStr}</span>` : ""}
           </div>
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin:0;">${reviewText}</p>
+          ${r.replyText ? `
+            <div style="background:#F8F9FA;padding:12px 14px;border-radius:8px;margin-top:12px;border-left:3px solid var(--primary);">
+              <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px;"><i class="fas fa-hotel" style="margin-right:4px;"></i>Response from Management</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">${r.replyText}</p>
+            </div>` : ""}
         </div>
-        <p style="font-size:13px; color:var(--text-secondary); line-height:1.5;">${r.reviewText}</p>
-        ${r.replyText ? `
-          <div class="review-reply" style="background:var(--light); padding:12px; border-radius:6px; margin-top:10px; border-left: 3px solid var(--primary);">
-            <h5 style="font-size:11px; font-weight:700; margin-bottom:4px; color:var(--primary);"><i class="fas fa-reply"></i> Manager Response</h5>
-            <p style="font-size:12px; color:var(--text-secondary); line-height:1.4; margin:0;">${r.replyText}</p>
-          </div>
-        ` : ''}
-      </div>
-    `).join("");
+      </div>`;
+    }).join("");
 
     const count = approvedReviews.length;
     const avg = parseFloat((approvedReviews.reduce((sum, r) => sum + r.rating, 0) / count).toFixed(1));

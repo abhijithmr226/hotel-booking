@@ -103,7 +103,7 @@
         <ul>
           <li class="active"><a href="/index.html">Home</a></li>
           <li><a href="#hotels-near-you">Hotels</a></li>
-          <li><a href="#popular-destinations">Destinations</a></li>
+          <li><a href="#popular-destinations">Districts</a></li>
           <li><a href="/categories.html">Categories</a></li>
         </ul>
       </nav>
@@ -214,58 +214,114 @@
     </div>
   </section>
 
-  <!-- Popular Destinations (Photo 1) -->
+  <!-- Hotels Near Me Districts Section -->
   <section id="popular-destinations" style="background-color: #FAF9F6;">
     <div class="container">
       <div class="section-header">
         <div>
-          <h2>Popular Destinations</h2>
-          <p>Explore stays in Kerala's top visited hubs</p>
+          <h2>Hotels Near Me</h2>
+          <p>Search hotels by district across all of Kerala</p>
         </div>
-        <a href="#" class="btn btn-link">View all destinations <i class="fas fa-arrow-right"></i></a>
+        <a href="#hotels-near-you" class="btn btn-link">View all hotels <i class="fas fa-arrow-right"></i></a>
       </div>
       
       <div class="grid destination-grid">
-        <div class="destination-card" data-destination="Kochi">
-          <img src="/assets/images/kochi.png" alt="Kochi">
+        <div class="destination-card" data-destination="Ernakulam" onclick="window.location.href='/?district=Ernakulam'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=600&q=80" alt="Kochi / Ernakulam">
           <div class="destination-overlay">
-            <h3>Kochi</h3>
-            <span>320 Hotels</span>
+            <h3>Kochi (Ernakulam)</h3>
+            <span>320+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Munnar">
-          <img src="/assets/images/munnar.png" alt="Munnar">
+        <div class="destination-card" data-destination="Idukki" onclick="window.location.href='/?district=Idukki'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Munnar / Idukki">
           <div class="destination-overlay">
-            <h3>Munnar</h3>
-            <span>180 Hotels</span>
+            <h3>Munnar (Idukki)</h3>
+            <span>180+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Alappuzha">
-          <img src="/assets/images/alappuzha.png" alt="Alappuzha">
+        <div class="destination-card" data-destination="Alappuzha" onclick="window.location.href='/?district=Alappuzha'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80" alt="Alappuzha Backwaters">
           <div class="destination-overlay">
             <h3>Alappuzha</h3>
-            <span>240 Hotels</span>
+            <span>240+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Varkala">
-          <img src="/assets/images/varkala.png" alt="Varkala">
+        <div class="destination-card" data-destination="Thiruvananthapuram" onclick="window.location.href='/?district=Thiruvananthapuram'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?auto=format&fit=crop&w=600&q=80" alt="Thiruvananthapuram">
           <div class="destination-overlay">
-            <h3>Varkala</h3>
-            <span>120 Hotels</span>
+            <h3>Thiruvananthapuram</h3>
+            <span>200+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kovalam">
-          <img src="/assets/images/kovalam.png" alt="Kovalam">
-          <div class="destination-overlay">
-            <h3>Kovalam</h3>
-            <span>96 Hotels</span>
-          </div>
-        </div>
-        <div class="destination-card" data-destination="Wayanad">
-          <img src="/assets/images/wayanad.png" alt="Wayanad">
+        <div class="destination-card" data-destination="Wayanad" onclick="window.location.href='/?district=Wayanad'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?auto=format&fit=crop&w=600&q=80" alt="Wayanad">
           <div class="destination-overlay">
             <h3>Wayanad</h3>
-            <span>130 Hotels</span>
+            <span>130+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Kozhikode" onclick="window.location.href='/?district=Kozhikode'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&w=600&q=80" alt="Kozhikode">
+          <div class="destination-overlay">
+            <h3>Kozhikode</h3>
+            <span>150+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Thrissur" onclick="window.location.href='/?district=Thrissur'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1599030434766-a81e96791f0e?auto=format&fit=crop&w=600&q=80" alt="Thrissur Kerala">
+          <div class="destination-overlay">
+            <h3>Thrissur</h3>
+            <span>110+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Kannur" onclick="window.location.href='/?district=Kannur'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=80" alt="Kannur Kerala">
+          <div class="destination-overlay">
+            <h3>Kannur</h3>
+            <span>90+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Kollam" onclick="window.location.href='/?district=Kollam'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1623834785033-f42e3b62c0dc?auto=format&fit=crop&w=600&q=80" alt="Kollam Kerala">
+          <div class="destination-overlay">
+            <h3>Kollam</h3>
+            <span>80+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Kottayam" onclick="window.location.href='/?district=Kottayam'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=600&q=80" alt="Kottayam Kerala">
+          <div class="destination-overlay">
+            <h3>Kottayam</h3>
+            <span>100+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Palakkad" onclick="window.location.href='/?district=Palakkad'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=600&q=80" alt="Palakkad Kerala">
+          <div class="destination-overlay">
+            <h3>Palakkad</h3>
+            <span>70+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Malappuram" onclick="window.location.href='/?district=Malappuram'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1622396636013-d0c96ad09cb2?auto=format&fit=crop&w=600&q=80" alt="Malappuram Kerala">
+          <div class="destination-overlay">
+            <h3>Malappuram</h3>
+            <span>65+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Pathanamthitta" onclick="window.location.href='/?district=Pathanamthitta'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=600&q=80" alt="Pathanamthitta Kerala">
+          <div class="destination-overlay">
+            <h3>Pathanamthitta</h3>
+            <span>55+ Hotels</span>
+          </div>
+        </div>
+        <div class="destination-card" data-destination="Kasaragod" onclick="window.location.href='/?district=Kasaragod'" style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80" alt="Bekal Fort Kasaragod">
+          <div class="destination-overlay">
+            <h3>Kasaragod</h3>
+            <span>60+ Hotels</span>
           </div>
         </div>
       </div>
@@ -526,22 +582,28 @@
       <div>
         <h3>Top Destinations</h3>
         <ul>
-          <li><a href="#">Kochi Hotels</a></li>
-          <li><a href="#">Munnar Hotels</a></li>
-          <li><a href="#">Alappuzha Hotels</a></li>
-          <li><a href="#">Varkala Hotels</a></li>
-          <li><a href="#">Wayanad Hotels</a></li>
+          <li><a href="/?district=Ernakulam">Kochi Hotels</a></li>
+          <li><a href="/?district=Idukki">Munnar Hotels</a></li>
+          <li><a href="/?district=Alappuzha">Alappuzha Hotels</a></li>
+          <li><a href="/?district=Thiruvananthapuram">Trivandrum Hotels</a></li>
+          <li><a href="/?district=Wayanad">Wayanad Hotels</a></li>
+          <li><a href="/?district=Kozhikode">Calicut Hotels</a></li>
+          <li><a href="/?district=Kannur">Kannur Hotels</a></li>
+          <li><a href="/?district=Kasaragod">Kasaragod Hotels</a></li>
         </ul>
       </div>
       
       <div>
         <h3>Top Categories</h3>
         <ul>
-          <li><a href="#">Beach Resorts</a></li>
-          <li><a href="#">Hill Station Hotels</a></li>
-          <li><a href="#">Luxury Resorts</a></li>
-          <li><a href="#">Houseboats</a></li>
-          <li><a href="#">Homestays</a></li>
+          <li><a href="/?category=beach-resort">Beach Resorts</a></li>
+          <li><a href="/?category=hill-station">Hill Station Hotels</a></li>
+          <li><a href="/?category=luxury-resort">Luxury Resorts</a></li>
+          <li><a href="/?category=houseboat">Houseboats</a></li>
+          <li><a href="/?category=homestay">Homestays</a></li>
+          <li><a href="/?category=ayurveda-wellness">Ayurveda & Wellness</a></li>
+          <li><a href="/?category=heritage-palace">Heritage & Palace</a></li>
+          <li><a href="/?category=treehouse">Treehouses</a></li>
         </ul>
       </div>
       

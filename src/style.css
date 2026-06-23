@@ -2518,6 +2518,10 @@ footer ul a:hover {
   /* Booking / detail */
   .booking-form-grid { grid-template-columns: 1fr !important; }
   .detail-actions { flex-direction: column; gap: 10px; }
+  /* Move booking widget ABOVE tabs on mobile */
+  .detail-layout { display: flex; flex-direction: column; }
+  .booking-sidebar { order: -1; }
+  .detail-left { order: 0; }
 
   /* Why-book section */
   .why-book { padding: 40px 24px; }

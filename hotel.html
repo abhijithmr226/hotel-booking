@@ -227,8 +227,9 @@
                 <button class="booking-tab active" data-mode="whatsapp">
                   <i class="fab fa-whatsapp"></i> WhatsApp
                 </button>
-                <button class="booking-tab" data-mode="online">
+                <button class="booking-tab" data-mode="online" disabled style="position:relative;opacity:0.7;cursor:not-allowed;">
                   <i class="fas fa-credit-card"></i> Online
+                  <span style="position:absolute;top:-8px;right:-8px;background:#FF9A02;color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:8px;letter-spacing:0.3px;white-space:nowrap;">SOON</span>
                 </button>
               </div>
 
@@ -301,10 +302,13 @@
           <div class="help-widget">
             <h4>Need Help?</h4>
             <p>Our travel experts are here to help you 24/7</p>
-            <span class="phone-number" id="sidebar-hotel-whatsapp">+91 9876 543 210</span>
-            <button class="btn btn-secondary btn-sm" style="width: 100%; border-radius: 8px;">
-              <i class="far fa-comments"></i> Chat with us
-            </button>
+            <span class="phone-number" id="sidebar-hotel-whatsapp">+91 7012908576</span>
+            <a href="https://wa.me/917012908576?text=Hello%2C%20I%20need%20help%20booking%20a%20hotel%20in%20Kerala." target="_blank" class="btn btn-secondary btn-sm" style="width: 100%; border-radius: 8px; text-decoration:none; display:block; text-align:center;">
+              <i class="fab fa-whatsapp" style="color:#25D366;"></i> Chat on WhatsApp
+            </a>
+            <a href="mailto:directrajeev@gmail.com" style="display:block; text-align:center; margin-top:8px; font-size:11px; color:var(--text-secondary);">
+              <i class="fas fa-envelope" style="margin-right:4px;"></i>directrajeev@gmail.com
+            </a>
           </div>
         </div>
       </div>
