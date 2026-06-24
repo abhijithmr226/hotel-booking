@@ -26,6 +26,43 @@ const pool = new Pool({
     : false
 });
 
+// Avoid uncaught exception process crashes on idle client errors
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle PostgreSQL client:', err.message);
+});
+
+// Dynamic database fallback state
+let useLocalDb = !process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]');
+if (useLocalDb) {
+  console.log('⚠️ No valid DATABASE_URL found. Using local JSON database (localDb.js) fallback...');
+}
+
+// Wrap pool.query to dynamically switch to localDb on connection/network errors
+const originalQuery = pool.query.bind(pool);
+pool.query = async function(sql, params) {
+  if (useLocalDb) {
+    return localDbPool.query(sql, params);
+  }
+  try {
+    return await originalQuery(sql, params);
+  } catch (err) {
+    const isConnErr = err.code === 'ECONNREFUSED' || 
+                      err.code === 'ENOTFOUND' || 
+                      err.code === 'ETIMEDOUT' || 
+                      err.message?.toLowerCase().includes('connect') || 
+                      err.message?.toLowerCase().includes('timeout') || 
+                      err.message?.toLowerCase().includes('ssl') || 
+                      err.message?.toLowerCase().includes('authentication') ||
+                      err.message?.toLowerCase().includes('password');
+    if (isConnErr) {
+      console.warn('⚠️ PostgreSQL query failed (connection/auth error). Dynamic fallback to local JSON database:', err.message);
+      useLocalDb = true;
+      return localDbPool.query(sql, params);
+    }
+    throw err;
+  }
+};
+
 // ─── Non-destructive migrations ────────────────────────────────────────────
 async function runMigrations(client) {
   const migrations = [
@@ -39,41 +76,43 @@ async function runMigrations(client) {
   console.log('✅ Migrations applied.');
 }
 
-// Test connection and auto-initialize schema
-pool.connect(async (err, client, release) => {
-  if (err) {
-    console.error('Error connecting to PostgreSQL database:', err.message);
-    console.log('⚠️ PostgreSQL database offline. Falling back to local JSON database (localDb.js)...');
-    pool.query = localDbPool.query;
-    if (process.env.DATABASE_URL?.includes('[YOUR-PASSWORD]')) {
-      console.error('\n=============================================================');
-      console.error('ERROR: Please update your DATABASE_URL password in the .env file!');
-      console.error('Replace [YOUR-PASSWORD] with your actual database password.');
-      console.error('=============================================================\n');
+// Test connection and auto-initialize schema on startup
+if (!useLocalDb) {
+  pool.connect(async (err, client, release) => {
+    if (err) {
+      console.error('Error connecting to PostgreSQL database:', err.message);
+      console.log('⚠️ PostgreSQL database offline. Dynamic fallback to local JSON database...');
+      useLocalDb = true;
+      if (process.env.DATABASE_URL?.includes('[YOUR-PASSWORD]')) {
+        console.error('\n=============================================================');
+        console.error('ERROR: Please update your DATABASE_URL password in the .env file!');
+        console.error('Replace [YOUR-PASSWORD] with your actual database password.');
+        console.error('=============================================================\n');
+      }
+      return;
     }
-    return;
-  }
-  console.log('✅ Neon PostgreSQL connected successfully!');
-  
-  // Check if tables exist by querying hotels
-  try {
-    await client.query('SELECT 1 FROM hotels LIMIT 1');
-    console.log('✅ Database tables verified.');
-    // Run non-destructive migrations to add any missing columns
-    await runMigrations(client);
-  } catch (schemaErr) {
-    console.log('ℹ️  Tables do not exist. Initializing schema.sql...');
+    console.log('✅ Neon PostgreSQL connected successfully!');
+    
+    // Check if tables exist by querying hotels
     try {
-      const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
-      await client.query(schemaSql);
-      console.log('✅ Schema tables created and seeded successfully!');
-    } catch (initErr) {
-      console.error('❌ Failed to run schema initialization script:', initErr.message);
+      await client.query('SELECT 1 FROM hotels LIMIT 1');
+      console.log('✅ Database tables verified.');
+      // Run non-destructive migrations to add any missing columns
+      await runMigrations(client);
+    } catch (schemaErr) {
+      console.log('ℹ️  Tables do not exist. Initializing schema.sql...');
+      try {
+        const schemaSql = fs.readFileSync(path.join(process.cwd(), 'schema.sql'), 'utf8');
+        await client.query(schemaSql);
+        console.log('✅ Schema tables created and seeded successfully!');
+      } catch (initErr) {
+        console.error('❌ Failed to run schema initialization script:', initErr.message);
+      }
+    } finally {
+      release();
     }
-  } finally {
-    release();
-  }
-});
+  });
+}
 
 
 // ─── SQL column mapping utilities ──────────────────────────────────────────

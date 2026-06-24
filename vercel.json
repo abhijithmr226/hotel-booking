@@ -8,7 +8,10 @@
   ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "db.json"
+      "includeFiles": [
+        "db.json",
+        "schema.sql"
+      ]
     }
   }
 }
