@@ -65,7 +65,7 @@ window.getGlobalTaxRate = function() {
 async function syncUserSession(firebaseUser) {
   const profile = await getUserByUid(firebaseUser.uid);
   const adminEmail = "directrajeev@gmail.com";
-  const role = profile?.role || (firebaseUser.email === adminEmail ? "admin" : "user");
+  const role = (firebaseUser.email === adminEmail || firebaseUser.email === "admin@hotelsnearme.com" || profile?.role === "admin") ? "admin" : "user";
   const userData = {
     uid: firebaseUser.uid,
     name: profile?.name || firebaseUser.displayName || firebaseUser.email.split("@")[0],
@@ -2018,7 +2018,7 @@ function initLoginPage() {
         const result = await signInWithEmailAndPassword(auth, email, password);
         const user = result.user;
         const profile = await getUserByUid(user.uid);
-        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
+        const role = (email === "directrajeev@gmail.com" || email === "admin@hotelsnearme.com" || profile?.role === "admin") ? "admin" : "user";
         const userData = {
           uid: user.uid || profile?.uid,
           name: profile?.name || user.displayName || email.split("@")[0],
@@ -2115,7 +2115,7 @@ function initLoginPage() {
 
         // Fetch user profile from Supabase to check role
         const profile = await getUserByUid(firebaseUser.uid);
-        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
+        const role = (email === "directrajeev@gmail.com" || email === "admin@hotelsnearme.com" || profile?.role === "admin") ? "admin" : "user";
 
         if (role !== "admin") {
           // Sign out immediately if role is not admin
