@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <title>Sign In - HotelsNearMeInKerala</title>
+  <title>Sign In & Register | HotelsNearMeInKerala.com</title>
+  <meta name="description" content="Access your HotelsNearMeInKerala account. Sign in or register to manage your bookings, save your favorite hotels, and get member discounts.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hotelsnearmeinkera.la/login.html">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/src/style.css">
   <style>
@@ -435,18 +438,28 @@
       .auth-wrapper {
         grid-template-columns: 1fr;
         min-height: auto;
+        box-shadow: none;
+        background: transparent;
       }
       .auth-left {
-        padding: 40px 30px;
-      }
-      .auth-left::before, .auth-left::after {
-        display: none;
+        display: none !important;
       }
       .auth-right {
-        padding: 40px 30px;
+        padding: 30px 20px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
       }
     }
   </style>
+  <!-- Microsoft Clarity Tracking Code -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","kerala_hotel_clarity_id");
+  </script>
 </head>
 <body>
 
@@ -455,7 +468,7 @@
     <div class="auth-left">
       <div class="auth-left-logo">
         <a href="/index.html">
-          <img src="/logo.png" alt="HotelsNearMeInKerala">
+          <img src="/logo.webp" alt="HotelsNearMeInKerala">
         </a>
       </div>
       <h2>Your Dream <span>Kerala</span> Stay Awaits</h2>
@@ -685,7 +698,14 @@
 
     async function handleGoogleSignIn() {
       showAuthMessage('Google Sign-In is simulated in demo mode...', 'success');
-      setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+      const getRedirect = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectParam = urlParams.get("redirect");
+        if (redirectParam) return decodeURIComponent(redirectParam);
+        if (document.referrer && document.referrer.includes("hotel.html")) return document.referrer;
+        return "/index.html";
+      };
+      setTimeout(() => { window.location.href = getRedirect(); }, 1500);
     }
   </script>
 

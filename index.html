@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/favicon.png">
   <title>Hotels Near Me in Kerala | Book Hotels, Resorts, Homestays & Houseboats</title>
-  <meta name="description" content="Find and book the best hotels, resorts, homestays, and houseboats in Kerala. Search hotels by city, district or name across Kochi, Munnar, Alappuzha, Wayanad, Kovalam, Varkala and all of God's Own Country.">
-  <meta name="keywords" content="hotels in Kerala, Kerala hotels, hotel booking Kerala, resorts Kerala, homestays Kerala, houseboats Kerala, Kochi hotels, Munnar hotels, Alappuzha hotels, Wayanad resorts, Kovalam beach hotels, Kerala tourism accommodation, best hotels Kerala">
+  <meta name="description"
+    content="Find and book the best hotels, resorts, homestays, and houseboats in Kerala. Search hotels by city, district or name across Kochi, Munnar, Alappuzha, Wayanad, Kovalam, Varkala and all of God's Own Country.">
+  <meta name="keywords"
+    content="hotels in Kerala, Kerala hotels, hotel booking Kerala, resorts Kerala, homestays Kerala, houseboats Kerala, Kochi hotels, Munnar hotels, Alappuzha hotels, Wayanad resorts, Kovalam beach hotels, Kerala tourism accommodation, best hotels Kerala">
   <meta name="author" content="HotelsNearMeInKerala.com">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://hotelsnearmeinkera.la/">
@@ -14,8 +17,9 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hotels Near Me in Kerala | Book Hotels, Resorts, Homestays & Houseboats">
-  <meta property="og:description" content="Find and book the best hotels, resorts, homestays, and houseboats in Kerala. Search across Kochi, Munnar, Alappuzha, Wayanad, Kovalam and more.">
-  <meta property="og:image" content="/Landing-Page.png">
+  <meta property="og:description"
+    content="Find and book the best hotels, resorts, homestays, and houseboats in Kerala. Search across Kochi, Munnar, Alappuzha, Wayanad, Kovalam and more.">
+  <meta property="og:image" content="/Landing-Page.webp">
   <meta property="og:url" content="https://hotelsnearmeinkera.la/">
   <meta property="og:site_name" content="HotelsNearMeInKerala.com">
   <meta property="og:locale" content="en_IN">
@@ -23,8 +27,52 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Hotels Near Me in Kerala | Book Hotels, Resorts & Houseboats">
-  <meta name="twitter:description" content="Search and book the best stays across God's Own Country — hotels, resorts, homestays and houseboats in Kerala.">
-  <meta name="twitter:image" content="/Landing-Page.png">
+  <meta name="twitter:description"
+    content="Search and book the best stays across God's Own Country — hotels, resorts, homestays and houseboats in Kerala.">
+  <meta name="twitter:image" content="/Landing-Page.webp">
+
+  <!-- Microsoft Clarity Tracking Code -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","kerala_hotel_clarity_id");
+  </script>
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are the best places to book hotels in Kerala?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The best places to stay in Kerala include Kochi (historic sites and urban hotels), Munnar (hill stations and tea gardens), Alappuzha (houseboats and backwater resorts), Wayanad (nature homestays), and Kovalam/Varkala (beach resorts)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I book houseboats and traditional homestays directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! HotelsNearMeInKerala.com allows direct booking and inquiries for premium houseboats in Alappuzha, luxury resorts, and local certified homestays across Kerala with direct WhatsApp communication."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a cancellation policy for hotel bookings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we support local cancellation policies. You can view individual hotel cancellation rules under the cancellation policy page or contact our customer support team directly."
+        }
+      }
+    ]
+  }
+  </script>
 
   <!-- Structured Data: WebSite + SearchAction -->
   <script type="application/ld+json">
@@ -43,7 +91,7 @@
       "@type": "Organization",
       "name": "HotelsNearMeInKerala.com",
       "url": "https://hotelsnearmeinkera.la/",
-      "logo": "https://hotelsnearmeinkera.la/logo.png",
+      "logo": "https://hotelsnearmeinkera.la/logo.webp",
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer support",
@@ -82,35 +130,48 @@
 
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- Global Stylesheet -->
   <link rel="stylesheet" href="/src/style.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header>
     <div class="container">
       <a href="/index.html" class="logo">
-        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
       </a>
 
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false"
+        aria-controls="main-nav">
         <i class="fas fa-bars"></i>
       </button>
-      
-      <nav id="main-nav">
-        <ul>
-          <li class="active"><a href="/index.html">Home</a></li>
-          <li><a href="#hotels-near-you">Hotels</a></li>
-          <li><a href="#popular-destinations">Districts</a></li>
-          <li><a href="/categories.html">Categories</a></li>
+
+      <nav id="main-nav" aria-label="Main Navigation">
+        <div class="mobile-drawer-header">
+        <img src="/logo.webp" alt="Logo" class="drawer-logo">
+        <span class="drawer-greeting">Welcome to Kerala!</span>
+      </div>
+      <div class="mobile-drawer-actions">
+        <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
+      </div>
+      <ul>
+          <li class="active"><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#hotels-near-you"><i class="fas fa-hotel"></i> Hotels</a></li>
+          <li><a href="#popular-destinations"><i class="fas fa-map-marker-alt"></i> Districts</a></li>
+          <li><a href="/categories.html"><i class="fas fa-th-large"></i> Categories</a></li>
         </ul>
       </nav>
-      
+      <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
+
       <div class="header-right" id="header-user-menu">
-        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;" id="header-login-btn">Register</a>
+        <a href="/login.html" class="btn btn-outline btn-sm"
+          style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
+        <a href="/login.html#register" class="btn btn-primary btn-sm"
+          style="border-radius:30px; padding:8px 18px; font-size:13px;" id="header-login-btn">Register</a>
       </div>
     </div>
   </header>
@@ -120,15 +181,19 @@
     <div class="container">
       <h1>Find The Perfect Stay<br>Anywhere in <span>Kerala</span></h1>
       <p>Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</p>
-      
+
       <!-- Search Form Widget -->
       <form class="search-widget" id="search-form">
         <div class="search-simple-field">
-          <i class="fas fa-search"></i>
-          <input type="text" id="search-location" placeholder="City, hotel name or district…" autocomplete="off" required>
-          <div id="search-autocomplete-box"></div>
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input type="text" id="search-location" placeholder="City, hotel name or district…" autocomplete="off"
+            required aria-label="Search hotels by city, district, or hotel name">
+
+          <div id="search-autocomplete-box" role="listbox" aria-label="Search suggestions">
+          </div>
         </div>
-        <button type="button" class="search-filter-btn" id="btn-toggle-filters" title="Filters">
+        <button type="button" class="search-filter-btn" id="btn-toggle-filters" title="Filters" aria-expanded="false"
+          aria-controls="advanced-filters-panel">
           <i class="fas fa-sliders-h"></i><span>Filters</span>
         </button>
         <button type="submit" class="btn btn-primary search-submit-btn">
@@ -137,19 +202,27 @@
       </form>
 
       <!-- Advanced Filters Panel -->
-      <div class="filters-panel" id="advanced-filters-panel" style="display:none; background: var(--white); border-radius: 12px; margin-top: 20px; padding: 24px; text-align: left; box-shadow: var(--shadow-md); border: 1px solid var(--border); color: var(--text-main);">
+      <div class="filters-panel" id="advanced-filters-panel"
+        style="display:none; background: var(--white); border-radius: 12px; margin-top: 20px; padding: 24px; text-align: left; box-shadow: var(--shadow-md); border: 1px solid var(--border); color: var(--text-main);">
         <div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: 20px;">
           <div class="filter-col">
-            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Price Range (per night)</label>
+            <label
+              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Price
+              Range (per night)</label>
             <div style="display:flex; gap:10px; align-items:center;">
-              <input type="number" id="filter-price-min" placeholder="Min (₹)" style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
+              <input type="number" id="filter-price-min" placeholder="Min (₹)" inputmode="numeric"
+                style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
               <span style="color:var(--text-secondary); font-size:12px;">to</span>
-              <input type="number" id="filter-price-max" placeholder="Max (₹)" style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
+              <input type="number" id="filter-price-max" placeholder="Max (₹)" inputmode="numeric"
+                style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
             </div>
           </div>
           <div class="filter-col">
-            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Minimum Rating</label>
-            <select id="filter-rating" style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label
+              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Minimum
+              Rating</label>
+            <select id="filter-rating"
+              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
               <option value="">All Ratings</option>
               <option value="4.5">4.5+ ★ Excellent</option>
               <option value="4.0">4.0+ ★ Very Good</option>
@@ -157,8 +230,10 @@
             </select>
           </div>
           <div class="filter-col">
-            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Category</label>
-            <select id="filter-category" style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label
+              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Category</label>
+            <select id="filter-category"
+              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
               <option value="">All Categories</option>
               <option value="Beach Resorts">🏖️ Beach Resorts</option>
               <option value="Hill Station Hotels">⛰️ Hill Station Hotels</option>
@@ -179,8 +254,11 @@
             </select>
           </div>
           <div class="filter-col">
-            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Sort Stays By</label>
-            <select id="filter-sorting" style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label
+              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Sort
+              Stays By</label>
+            <select id="filter-sorting"
+              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
               <option value="recommended">Recommended</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
@@ -188,140 +266,205 @@
             </select>
           </div>
         </div>
-        <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 20px; align-items:center;">
-          <span style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: inline-block; align-self: center; margin-right: 10px;">Amenities:</span>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Free Wi-Fi" style="accent-color:var(--primary);"> Free WiFi</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Swimming Pool" style="accent-color:var(--primary);"> Pool</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Free Parking" style="accent-color:var(--primary);"> Parking</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Restaurant" style="accent-color:var(--primary);"> Dining</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Air Conditioning" style="accent-color:var(--primary);"> AC</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Lake View" style="accent-color:var(--primary);"> Lake View</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" class="filter-amenity" value="Spa & Wellness" style="accent-color:var(--primary);"> Spa</label>
-          <button type="button" id="btn-clear-filters" onclick="clearAllFilters()" style="margin-left:auto; font-size:12px; font-weight:600; color:var(--primary); background:none; border:1.5px solid var(--primary); border-radius:30px; padding:6px 16px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:5px;"><i class="fas fa-times"></i> Clear Filters</button>
+        <div
+          style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 20px; align-items:center;">
+          <span
+            style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: inline-block; align-self: center; margin-right: 10px;">Amenities:</span>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Free Wi-Fi" style="accent-color:var(--primary);"> Free
+            WiFi</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Swimming Pool" style="accent-color:var(--primary);">
+            Pool</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Free Parking" style="accent-color:var(--primary);">
+            Parking</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Restaurant" style="accent-color:var(--primary);">
+            Dining</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Air Conditioning" style="accent-color:var(--primary);">
+            AC</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Lake View" style="accent-color:var(--primary);"> Lake
+            View</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
+              type="checkbox" class="filter-amenity" value="Spa & Wellness" style="accent-color:var(--primary);">
+            Spa</label>
+          <button type="button" id="btn-clear-filters" onclick="clearAllFilters()"
+            style="margin-left:auto; font-size:12px; font-weight:600; color:var(--primary); background:none; border:1.5px solid var(--primary); border-radius:30px; padding:6px 16px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:5px;"><i
+              class="fas fa-times"></i> Clear Filters</button>
         </div>
       </div>
-      
+      <!-- Advanced Filters Backdrop (mobile) -->
+      <div class="filters-backdrop" onclick="document.getElementById('btn-toggle-filters').click()"></div>
+
       <!-- Category quick-links under search -->
       <div class="hero-quick-links">
         <span class="hero-ql-label">Popular:</span>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kochi'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kochi</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Munnar'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Munnar</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Alappuzha'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Alappuzha</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Wayanad'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Wayanad</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Kovalam'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kovalam</button>
-        <button class="hero-ql" onclick="document.getElementById('search-location').value='Houseboats'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Houseboats</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Kochi'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kochi</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Munnar'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Munnar</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Alappuzha'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Alappuzha</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Wayanad'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Wayanad</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Kovalam'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Kovalam</button>
+        <button class="hero-ql"
+          onclick="document.getElementById('search-location').value='Houseboats'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))">Houseboats</button>
       </div>
     </div>
   </section>
+
+  <!-- Nearby Hotels (location-based) -->
+  <section id="nearby-hotels-section" style="display:none; background:#f0faf7; border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels
+            Near You</h2>
+          <p id="nearby-hotels-label">Finding hotels close to your location…</p>
+        </div>
+      </div>
+      <div class="grid hotels-grid" id="nearby-hotels-grid"></div>
+    </div>
+  </section>
+
 
   <!-- Hotels Near Me Districts Section -->
   <section id="popular-destinations" style="background-color: #FAF9F6;">
     <div class="container">
       <div class="section-header">
         <div>
-          <h2>Hotels Near Me</h2>
+          <h2>Search By Destination</h2>
           <p>Search hotels by district across all of Kerala</p>
         </div>
         <a href="#hotels-near-you" class="btn btn-link">View all hotels <i class="fas fa-arrow-right"></i></a>
       </div>
-      
+
       <div class="grid destination-grid">
-        <div class="destination-card" data-destination="Ernakulam" onclick="window.location.href='/?district=Ernakulam'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=600&q=80" alt="Kochi / Ernakulam">
+        <div class="destination-card" data-destination="Ernakulam" onclick="window.location.href='/?district=Ernakulam'"
+          style="cursor:pointer;">
+          <img
+            src="https://www.oyorooms.com/travel-guide/wp-content/uploads/2019/04/Fort-Kochi.webp?auto=format&fit=crop&w=600&q=80"
+            alt="Kochi / Ernakulam" loading="lazy">
           <div class="destination-overlay">
             <h3>Kochi (Ernakulam)</h3>
-            <span>320+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Idukki" onclick="window.location.href='/?district=Idukki'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Munnar / Idukki">
+        <div class="destination-card" data-destination="Idukki" onclick="window.location.href='/?district=Idukki'"
+          style="cursor:pointer;">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKnN3MvcbmcpKmbF6iv11o0IeAcIHGu2nXuXLvacwXiacltjugvBLV4I4&s=10?auto=format&fit=crop&w=600&q=80"
+            alt="Munnar / Idukki" loading="lazy">
           <div class="destination-overlay">
             <h3>Munnar (Idukki)</h3>
-            <span>180+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Alappuzha" onclick="window.location.href='/?district=Alappuzha'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80" alt="Alappuzha Backwaters">
+        <div class="destination-card" data-destination="Alappuzha" onclick="window.location.href='/?district=Alappuzha'"
+          style="cursor:pointer;">
+          <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80"
+            alt="Alappuzha Backwaters" loading="lazy">
           <div class="destination-overlay">
             <h3>Alappuzha</h3>
-            <span>240+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Thiruvananthapuram" onclick="window.location.href='/?district=Thiruvananthapuram'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?auto=format&fit=crop&w=600&q=80" alt="Thiruvananthapuram">
+        <div class="destination-card" data-destination="Thiruvananthapuram"
+          onclick="window.location.href='/?district=Thiruvananthapuram'" style="cursor:pointer;">
+          <img
+            src="https://deih43ym53wif.cloudfront.net/thiruvananthapuram-india-shutterstock_498424870_54ec620099.jpeg?auto=format&fit=crop&w=600&q=80"
+            alt="Thiruvananthapuram" loading="lazy">
           <div class="destination-overlay">
             <h3>Thiruvananthapuram</h3>
-            <span>200+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Wayanad" onclick="window.location.href='/?district=Wayanad'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?auto=format&fit=crop&w=600&q=80" alt="Wayanad">
+        <div class="destination-card" data-destination="Wayanad" onclick="window.location.href='/?district=Wayanad'"
+          style="cursor:pointer;">
+          <img
+            src="https://thewoodsresorts.com/uploads/media/why-choose-wayanad-for-your-holidays620b99bd34f7c.jpeg?auto=format&fit=crop&w=600&q=80"
+            alt="Wayanad" loading="lazy">
           <div class="destination-overlay">
             <h3>Wayanad</h3>
-            <span>130+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kozhikode" onclick="window.location.href='/?district=Kozhikode'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&w=600&q=80" alt="Kozhikode">
+        <div class="destination-card" data-destination="Kozhikode" onclick="window.location.href='/?district=Kozhikode'"
+          style="cursor:pointer;">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3cxeoMVfpzeYHwr5iuObV0uNq0CuB-pLZI9BiEMJwmQ&s=10?auto=format&fit=crop&w=600&q=80"
+            alt="Kozhikode" loading="lazy">
           <div class="destination-overlay">
             <h3>Kozhikode</h3>
-            <span>150+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Thrissur" onclick="window.location.href='/?district=Thrissur'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1599030434766-a81e96791f0e?auto=format&fit=crop&w=600&q=80" alt="Thrissur Kerala">
+        <div class="destination-card" data-destination="Thrissur" onclick="window.location.href='/?district=Thrissur'"
+          style="cursor:pointer;">
+          <img
+            src="https://englishpunjabkesari.imagibyte.sortdcdn.net/wp-content/uploads/2026/04/IMG_8360.JPG?auto=format&fit=crop&w=600&q=80"
+            alt="Thrissur Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Thrissur</h3>
-            <span>110+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kannur" onclick="window.location.href='/?district=Kannur'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=80" alt="Kannur Kerala">
+        <div class="destination-card" data-destination="Kannur" onclick="window.location.href='/?district=Kannur'"
+          style="cursor:pointer;">
+          <img src="https://lighthouse.nic.in/sites/default/files/2025-06/Kannur.png?auto=format&fit=crop&w=600&q=80"
+            alt="Kannur Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Kannur</h3>
-            <span>90+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kollam" onclick="window.location.href='/?district=Kollam'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1623834785033-f42e3b62c0dc?auto=format&fit=crop&w=600&q=80" alt="Kollam Kerala">
+        <div class="destination-card" data-destination="Kollam" onclick="window.location.href='/?district=Kollam'"
+          style="cursor:pointer;">
+          <img
+            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/9c/f4/af/worlds-largest-bird-sculpture.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Kollam Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Kollam</h3>
-            <span>80+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kottayam" onclick="window.location.href='/?district=Kottayam'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=600&q=80" alt="Kottayam Kerala">
+        <div class="destination-card" data-destination="Kottayam" onclick="window.location.href='/?district=Kottayam'"
+          style="cursor:pointer;">
+          <img src="https://thumbs.dreamstime.com/b/kottayam-scene-2897504.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Kottayam Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Kottayam</h3>
-            <span>100+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Palakkad" onclick="window.location.href='/?district=Palakkad'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=600&q=80" alt="Palakkad Kerala">
+        <div class="destination-card" data-destination="Palakkad" onclick="window.location.href='/?district=Palakkad'"
+          style="cursor:pointer;">
+          <img src="https://www.holidify.com/images/bgImages/PALAKKAD.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Palakkad Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Palakkad</h3>
-            <span>70+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Malappuram" onclick="window.location.href='/?district=Malappuram'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1622396636013-d0c96ad09cb2?auto=format&fit=crop&w=600&q=80" alt="Malappuram Kerala">
+        <div class="destination-card" data-destination="Malappuram"
+          onclick="window.location.href='/?district=Malappuram'" style="cursor:pointer;">
+          <img
+            src="https://keralatraveldiaryindia.wordpress.com/wp-content/uploads/2019/01/malappuram-kottakkunnu.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Malappuram Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Malappuram</h3>
-            <span>65+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Pathanamthitta" onclick="window.location.href='/?district=Pathanamthitta'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=600&q=80" alt="Pathanamthitta Kerala">
+        <div class="destination-card" data-destination="Pathanamthitta"
+          onclick="window.location.href='/?district=Pathanamthitta'" style="cursor:pointer;">
+          <img
+            src="https://gokeralatour.travel.blog/wp-content/uploads/2020/01/paathanamthittaa.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Pathanamthitta Kerala" loading="lazy">
           <div class="destination-overlay">
             <h3>Pathanamthitta</h3>
-            <span>55+ Hotels</span>
           </div>
         </div>
-        <div class="destination-card" data-destination="Kasaragod" onclick="window.location.href='/?district=Kasaragod'" style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80" alt="Bekal Fort Kasaragod">
+        <div class="destination-card" data-destination="Kasaragod" onclick="window.location.href='/?district=Kasaragod'"
+          style="cursor:pointer;">
+          <img src="https://travelotouch.com/wp-content/uploads/2019/02/Kasargod.jpg?auto=format&fit=crop&w=600&q=80"
+            alt="Bekal Fort Kasaragod" loading="lazy">
+
           <div class="destination-overlay">
             <h3>Kasaragod</h3>
-            <span>60+ Hotels</span>
           </div>
         </div>
       </div>
@@ -337,11 +480,12 @@
           <p>Based on your current location and searches</p>
         </div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <span id="filter-results-count" style="font-size:13px; color:var(--text-secondary); font-weight:500; display:none;"></span>
+          <span id="filter-results-count"
+            style="font-size:13px; color:var(--text-secondary); font-weight:500; display:none;"></span>
           <a href="#" class="btn btn-outline">View all</a>
         </div>
       </div>
-      
+
       <div class="grid hotels-grid" id="hotels-near-you-grid">
         <!-- Rendered Dynamically from app.js -->
       </div>
@@ -358,7 +502,7 @@
         </div>
         <a href="#" class="btn btn-link">View all hotels <i class="fas fa-arrow-right"></i></a>
       </div>
-      
+
       <div class="grid hotels-grid" id="featured-hotels-grid">
         <!-- Rendered Dynamically from app.js -->
       </div>
@@ -372,7 +516,7 @@
         <h2>Browse by Category</h2>
         <p>Find options matching your travel flavor</p>
       </div>
-      
+
       <div class="grid category-grid">
         <div class="category-card" data-category="Beach Resorts">
           <div class="category-icon"><i class="fas fa-umbrella-beach"></i></div>
@@ -440,7 +584,8 @@
         </div>
       </div>
       <div style="text-align:center; margin-top:24px;">
-        <a href="/categories.html" class="btn btn-outline" style="border-radius:30px; padding:10px 28px; font-size:14px; font-weight:600;">
+        <a href="/categories.html" class="btn btn-outline"
+          style="border-radius:30px; padding:10px 28px; font-size:14px; font-weight:600;">
           <i class="fas fa-th-large" style="margin-right:8px;"></i>View All Categories
         </a>
       </div>
@@ -488,31 +633,39 @@
         <h2>What Our Travelers Say</h2>
         <p>Real stories from verified guests who booked through us</p>
       </div>
-      
+
       <div class="grid testimonials-grid">
         <div class="testimonial-card">
-          <p class="testimonial-quote">"Found the perfect stay in Munnar within minutes. The booking process was simple and the support team is very helpful."</p>
+          <p class="testimonial-quote">"Found the perfect stay in Munnar within minutes. The booking process was simple
+            and the support team is very helpful."</p>
           <div class="testimonial-user">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="Rahul K.">
+            <img
+              src="https://img.freepik.com/premium-photo/indian-smiling-man-wearing-orange-sweater-with-his-arms-crossed-white-background_862994-605651.jpg?auto=format&fit=crop&w=80&q=80"
+              alt="Rahul K.">
             <div>
               <h4>Rahul K.</h4>
               <span>Bangalore</span>
             </div>
             <div class="testimonial-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
-          <p class="testimonial-quote">"Much easier than searching multiple websites. Great collection of hotels and genuine prices. Highly recommended!"</p>
+          <p class="testimonial-quote">"Much easier than searching multiple websites. Great collection of hotels and
+            genuine prices. Highly recommended!"</p>
           <div class="testimonial-user">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&q=80" alt="Ameen A.">
+            <img
+              src="https://img.freepik.com/premium-photo/indian-man-college-campus-with-beautiful-background_181020-1883.jpg?auto=format&fit=crop&w=80&q=80"
+              alt="Ameen A.">
             <div>
               <h4>Ameen A.</h4>
               <span>Kochi</span>
             </div>
             <div class="testimonial-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
           </div>
         </div>
@@ -541,25 +694,16 @@
     </div>
   </section>
 
-  <!-- Nearby Hotels (location-based) -->
-  <section id="nearby-hotels-section" style="display:none; background:#f0faf7; border-top:1px solid var(--border);">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels Near You</h2>
-          <p id="nearby-hotels-label">Finding hotels close to your location…</p>
-        </div>
-      </div>
-      <div class="grid hotels-grid" id="nearby-hotels-grid"></div>
-    </div>
-  </section>
+
 
   <!-- Contact CTA -->
   <section style="background: linear-gradient(135deg, var(--primary) 0%, #0d6b56 100%); color:#fff; text-align:center;">
     <div class="container" style="padding-top:60px; padding-bottom:60px;">
       <h2 style="color:#fff; font-size:28px; margin-bottom:12px;">Need Help Finding the Perfect Stay?</h2>
-      <p style="opacity:.9; font-size:16px; margin-bottom:30px;">Our Kerala travel experts are ready to help you plan the perfect trip.</p>
-      <a href="/contact.html" class="btn" style="background:#fff; color:var(--primary); border-radius:50px; padding:14px 36px; font-weight:700; font-size:15px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+      <p style="opacity:.9; font-size:16px; margin-bottom:30px;">Our Kerala travel experts are ready to help you plan
+        the perfect trip.</p>
+      <a href="/contact.html" class="btn"
+        style="background:#fff; color:var(--primary); border-radius:50px; padding:14px 36px; font-weight:700; font-size:15px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
         <i class="fas fa-envelope"></i> Contact Us
       </a>
     </div>
@@ -569,8 +713,9 @@
   <footer>
     <div class="container">
       <div class="footer-brand">
-        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
-        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the beautiful state of Kerala.</p>
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the
+          beautiful state of Kerala.</p>
         <div class="footer-socials">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
@@ -578,7 +723,7 @@
           <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
-      
+
       <div>
         <h3>Top Destinations</h3>
         <ul>
@@ -592,7 +737,7 @@
           <li><a href="/?district=Kasaragod">Kasaragod Hotels</a></li>
         </ul>
       </div>
-      
+
       <div>
         <h3>Top Categories</h3>
         <ul>
@@ -606,7 +751,7 @@
           <li><a href="/?category=treehouse">Treehouses</a></li>
         </ul>
       </div>
-      
+
       <div>
         <h3>Company</h3>
         <ul>
@@ -617,15 +762,8 @@
           <li><a href="/cancellation.html">Cancellation Policy</a></li>
         </ul>
       </div>
-      
-      <div class="footer-newsletter">
-        <h3>Newsletter</h3>
-        <p>Subscribe for exclusive offers and travel tips.</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Enter your email" required>
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
+
+
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
@@ -633,12 +771,15 @@
   </footer>
 
   <!-- Floating WhatsApp Button (shown on mobile) -->
-  <a href="https://wa.me/919876543210?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala." target="_blank" id="float-whatsapp-home" style="display:none; position:fixed; bottom:80px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+  <a href="https://wa.me/919876543210?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala."
+    target="_blank" id="float-whatsapp-home"
+    style="display:none; position:fixed; bottom:80px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;"
+    onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
     <i class="fab fa-whatsapp"></i>
   </a>
 
   <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
     <a href="/index.html" class="mob-nav-item active">
       <i class="fas fa-home"></i>
       <span>Home</span>
@@ -664,4 +805,5 @@
   <!-- App Script -->
   <script type="module" src="/src/app.js"></script>
 </body>
+
 </html>

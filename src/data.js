@@ -1,12 +1,12 @@
 // src/data.js
 // ─── Static UI data (not stored in database) ───────────────────────────────
 export const DESTINATIONS = [
-  { name: "Kochi", count: 320, image: "/assets/images/kochi.png" },
-  { name: "Munnar", count: 180, image: "/assets/images/munnar.png" },
-  { name: "Alappuzha", count: 240, image: "/assets/images/alappuzha.png" },
-  { name: "Varkala", count: 120, image: "/assets/images/varkala.png" },
-  { name: "Kovalam", count: 96, image: "/assets/images/kovalam.png" },
-  { name: "Wayanad", count: 130, image: "/assets/images/wayanad.png" }
+  { name: "Kochi", count: 320, image: "/assets/images/kochi.webp" },
+  { name: "Munnar", count: 180, image: "/assets/images/munnar.webp" },
+  { name: "Alappuzha", count: 240, image: "/assets/images/alappuzha.webp" },
+  { name: "Varkala", count: 120, image: "/assets/images/varkala.webp" },
+  { name: "Kovalam", count: 96, image: "/assets/images/kovalam.webp" },
+  { name: "Wayanad", count: 130, image: "/assets/images/wayanad.webp" }
 ];
 
 export const CATEGORIES = [
@@ -31,7 +31,7 @@ export const CATEGORIES = [
 const DEFAULT_SETTINGS = {
   platformName: "HotelsNearMeInKerala.com",
   taxRate: 18,
-  logoUrl: "/logo.png",
+  logoUrl: "/logo.webp",
   notifyEmail: true,
   notifyWhatsapp: true,
   enableSound: true,

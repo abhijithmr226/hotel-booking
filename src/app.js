@@ -9,6 +9,16 @@ import {
   getSystemUsers, addSystemUser, deleteSystemUser, getUserByUid
 } from "./data";
 
+function escapeHTML(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 let cachedTaxRate = 0.18;
 
 window.getGlobalTaxRate = function() {
@@ -142,6 +152,24 @@ function setupHeaderAuth() {
   if (!headerMenu) return;
 
   const userJson = localStorage.getItem("hbooking_user");
+
+  // Wire up bottom nav account button for logged-in user options
+  const mobAccountBtn = document.getElementById("mob-account-btn");
+  if (mobAccountBtn) {
+    if (userJson) {
+      mobAccountBtn.href = "#";
+      if (!mobAccountBtn.dataset.hasListener) {
+        mobAccountBtn.dataset.hasListener = "true";
+        mobAccountBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.openMobileAccountMenu();
+        });
+      }
+    } else {
+      mobAccountBtn.href = "/login.html";
+    }
+  }
+
   if (userJson) {
     const user = JSON.parse(userJson);
     const displayName = user.name ? user.name.split(" ")[0] : user.email.split('@')[0];
@@ -307,7 +335,20 @@ async function initLandingPage() {
   const urlDistrict = urlParams.get("district");
   if (urlCategory) {
     const catEl = document.getElementById("filter-category");
-    if (catEl) catEl.value = urlCategory;
+    if (catEl) {
+      const cleanParam = urlCategory.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const matchedOption = Array.from(catEl.options).find(opt => {
+        const cleanVal = opt.value.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (cleanVal.includes(cleanParam) || cleanParam.includes(cleanVal)) return true;
+        if (cleanVal.length >= 5 && cleanParam.length >= 5 && cleanVal.substring(0, 5) === cleanParam.substring(0, 5)) return true;
+        return false;
+      });
+      if (matchedOption) {
+        catEl.value = matchedOption.value;
+      } else {
+        catEl.value = urlCategory;
+      }
+    }
     const fp = document.getElementById("advanced-filters-panel");
     if (fp) fp.style.display = "block";
     await applyAdvancedFilters(hotels);
@@ -565,6 +606,39 @@ window.clearAllFilters = function() {
   if (window._currentHotelsRef) applyAdvancedFilters(window._currentHotelsRef);
 };
 
+function getHotelCardHtml(h, isFav) {
+  const price = h.price || 0;
+  const rating = h.rating || 0;
+  const reviewsCount = h.reviewsCount || 0;
+  return `
+    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
+      <div class="hotel-card-image">
+        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.name}" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
+        <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
+          <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
+        </button>
+      </div>
+      <div class="hotel-card-content">
+        <div class="hotel-card-rating">
+          <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
+        </div>
+        <h3>${h.name}</h3>
+        <div class="hotel-card-loc">
+          <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
+        </div>
+        <div class="hotel-card-footer">
+          <div class="hotel-card-price">
+            <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
+            <span class="price-unit">/night</span>
+          </div>
+          <a href="/hotel.html?id=${h.id}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 async function renderHotelsGrid(containerId, hotelsList) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -595,39 +669,7 @@ async function renderHotelsGrid(containerId, hotelsList) {
     }
   }
 
-  container.innerHTML = hotelsList.map(h => {
-    const isFav = userFavIds.includes(h.id);
-    const price = h.price || 0;
-    const rating = h.rating || 0;
-    const reviewsCount = h.reviewsCount || 0;
-    return `
-    <div class="hotel-card" data-hotel-id="${h.id}">
-      <div class="hotel-card-image">
-        <img src="${h.image || '/assets/images/riverside.png'}" alt="${h.name}" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
-        <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
-        <button class="hotel-card-save" onclick="event.preventDefault(); toggleWishlist(this, '${h.id}')">
-          <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
-        </button>
-      </div>
-      <div class="hotel-card-content">
-        <div class="hotel-card-rating">
-          <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
-        </div>
-        <h3>${h.name}</h3>
-        <div class="hotel-card-loc">
-          <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
-        </div>
-        <div class="hotel-card-footer">
-          <div class="hotel-card-price">
-            <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
-            <span class="price-unit">/night</span>
-          </div>
-          <a href="/hotel.html?id=${h.id}" class="btn btn-outline btn-sm">View Details</a>
-        </div>
-      </div>
-    </div>
-  `;
-  }).join("");
+  container.innerHTML = hotelsList.map(h => getHotelCardHtml(h, userFavIds.includes(h.id))).join("");
 }
 
 // -------------------------------------------------------------
@@ -636,6 +678,124 @@ async function renderHotelsGrid(containerId, hotelsList) {
 let selectedHotel = null;
 let bookingMode = "whatsapp"; // "whatsapp" or "online"
 let appliedCoupon = null;
+let currentHotelRooms = [];
+
+function getRoomImage(roomType) {
+  const type = (roomType || "").toLowerCase();
+  if (type.includes("suite")) {
+    return "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80";
+  }
+  if (type.includes("deluxe") || type.includes("premium")) {
+    return "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=600&q=80";
+  }
+  if (type.includes("villa")) {
+    return "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80";
+  }
+  if (type.includes("houseboat")) {
+    return "https://images.unsplash.com/photo-1593692909825-44b7b37a4d76?auto=format&fit=crop&w=600&q=80";
+  }
+  return "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80";
+}
+
+function renderRoomCards(hotelRooms, activeRoomId) {
+  const roomsContainer = document.getElementById("rooms-list-container");
+  if (!roomsContainer) return;
+  
+  if (hotelRooms.length === 0) {
+    roomsContainer.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--text-secondary); border: 1.5px dashed var(--border); border-radius: 8px;">
+        <i class="fas fa-bed" style="font-size: 32px; opacity: 0.3; margin-bottom: 12px;"></i>
+        <p>No rooms currently available at this property.</p>
+      </div>
+    `;
+    return;
+  }
+
+  roomsContainer.innerHTML = hotelRooms.map((r) => {
+    const isSelected = r.id === activeRoomId;
+    const roomImg = getRoomImage(r.type);
+    const capacityText = `${r.capacity} Guest${r.capacity > 1 ? 's' : ''}`;
+    const bedText = `${r.beds} Bed${r.beds > 1 ? 's' : ''}`;
+    const amHtml = (r.amenities || []).map(a => `<span class="room-amenity-tag">${a}</span>`).join("");
+    
+    return `
+      <div class="room-card ${isSelected ? 'selected' : ''}" data-room-id="${r.id}">
+        <div class="room-card-image">
+          <img src="${roomImg}" alt="${r.type}" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
+        </div>
+        <div class="room-card-content">
+          <div>
+            <div class="room-card-header">
+              <h3>${r.type}</h3>
+              <span class="room-inventory-badge">${r.inventory} left</span>
+            </div>
+            <div class="room-card-details">
+              <span><i class="fas fa-user-friends"></i> Max ${capacityText}</span>
+              <span><i class="fas fa-bed"></i> ${bedText}</span>
+            </div>
+            <div class="room-card-amenities">
+              ${amHtml}
+            </div>
+          </div>
+          <div class="room-card-footer">
+            <div class="room-card-price">
+              <span class="price">₹${r.price.toLocaleString("en-IN")}</span>
+              <span class="tax-info">/ night + taxes</span>
+            </div>
+            <button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
+              ${isSelected ? 'Selected <i class="fas fa-check"></i>' : 'Select Room'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function renderSimilarHotels() {
+  const similarContainer = document.getElementById("similar-hotels-grid");
+  if (!similarContainer) return;
+
+  const allHotels = await getHotels();
+  let similar = allHotels.filter(h => h.id !== selectedHotel.id && h.status === "active" && (h.category === selectedHotel.category || h.district === selectedHotel.district));
+  
+  if (similar.length < 4) {
+    const extra = allHotels.filter(h => h.id !== selectedHotel.id && h.status === "active" && !similar.some(s => s.id === h.id));
+    similar = similar.concat(extra);
+  }
+  
+  similar = similar.slice(0, 4);
+
+  if (similar.length === 0) {
+    similarContainer.innerHTML = `<div style="grid-column: span 4; text-align: center; color: var(--text-secondary);">No similar hotels found.</div>`;
+    return;
+  }
+
+  let userFavIds = [];
+  const userJson = localStorage.getItem("hbooking_user");
+  if (userJson) {
+    const user = JSON.parse(userJson);
+    const userKey = user.uid || user.email;
+    try {
+      const favs = await getFavorites(userKey);
+      userFavIds = favs.map(f => f.hotelId);
+    } catch (e) {
+      console.warn("Could not retrieve favorites for user:", e);
+    }
+  }
+
+  similarContainer.innerHTML = similar.map(h => getHotelCardHtml(h, userFavIds.includes(h.id))).join("");
+}
+
+window.selectRoomCard = function(roomId) {
+  const roomSelect = document.getElementById("booking-room-select");
+  if (roomSelect) {
+    roomSelect.value = roomId;
+    roomSelect.dispatchEvent(new Event("change"));
+  }
+  
+  renderRoomCards(currentHotelRooms, roomId);
+};
 
 async function initHotelDetailPage() {
   const params = new URLSearchParams(window.location.search);
@@ -687,14 +847,65 @@ async function initHotelDetailPage() {
   }
 
   // Render hotel details text
-  document.title = `${selectedHotel.name} - HotelsNearMeInKerala`;
+  // Dynamic SEO Updates for Hotel Detail Page
+  const dist = selectedHotel.district || "Kerala";
+  document.title = `${selectedHotel.name} | Book Hotels in ${dist}, Kerala`;
+
+  // Set meta description dynamically
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement('meta');
+    metaDesc.setAttribute('name', 'description');
+    document.head.appendChild(metaDesc);
+  }
+  const cleanDescription = selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '').substring(0, 150) : "";
+  metaDesc.setAttribute('content', `Book a stay at ${selectedHotel.name} in ${selectedHotel.location}, ${dist}, Kerala. ${cleanDescription}... Read reviews, check rates and book.`);
+
+  // Set canonical URL dynamically
+  let canonicalLink = document.querySelector('link[rel="canonical"]');
+  if (!canonicalLink) {
+    canonicalLink = document.createElement('link');
+    canonicalLink.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonicalLink);
+  }
+  canonicalLink.setAttribute('href', `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`);
+
+  // Inject Hotel schema markup dynamically
+  let hotelSchema = document.getElementById("hotel-schema-ld");
+  if (!hotelSchema) {
+    hotelSchema = document.createElement('script');
+    hotelSchema.id = "hotel-schema-ld";
+    hotelSchema.type = "application/ld+json";
+    document.head.appendChild(hotelSchema);
+  }
+  const schemaObj = {
+    "@context": "https://schema.org",
+    "@type": "Hotel",
+    "name": selectedHotel.name,
+    "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '') : "",
+    "image": selectedHotel.image ? `https://hotelsnearmeinkera.la${selectedHotel.image.startsWith('/') ? '' : '/'}${selectedHotel.image}` : "",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": selectedHotel.location,
+      "addressRegion": dist,
+      "addressCountry": "IN"
+    },
+    "telephone": selectedHotel.whatsapp ? `+${selectedHotel.whatsapp}` : "",
+    "starRating": {
+      "@type": "Rating",
+      "ratingValue": selectedHotel.rating
+    }
+  };
+  hotelSchema.textContent = JSON.stringify(schemaObj, null, 2);
+
   document.getElementById("hotel-title").innerText = selectedHotel.name;
   document.getElementById("breadcrumb-current").innerText = selectedHotel.name;
   const bDistrict = document.getElementById("breadcrumb-district");
   const bHotelsIn = document.getElementById("breadcrumb-hotels-in");
-  const dist = selectedHotel.district || "Kerala";
   if (bDistrict) { bDistrict.innerText = dist; bDistrict.href = `/?district=${encodeURIComponent(dist)}`; }
   if (bHotelsIn) { bHotelsIn.innerText = `Hotels in ${dist}`; bHotelsIn.href = `/?district=${encodeURIComponent(dist)}`; }
+  
+
   document.getElementById("hotel-stars").innerHTML = `<i class="fas fa-star"></i>`.repeat(Math.floor(selectedHotel.rating));
   document.getElementById("hotel-rating-score").innerText = selectedHotel.rating;
   document.getElementById("hotel-reviews-count").innerText = `(${selectedHotel.reviewsCount} reviews)`;
@@ -703,6 +914,11 @@ async function initHotelDetailPage() {
   document.getElementById("hotel-badge-tag").innerText = selectedHotel.badge || selectedHotel.category;
   document.getElementById("hotel-desc").innerHTML = selectedHotel.description;
   document.getElementById("sidebar-hotel-whatsapp").innerText = `+${selectedHotel.whatsapp}`;
+  const sidebarWaBtn = document.getElementById("sidebar-hotel-whatsapp-btn");
+  if (sidebarWaBtn && selectedHotel.whatsapp) {
+    const waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    sidebarWaBtn.href = `https://wa.me/${waNum}?text=${encodeURIComponent(`Hello, I need help booking a stay at ${selectedHotel.name}.`)}`;
+  }
 
   // Set floating WhatsApp button for hotel-specific number
   const floatWa = document.getElementById("float-whatsapp-btn");
@@ -727,7 +943,10 @@ async function initHotelDetailPage() {
   }
   
   const mainImg = document.getElementById("gallery-img-main");
-  if (mainImg) mainImg.src = allImages[0] || "/assets/images/riverside.png";
+  if (mainImg) {
+    mainImg.src = allImages[0] || "/assets/images/riverside.webp";
+    mainImg.alt = `${selectedHotel.name} - Main Hotel Image, ${selectedHotel.location}, ${dist}`;
+  }
   
   for (let i = 1; i <= 4; i++) {
     const img = document.getElementById(`gallery-img-${i}`);
@@ -858,6 +1077,7 @@ async function initHotelDetailPage() {
   // Load Hotel Rooms
   const rooms = await getRooms();
   const hotelRooms = rooms.filter(r => r.hotelId === selectedHotel.id && r.availability !== "maintenance");
+  currentHotelRooms = hotelRooms;
   
   const roomSelect = document.getElementById("booking-room-select");
   if (roomSelect) {
@@ -871,27 +1091,23 @@ async function initHotelDetailPage() {
     roomSelect.addEventListener("change", calculatePricing);
   }
 
-  // Initial Calculation
-  calculatePricing();
+  // Render room cards with photos
+  renderRoomCards(hotelRooms, hotelRooms.length > 0 ? hotelRooms[0].id : "");
 
-  // Booking Card Tabs listeners
-  const tabs = document.querySelectorAll(".booking-tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      bookingMode = tab.dataset.mode;
-      
-      const submitBtn = document.getElementById("booking-submit-btn");
-      if (bookingMode === "whatsapp") {
-        submitBtn.innerHTML = `Check Availability <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>`;
-        submitBtn.style.backgroundColor = "var(--primary)";
-      } else {
-        submitBtn.innerHTML = `Book Online <i class="fas fa-credit-card" style="margin-left: 8px;"></i>`;
-        submitBtn.style.backgroundColor = "var(--primary)";
-      }
+  // Render similar hotels
+  renderSimilarHotels();
+
+  // Tab links active state handling
+  const tabLinks = document.querySelectorAll(".tab-link");
+  tabLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      tabLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
     });
   });
+
+  // Initial Calculation
+  calculatePricing();
 
   // Calculate pricing when form changes
   document.getElementById("checkin-input").addEventListener("change", calculatePricing);
@@ -1008,18 +1224,18 @@ async function initHotelDetailPage() {
         ${avatarHtml}
         <div style="flex:1; min-width:0;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
-            <span style="font-size:14px;font-weight:600;color:var(--text-main);">${r.userName}</span>
+            <span style="font-size:14px;font-weight:600;color:var(--text-main);">${escapeHTML(r.userName)}</span>
             <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;"><i class="fas fa-check-circle" style="margin-right:3px;"></i>Verified Stay</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
             ${stars}
             ${dateStr ? `<span style="font-size:11px;color:var(--text-secondary);">${dateStr}</span>` : ""}
           </div>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin:0;">${reviewText}</p>
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin:0;">${escapeHTML(reviewText)}</p>
           ${r.replyText ? `
             <div style="background:#F8F9FA;padding:12px 14px;border-radius:8px;margin-top:12px;border-left:3px solid var(--primary);">
               <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px;"><i class="fas fa-hotel" style="margin-right:4px;"></i>Response from Management</div>
-              <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">${r.replyText}</p>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">${escapeHTML(r.replyText)}</p>
             </div>` : ""}
         </div>
       </div>`;
@@ -1432,15 +1648,29 @@ async function initHotelDetailPage() {
 
     const rooms = await getRooms();
     const hotelRooms = rooms.filter((r) => r.hotelId === selectedHotel.id && r.availability !== "maintenance");
+    currentHotelRooms = hotelRooms;
+    
     const roomSelect = document.getElementById("booking-room-select");
+    let activeRoomId = "";
     if (roomSelect) {
       const prev = roomSelect.value;
       roomSelect.innerHTML = hotelRooms.length === 0
         ? `<option value="">No rooms available</option>`
         : hotelRooms.map((r) => `<option value="${r.id}" data-price="${r.price}">${r.type} (₹${r.price.toLocaleString("en-IN")}/night) - ${r.inventory} left</option>`).join("");
-      if (hotelRooms.some((r) => r.id === prev)) roomSelect.value = prev;
+      if (hotelRooms.some((r) => r.id === prev)) {
+        roomSelect.value = prev;
+      } else if (hotelRooms.length > 0) {
+        roomSelect.value = hotelRooms[0].id;
+      }
+      activeRoomId = roomSelect.value;
       calculatePricing();
     }
+
+    // Re-render room cards with photos
+    renderRoomCards(hotelRooms, activeRoomId);
+
+    // Re-render similar hotels
+    renderSimilarHotels();
 
     const hotelReviewsList = document.getElementById("hotel-reviews-list");
     if (hotelReviewsList) {
@@ -1546,6 +1776,11 @@ function calculatePricing() {
   
   document.getElementById("booking-header-price").innerText = `₹${baseRate.toLocaleString("en-IN")}`;
   document.getElementById("booking-header-tax").innerText = `+ ₹${taxRate.toLocaleString("en-IN")} taxes & fees`;
+  
+  const stickyPriceDisplay = document.getElementById("sticky-price-display");
+  if (stickyPriceDisplay) {
+    stickyPriceDisplay.innerText = `₹${baseRate.toLocaleString("en-IN")}`;
+  }
 }
 
 function openBookingModal() {
@@ -1673,7 +1908,8 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  const waUrl = `https://api.whatsapp.com/send/?phone=${selectedHotel.whatsapp}&text=${urlEncodedText}`;
+  const cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
 
   closeBookingModal();
   document.getElementById("whatsapp-booking-form").reset();
@@ -1686,11 +1922,23 @@ Please confirm availability. Thank you!`;
 // LOGIN / REGISTER PAGE CONTROLLER
 // -------------------------------------------------------------
 function initLoginPage() {
+  const getRedirectUrl = (role) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectParam = urlParams.get("redirect");
+    if (redirectParam) {
+      return decodeURIComponent(redirectParam);
+    }
+    if (document.referrer && document.referrer.includes("hotel.html")) {
+      return document.referrer;
+    }
+    return role === "admin" ? "/admin.html" : "/index.html";
+  };
+
   // If user already logged in, redirect
   const existingUser = localStorage.getItem("hbooking_user");
   if (existingUser) {
     const u = JSON.parse(existingUser);
-    window.location.href = u.role === "admin" ? "/admin.html" : "/bookings.html";
+    window.location.href = getRedirectUrl(u.role);
     return;
   }
 
@@ -1747,7 +1995,7 @@ function initLoginPage() {
         localStorage.setItem("hbooking_user", JSON.stringify(userData));
         showMsg("Welcome back! Redirecting...", "success");
         setTimeout(() => {
-          window.location.href = role === "admin" ? "/admin.html" : "/bookings.html";
+          window.location.href = getRedirectUrl(role);
         }, 800);
       } catch (err) {
         setBtnLoading("signin-btn", false, '<i class="fas fa-sign-in-alt"></i> Sign In');
@@ -1785,7 +2033,7 @@ function initLoginPage() {
         localStorage.setItem("hbooking_session_type", "local");
         localStorage.setItem("hbooking_user", JSON.stringify(userData));
         showMsg("Account created! Welcome to HotelsNearMeInKerala!", "success");
-        setTimeout(() => { window.location.href = "/bookings.html"; }, 900);
+        setTimeout(() => { window.location.href = getRedirectUrl("user"); }, 900);
       } catch (err) {
         setBtnLoading("register-btn", false, '<i class="fas fa-user-plus"></i> Create Account');
         showMsg(formatFirebaseError(err.code || err.message));
@@ -1895,7 +2143,7 @@ function initLoginPage() {
       localStorage.setItem("hbooking_session_type", "local");
       localStorage.setItem("hbooking_user", JSON.stringify(userData));
       showMsg("Signed in successfully! Redirecting...", "success");
-      setTimeout(() => { window.location.href = "/bookings.html"; }, 800);
+      setTimeout(() => { window.location.href = getRedirectUrl("user"); }, 800);
     } catch (err) {
       showMsg(formatFirebaseError(err.code || err.message));
     }
@@ -1977,7 +2225,7 @@ async function initBookingsPage() {
       const canCancel = b.status === "Confirmed" || b.status === "Pending";
       return `
         <div class="booking-card">
-          <img src="/assets/images/${b.hotelId?.split('_')[0] || 'riverside'}.png"
+          <img src="/assets/images/${b.hotelId?.split('_')[0] || 'riverside'}.webp"
             class="booking-card-img"
             onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=200&q=80'"
             alt="${b.hotelName}">
@@ -2242,7 +2490,7 @@ async function initAdminPage() {
       const district = document.getElementById("new-hotel-district").value;
       const price = parseInt(document.getElementById("new-hotel-price").value) || 2999;
       const category = document.getElementById("new-hotel-category").value;
-      const imageUrl = document.getElementById("new-hotel-image")?.value?.trim() || "/assets/images/riverside.png";
+      const imageUrl = document.getElementById("new-hotel-image")?.value?.trim() || "/assets/images/riverside.webp";
       const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919876543210";
       const description = document.getElementById("new-hotel-description")?.value?.trim() || `${name} is a premium hotel in ${district}, Kerala offering excellent service and stays.`;
       const checkInTime = document.getElementById("new-hotel-checkin")?.value?.trim() || "12:00 PM";
@@ -2895,14 +3143,7 @@ window.handleCldDrop = async function(event, zoneId, fieldId, isZone) {
   }
 };
 
-// Also reset upload zones when Add Hotel modal is closed/reopened
-const _origCloseAdd = window.closeAddHotelModal;
-window.closeAddHotelModal = function() {
-  _origCloseAdd?.();
-  ["cld-add-main"].forEach(id => cldSetZoneImage(id, id === "cld-add-main" ? "new-hotel-image" : "", ""));
-  [["cld-add-g2","new-hotel-img2"],["cld-add-g3","new-hotel-img3"],
-   ["cld-add-g4","new-hotel-img4"],["cld-add-g5","new-hotel-img5"]].forEach(([z,f]) => cldSetSlotImage(z,f,""));
-};
+// Add Hotel modal closing and reset logic is handled globally below
 
 // ── Admin Toast Notification ──────────────────────────────────────────────
 function showAdminToast(message, type = "success") {
@@ -2971,6 +3212,10 @@ window.openAddHotelModal = function() {
 };
 window.closeAddHotelModal = function() {
   document.getElementById("add-hotel-modal").classList.remove("open");
+  // Reset Cloudinary zone images when Add Hotel modal is closed
+  ["cld-add-main"].forEach(id => cldSetZoneImage(id, id === "cld-add-main" ? "new-hotel-image" : "", ""));
+  [["cld-add-g2","new-hotel-img2"],["cld-add-g3","new-hotel-img3"],
+   ["cld-add-g4","new-hotel-img4"],["cld-add-g5","new-hotel-img5"]].forEach(([z,f]) => cldSetSlotImage(z,f,""));
 };
 
 window.openEditHotelModal = function(hotelId) {
@@ -3226,8 +3471,8 @@ function renderBookingsTableData(list) {
     <tr>
       <td><strong>#${b.bookingId}</strong></td>
       <td>
-        <div style="font-weight:600;">${b.guestName}</div>
-        <div style="font-size:11px; color:var(--text-secondary);">${b.guestPhone}</div>
+        <div style="font-weight:600;">${escapeHTML(b.guestName)}</div>
+        <div style="font-size:11px; color:var(--text-secondary);">${escapeHTML(b.guestPhone)}</div>
       </td>
       <td>
         <div style="font-weight:500;">${b.hotelName}</div>
@@ -3335,14 +3580,14 @@ window.renderAdminReviewsTable = function() {
       <td>
         <div style="display:flex; align-items:center; gap:8px;">
           <img src="${r.userPhoto || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
-          <span style="font-weight:500;">${r.userName}</span>
+          <span style="font-weight:500;">${escapeHTML(r.userName)}</span>
         </div>
       </td>
       <td>${r.hotelId}</td>
       <td><div style="color:#FF9A02; font-size:12px;">${'<i class="fas fa-star"></i>'.repeat(r.rating)}</div></td>
       <td>
-        <div style="max-width:250px; font-size:12px; color:var(--text-secondary); line-height:1.4;">${r.reviewText}</div>
-        ${r.replyText ? `<div style="font-size:11px; color:var(--primary); margin-top:5px;"><strong>Reply:</strong> ${r.replyText}</div>` : ''}
+        <div style="max-width:250px; font-size:12px; color:var(--text-secondary); line-height:1.4;">${escapeHTML(r.reviewText)}</div>
+        ${r.replyText ? `<div style="font-size:11px; color:var(--primary); margin-top:5px;"><strong>Reply:</strong> ${escapeHTML(r.replyText)}</div>` : ''}
       </td>
       <td>${r.createdAt}</td>
       <td><span class="status-badge ${r.status === 'approved' ? 'confirmed' : r.status === 'rejected' ? 'cancelled' : 'pending'}">${r.status}</span></td>
@@ -4033,6 +4278,19 @@ function initGlobalModals() {
         </div>
       </div>
     </div>
+
+    <!-- Mobile Account Options Bottom Sheet -->
+    <div class="modal-overlay bottom-sheet" id="modal-mobile-account" style="z-index: 1003;">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Account Options</h3>
+          <button class="modal-close" id="mobile-account-close-btn">&times;</button>
+        </div>
+        <div class="mobile-account-options" style="display:flex; flex-direction:column; gap:12px; padding: 20px 0;">
+          <!-- Options will be injected dynamically -->
+        </div>
+      </div>
+    </div>
   `;
 
   const div = document.createElement("div");
@@ -4048,6 +4306,14 @@ function initGlobalModals() {
   });
   document.getElementById("wishlist-drawer-close-btn").addEventListener("click", () => {
     document.getElementById("drawer-wishlist").classList.remove("open");
+  });
+  document.getElementById("mobile-account-close-btn").addEventListener("click", () => {
+    window.closeMobileAccountMenu();
+  });
+  document.getElementById("modal-mobile-account").addEventListener("click", (e) => {
+    if (e.target.id === "modal-mobile-account") {
+      window.closeMobileAccountMenu();
+    }
   });
 
   // Hook Profile Form Submit
@@ -4286,7 +4552,7 @@ window.renderAdminSettingsTab = function() {
   const s = cachedSettings || {
     platformName: "HotelsNearMeInKerala.com",
     taxRate: 18,
-    logoUrl: "/logo.png",
+    logoUrl: "/logo.webp",
     notifyEmail: true,
     notifyWhatsapp: true,
     enableSound: true
@@ -4361,3 +4627,68 @@ function renderGatewaySettingsForm() {
   if (whatsappEl) whatsappEl.value = s.whatsappNumber || "919876543210";
   if (invoiceEl) invoiceEl.value = s.autoInvoice !== false ? "yes" : "no";
 }
+
+// -------------------------------------------------------------
+// MOBILE BOTTOM NAV ACCOUNT CONTROLLERS
+// -------------------------------------------------------------
+window.openMobileAccountMenu = function() {
+  const userJson = localStorage.getItem("hbooking_user");
+  if (!userJson) return;
+  const user = JSON.parse(userJson);
+  const isAdmin = user.role === "admin";
+
+  const optionsContainer = document.querySelector("#modal-mobile-account .mobile-account-options");
+  if (!optionsContainer) return;
+
+  const adminOption = isAdmin 
+    ? `<a href="/admin.html" class="mob-opt-item" style="display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; font-weight:600; font-size:15px; background:var(--primary-light); color:var(--primary); transition:background 0.2s;"><i class="fas fa-chart-line" style="font-size:18px;"></i> Admin Dashboard</a>`
+    : "";
+
+  optionsContainer.innerHTML = `
+    <div class="user-info-badge" style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--primary-light); border-radius:12px; margin-bottom:12px;">
+      <span style="display:flex; width:36px; height:36px; border-radius:50%; background:var(--primary); color:#fff; align-items:center; justify-content:center; font-size:15px; font-weight:700;">${(user.name || user.email)[0].toUpperCase()}</span>
+      <div style="display:flex; flex-direction:column;">
+        <span style="font-weight:700; font-size:15px; color:var(--dark);">${user.name}</span>
+        <span style="font-size:12px; color:var(--text-secondary);">${user.email}</span>
+      </div>
+    </div>
+    ${adminOption}
+    <a href="/bookings.html" class="mob-opt-item" style="display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; font-weight:600; font-size:15px; color:var(--text-main); border:1px solid var(--border);"><i class="fas fa-calendar-check" style="font-size:18px; color:var(--primary);"></i> My Bookings</a>
+    <button onclick="triggerMobileProfile()" class="mob-opt-item" style="display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; font-weight:600; font-size:15px; color:var(--text-main); border:1px solid var(--border); background:none; text-align:left; cursor:pointer; width:100%;"><i class="fas fa-user-circle" style="font-size:18px; color:var(--primary);"></i> My Profile</button>
+    <button onclick="triggerMobileWishlist()" class="mob-opt-item" style="display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; font-weight:600; font-size:15px; color:var(--text-main); border:1px solid var(--border); background:none; text-align:left; cursor:pointer; width:100%;"><i class="fas fa-heart" style="font-size:18px; color:#FF5A5F;"></i> Saved Hotels</button>
+    <div style="height:1px; background:var(--border); margin:8px 0;"></div>
+    <button onclick="triggerMobileLogout()" class="mob-opt-item" style="display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; font-weight:600; font-size:15px; color:#dc3545; border:1px solid rgba(220,53,69,0.25); background:rgba(220,53,69,0.05); text-align:left; cursor:pointer; width:100%;"><i class="fas fa-sign-out-alt" style="font-size:18px;"></i> Sign Out</button>
+  `;
+
+  const modal = document.getElementById("modal-mobile-account");
+  modal.classList.add("open");
+};
+
+window.closeMobileAccountMenu = function() {
+  const modal = document.getElementById("modal-mobile-account");
+  if (modal) {
+    modal.classList.remove("open");
+  }
+};
+
+window.triggerMobileProfile = function() {
+  closeMobileAccountMenu();
+  setTimeout(() => {
+    openProfileModal();
+  }, 350);
+};
+
+window.triggerMobileWishlist = function() {
+  closeMobileAccountMenu();
+  setTimeout(() => {
+    openWishlistDrawer();
+  }, 350);
+};
+
+window.triggerMobileLogout = async function() {
+  closeMobileAccountMenu();
+  localStorage.removeItem("hbooking_user");
+  localStorage.removeItem("hbooking_session_type");
+  if (auth) { try { await signOut(auth); } catch (err) {} }
+  window.location.href = "/index.html";
+};

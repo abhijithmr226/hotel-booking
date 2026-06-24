@@ -1,42 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <title>The Riverside Retreat - HotelsNearMeInKerala</title>
-  
+  <title>Book Hotels and Resorts in Kerala | HotelsNearMeInKerala.com</title>
+  <meta name="description" content="View hotel details, photos, guest reviews and amenities. Book your perfect stay in Munnar, Kochi, Alappuzha, Wayanad or anywhere in Kerala.">
+  <meta name="keywords" content="Kerala hotel details, book resorts Kerala, hotel reviews Kerala, budget hotel booking Kerala">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hotelsnearmeinkera.la/hotel.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Book Hotels and Resorts in Kerala | HotelsNearMeInKerala.com">
+  <meta property="og:description" content="View hotel details, photos, guest reviews and amenities. Book your perfect stay in Kerala.">
+  <meta property="og:image" content="/Landing-Page.webp">
+  <meta property="og:url" content="https://hotelsnearmeinkera.la/hotel.html">
+
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- Global Stylesheet -->
   <link rel="stylesheet" href="/src/style.css">
+  <!-- Microsoft Clarity Tracking Code -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","kerala_hotel_clarity_id");
+  </script>
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header>
     <div class="container">
       <a href="/index.html" class="logo">
-        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
       </a>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
         <i class="fas fa-bars"></i>
       </button>
-      
+
       <nav id="main-nav">
-        <ul>
-          <li><a href="/index.html">Home</a></li>
-          <li class="active"><a href="#overview">This Hotel</a></li>
-          <li><a href="/index.html#popular-destinations">Destinations</a></li>
-          <li><a href="/index.html#hotels-near-you">All Hotels</a></li>
+        <div class="mobile-drawer-header">
+        <img src="/logo.webp" alt="Logo" class="drawer-logo">
+        <span class="drawer-greeting">Welcome to Kerala!</span>
+      </div>
+      <div class="mobile-drawer-actions">
+        <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
+      </div>
+      <ul>
+          <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li class="active"><a href="#overview"><i class="fas fa-hotel"></i> This Hotel</a></li>
+          <li><a href="/index.html#popular-destinations"><i class="fas fa-map-marker-alt"></i> Destinations</a></li>
+          <li><a href="/index.html#hotels-near-you"><i class="fas fa-hotel"></i> All Hotels</a></li>
         </ul>
       </nav>
-      
+      <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
+
       <div class="header-right" id="header-user-menu">
-        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
-        <a href="/login.html" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;" id="header-login-btn">Register</a>
+        <a href="/login.html" class="btn btn-outline btn-sm"
+          style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
+        <a href="/login.html" class="btn btn-primary btn-sm"
+          style="border-radius:30px; padding:8px 18px; font-size:13px;" id="header-login-btn">Register</a>
       </div>
     </div>
   </header>
@@ -58,10 +90,12 @@
         <div class="hotel-meta-row">
           <span class="rating-badge-lg" id="hotel-rating-score">4.6</span>
           <span class="hotel-stars" id="hotel-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
           </span>
           <span id="hotel-reviews-count" style="color: var(--text-secondary); font-size:13px;">(128 reviews)</span>
-          <span style="color: var(--text-secondary); font-size:13px;"><i class="fas fa-map-marker-alt"></i> <span id="hotel-location-text">Kollam, Kerala</span></span>
+          <span style="color: var(--text-secondary); font-size:13px;"><i class="fas fa-map-marker-alt"></i> <span
+              id="hotel-location-text">Kollam, Kerala</span></span>
           <span class="badge-green" id="hotel-badge-tag">Beachfront Property</span>
         </div>
       </div>
@@ -72,7 +106,7 @@
     <div class="gallery-grid" id="hotel-gallery-grid">
       <!-- Injected dynamically by app.js -->
       <div class="gallery-item gallery-main">
-        <img src="/assets/images/riverside.png" alt="Hotel Main Image" id="gallery-img-main">
+        <img src="/assets/images/riverside.webp" alt="Hotel Main Image" id="gallery-img-main">
       </div>
       <div class="gallery-item"><img src="" alt="" id="gallery-img-1" style="display:none;"></div>
       <div class="gallery-item"><img src="" alt="" id="gallery-img-2" style="display:none;"></div>
@@ -89,21 +123,38 @@
       <div class="detail-left">
         <!-- Navigation Tab bar -->
         <div class="detail-tabs">
-          <button class="tab-link active" onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">Overview</button>
-          <button class="tab-link" onclick="document.getElementById('amenities').scrollIntoView({behavior: 'smooth'})">Amenities</button>
-          <button class="tab-link" onclick="document.getElementById('reviews').scrollIntoView({behavior: 'smooth'})">Reviews</button>
-          <button class="tab-link" onclick="document.getElementById('location').scrollIntoView({behavior: 'smooth'})">Location</button>
+          <button class="tab-link active"
+            onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">Overview</button>
+          <button class="tab-link"
+            onclick="document.getElementById('rooms').scrollIntoView({behavior: 'smooth'})">Rooms</button>
+          <button class="tab-link"
+            onclick="document.getElementById('amenities').scrollIntoView({behavior: 'smooth'})">Amenities</button>
+          <button class="tab-link"
+            onclick="document.getElementById('reviews').scrollIntoView({behavior: 'smooth'})">Reviews</button>
+          <button class="tab-link"
+            onclick="document.getElementById('location').scrollIntoView({behavior: 'smooth'})">Location</button>
         </div>
 
         <!-- Overview Section -->
         <div id="overview" class="detail-section">
           <h2>About this property</h2>
           <p id="hotel-desc" style="color: var(--text-secondary); font-size: 15px; margin-bottom: 20px;">
-            The Riverside Retreat is a luxury beachfront resort in Kollam offering a perfect blend of traditional Kerala hospitality and modern comfort. Overlooking the serene Ashtamudi Lake, the resort offers elegant rooms, world-class amenities, and unforgettable experiences. Unwind by our infinity pool, dine on fresh backwater catches, or explore the waterways with a custom canoe trip.
+            The Riverside Retreat is a luxury beachfront resort in Kollam offering a perfect blend of traditional Kerala
+            hospitality and modern comfort. Overlooking the serene Ashtamudi Lake, the resort offers elegant rooms,
+            world-class amenities, and unforgettable experiences. Unwind by our infinity pool, dine on fresh backwater
+            catches, or explore the waterways with a custom canoe trip.
           </p>
 
           <h3 style="font-size: 16px; margin-top: 30px;">Highlights</h3>
           <div class="grid highlights-grid" id="highlights-grid">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Rooms Section -->
+        <div id="rooms" class="detail-section">
+          <h2>Available Rooms</h2>
+          <div class="rooms-grid" id="rooms-list-container">
             <!-- Rendered dynamically -->
           </div>
         </div>
@@ -129,17 +180,18 @@
         <!-- Location Section -->
         <div id="location" class="detail-section">
           <h2>Location</h2>
-          <p style="font-size: 14px; color: var(--text-secondary);"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> <span id="hotel-location-full">Kerala, India</span></p>
+          <p style="font-size: 14px; color: var(--text-secondary);"><i class="fas fa-map-marker-alt"
+              style="color: var(--primary);"></i> <span id="hotel-location-full">Kerala, India</span></p>
           <div class="map-card" id="hotel-map-card">
             <!-- Google Map embed — set dynamically from hotel.mapUrl -->
-            <iframe id="hotel-map-iframe"
-              src=""
-              allowfullscreen="" loading="lazy" style="display:none;"></iframe>
-            <div id="hotel-map-placeholder" style="width:100%; height:320px; background:var(--light); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--text-secondary); border:1px dashed var(--border);">
+            <iframe id="hotel-map-iframe" src="" allowfullscreen="" loading="lazy" style="display:none;"></iframe>
+            <div id="hotel-map-placeholder"
+              style="width:100%; height:320px; background:var(--light); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--text-secondary); border:1px dashed var(--border);">
               <i class="fas fa-map" style="font-size:40px; opacity:0.3;"></i>
               <span style="font-size:13px;">No map configured. Admin can set a Google Maps embed URL.</span>
             </div>
-            <a id="hotel-map-link" href="#" target="_blank" class="btn btn-primary map-overlay-btn" style="display:none;">View on Google Maps</a>
+            <a id="hotel-map-link" href="#" target="_blank" class="btn btn-primary map-overlay-btn"
+              style="display:none;">View on Google Maps</a>
           </div>
         </div>
 
@@ -150,46 +202,59 @@
             <div class="overall-rating-card">
               <div class="overall-score" id="detail-overall-score">4.6</div>
               <div class="rating-stars-row" id="detail-stars-row">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                  class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
               </div>
-              <span style="font-size:12px; font-weight:600; color:var(--primary);" id="detail-overall-text">Excellent (128 reviews)</span>
+              <span style="font-size:12px; font-weight:600; color:var(--primary);" id="detail-overall-text">Excellent
+                (128 reviews)</span>
             </div>
             <div class="rating-ratings-bars">
               <div class="rating-bar-row">
                 <span class="rating-bar-label">Cleanliness</span>
-                <div class="rating-bar-track"><div class="rating-bar-fill" id="detail-clean-fill" style="width: 94%;"></div></div>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" id="detail-clean-fill" style="width: 94%;"></div>
+                </div>
                 <span class="rating-bar-score" id="detail-clean-score">4.7</span>
               </div>
               <div class="rating-bar-row">
                 <span class="rating-bar-label">Location</span>
-                <div class="rating-bar-track"><div class="rating-bar-fill" id="detail-location-fill" style="width: 92%;"></div></div>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" id="detail-location-fill" style="width: 92%;"></div>
+                </div>
                 <span class="rating-bar-score" id="detail-location-score">4.6</span>
               </div>
               <div class="rating-bar-row">
                 <span class="rating-bar-label">Service</span>
-                <div class="rating-bar-track"><div class="rating-bar-fill" id="detail-service-fill" style="width: 92%;"></div></div>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" id="detail-service-fill" style="width: 92%;"></div>
+                </div>
                 <span class="rating-bar-score" id="detail-service-score">4.6</span>
               </div>
               <div class="rating-bar-row">
                 <span class="rating-bar-label">Value for Money</span>
-                <div class="rating-bar-track"><div class="rating-bar-fill" id="detail-value-fill" style="width: 86%;"></div></div>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" id="detail-value-fill" style="width: 86%;"></div>
+                </div>
                 <span class="rating-bar-score" id="detail-value-score">4.3</span>
               </div>
             </div>
           </div>
-          
+
           <!-- Dynamic reviews list -->
           <div id="hotel-reviews-list" style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
             <!-- Rendered Dynamically -->
           </div>
-          
+
           <!-- Add Review Form -->
-          <div class="add-review-container" style="background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-top: 35px;" id="review-submission-box">
+          <div class="add-review-container"
+            style="background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-top: 35px;"
+            id="review-submission-box">
             <h3 style="font-size:16px; margin-bottom:12px; font-weight:700;">Share Your Experience</h3>
             <form id="form-submit-review">
               <div class="form-group" style="margin-bottom:15px;">
                 <label style="display:block; margin-bottom:6px; font-size:13px; font-weight:600;">Rating *</label>
-                <div class="star-rating-input" style="display:flex; gap:8px; font-size:22px; color:#E2ECE8; cursor:pointer;" id="review-stars-input">
+                <div class="star-rating-input"
+                  style="display:flex; gap:8px; font-size:22px; color:#E2ECE8; cursor:pointer;" id="review-stars-input">
                   <i class="fas fa-star" data-value="1" style="color:#FF9A02;"></i>
                   <i class="fas fa-star" data-value="2" style="color:#FF9A02;"></i>
                   <i class="fas fa-star" data-value="3" style="color:#FF9A02;"></i>
@@ -199,10 +264,14 @@
                 <input type="hidden" id="review-rating-value" value="5">
               </div>
               <div class="form-group" style="margin-bottom:15px;">
-                <label for="review-text" style="display:block; margin-bottom:6px; font-size:13px; font-weight:600;">Your Review *</label>
-                <textarea id="review-text" rows="3" required placeholder="Write about cleanliness, location, staff hospitality..." style="width:100%; border:1px solid var(--border); padding:12px; border-radius:6px; font-size:13px; resize:none; outline:none; font-family:inherit; color: var(--text-main);"></textarea>
+                <label for="review-text" style="display:block; margin-bottom:6px; font-size:13px; font-weight:600;">Your
+                  Review *</label>
+                <textarea id="review-text" rows="3" required
+                  placeholder="Write about cleanliness, location, staff hospitality..."
+                  style="width:100%; border:1px solid var(--border); padding:12px; border-radius:12px; font-size:13px; resize:none; outline:none; font-family:inherit; color: var(--text-main);"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 20px;">Submit Review</button>
+              <button type="submit" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 20px;">Submit
+                Review</button>
             </form>
           </div>
         </div>
@@ -216,29 +285,19 @@
             <div class="booking-header">
               <div class="booking-price" id="booking-header-price">₹4,999 <span>/ night</span></div>
               <div class="booking-tax" id="booking-header-tax">+ ₹900 taxes & fees</div>
-              <div style="background:#E8F7F3; color:#108569; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700; display:inline-block; margin-top:10px;">
+              <div
+                style="background:#E8F7F3; color:#108569; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700; display:inline-block; margin-top:10px;">
                 <i class="fas fa-tags"></i> Best Price Guarantee
               </div>
             </div>
-            
-            <div class="booking-body">
-              <!-- Booking Method Selection -->
-              <div class="booking-tabs">
-                <button class="booking-tab active" data-mode="whatsapp">
-                  <i class="fab fa-whatsapp"></i> WhatsApp
-                </button>
-                <button class="booking-tab" data-mode="online" disabled style="position:relative;opacity:0.7;cursor:not-allowed;">
-                  <i class="fas fa-credit-card"></i> Online
-                  <span style="position:absolute;top:-8px;right:-8px;background:#FF9A02;color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:8px;letter-spacing:0.3px;white-space:nowrap;">SOON</span>
-                </button>
-              </div>
 
+            <div class="booking-body">
               <!-- Inputs -->
               <div class="booking-form-group">
                 <label>Check In</label>
                 <input type="date" class="booking-input" id="checkin-input">
               </div>
-              
+
               <div class="booking-form-group">
                 <label>Check Out</label>
                 <input type="date" class="booking-input" id="checkout-input">
@@ -254,7 +313,7 @@
                 </select>
               </div>
 
-              <div class="booking-form-group">
+              <div class="booking-form-group" style="display:none;">
                 <label>Select Room Type</label>
                 <select class="booking-input" id="booking-room-select">
                   <!-- Injected Dynamically -->
@@ -264,8 +323,10 @@
               <div class="booking-form-group">
                 <label>Promo / Coupon Code</label>
                 <div style="display:flex; gap: 8px;">
-                  <input type="text" class="booking-input" id="coupon-code-input" placeholder="e.g. SUMMER20" style="text-transform: uppercase;">
-                  <button type="button" class="btn btn-secondary btn-sm" id="btn-apply-coupon" style="border-radius:6px; padding:0 12px; font-size:12px; height: 38px;">Apply</button>
+                  <input type="text" class="booking-input" id="coupon-code-input" placeholder="e.g. SUMMER20"
+                    style="text-transform: uppercase;">
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-apply-coupon"
+                    style="border-radius:12px; padding:0 12px; font-size:12px; height: 38px;">Apply</button>
                 </div>
                 <div id="coupon-message" style="font-size:11px; margin-top:4px; display:none; font-weight:600;"></div>
               </div>
@@ -286,8 +347,9 @@
                 </div>
               </div>
 
-              <button class="btn btn-primary" id="booking-submit-btn" style="width: 100%; padding: 15px; font-size: 15px; border-radius: 8px;">
-                Check Availability <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
+              <button class="btn btn-primary" id="booking-submit-btn"
+                style="width: 100%; padding: 15px; font-size: 15px; border-radius: 8px;">
+                Check Availability on WhatsApp <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
               </button>
 
               <ul class="booking-card-features">
@@ -303,10 +365,13 @@
             <h4>Need Help?</h4>
             <p>Our travel experts are here to help you 24/7</p>
             <span class="phone-number" id="sidebar-hotel-whatsapp">+91 7012908576</span>
-            <a href="https://wa.me/917012908576?text=Hello%2C%20I%20need%20help%20booking%20a%20hotel%20in%20Kerala." target="_blank" class="btn btn-secondary btn-sm" style="width: 100%; border-radius: 8px; text-decoration:none; display:block; text-align:center;">
+            <a id="sidebar-hotel-whatsapp-btn" href="https://wa.me/917012908576?text=Hello%2C%20I%20need%20help%20booking%20a%20hotel%20in%20Kerala."
+              target="_blank" class="btn btn-secondary btn-sm"
+              style="width: 100%; border-radius: 8px; text-decoration:none; display:block; text-align:center;">
               <i class="fab fa-whatsapp" style="color:#25D366;"></i> Chat on WhatsApp
             </a>
-            <a href="mailto:directrajeev@gmail.com" style="display:block; text-align:center; margin-top:8px; font-size:11px; color:var(--text-secondary);">
+            <a href="mailto:directrajeev@gmail.com"
+              style="display:block; text-align:center; margin-top:8px; font-size:11px; color:var(--text-secondary);">
               <i class="fas fa-envelope" style="margin-right:4px;"></i>directrajeev@gmail.com
             </a>
           </div>
@@ -317,7 +382,15 @@
     <!-- Nearby Attractions Section (Photo 2) -->
     <div style="margin-top: 60px; border-top: 1px solid var(--border); padding-top: 40px;">
       <h3 style="font-size: 20px; margin-bottom: 20px;">Nearby Attractions</h3>
-      <div class="grid" id="nearby-attractions-list" style="grid-template-columns: repeat(5, 1fr); gap: 20px;">
+      <div class="grid attractions-grid" id="nearby-attractions-list">
+        <!-- Hydrated dynamically -->
+      </div>
+    </div>
+
+    <!-- Similar Hotels Section -->
+    <div style="margin-top: 60px; border-top: 1px solid var(--border); padding-top: 40px;">
+      <h3 style="font-size: 20px; margin-bottom: 20px;">Similar Hotels You Might Like</h3>
+      <div class="grid hotels-grid" id="similar-hotels-grid">
         <!-- Hydrated dynamically -->
       </div>
     </div>
@@ -331,23 +404,25 @@
         <button class="modal-close" id="modal-close-btn">&times;</button>
       </div>
       <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
-        Please fill in your details to finalize your reservation. The details will be sent directly to the hotel's WhatsApp line.
+        Please fill in your details to finalize your reservation. The details will be sent directly to the hotel's
+        WhatsApp line.
       </p>
-      
+
       <form class="modal-form" id="whatsapp-booking-form">
         <div class="form-group">
           <label for="guest-name">Full Name *</label>
           <input type="text" id="guest-name" placeholder="Enter your full name" required>
         </div>
-        
+
         <div class="form-group">
           <label for="guest-phone">WhatsApp Phone Number *</label>
-          <input type="tel" id="guest-phone" placeholder="e.g. +91 98765 43210" required>
+          <input type="tel" id="guest-phone" placeholder="e.g. +91 98765 43210" inputmode="tel" required>
         </div>
-        
+
         <div class="form-group">
           <label for="guest-requests">Special Requests / Notes (Optional)</label>
-          <textarea id="guest-requests" rows="3" placeholder="Let the hotel know if you have any special requirements..."></textarea>
+          <textarea id="guest-requests" rows="3"
+            placeholder="Let the hotel know if you have any special requirements..."></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Confirm Booking & Chat on WhatsApp</button>
@@ -359,7 +434,8 @@
   <div class="modal-overlay" id="checkout-modal" style="z-index: 1100;">
     <div class="modal-box" style="max-width: 550px; width: 90%;">
       <!-- Loading State Overlay -->
-      <div id="checkout-loading" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.98); z-index:10; border-radius:12px; flex-direction:column; align-items:center; justify-content:center; gap:15px;">
+      <div id="checkout-loading"
+        style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.98); z-index:10; border-radius:12px; flex-direction:column; align-items:center; justify-content:center; gap:15px;">
         <i class="fas fa-spinner fa-spin" style="font-size:48px; color:var(--primary);"></i>
         <h4 style="margin:0; font-family:'Outfit';">Processing Payment...</h4>
         <p style="font-size:12px; color:var(--text-secondary); margin:0;">Please do not refresh or close the page.</p>
@@ -372,13 +448,21 @@
 
       <div style="display:grid; grid-template-columns:1fr; gap:20px; text-align:left;">
         <!-- Billing Details Summary -->
-        <div style="background:var(--light); padding:15px; border-radius:8px; border:1px solid var(--border); font-size:13px;">
-          <h4 style="font-size:14px; margin-bottom:8px; display:flex; align-items:center; gap:6px; color:var(--primary);"><i class="fas fa-receipt"></i> Booking Summary</h4>
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Hotel:</strong> <span id="checkout-summary-hotel">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Room:</strong> <span id="checkout-summary-room">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Check-in:</strong> <span id="checkout-summary-checkin">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>Check-out:</strong> <span id="checkout-summary-checkout">-</span></div>
-          <div style="border-top:1px dashed var(--border); padding-top:8px; font-weight:700; font-size:14px; display:flex; justify-content:space-between; color:var(--dark);">
+        <div
+          style="background:var(--light); padding:15px; border-radius:8px; border:1px solid var(--border); font-size:13px;">
+          <h4
+            style="font-size:14px; margin-bottom:8px; display:flex; align-items:center; gap:6px; color:var(--primary);">
+            <i class="fas fa-receipt"></i> Booking Summary</h4>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Hotel:</strong> <span
+              id="checkout-summary-hotel">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Room:</strong> <span
+              id="checkout-summary-room">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong>Check-in:</strong> <span
+              id="checkout-summary-checkin">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>Check-out:</strong> <span
+              id="checkout-summary-checkout">-</span></div>
+          <div
+            style="border-top:1px dashed var(--border); padding-top:8px; font-weight:700; font-size:14px; display:flex; justify-content:space-between; color:var(--dark);">
             <span>Total Amount:</span>
             <span id="checkout-summary-amount">₹0</span>
           </div>
@@ -393,7 +477,7 @@
           <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
             <div class="form-group">
               <label for="checkout-guest-phone">WhatsApp Number *</label>
-              <input type="tel" id="checkout-guest-phone" required placeholder="e.g. +91 98765 43210">
+              <input type="tel" id="checkout-guest-phone" required inputmode="tel" placeholder="e.g. +91 98765 43210">
             </div>
             <div class="form-group">
               <label for="checkout-guest-email">Email Address *</label>
@@ -401,7 +485,8 @@
             </div>
           </div>
 
-          <div style="margin-top:15px; margin-bottom:10px; font-size:11px; font-weight:600; text-transform:uppercase; color:var(--text-secondary); border-top:1px solid var(--border); padding-top:15px; display:flex; align-items:center; gap:6px;">
+          <div
+            style="margin-top:15px; margin-bottom:10px; font-size:11px; font-weight:600; text-transform:uppercase; color:var(--text-secondary); border-top:1px solid var(--border); padding-top:15px; display:flex; align-items:center; gap:6px;">
             <i class="fas fa-credit-card" style="color:var(--primary);"></i> Card Details
           </div>
 
@@ -413,23 +498,26 @@
           <div class="form-group">
             <label for="checkout-card-number">Card Number *</label>
             <div style="position:relative;">
-              <input type="text" id="checkout-card-number" required placeholder="0000 0000 0000 0000" maxlength="19" style="padding-right:40px;">
-              <i class="far fa-credit-card" id="card-brand-icon" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-secondary); font-size:16px;"></i>
+              <input type="text" id="checkout-card-number" required inputmode="numeric" pattern="[0-9]*" placeholder="0000 0000 0000 0000" maxlength="19"
+                style="padding-right:40px;">
+              <i class="far fa-credit-card" id="card-brand-icon"
+                style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-secondary); font-size:16px;"></i>
             </div>
           </div>
 
           <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
             <div class="form-group">
               <label for="checkout-card-expiry">Expiry Date *</label>
-              <input type="text" id="checkout-card-expiry" required placeholder="MM/YY" maxlength="5">
+              <input type="text" id="checkout-card-expiry" required inputmode="numeric" placeholder="MM/YY" maxlength="5">
             </div>
             <div class="form-group">
               <label for="checkout-card-cvv">CVV *</label>
-              <input type="password" id="checkout-card-cvv" required placeholder="•••" maxlength="3">
+              <input type="password" id="checkout-card-cvv" required inputmode="numeric" pattern="[0-9]*" placeholder="•••" maxlength="3">
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 30px; margin-top: 10px; font-size: 15px; font-weight:700;">
+          <button type="submit" class="btn btn-primary"
+            style="width: 100%; border-radius: 30px; margin-top: 10px; font-size: 15px; font-weight:700;">
             Pay & Confirm Booking
           </button>
         </form>
@@ -441,26 +529,38 @@
   <div class="modal-overlay" id="booking-success-modal" style="z-index: 1100;">
     <div class="modal-box" style="max-width: 500px; width: 90%; text-align: center;">
       <div style="padding: 20px 0;">
-        <div style="width: 72px; height: 72px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <div
+          style="width: 72px; height: 72px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
           <i class="fas fa-check" style="color: var(--primary); font-size: 32px;"></i>
         </div>
-        
+
         <h2 style="font-size: 24px; margin-bottom: 8px; font-family:'Outfit';">Booking Confirmed!</h2>
-        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">Your stay has been booked successfully. A receipt has been sent to your email.</p>
-        
-        <div style="background: var(--light); padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; text-align: left; margin-bottom: 24px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Booking ID:</strong> <span id="success-booking-id" style="font-weight:700; color:var(--primary);">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Hotel Stay:</strong> <span id="success-hotel-name">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Room Category:</strong> <span id="success-room-type">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Check-in:</strong> <span id="success-check-in">-</span></div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Check-out:</strong> <span id="success-check-out">-</span></div>
-          <div style="display:flex; justify-content:space-between;"><strong>Amount Paid:</strong> <span id="success-amount" style="font-weight:700;">-</span></div>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">Your stay has been booked
+          successfully. A receipt has been sent to your email.</p>
+
+        <div
+          style="background: var(--light); padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; text-align: left; margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Booking ID:</strong>
+            <span id="success-booking-id" style="font-weight:700; color:var(--primary);">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Hotel Stay:</strong>
+            <span id="success-hotel-name">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Room Category:</strong>
+            <span id="success-room-type">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Check-in:</strong> <span
+              id="success-check-in">-</span></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>Check-out:</strong> <span
+              id="success-check-out">-</span></div>
+          <div style="display:flex; justify-content:space-between;"><strong>Amount Paid:</strong> <span
+              id="success-amount" style="font-weight:700;">-</span></div>
         </div>
 
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <button class="btn btn-primary" id="success-print-invoice-btn" style="border-radius:30px; font-weight:600;"><i class="fas fa-file-invoice" style="margin-right:8px;"></i> Print Invoice / Save PDF</button>
-          <button class="btn btn-outline" id="success-view-bookings-btn" style="border-radius:30px; font-weight:600;"><i class="fas fa-calendar-check" style="margin-right:8px;"></i> My Booking History</button>
-          <button class="btn btn-link" onclick="closeSuccessModal()" style="margin-top:10px; font-size:13px; font-weight:600;">Back to Hotel Details</button>
+          <button class="btn btn-primary" id="success-print-invoice-btn" style="border-radius:30px; font-weight:600;"><i
+              class="fas fa-file-invoice" style="margin-right:8px;"></i> Print Invoice / Save PDF</button>
+          <button class="btn btn-outline" id="success-view-bookings-btn" style="border-radius:30px; font-weight:600;"><i
+              class="fas fa-calendar-check" style="margin-right:8px;"></i> My Booking History</button>
+          <button class="btn btn-link" onclick="closeSuccessModal()"
+            style="margin-top:10px; font-size:13px; font-weight:600;">Back to Hotel Details</button>
         </div>
       </div>
     </div>
@@ -470,45 +570,57 @@
   <footer>
     <div class="container">
       <div class="footer-brand">
-        <img src="/logo.png" alt="HotelsNearMeInKerala.com">
-        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the beautiful state of Kerala.</p>
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the
+          beautiful state of Kerala.</p>
+        <div class="footer-socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
       </div>
-      
+
       <div>
         <h3>Top Destinations</h3>
         <ul>
-          <li><a href="#">Kochi Hotels</a></li>
-          <li><a href="#">Munnar Hotels</a></li>
-          <li><a href="#">Alappuzha Hotels</a></li>
+          <li><a href="/?district=Ernakulam">Kochi Hotels</a></li>
+          <li><a href="/?district=Idukki">Munnar Hotels</a></li>
+          <li><a href="/?district=Alappuzha">Alappuzha Hotels</a></li>
+          <li><a href="/?district=Thiruvananthapuram">Trivandrum Hotels</a></li>
+          <li><a href="/?district=Wayanad">Wayanad Hotels</a></li>
+          <li><a href="/?district=Kozhikode">Calicut Hotels</a></li>
+          <li><a href="/?district=Kannur">Kannur Hotels</a></li>
+          <li><a href="/?district=Kasaragod">Kasaragod Hotels</a></li>
         </ul>
       </div>
-      
+
       <div>
         <h3>Top Categories</h3>
         <ul>
-          <li><a href="#">Beach Resorts</a></li>
-          <li><a href="#">Luxury Resorts</a></li>
-          <li><a href="#">Houseboats</a></li>
+          <li><a href="/?category=beach-resort">Beach Resorts</a></li>
+          <li><a href="/?category=hill-station">Hill Station Hotels</a></li>
+          <li><a href="/?category=luxury-resort">Luxury Resorts</a></li>
+          <li><a href="/?category=houseboat">Houseboats</a></li>
+          <li><a href="/?category=homestay">Homestays</a></li>
+          <li><a href="/?category=ayurveda-wellness">Ayurveda & Wellness</a></li>
+          <li><a href="/?category=heritage-palace">Heritage & Palace</a></li>
+          <li><a href="/?category=treehouse">Treehouses</a></li>
         </ul>
       </div>
-      
+
       <div>
         <h3>Company</h3>
         <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="/cancellation.html">Cancellation Policy</a></li>
         </ul>
       </div>
-      
-      <div class="footer-newsletter">
-        <h3>Join Newsletter</h3>
-        <p>Subscribe for exclusive deals.</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Enter your email" required>
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
+
+
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
@@ -516,9 +628,22 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <a id="float-whatsapp-btn" href="#" target="_blank" style="display:none; position:fixed; bottom:24px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+  <a id="float-whatsapp-btn" href="#" target="_blank"
+    style="display:none; position:fixed; bottom:24px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;"
+    onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
     <i class="fab fa-whatsapp"></i>
   </a>
+
+  <!-- Sticky Mobile Booking Bar -->
+  <div class="sticky-mobile-booking-bar" id="sticky-mobile-bar">
+    <div class="sticky-mobile-price">
+      <span class="price-val" id="sticky-price-display">₹-</span>
+      <span class="price-lbl">/ night + taxes</span>
+    </div>
+    <button class="btn btn-primary btn-sm" id="sticky-book-btn" onclick="document.getElementById('rooms').scrollIntoView({behavior: 'smooth'})">
+      Book Now
+    </button>
+  </div>
 
   <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
@@ -530,7 +655,8 @@
       <i class="fas fa-search"></i>
       <span>Search</span>
     </a>
-    <a href="#" class="mob-nav-item mob-nav-wa" id="mob-wa-btn" onclick="document.getElementById('float-whatsapp-btn').click(); return false;">
+    <a href="#" class="mob-nav-item mob-nav-wa" id="mob-wa-btn"
+      onclick="document.getElementById('float-whatsapp-btn').click(); return false;">
       <i class="fab fa-whatsapp"></i>
       <span>WhatsApp</span>
     </a>
@@ -547,4 +673,5 @@
   <!-- App Script -->
   <script type="module" src="/src/app.js"></script>
 </body>
+
 </html>

@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
+import { localDbPool } from './localDb.js';
 
 dotenv.config();
 
@@ -42,6 +43,8 @@ async function runMigrations(client) {
 pool.connect(async (err, client, release) => {
   if (err) {
     console.error('Error connecting to PostgreSQL database:', err.message);
+    console.log('⚠️ PostgreSQL database offline. Falling back to local JSON database (localDb.js)...');
+    pool.query = localDbPool.query;
     if (process.env.DATABASE_URL?.includes('[YOUR-PASSWORD]')) {
       console.error('\n=============================================================');
       console.error('ERROR: Please update your DATABASE_URL password in the .env file!');
@@ -227,15 +230,59 @@ function mapFavoriteRow(row) {
   };
 }
 
+const VALID_COLUMNS = {
+  hotels: [
+    'id', 'name', 'location', 'district', 'category', 'rating', 'reviews_count',
+    'price', 'tax', 'image', 'images', 'map_url', 'whatsapp', 'distance',
+    'badge', 'description', 'amenities', 'highlights', 'details', 'nearby',
+    'featured', 'trending', 'status', 'created_at'
+  ],
+  rooms: [
+    'id', 'hotel_id', 'hotel_name', 'room_number', 'type', 'capacity',
+    'price', 'beds', 'availability', 'amenities', 'inventory'
+  ],
+  coupons: [
+    'code', 'discount_percent', 'expiry_date', 'usage_limit', 'usage_count',
+    'min_booking_amount', 'status'
+  ],
+  users: [
+    'uid', 'name', 'email', 'phone', 'photo_url', 'role', 'password', 'created_at'
+  ],
+  bookings: [
+    'booking_id', 'hotel_id', 'hotel_name', 'user_id', 'user_name', 'user_email',
+    'user_phone', 'room_type', 'check_in', 'check_out', 'guests', 'rooms_count',
+    'total_price', 'status', 'created_at'
+  ],
+  reviews: [
+    'review_id', 'hotel_id', 'hotel_name', 'user_id', 'user_name', 'user_photo',
+    'rating', 'comment', 'reply_text', 'status', 'created_at'
+  ],
+  favorites: [
+    'id', 'user_id', 'hotel_id', 'created_at'
+  ]
+};
+
 // ─── Dynamic UPDATE statement generator ────────────────────────────────────
 async function updateRecord(table, idColumn, idValue, updates, keyMap) {
   const keys = Object.keys(updates);
   if (keys.length === 0) return;
+
+  const allowed = VALID_COLUMNS[table];
+  if (!allowed) {
+    throw new Error(`Security Exception: No whitelist defined for table '${table}'`);
+  }
+
   const setClauses = [];
   const values = [];
   let paramIndex = 1;
   for (const key of keys) {
     const dbKey = keyMap[key] || key;
+
+    // Strict whitelist check to prevent SQL injection in dynamic column updates
+    if (!allowed.includes(dbKey)) {
+      throw new Error(`Security Exception: Invalid column '${dbKey}' for table '${table}'`);
+    }
+
     setClauses.push(`${dbKey} = $${paramIndex}`);
     let val = updates[key];
     if (typeof val === 'object' && val !== null) {
@@ -746,12 +793,16 @@ app.post('/api/auth/login', async (req, res) => {
         created_at: '2026-06-21'
       };
       // Upsert admin record in the DB just to keep in sync
-      await pool.query(
-        `INSERT INTO users (uid, name, email, role, password, created_at, photo_url)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)
-         ON CONFLICT (uid) DO UPDATE SET name = EXCLUDED.name, email = EXCLUDED.email, role = EXCLUDED.role`,
-        [adminUser.uid, adminUser.name, adminUser.email, adminUser.role, hashPassword(password), adminUser.created_at, adminUser.photo_url]
-      );
+      try {
+        await pool.query(
+          `INSERT INTO users (uid, name, email, role, password, created_at, photo_url)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           ON CONFLICT (uid) DO UPDATE SET name = EXCLUDED.name, email = EXCLUDED.email, role = EXCLUDED.role`,
+          [adminUser.uid, adminUser.name, adminUser.email, adminUser.role, hashPassword(password), adminUser.created_at, adminUser.photo_url]
+        );
+      } catch (dbErr) {
+        console.warn("DB offline, skipping admin sync:", dbErr.message);
+      }
       return res.json(mapUserRow(adminUser));
     }
 
@@ -818,6 +869,32 @@ app.post('/api/auth/reset-password', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Serve static assets in production (Express Caching)
+const distPath = path.join(__dirname, 'dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath, {
+    maxAge: '1y',
+    etag: true,
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.html')) {
+        // Disable caching for HTML entry points to ensure instant updates
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      } else {
+        // Cache other assets (JS, CSS, images) for 1 year
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    }
+  }));
+
+  // Catch-all route to support SPA/multi-page routing fallbacks
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
 
 // START SERVER
 app.listen(PORT, () => {

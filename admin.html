@@ -42,7 +42,7 @@
       <aside class="admin-sidebar">
         <div class="sidebar-logo">
           <a href="/index.html">
-            <img src="/logo.png" alt="HotelsNearMeInKerala" />
+            <img src="/logo.webp" alt="HotelsNearMeInKerala" />
           </a>
         </div>
 
@@ -78,11 +78,41 @@
           <li data-tab="hotels">
             <a href="#"><i class="fas fa-hotel"></i> Hotels</a>
           </li>
+          <li data-tab="rooms">
+            <a href="#"><i class="fas fa-door-open"></i> Rooms</a>
+          </li>
+          <li data-tab="bookings">
+            <a href="#"><i class="fas fa-calendar-check"></i> Bookings</a>
+          </li>
+          <li data-tab="users">
+            <a href="#"><i class="fas fa-users"></i> Users</a>
+          </li>
+          <li data-tab="reviews">
+            <a href="#"><i class="fas fa-star"></i> Reviews</a>
+          </li>
+          <li data-tab="offers">
+            <a href="#"><i class="fas fa-ticket-alt"></i> Coupons</a>
+          </li>
+          <li data-tab="payments">
+            <a href="#"><i class="fas fa-credit-card"></i> Payments</a>
+          </li>
+          <li data-tab="reports">
+            <a href="#"><i class="fas fa-chart-bar"></i> Reports</a>
+          </li>
           <li data-tab="seo">
             <a href="#"><i class="fas fa-globe"></i> SEO & Pages</a>
           </li>
           <li data-tab="settings">
             <a href="#"><i class="fas fa-cog"></i> Settings</a>
+          </li>
+          <li data-tab="system-users">
+            <a href="#"><i class="fas fa-user-shield"></i> Team Users</a>
+          </li>
+          <li data-tab="audit-logs">
+            <a href="#"><i class="fas fa-history"></i> Audit Logs</a>
+          </li>
+          <li data-tab="ai-assistant">
+            <a href="#"><i class="fas fa-brain"></i> AI Intelligence</a>
           </li>
           <li>
             <a href="#" id="admin-logout-btn"
@@ -259,6 +289,87 @@
                     </tr>
                   </thead>
                   <tbody id="admin-hotels-tbody">
+                    <!-- Hydrated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+             2.5. ROOMS TAB SECTION
+             ========================================================= -->
+          <div
+            class="admin-tab-content"
+            id="tab-rooms"
+            style="display: none"
+          >
+            <div class="admin-title-row">
+              <div>
+                <h1>Room Configurations</h1>
+                <p>
+                  Manage individual hotel room inventory, night pricing,
+                  capacity details, and availability status.
+                </p>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="openAddRoomModal()"
+              >
+                <i class="fas fa-plus"></i> Add New Room
+              </button>
+            </div>
+            <div class="table-card" style="margin-top: 20px">
+              <div
+                style="
+                  display: flex;
+                  gap: 15px;
+                  margin-bottom: 20px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div
+                  class="admin-search"
+                  style="max-width: 300px; border: 1px solid var(--border)"
+                >
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="search-rooms-input"
+                    placeholder="Search rooms by type or number..."
+                    oninput="renderAdminRoomsTable()"
+                  />
+                </div>
+                <select
+                  id="filter-rooms-hotel"
+                  style="
+                    border: 1px solid var(--border);
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  onchange="renderAdminRoomsTable()"
+                >
+                  <option value="">All Hotels</option>
+                </select>
+              </div>
+              <div class="admin-table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Room Type</th>
+                      <th>Hotel Property</th>
+                      <th>Room No.</th>
+                      <th>Price/Night</th>
+                      <th>Capacity</th>
+                      <th>Beds</th>
+                      <th>Inventory</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-rooms-tbody">
                     <!-- Hydrated dynamically -->
                   </tbody>
                 </table>
@@ -885,7 +996,7 @@ Sitemap: https://hotelkerala.com/sitemap.xml</pre
                   <input
                     type="text"
                     id="settings-logo-url"
-                    value="/logo.png"
+                    value="/logo.webp"
                     style="
                       width: 100%;
                       border: 1px solid var(--border);
