@@ -1,5 +1,5 @@
-/* Google Fonts Integration */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+/* Google Fonts loaded via <link rel="preload"> in HTML — no @import redirect */
+/* Fallback font stack used until webfonts load */
 
 /* CSS Variables - Core Design System */
 :root {
