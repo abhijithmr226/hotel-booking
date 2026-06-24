@@ -1,17 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/index.js"
-    }
-  ],
-  "functions": {
-    "api/index.js": {
-      "includeFiles": [
-        "db.json",
-        "schema.sql"
-      ]
-    }
-  }
+  "cleanUrls": true
 }
+

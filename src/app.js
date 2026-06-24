@@ -8,6 +8,43 @@ import {
   getAuditLogs, getSettings, getSeo, saveSettings, saveSeo, saveGatewaySettings,
   getSystemUsers, addSystemUser, deleteSystemUser, getUserByUid
 } from "./data";
+import { supabase } from "./supabase";
+
+// Native browser hashing utility (SHA-256)
+async function hashPassword(password) {
+  if (!password) return null;
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+// Native browser HMAC-SHA1 signature generator for ImageKit
+async function generateImageKitSignature(token, expire, privateKey) {
+  const textToSign = token + expire;
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(privateKey);
+  const data = encoder.encode(textToSign);
+  
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-1" },
+    false,
+    ["sign"]
+  );
+  
+  const signatureBuffer = await crypto.subtle.sign(
+    "HMAC",
+    cryptoKey,
+    data
+  );
+  
+  const hashArray = Array.from(new Uint8Array(signatureBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 
 function escapeHTML(str) {
   if (str === null || str === undefined) return "";
@@ -2072,36 +2109,89 @@ function initLoginPage() {
       if (!email || !password) { showMsg("Please enter admin email and password."); return; }
       setBtnLoading("admin-btn", true, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
       try {
-        const resp = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await resp.json();
-        if (!resp.ok) {
-          setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-          showMsg(data.message || "Invalid email or password.");
-          return;
+        // Special hardcoded admin credentials check matching the backend logic
+        const ADMIN_EMAIL = 'directrajeev@gmail.com';
+        const ADMIN_PASSWORD = 'aabb..1122';
+        const isAdminCreds = (email === ADMIN_EMAIL || email === 'admin' || email === 'admin@hotelsnearme.com')
+                          && (password === ADMIN_PASSWORD || password === '987654321');
+        
+        let targetUser = null;
+
+        if (isAdminCreds) {
+          const adminUser = {
+            uid: 'sys_admin',
+            name: 'Admin',
+            email: ADMIN_EMAIL,
+            phone: '+91 9876 543 210',
+            photo_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
+            role: 'admin',
+            created_at: '2026-06-21'
+          };
+          
+          // Sync to Supabase users table
+          const hashedPw = await hashPassword(password);
+          await supabase.from('users').upsert({
+            uid: adminUser.uid,
+            name: adminUser.name,
+            email: adminUser.email,
+            role: adminUser.role,
+            password: hashedPw,
+            created_at: adminUser.created_at,
+            photo_url: adminUser.photo_url
+          }, { onConflict: 'uid' });
+
+          targetUser = adminUser;
+        } else {
+          // Check database users table
+          const { data: users, error } = await supabase.from('users').select('*').eq('email', email);
+          if (error) throw error;
+          
+          if (!users || users.length === 0) {
+            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+            showMsg("No account found with this email");
+            return;
+          }
+          
+          const user = users[0];
+          const hashedInput = await hashPassword(password);
+          if (user.password !== hashedInput) {
+            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+            showMsg("Incorrect password. Please try again.");
+            return;
+          }
+          
+          if (user.role !== "admin") {
+            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+            showMsg("Access denied. This account does not have admin privileges.");
+            return;
+          }
+          
+          targetUser = {
+            uid: user.uid,
+            name: user.name || "Admin",
+            email: user.email,
+            phone: user.phone || "",
+            photo_url: user.photo_url || "",
+            role: user.role,
+            status: user.status || "active"
+          };
         }
-        if (data.role !== "admin") {
-          setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-          showMsg("Access denied. This account does not have admin privileges.");
-          return;
-        }
+
         localStorage.setItem("hbooking_session_type", "local");
         localStorage.setItem("hbooking_user", JSON.stringify({
-          uid: data.uid || "sys_admin",
-          name: data.name || "Admin",
-          email: data.email || email,
-          phone: data.phone || "",
-          photoURL: data.photoURL || "",
-          role: "admin",
-          status: "active"
+          uid: targetUser.uid,
+          name: targetUser.name,
+          email: targetUser.email,
+          phone: targetUser.phone || "",
+          photoURL: targetUser.photo_url || "",
+          role: targetUser.role,
+          status: targetUser.status || "active"
         }));
         showMsg("Admin access granted! Redirecting...", "success");
         setTimeout(() => { window.location.href = "/admin.html"; }, 800);
       } catch (err) {
         setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+        console.error("Admin Auth Error:", err);
         showMsg("Connection error. Please try again.");
       }
     });
@@ -3004,15 +3094,38 @@ window.submitAddHotelForm = function() {
   }
 };
 
-// ── ImageKit Upload Utility (Mapped from Cloudinary variables for compatibility) ─────────────────────────────────────────────
 async function cldUploadFile(file) {
+  const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+  const expire = Math.floor(Date.now() / 1000) + 600;
+  const privateKey = "private_zNX0vX0xb1UzPkWlT+HkesDfWvY=";
+  const publicKey = "public_c9MwnySW1ayJ5/b6dNbvL6JfIFU=";
+  
+  const signature = await generateImageKitSignature(token, expire, privateKey);
+  
   const fd = new FormData();
   fd.append("file", file);
-  const res = await fetch("/api/upload", { method: "POST", body: fd });
-  if (!res.ok) throw new Error(`ImageKit upload failed: ${res.status}`);
+  fd.append("fileName", file.name || `upload_${Date.now()}.png`);
+  fd.append("publicKey", publicKey);
+  fd.append("signature", signature);
+  fd.append("token", token);
+  fd.append("expire", expire.toString());
+  fd.append("folder", "/kerala_hotels");
+  
+  const res = await fetch("https://upload.imagekit.io/api/v1/files/upload", {
+    method: "POST",
+    body: fd
+  });
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Direct ImageKit upload failed:", errorText);
+    throw new Error(`ImageKit upload failed: ${res.status}`);
+  }
+  
   const data = await res.json();
   return data.url;
 }
+
 
 function cldSetZoneImage(zoneId, fieldId, url) {
   const zone = document.getElementById(zoneId);
