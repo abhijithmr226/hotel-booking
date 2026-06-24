@@ -3004,22 +3004,14 @@ window.submitAddHotelForm = function() {
   }
 };
 
-// ── Cloudinary Upload Utility ─────────────────────────────────────────────
-const CLD_CLOUD = "dkapxxypu";
-const CLD_PRESET = "hotels_upload";
-const CLD_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLD_CLOUD}/image/upload`;
-
+// ── ImageKit Upload Utility (Mapped from Cloudinary variables for compatibility) ─────────────────────────────────────────────
 async function cldUploadFile(file) {
   const fd = new FormData();
   fd.append("file", file);
-  fd.append("upload_preset", CLD_PRESET);
-  fd.append("folder", "kerala_hotels");
-  fd.append("quality", "auto");
-  fd.append("fetch_format", "auto");
-  const res = await fetch(CLD_UPLOAD_URL, { method: "POST", body: fd });
-  if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.status}`);
+  const res = await fetch("/api/upload", { method: "POST", body: fd });
+  if (!res.ok) throw new Error(`ImageKit upload failed: ${res.status}`);
   const data = await res.json();
-  return data.secure_url;
+  return data.url;
 }
 
 function cldSetZoneImage(zoneId, fieldId, url) {
@@ -3102,7 +3094,7 @@ window.triggerCldPick = function(zoneId, fieldId, isZone) {
       }
       showAdminToast(`<i class="fas fa-check-circle" style="font-size:16px;"></i> Photo uploaded successfully!`, "success");
     } catch(err) {
-      showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your Cloudinary settings`, "error");
+      showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your ImageKit settings`, "error");
       if (isZone) {
         const zone = document.getElementById(zoneId);
         if (zone) zone.innerHTML = `<div class="cld-drop-inner"><i class="fas fa-cloud-upload-alt"></i><span>Click or drag &amp; drop to upload</span></div>`;
@@ -3132,7 +3124,7 @@ window.handleCldDrop = async function(event, zoneId, fieldId, isZone) {
     }
     showAdminToast(`<i class="fas fa-check-circle" style="font-size:16px;"></i> Photo uploaded successfully!`, "success");
   } catch(err) {
-    showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your Cloudinary settings`, "error");
+    showAdminToast(`<i class="fas fa-exclamation-circle" style="font-size:16px;"></i> Upload failed — check your ImageKit settings`, "error");
     if (isZone) {
       const zone = document.getElementById(zoneId);
       if (zone) zone.innerHTML = `<div class="cld-drop-inner"><i class="fas fa-cloud-upload-alt"></i><span>Click or drag &amp; drop to upload</span></div>`;
