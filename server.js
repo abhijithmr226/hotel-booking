@@ -23,7 +23,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL?.includes('neon.tech') || process.env.DATABASE_URL?.includes('sslmode=require')
     ? { rejectUnauthorized: false }
-    : false
+    : false,
+  connectionTimeoutMillis: 3000,
+  max: 4
 });
 
 // Avoid uncaught exception process crashes on idle client errors
@@ -37,7 +39,7 @@ if (useLocalDb) {
   console.log('⚠️ No valid DATABASE_URL found. Using local JSON database (localDb.js) fallback...');
 }
 
-// Wrap pool.query to dynamically switch to localDb on connection/network errors
+// Wrap pool.query to dynamically switch to localDb on connection/network/schema errors
 const originalQuery = pool.query.bind(pool);
 pool.query = async function(sql, params) {
   if (useLocalDb) {
@@ -46,16 +48,19 @@ pool.query = async function(sql, params) {
   try {
     return await originalQuery(sql, params);
   } catch (err) {
-    const isConnErr = err.code === 'ECONNREFUSED' || 
-                      err.code === 'ENOTFOUND' || 
-                      err.code === 'ETIMEDOUT' || 
-                      err.message?.toLowerCase().includes('connect') || 
-                      err.message?.toLowerCase().includes('timeout') || 
-                      err.message?.toLowerCase().includes('ssl') || 
-                      err.message?.toLowerCase().includes('authentication') ||
-                      err.message?.toLowerCase().includes('password');
-    if (isConnErr) {
-      console.warn('⚠️ PostgreSQL query failed (connection/auth error). Dynamic fallback to local JSON database:', err.message);
+    const isConnOrSchemaErr = err.code === 'ECONNREFUSED' || 
+                              err.code === 'ENOTFOUND' || 
+                              err.code === 'ETIMEDOUT' || 
+                              err.code === '42P01' || // undefined_table
+                              err.message?.toLowerCase().includes('connect') || 
+                              err.message?.toLowerCase().includes('timeout') || 
+                              err.message?.toLowerCase().includes('ssl') || 
+                              err.message?.toLowerCase().includes('authentication') ||
+                              err.message?.toLowerCase().includes('password') ||
+                              err.message?.toLowerCase().includes('relation') ||
+                              err.message?.toLowerCase().includes('does not exist');
+    if (isConnOrSchemaErr) {
+      console.warn('⚠️ PostgreSQL query failed (connection/auth/schema error). Dynamic fallback to local JSON database:', err.message);
       useLocalDb = true;
       return localDbPool.query(sql, params);
     }
