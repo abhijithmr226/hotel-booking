@@ -2109,90 +2109,44 @@ function initLoginPage() {
       if (!email || !password) { showMsg("Please enter admin email and password."); return; }
       setBtnLoading("admin-btn", true, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
       try {
-        // Special hardcoded admin credentials check matching the backend logic
-        const ADMIN_EMAIL = 'directrajeev@gmail.com';
-        const ADMIN_PASSWORD = 'aabb..1122';
-        const isAdminCreds = (email === ADMIN_EMAIL || email === 'admin' || email === 'admin@hotelsnearme.com')
-                          && (password === ADMIN_PASSWORD || password === '987654321');
-        
-        let targetUser = null;
+        // Authenticate using Firebase Auth directly
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        const firebaseUser = result.user;
 
-        if (isAdminCreds) {
-          const adminUser = {
-            uid: 'sys_admin',
-            name: 'Admin',
-            email: ADMIN_EMAIL,
-            phone: '+91 9876 543 210',
-            photo_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
-            role: 'admin',
-            created_at: '2026-06-21'
-          };
-          
-          // Sync to Supabase users table
-          const hashedPw = await hashPassword(password);
-          await supabase.from('users').upsert({
-            uid: adminUser.uid,
-            name: adminUser.name,
-            email: adminUser.email,
-            role: adminUser.role,
-            password: hashedPw,
-            created_at: adminUser.created_at,
-            photo_url: adminUser.photo_url
-          }, { onConflict: 'uid' });
+        // Fetch user profile from Supabase to check role
+        const profile = await getUserByUid(firebaseUser.uid);
+        const role = profile?.role || (email === "directrajeev@gmail.com" ? "admin" : "user");
 
-          targetUser = adminUser;
-        } else {
-          // Check database users table
-          const { data: users, error } = await supabase.from('users').select('*').eq('email', email);
-          if (error) throw error;
-          
-          if (!users || users.length === 0) {
-            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-            showMsg("No account found with this email");
-            return;
-          }
-          
-          const user = users[0];
-          const hashedInput = await hashPassword(password);
-          if (user.password !== hashedInput) {
-            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-            showMsg("Incorrect password. Please try again.");
-            return;
-          }
-          
-          if (user.role !== "admin") {
-            setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
-            showMsg("Access denied. This account does not have admin privileges.");
-            return;
-          }
-          
-          targetUser = {
-            uid: user.uid,
-            name: user.name || "Admin",
-            email: user.email,
-            phone: user.phone || "",
-            photo_url: user.photo_url || "",
-            role: user.role,
-            status: user.status || "active"
-          };
+        if (role !== "admin") {
+          // Sign out immediately if role is not admin
+          await signOut(auth);
+          setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
+          showMsg("Access denied. This account does not have admin privileges.");
+          return;
         }
 
+        const userData = {
+          uid: firebaseUser.uid,
+          name: profile?.name || firebaseUser.displayName || "Admin",
+          email: firebaseUser.email,
+          phone: profile?.phone || "",
+          photoURL: profile?.photoURL || firebaseUser.photoURL || "",
+          role: "admin",
+          status: "active"
+        };
+
+        // Sync admin user profile in Supabase
+        await addUser(userData);
+
         localStorage.setItem("hbooking_session_type", "local");
-        localStorage.setItem("hbooking_user", JSON.stringify({
-          uid: targetUser.uid,
-          name: targetUser.name,
-          email: targetUser.email,
-          phone: targetUser.phone || "",
-          photoURL: targetUser.photo_url || "",
-          role: targetUser.role,
-          status: targetUser.status || "active"
-        }));
+        localStorage.setItem("hbooking_user", JSON.stringify(userData));
+
         showMsg("Admin access granted! Redirecting...", "success");
         setTimeout(() => { window.location.href = "/admin.html"; }, 800);
       } catch (err) {
         setBtnLoading("admin-btn", false, '<i class="fas fa-unlock-alt"></i> Access Admin Dashboard');
         console.error("Admin Auth Error:", err);
-        showMsg("Connection error. Please try again.");
+        showMsg(formatFirebaseError(err.code || err.message));
       }
     });
   }
