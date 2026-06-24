@@ -157,15 +157,11 @@ header .container {
 }
 
 .logo img {
-  /* Natural dimensions: 1201×567 → aspect ratio 2.118:1 */
-  height: 52px;        /* display height */
-  width: auto;         /* preserves aspect ratio automatically */
-  max-width: 180px;    /* cap on very wide screens */
-  object-fit: contain;
-  image-rendering: -webkit-optimize-contrast; /* crisp on retina */
-  image-rendering: crisp-edges;
+  height: 52px;
+  width: auto;
   display: block;
 }
+
 
 nav ul {
   display: flex;
@@ -849,13 +845,11 @@ footer .container {
 }
 
 .footer-brand img {
-  height: 52px;        /* same height as header for consistency */
-  width: auto;         /* preserve aspect ratio */
-  max-width: 180px;
+  height: 52px;
+  width: auto;
+  max-width: 220px;
   margin-bottom: 20px;
-  object-fit: contain;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  display: block;
 }
 
 .footer-brand p {
@@ -2642,7 +2636,7 @@ footer ul a:hover {
   .testimonial-quote { font-size: 13.5px; }
 
   /* Footer */
-  .footer-brand img { height: 44px; width: auto; max-width: 160px; }
+  .footer-brand img { height: 44px; width: auto; }
   .footer-socials { gap: 10px; }
   .footer-bottom p { font-size: 12px; }
 
@@ -3045,9 +3039,8 @@ footer ul a:hover {
   }
 
   .logo img {
-    height: 44px;     /* slightly smaller on mobile, still crisp */
+    height: 42px;
     width: auto;
-    max-width: 150px;
   }
 
   #main-nav {
@@ -3989,12 +3982,10 @@ footer ul a:hover {
   }
 
   .drawer-logo {
-    height: 44px !important;   /* bigger in the open drawer panel */
-    width: auto !important;    /* preserve aspect ratio */
-    max-width: 160px !important;
-    object-fit: contain !important;
-    image-rendering: -webkit-optimize-contrast !important;
-    image-rendering: crisp-edges !important;
+    height: 44px !important;
+    width: auto !important;
+    max-width: 180px !important;
+    display: block !important;
     align-self: flex-start !important;
   }
 
