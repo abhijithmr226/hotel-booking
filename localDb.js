@@ -239,21 +239,36 @@ function getSeedData() {
   return seed;
 }
 
+let cachedData = null;
+
 function loadDb() {
+  if (cachedData) return cachedData;
   if (!fs.existsSync(dbPath)) {
     const data = getSeedData();
-    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+    try {
+      fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (e) {
+      console.warn("⚠️ Local database file system is read-only, skipping seed write.");
+    }
+    cachedData = data;
     return data;
   }
   try {
-    return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+    cachedData = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+    return cachedData;
   } catch (e) {
-    return getSeedData();
+    cachedData = getSeedData();
+    return cachedData;
   }
 }
 
 function saveDb(data) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+  cachedData = data;
+  try {
+    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (e) {
+    console.warn("⚠️ Local database file system is read-only, skipping write to disk. State changes will persist in memory only.");
+  }
 }
 
 export const localDbPool = {
