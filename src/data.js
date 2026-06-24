@@ -655,7 +655,14 @@ export async function addUser(user) {
       role: user.role || 'user',
       created_at: user.createdAt || new Date().toISOString().split("T")[0]
     }, { onConflict: 'uid' });
-    if (error) throw error;
+    if (error) {
+      console.error("Failed to add user to Supabase:", error);
+      if (error.code === '42501') {
+        console.warn("Supabase Row Level Security (RLS) is blocking 'users' table upserts. Please disable RLS or add insert policies in your Supabase SQL editor.");
+        return;
+      }
+      throw error;
+    }
     await refreshAllData();
   }
 }
@@ -668,7 +675,14 @@ export async function updateUserProfile(uid, updates) {
     dbUpdates[dbKey] = updates[key];
   }
   const { error } = await supabase.from('users').update(dbUpdates).eq('uid', uid);
-  if (error) throw error;
+  if (error) {
+    console.error("Failed to update user profile in Supabase:", error);
+    if (error.code === '42501') {
+      console.warn("Supabase Row Level Security (RLS) is blocking 'users' table updates. Please disable RLS or add update policies in your Supabase SQL editor.");
+      return;
+    }
+    throw error;
+  }
   await writeAuditLog("UPDATE_USER", "user", uid, old ? JSON.stringify(old) : "", JSON.stringify(updates));
   await refreshAllData();
 }
