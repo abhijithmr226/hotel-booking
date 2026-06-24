@@ -180,9 +180,26 @@
 
   <!-- Hero Banner -->
   <section class="hero">
-    <video autoplay muted loop playsinline class="hero-video">
-      <source src="https://cdn.pixabay.com/video/2025/01/22/254020_large.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline class="hero-video" id="hero-bg-video">
+      <source src="https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4" type="video/mp4">
     </video>
+    <script>
+      (function() {
+        var video = document.getElementById('hero-bg-video');
+        if (video) {
+          var width = window.innerWidth;
+          var source = video.querySelector('source');
+          if (width < 600) {
+            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_tiny.mp4";
+          } else if (width < 1200) {
+            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_small.mp4";
+          } else {
+            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4";
+          }
+          video.load();
+        }
+      })();
+    </script>
     <div class="container">
       <h1>Find The Perfect Stay<br>Anywhere in <span>Kerala</span></h1>
       <p>Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</p>
