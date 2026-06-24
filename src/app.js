@@ -163,18 +163,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // 3. Routing check to run page-specific functions
-  const path = window.location.pathname;
-  if (path.endsWith("index.html") || path === "/" || path.endsWith("/")) {
+  const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
+  const isPath = (name) => path.endsWith("/" + name) || path.endsWith("/" + name + ".html");
+
+  if (path === "" || path === "/" || path.endsWith("/index.html") || path.endsWith("/index")) {
     initLandingPage();
-  } else if (path.endsWith("hotel.html")) {
+  } else if (isPath("hotel")) {
     initHotelDetailPage();
-  } else if (path.endsWith("login.html")) {
+  } else if (isPath("login")) {
     initLoginPage();
-  } else if (path.endsWith("admin.html")) {
+  } else if (isPath("admin")) {
     initAdminPage();
-  } else if (path.endsWith("bookings.html")) {
+  } else if (isPath("bookings")) {
     initBookingsPage();
   }
+
 
   // Mobile nav toggle
   initMobileNav();
