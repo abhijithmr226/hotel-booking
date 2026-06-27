@@ -415,6 +415,8 @@ async function initLandingPage() {
   if (searchForm) {
     searchForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const autoBox = document.getElementById("search-autocomplete-box");
+      if (autoBox) autoBox.style.display = "none";
       await applyAdvancedFilters(hotels);
       document.getElementById("hotels-near-you")?.scrollIntoView({ behavior: "smooth" });
     });
