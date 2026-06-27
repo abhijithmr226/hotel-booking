@@ -31,7 +31,7 @@ export default async function middleware(request) {
           const title = `${hotel.name} | Book stay in ${hotel.location || 'Kerala'}, India`;
           const rawDesc = hotel.description || '';
           const cleanDesc = rawDesc.replace(/<[^>]*>/g, '').substring(0, 160) + '...';
-          const image = hotel.image ? (hotel.image.startsWith('http') ? hotel.image : `https://hotelsnearmeinkera.la${hotel.image.startsWith('/') ? '' : '/'}${hotel.image}`) : 'https://hotelsnearmeinkera.la/Landing-Page.webp';
+          const image = hotel.image ? (hotel.image.startsWith('http') ? hotel.image : `https://hotelsnearmeinkera.la${hotel.image.startsWith('/') ? '' : '/'}${hotel.image}`) : 'https://hotelsnearmeinkera.la/sharing-banner.jpg';
           
           const html = `<!DOCTYPE html>
 <html lang="en">
