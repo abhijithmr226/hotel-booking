@@ -1098,17 +1098,29 @@ async function initHotelDetailPage() {
   if (document.getElementById("hotel-location-full")) document.getElementById("hotel-location-full").innerText = selectedHotel.location;
   document.getElementById("hotel-badge-tag").innerText = selectedHotel.badge || selectedHotel.category;
   document.getElementById("hotel-desc").innerHTML = selectedHotel.description;
-  document.getElementById("sidebar-hotel-whatsapp").innerText = `+${selectedHotel.whatsapp}`;
+  let displayPhone = String(selectedHotel.whatsapp || "");
+  let cleanDisp = displayPhone.replace(/\D/g, "");
+  if (cleanDisp.length === 10) {
+    displayPhone = `+91 ${displayPhone}`;
+  } else if (!displayPhone.startsWith("+") && displayPhone.trim() !== "") {
+    displayPhone = `+${displayPhone}`;
+  }
+  document.getElementById("sidebar-hotel-whatsapp").innerText = displayPhone;
+
   const sidebarWaBtn = document.getElementById("sidebar-hotel-whatsapp-btn");
   if (sidebarWaBtn && selectedHotel.whatsapp) {
-    const waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    let waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    if (waNum.length === 11 && waNum.startsWith("0")) waNum = waNum.substring(1);
+    if (waNum.length === 10) waNum = "91" + waNum;
     sidebarWaBtn.href = `https://wa.me/${waNum}?text=${encodeURIComponent(`Hello, I need help booking a stay at ${selectedHotel.name}.`)}`;
   }
 
   // Set floating WhatsApp button for hotel-specific number
   const floatWa = document.getElementById("float-whatsapp-btn");
   if (floatWa && selectedHotel.whatsapp) {
-    const waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    let waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
+    if (waNum.length === 11 && waNum.startsWith("0")) waNum = waNum.substring(1);
+    if (waNum.length === 10) waNum = "91" + waNum;
     const waMsg = encodeURIComponent(`Hi! I found ${selectedHotel.name} on HotelsNearMeInKerala.com and would like to enquire about availability and rates.`);
     floatWa.href = `https://wa.me/${waNum}?text=${waMsg}`;
     floatWa.title = `WhatsApp ${selectedHotel.name}`;
@@ -2167,7 +2179,9 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  const cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
+  if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
 
   closeBookingModal();
@@ -2361,7 +2375,9 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  const cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
+  if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
 
   window.closeMobileBookingModal();

@@ -80,7 +80,14 @@ export default async function handler(req, res) {
         const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
         const hotelName = h.name || 'Unknown Hotel';
         const hotelPlace = h.location || 'Kerala';
-        const contactNum = h.whatsapp || 'N/A';
+        let contactNum = String(h.whatsapp || 'N/A').replace(/\D/g, "");
+        if (contactNum && contactNum !== "N/A" && contactNum !== "") {
+          if (contactNum.length === 11 && contactNum.startsWith("0")) contactNum = contactNum.substring(1);
+          if (contactNum.length === 10) contactNum = "91" + contactNum;
+          contactNum = "+" + contactNum;
+        } else {
+          contactNum = "N/A";
+        }
         
         xml += `
   <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
