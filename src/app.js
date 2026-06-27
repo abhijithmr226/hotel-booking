@@ -988,20 +988,95 @@ async function initHotelDetailPage() {
     "@type": "Hotel",
     "name": selectedHotel.name,
     "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '') : "",
-    "image": selectedHotel.image ? `https://hotelsnearmeinkera.la${selectedHotel.image.startsWith('/') ? '' : '/'}${selectedHotel.image}` : "",
+    "image": selectedHotel.image ? (selectedHotel.image.startsWith('http') ? selectedHotel.image : `https://hotelsnearmeinkera.la${selectedHotel.image.startsWith('/') ? '' : '/'}${selectedHotel.image}`) : "",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": selectedHotel.location,
       "addressRegion": dist,
       "addressCountry": "IN"
     },
-    "telephone": selectedHotel.whatsapp ? `+${selectedHotel.whatsapp}` : "",
+    "telephone": selectedHotel.whatsapp ? (selectedHotel.whatsapp.startsWith('+') ? selectedHotel.whatsapp : `+${selectedHotel.whatsapp}`) : "",
     "starRating": {
       "@type": "Rating",
-      "ratingValue": selectedHotel.rating
-    }
+      "ratingValue": selectedHotel.rating || 4.5
+    },
+    "priceRange": selectedHotel.price ? `INR ${selectedHotel.price} - ${(selectedHotel.price * 1.5).toFixed(0)}` : "INR 1500 - 15000",
+    "url": window.location.href,
+    "amenityFeature": Array.isArray(selectedHotel.amenities) ? selectedHotel.amenities.map(amenity => ({
+      "@type": "LocationFeatureSpecification",
+      "name": amenity,
+      "value": true
+    })) : []
   };
   hotelSchema.textContent = JSON.stringify(schemaObj, null, 2);
+
+  // Inject Organization schema markup dynamically
+  let orgSchema = document.getElementById("organization-schema-ld");
+  if (!orgSchema) {
+    orgSchema = document.createElement('script');
+    orgSchema.id = "organization-schema-ld";
+    orgSchema.type = "application/ld+json";
+    document.head.appendChild(orgSchema);
+  }
+  const orgObj = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "HotelsNearMeInKerala.com",
+    "url": "https://hotelsnearmeinkera.la/",
+    "logo": "https://hotelsnearmeinkera.la/logo.webp",
+    "sameAs": [
+      "https://www.facebook.com/hotelsnearmeinkerala",
+      "https://twitter.com/hotelsnearmeinkerala"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+916238199113",
+      "contactType": "customer service",
+      "areaServed": "IN",
+      "availableLanguage": ["English", "Malayalam"]
+    }
+  };
+  orgSchema.textContent = JSON.stringify(orgObj, null, 2);
+
+  // Inject BreadcrumbList schema markup dynamically
+  let breadcrumbSchema = document.getElementById("breadcrumb-schema-ld");
+  if (!breadcrumbSchema) {
+    breadcrumbSchema = document.createElement('script');
+    breadcrumbSchema.id = "breadcrumb-schema-ld";
+    breadcrumbSchema.type = "application/ld+json";
+    document.head.appendChild(breadcrumbSchema);
+  }
+  const breadcrumbList = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://hotelsnearmeinkera.la/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Kerala",
+        "item": "https://hotelsnearmeinkera.la/categories.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": dist,
+        "item": `https://hotelsnearmeinkera.la/categories.html?district=${encodeURIComponent(dist)}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": selectedHotel.name,
+        "item": `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`
+      }
+    ]
+  };
+  breadcrumbSchema.textContent = JSON.stringify(breadcrumbList, null, 2);
 
   document.getElementById("hotel-title").innerText = selectedHotel.name;
   document.getElementById("breadcrumb-current").innerText = selectedHotel.name;
