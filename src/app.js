@@ -837,6 +837,9 @@ window.selectRoomCard = function(roomId) {
   }
   
   renderRoomCards(currentHotelRooms, roomId);
+  
+  // Directly open the unified booking modal for instant reservation
+  window.openMobileBookingModal(roomId);
 };
 
 async function initHotelDetailPage() {
@@ -1679,7 +1682,9 @@ async function initHotelDetailPage() {
   // Submit action (WhatsApp Modal or Secure Online Checkout)
   document.getElementById("booking-submit-btn").addEventListener("click", () => {
     if (bookingMode === "whatsapp") {
-      openBookingModal();
+      const roomSelect = document.getElementById("booking-room-select");
+      const activeRoomId = roomSelect ? roomSelect.value : "";
+      window.openMobileBookingModal(activeRoomId);
     } else {
       window.openCheckoutModal();
     }
@@ -2176,7 +2181,11 @@ Please confirm availability. Thank you!`;
 // MOBILE WHATSAPP BOOKING FLOW
 // -------------------------------------------------------------
 window.openMobileBookingModal = function(roomId) {
-  const roomObj = currentHotelRooms.find(r => r.id === roomId);
+  let roomObj = currentHotelRooms.find(r => r.id === roomId);
+  if (!roomObj && currentHotelRooms.length > 0) {
+    roomObj = currentHotelRooms[0];
+    roomId = roomObj.id;
+  }
   if (!roomObj) return;
 
   // Set selected room in background widget select element
@@ -2360,7 +2369,11 @@ Please confirm availability. Thank you!`;
 
   showBookingToast(`✅ Booking #${bookingId} created! Opening WhatsApp...`);
   setTimeout(() => {
-    window.location.href = waUrl;
+    if (window.innerWidth > 1024) {
+      window.open(waUrl, "_blank");
+    } else {
+      window.location.href = waUrl;
+    }
   }, 600);
 }
 
