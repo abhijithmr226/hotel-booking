@@ -6,6 +6,18 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
+    },
+    {
+      "source": "/google-hotels/hotels.xml",
+      "destination": "/api/google-hotels/hotels"
+    },
+    {
+      "source": "/google-hotels/prices.xml",
+      "destination": "/api/google-hotels/prices"
+    },
+    {
+      "source": "/google-hotels/pos.xml",
+      "destination": "/api/google-hotels/pos"
     }
   ],
   "headers": [

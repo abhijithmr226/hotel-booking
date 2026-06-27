@@ -1285,14 +1285,17 @@ async function initHotelDetailPage() {
     }).join("");
   }
 
-  // Set initial dates for widget
+  // Set initial dates for widget (read from query params if available)
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const formatInputDate = (date) => date.toISOString().split("T")[0];
-  document.getElementById("checkin-input").value = formatInputDate(today);
-  document.getElementById("checkout-input").value = formatInputDate(tomorrow);
+  const checkinParam = params.get("checkin");
+  const checkoutParam = params.get("checkout");
+  
+  document.getElementById("checkin-input").value = checkinParam || formatInputDate(today);
+  document.getElementById("checkout-input").value = checkoutParam || formatInputDate(tomorrow);
 
   // Load Hotel Rooms
   const rooms = await getRooms();

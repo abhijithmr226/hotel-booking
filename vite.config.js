@@ -15,26 +15,58 @@ export default defineConfig({
     },
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        if (req.url && req.url.split('?')[0] === '/sitemap.xml') {
+        const path = req.url ? req.url.split('?')[0] : '';
+        if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');
             const mockRes = {
               statusCode: 200,
-              setHeader(name, value) {
-                res.setHeader(name, value);
-              },
-              status(code) {
-                this.statusCode = code;
-                res.statusCode = code;
-                return this;
-              },
-              send(body) {
-                res.end(body);
-              }
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
             };
             await handler(req, mockRes);
           } catch (err) {
             console.error("Local sitemap dev server error:", err);
+            next();
+          }
+        } else if (path === '/google-hotels/hotels.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/hotels.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
+            next();
+          }
+        } else if (path === '/google-hotels/prices.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/prices.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
+            next();
+          }
+        } else if (path === '/google-hotels/pos.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/pos.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
             next();
           }
         } else {
@@ -47,26 +79,58 @@ export default defineConfig({
     port: 4173,
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        if (req.url && req.url.split('?')[0] === '/sitemap.xml') {
+        const path = req.url ? req.url.split('?')[0] : '';
+        if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');
             const mockRes = {
               statusCode: 200,
-              setHeader(name, value) {
-                res.setHeader(name, value);
-              },
-              status(code) {
-                this.statusCode = code;
-                res.statusCode = code;
-                return this;
-              },
-              send(body) {
-                res.end(body);
-              }
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
             };
             await handler(req, mockRes);
           } catch (err) {
             console.error("Local sitemap preview server error:", err);
+            next();
+          }
+        } else if (path === '/google-hotels/hotels.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/hotels.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
+            next();
+          }
+        } else if (path === '/google-hotels/prices.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/prices.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
+            next();
+          }
+        } else if (path === '/google-hotels/pos.xml') {
+          try {
+            const { default: handler } = await import('./api/google-hotels/pos.js');
+            const mockRes = {
+              statusCode: 200,
+              setHeader(name, value) { res.setHeader(name, value); },
+              status(code) { this.statusCode = code; res.statusCode = code; return this; },
+              send(body) { res.end(body); }
+            };
+            await handler(req, mockRes);
+          } catch (err) {
             next();
           }
         } else {
