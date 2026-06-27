@@ -782,9 +782,14 @@ function renderRoomCards(hotelRooms, activeRoomId) {
               <span class="price">₹${r.price.toLocaleString("en-IN")}</span>
               <span class="tax-info">/ night + taxes</span>
             </div>
-            <button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
-              ${isSelected ? 'Selected <i class="fas fa-check"></i>' : 'Select Room'}
-            </button>
+            ${window.innerWidth <= 1024
+              ? `<button type="button" class="btn btn-primary room-select-btn" onclick="window.openMobileBookingModal('${r.id}')" style="background:#25D366; border-color:#25D366; color:#fff; display:flex; align-items:center; gap:6px;">
+                   Book Now <i class="fab fa-whatsapp"></i>
+                 </button>`
+              : `<button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
+                   ${isSelected ? 'Selected <i class="fas fa-check"></i>' : 'Select Room'}
+                 </button>`
+            }
           </div>
         </div>
       </div>
@@ -1524,6 +1529,16 @@ async function initHotelDetailPage() {
   document.getElementById("modal-close-btn").addEventListener("click", closeBookingModal);
   document.getElementById("whatsapp-booking-form").addEventListener("submit", submitWhatsAppBooking);
 
+  // Mobile Modal actions
+  const mobCloseBtn = document.getElementById("mobile-modal-close-btn");
+  if (mobCloseBtn) {
+    mobCloseBtn.addEventListener("click", window.closeMobileBookingModal);
+  }
+  const mobBookingForm = document.getElementById("mobile-whatsapp-booking-form");
+  if (mobBookingForm) {
+    mobBookingForm.addEventListener("submit", submitMobileWhatsAppBooking);
+  }
+
   // Submit secure credit card booking
   const checkoutPaymentForm = document.getElementById("checkout-payment-form");
   if (checkoutPaymentForm) {
@@ -1953,6 +1968,196 @@ Please confirm availability. Thank you!`;
 
   closeBookingModal();
   document.getElementById("whatsapp-booking-form").reset();
+
+  showBookingToast(`✅ Booking #${bookingId} created! Opening WhatsApp...`);
+  setTimeout(() => window.open(waUrl, "_blank"), 600);
+}
+
+// -------------------------------------------------------------
+// MOBILE WHATSAPP BOOKING FLOW
+// -------------------------------------------------------------
+window.openMobileBookingModal = function(roomId) {
+  const roomObj = currentHotelRooms.find(r => r.id === roomId);
+  if (!roomObj) return;
+
+  // Set selected room in background widget select element
+  const roomSelect = document.getElementById("booking-room-select");
+  if (roomSelect) {
+    roomSelect.value = roomId;
+    roomSelect.dispatchEvent(new Event("change"));
+  }
+
+  // Set header info
+  const roomNameEl = document.getElementById("mobile-booking-room-name");
+  const roomPriceEl = document.getElementById("mobile-booking-room-price");
+  if (roomNameEl) roomNameEl.innerText = roomObj.type;
+  if (roomPriceEl) roomPriceEl.innerText = `₹${roomObj.price.toLocaleString("en-IN")} / night`;
+
+  // Set checkin/checkout dates using values already set in desktop widget if they exist
+  const deskCheckin = document.getElementById("checkin-input")?.value;
+  const deskCheckout = document.getElementById("checkout-input")?.value;
+  const mobCheckin = document.getElementById("mob-checkin");
+  const mobCheckout = document.getElementById("mob-checkout");
+
+  if (mobCheckin) {
+    mobCheckin.value = deskCheckin || new Date().toISOString().split("T")[0];
+  }
+  if (mobCheckout) {
+    if (deskCheckout) {
+      mobCheckout.value = deskCheckout;
+    } else {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      mobCheckout.value = tomorrow.toISOString().split("T")[0];
+    }
+  }
+
+  // Set guests/rooms defaults
+  const deskGuestsRooms = document.getElementById("guests-rooms")?.value || "2 Guests, 1 Room";
+  const parts = deskGuestsRooms.split(",");
+  const guestsNumStr = parts[0] ? parts[0].trim().split(" ")[0] : "2";
+  const roomsNumStr = parts[1] ? parts[1].trim().split(" ")[0] : "1";
+
+  const mobGuests = document.getElementById("mob-guests");
+  const mobRooms = document.getElementById("mob-rooms");
+  if (mobGuests) mobGuests.value = `${guestsNumStr} Guest${guestsNumStr > 1 ? 's' : ''}`;
+  if (mobRooms) mobRooms.value = `${roomsNumStr} Room${roomsNumStr > 1 ? 's' : ''}`;
+
+  // Pre-fill user data if logged in
+  const userJson = localStorage.getItem("hbooking_user");
+  if (userJson) {
+    const user = JSON.parse(userJson);
+    const guestNameEl = document.getElementById("mob-guest-name");
+    const guestPhoneEl = document.getElementById("mob-guest-phone");
+    if (guestNameEl && user.name) guestNameEl.value = user.name;
+    if (guestPhoneEl && user.phone) guestPhoneEl.value = user.phone;
+  }
+
+  // Store roomId on the form element dataset for reference on submit
+  const mobForm = document.getElementById("mobile-whatsapp-booking-form");
+  if (mobForm) {
+    mobForm.dataset.roomId = roomId;
+  }
+
+  // Open the modal
+  const modal = document.getElementById("mobile-booking-modal");
+  if (modal) {
+    modal.classList.add("open");
+  }
+};
+
+window.closeMobileBookingModal = function() {
+  const modal = document.getElementById("mobile-booking-modal");
+  if (modal) {
+    modal.classList.remove("open");
+  }
+};
+
+async function submitMobileWhatsAppBooking(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const roomId = form.dataset.roomId;
+  const roomObj = currentHotelRooms.find(r => r.id === roomId);
+  if (!roomObj) {
+    alert("Selected room could not be found.");
+    return;
+  }
+
+  const name = document.getElementById("mob-guest-name").value.trim();
+  const phone = document.getElementById("mob-guest-phone").value.trim();
+  const requests = document.getElementById("mob-guest-requests").value.trim();
+
+  const checkin = document.getElementById("mob-checkin").value;
+  const checkout = document.getElementById("mob-checkout").value;
+  const guestsVal = document.getElementById("mob-guests").value;
+  const roomsVal = document.getElementById("mob-rooms").value;
+
+  const inDate = new Date(checkin);
+  const outDate = new Date(checkout);
+  let nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+  if (isNaN(nights) || nights <= 0) {
+    alert("Please select valid check-in and check-out dates.");
+    return;
+  }
+
+  const numRooms = parseInt(roomsVal.split(" ")[0]) || 1;
+  const numGuests = parseInt(guestsVal.split(" ")[0]) || 1;
+
+  // Live availability verification
+  const roomsList = await getRooms();
+  const activeRoom = roomsList.find(r => r.id === roomId);
+  if (activeRoom) {
+    if (activeRoom.inventory < numRooms || activeRoom.availability === "maintenance") {
+      alert("Not enough rooms available for the selected type!");
+      return;
+    }
+    // Decrement availability
+    const newInventory = activeRoom.inventory - numRooms;
+    const updatePatch = {
+      inventory: Math.max(0, newInventory),
+      availability: newInventory <= 0 ? "booked" : "available"
+    };
+    await updateRoom(roomId, updatePatch);
+  }
+
+  const baseRate = roomObj.price;
+  const taxRate = selectedHotel.tax || (baseRate * window.getGlobalTaxRate());
+  let grandTotal = (baseRate + taxRate) * nights * numRooms;
+
+  const randNum = Math.floor(1000 + Math.random() * 9000);
+  const year = new Date().getFullYear();
+  const bookingId = `BK-${year}-${randNum}`;
+
+  const userJson = localStorage.getItem("hbooking_user");
+  const userId = userJson ? JSON.parse(userJson).uid || JSON.parse(userJson).email : "guest";
+
+  const newBooking = {
+    bookingId: bookingId,
+    guestName: name,
+    guestPhone: phone,
+    userId: userId,
+    hotelId: selectedHotel.id,
+    hotelName: selectedHotel.name,
+    roomId: roomId,
+    roomType: roomObj.type,
+    checkIn: checkin,
+    checkOut: checkout,
+    guestsRooms: `${numGuests} Guests, ${numRooms} Room`,
+    amount: grandTotal,
+    status: "Pending",
+    specialRequests: requests || "None",
+    paymentStatus: "Unpaid",
+    paymentMethod: "WhatsApp Inquiry",
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    await addBooking(newBooking);
+  } catch (err) {
+    console.warn("Failed to log WhatsApp booking:", err);
+  }
+
+  const message = `Hello! I would like to book a stay at ${selectedHotel.name}.
+
+Here are my booking details:
+- *Guest Name*: ${name}
+- *Contact*: ${phone}
+- *Room*: ${roomObj.type}
+- *Check-in*: ${checkin}
+- *Check-out*: ${checkout}
+- *Guests & Rooms*: ${numGuests} Guests, ${numRooms} Room(s)
+- *Special Requests*: ${requests || "None"}
+- *Estimated Total*: ₹${grandTotal.toLocaleString("en-IN")} (taxes incl.)
+
+Please confirm availability. Thank you!`;
+
+  const urlEncodedText = encodeURIComponent(message);
+  const cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
+
+  window.closeMobileBookingModal();
+  form.reset();
 
   showBookingToast(`✅ Booking #${bookingId} created! Opening WhatsApp...`);
   setTimeout(() => window.open(waUrl, "_blank"), 600);

@@ -129,12 +129,21 @@
   </script>
 
   <!-- Font Awesome CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Preconnect to only 2 external origins -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.pixabay.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts via <link> (no redirect, no render-blocking) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
+  <!-- Font Awesome (deferred, non-blocking) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
   <!-- Global Stylesheet -->
   <script type="module" crossorigin src="/assets/data-Dl7_FPuk.js"></script>
-  <script type="module" crossorigin src="/assets/app-asY6fcv3.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-BvZw8SZY.css">
+  <script type="module" crossorigin src="/assets/app-uQz0gc_j.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-ULp-fuMW.css">
 </head>
 
 <body>
@@ -142,8 +151,8 @@
   <!-- Navigation Header -->
   <header>
     <div class="container">
-      <a href="/index.html" class="logo">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+      <a href="/index.html" class="logo" aria-label="HotelsNearMeInKerala.com – Home">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="1201" height="567">
       </a>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false"
@@ -153,7 +162,7 @@
 
       <nav id="main-nav" aria-label="Main Navigation">
         <div class="mobile-drawer-header">
-        <img src="/logo.webp" alt="Logo" class="drawer-logo">
+        <img src="/logo.webp" alt="Logo" class="drawer-logo" width="1201" height="567">
         <span class="drawer-greeting">Welcome to Kerala!</span>
       </div>
       <div class="mobile-drawer-actions">
@@ -178,25 +187,35 @@
     </div>
   </header>
 
+  <main id="main-content">
+
   <!-- Hero Banner -->
   <section class="hero">
-    <video autoplay muted loop playsinline class="hero-video" id="hero-bg-video">
-      <source src="https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline class="hero-video" id="hero-bg-video" preload="none" poster="/Landing-Page.webp" aria-label="Kerala scenic background video">
+      <track kind="captions" src="" label="No captions" default>
     </video>
     <script>
       (function() {
         var video = document.getElementById('hero-bg-video');
         if (video) {
           var width = window.innerWidth;
-          var source = video.querySelector('source');
+          var videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4";
           if (width < 600) {
-            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_tiny.mp4";
+            videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_tiny.mp4";
           } else if (width < 1200) {
-            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_small.mp4";
-          } else {
-            source.src = "https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4";
+            videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_small.mp4";
           }
-          video.load();
+          
+          window.addEventListener('load', function() {
+            var source = document.createElement('source');
+            source.src = videoUrl;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.load();
+            video.play().catch(function(e) {
+              console.log("Autoplay deferred:", e);
+            });
+          });
         }
       })();
     </script>
@@ -370,8 +389,8 @@
         <div class="destination-card" data-destination="Ernakulam" onclick="window.location.href='/?district=Ernakulam'"
           style="cursor:pointer;">
           <img
-            src="https://www.oyorooms.com/travel-guide/wp-content/uploads/2019/04/Fort-Kochi.webp?auto=format&fit=crop&w=600&q=80"
-            alt="Kochi / Ernakulam" loading="lazy">
+            src="/dest/kochi.webp"
+            alt="Kochi / Ernakulam" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kochi (Ernakulam)</h3>
           </div>
@@ -379,16 +398,16 @@
         <div class="destination-card" data-destination="Idukki" onclick="window.location.href='/?district=Idukki'"
           style="cursor:pointer;">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKnN3MvcbmcpKmbF6iv11o0IeAcIHGu2nXuXLvacwXiacltjugvBLV4I4&s=10?auto=format&fit=crop&w=600&q=80"
-            alt="Munnar / Idukki" loading="lazy">
+            src="/dest/munnar.webp"
+            alt="Munnar / Idukki" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Munnar (Idukki)</h3>
           </div>
         </div>
         <div class="destination-card" data-destination="Alappuzha" onclick="window.location.href='/?district=Alappuzha'"
           style="cursor:pointer;">
-          <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=600&q=80"
-            alt="Alappuzha Backwaters" loading="lazy">
+          <img src="/dest/alappuzha.webp"
+            alt="Alappuzha Backwaters" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Alappuzha</h3>
           </div>
@@ -396,8 +415,8 @@
         <div class="destination-card" data-destination="Thiruvananthapuram"
           onclick="window.location.href='/?district=Thiruvananthapuram'" style="cursor:pointer;">
           <img
-            src="https://deih43ym53wif.cloudfront.net/thiruvananthapuram-india-shutterstock_498424870_54ec620099.jpeg?auto=format&fit=crop&w=600&q=80"
-            alt="Thiruvananthapuram" loading="lazy">
+            src="/dest/trivandrum.webp"
+            alt="Thiruvananthapuram" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Thiruvananthapuram</h3>
           </div>
@@ -405,8 +424,8 @@
         <div class="destination-card" data-destination="Wayanad" onclick="window.location.href='/?district=Wayanad'"
           style="cursor:pointer;">
           <img
-            src="https://thewoodsresorts.com/uploads/media/why-choose-wayanad-for-your-holidays620b99bd34f7c.jpeg?auto=format&fit=crop&w=600&q=80"
-            alt="Wayanad" loading="lazy">
+            src="/dest/wayanad.webp"
+            alt="Wayanad" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Wayanad</h3>
           </div>
@@ -414,8 +433,8 @@
         <div class="destination-card" data-destination="Kozhikode" onclick="window.location.href='/?district=Kozhikode'"
           style="cursor:pointer;">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3cxeoMVfpzeYHwr5iuObV0uNq0CuB-pLZI9BiEMJwmQ&s=10?auto=format&fit=crop&w=600&q=80"
-            alt="Kozhikode" loading="lazy">
+            src="/dest/kozhikode.webp"
+            alt="Kozhikode" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kozhikode</h3>
           </div>
@@ -423,16 +442,16 @@
         <div class="destination-card" data-destination="Thrissur" onclick="window.location.href='/?district=Thrissur'"
           style="cursor:pointer;">
           <img
-            src="https://englishpunjabkesari.imagibyte.sortdcdn.net/wp-content/uploads/2026/04/IMG_8360.JPG?auto=format&fit=crop&w=600&q=80"
-            alt="Thrissur Kerala" loading="lazy">
+            src="/dest/thrissur.webp"
+            alt="Thrissur Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Thrissur</h3>
           </div>
         </div>
         <div class="destination-card" data-destination="Kannur" onclick="window.location.href='/?district=Kannur'"
           style="cursor:pointer;">
-          <img src="https://lighthouse.nic.in/sites/default/files/2025-06/Kannur.png?auto=format&fit=crop&w=600&q=80"
-            alt="Kannur Kerala" loading="lazy">
+          <img src="/dest/kannur.webp"
+            alt="Kannur Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kannur</h3>
           </div>
@@ -440,24 +459,24 @@
         <div class="destination-card" data-destination="Kollam" onclick="window.location.href='/?district=Kollam'"
           style="cursor:pointer;">
           <img
-            src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/9c/f4/af/worlds-largest-bird-sculpture.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Kollam Kerala" loading="lazy">
+            src="/dest/kollam.webp"
+            alt="Kollam Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kollam</h3>
           </div>
         </div>
         <div class="destination-card" data-destination="Kottayam" onclick="window.location.href='/?district=Kottayam'"
           style="cursor:pointer;">
-          <img src="https://thumbs.dreamstime.com/b/kottayam-scene-2897504.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Kottayam Kerala" loading="lazy">
+          <img src="/dest/kottayam.webp"
+            alt="Kottayam Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kottayam</h3>
           </div>
         </div>
         <div class="destination-card" data-destination="Palakkad" onclick="window.location.href='/?district=Palakkad'"
           style="cursor:pointer;">
-          <img src="https://www.holidify.com/images/bgImages/PALAKKAD.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Palakkad Kerala" loading="lazy">
+          <img src="/dest/palakkad.webp"
+            alt="Palakkad Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Palakkad</h3>
           </div>
@@ -465,8 +484,8 @@
         <div class="destination-card" data-destination="Malappuram"
           onclick="window.location.href='/?district=Malappuram'" style="cursor:pointer;">
           <img
-            src="https://keralatraveldiaryindia.wordpress.com/wp-content/uploads/2019/01/malappuram-kottakkunnu.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Malappuram Kerala" loading="lazy">
+            src="/dest/malappuram.webp"
+            alt="Malappuram Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Malappuram</h3>
           </div>
@@ -474,17 +493,16 @@
         <div class="destination-card" data-destination="Pathanamthitta"
           onclick="window.location.href='/?district=Pathanamthitta'" style="cursor:pointer;">
           <img
-            src="https://gokeralatour.travel.blog/wp-content/uploads/2020/01/paathanamthittaa.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Pathanamthitta Kerala" loading="lazy">
+            src="/dest/pathanamthitta.webp"
+            alt="Pathanamthitta Kerala" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Pathanamthitta</h3>
           </div>
         </div>
         <div class="destination-card" data-destination="Kasaragod" onclick="window.location.href='/?district=Kasaragod'"
           style="cursor:pointer;">
-          <img src="https://thegreenodyssey.in/wp-content/uploads/2022/06/kasaraGod.jpg?auto=format&fit=crop&w=600&q=80"
-            alt="Bekal Fort Kasaragod" loading="lazy">
-
+          <img src="/dest/kasaragod.webp"
+            alt="Bekal Fort Kasaragod" loading="lazy" width="300" height="200">
           <div class="destination-overlay">
             <h3>Kasaragod</h3>
           </div>
@@ -617,7 +635,7 @@
   <!-- Why Book With Us Section -->
   <section class="container">
     <div class="why-book">
-      <h3 style="font-size: 22px; text-align: center;">Why Book With Us?</h3>
+      <h2 style="font-size: 22px; text-align: center;">Why Book With Us?</h2>
       <div class="grid why-book-grid">
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
@@ -662,8 +680,8 @@
             and the support team is very helpful."</p>
           <div class="testimonial-user">
             <img
-              src="https://img.freepik.com/premium-photo/indian-smiling-man-wearing-orange-sweater-with-his-arms-crossed-white-background_862994-605651.jpg?auto=format&fit=crop&w=80&q=80"
-              alt="Rahul K.">
+              src="/dest/testimonial1.webp"
+              alt="Rahul K." width="80" height="80">
             <div>
               <h4>Rahul K.</h4>
               <span>Bangalore</span>
@@ -679,8 +697,8 @@
             genuine prices. Highly recommended!"</p>
           <div class="testimonial-user">
             <img
-              src="https://img.freepik.com/premium-photo/indian-man-college-campus-with-beautiful-background_181020-1883.jpg?auto=format&fit=crop&w=80&q=80"
-              alt="Ameen A.">
+              src="/dest/testimonial2.webp"
+              alt="Ameen A." width="80" height="80">
             <div>
               <h4>Ameen A.</h4>
               <span>Kochi</span>
@@ -696,8 +714,8 @@
   </section>
 
   <!-- District Explorer Tags -->
-  <section class="container">
-    <h3 style="font-size: 20px; margin-bottom: 25px;">Explore Hotels by District</h3>
+  <section class="container" aria-labelledby="district-heading">
+    <h2 id="district-heading" style="font-size: 20px; margin-bottom: 25px;">Explore Hotels by District</h2>
     <div class="district-grid">
       <div class="district-tag">Kollam</div>
       <div class="district-tag">Thiruvananthapuram</div>
@@ -731,18 +749,20 @@
     </div>
   </section>
 
+  </main><!-- /#main-content -->
+
   <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-brand">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="1201" height="567">
         <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the
           beautiful state of Kerala.</p>
         <div class="footer-socials">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Subscribe on YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
         </div>
       </div>
 
@@ -794,10 +814,10 @@
 
   <!-- Floating WhatsApp Button (shown on mobile) -->
   <a href="https://wa.me/919876543210?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala."
-    target="_blank" id="float-whatsapp-home"
+    target="_blank" rel="noopener noreferrer" id="float-whatsapp-home" aria-label="Chat with us on WhatsApp"
     style="display:none; position:fixed; bottom:80px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;"
     onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
-    <i class="fab fa-whatsapp"></i>
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
   </a>
 
   <!-- Mobile Bottom Navigation -->

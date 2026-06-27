@@ -31,8 +31,8 @@
     })(window,document,"clarity","script","kerala_hotel_clarity_id");
   </script>
   <script type="module" crossorigin src="/assets/data-Dl7_FPuk.js"></script>
-  <script type="module" crossorigin src="/assets/app-asY6fcv3.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-BvZw8SZY.css">
+  <script type="module" crossorigin src="/assets/app-uQz0gc_j.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-ULp-fuMW.css">
 </head>
 
 <body>
@@ -428,6 +428,78 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Confirm Booking & Chat on WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mobile WhatsApp Booking Modal -->
+  <div class="modal-overlay" id="mobile-booking-modal" style="z-index: 1050;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Enquire & Book Room</h3>
+        <button class="modal-close" id="mobile-modal-close-btn">&times;</button>
+      </div>
+      <div id="mobile-booking-room-info" style="background:var(--light); padding:12px 18px; border-radius:12px; margin: 15px 24px 5px 24px; font-size:14px; font-weight:600; display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--border);">
+        <span style="color:var(--text-main);">Room: <span id="mobile-booking-room-name" style="font-weight:700; color:var(--primary);">-</span></span>
+        <span style="color:var(--text-main);" id="mobile-booking-room-price">₹-</span>
+      </div>
+      <p style="font-size: 13px; color: var(--text-secondary); margin: 15px 24px 10px 24px;">
+        Please fill in the details below. This will send a direct booking inquiry to the hotel's WhatsApp line.
+      </p>
+
+      <form class="modal-form" id="mobile-whatsapp-booking-form" style="padding-top: 5px;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="mob-checkin">Check In *</label>
+            <input type="date" id="mob-checkin" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="mob-checkout">Check Out *</label>
+            <input type="date" id="mob-checkout" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit;">
+          </div>
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="mob-guests">Guests *</label>
+            <select id="mob-guests" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit; background-color: var(--white);">
+              <option value="1 Guest">1 Guest</option>
+              <option value="2 Guests" selected>2 Guests</option>
+              <option value="3 Guests">3 Guests</option>
+              <option value="4 Guests">4 Guests</option>
+              <option value="5 Guests">5 Guests</option>
+              <option value="6 Guests">6 Guests</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="mob-rooms">Rooms *</label>
+            <select id="mob-rooms" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit; background-color: var(--white);">
+              <option value="1 Room" selected>1 Room</option>
+              <option value="2 Rooms">2 Rooms</option>
+              <option value="3 Rooms">3 Rooms</option>
+              <option value="4 Rooms">4 Rooms</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mob-guest-name">Full Name *</label>
+          <input type="text" id="mob-guest-name" placeholder="Enter your full name" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit;">
+        </div>
+
+        <div class="form-group">
+          <label for="mob-guest-phone">WhatsApp Number *</label>
+          <input type="tel" id="mob-guest-phone" placeholder="e.g. +91 98765 43210" inputmode="tel" required style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit;">
+        </div>
+
+        <div class="form-group">
+          <label for="mob-guest-requests">Special Requests (Optional)</label>
+          <textarea id="mob-guest-requests" rows="2" placeholder="e.g. extra bed, late check-in..." style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit; resize:none;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:14px; font-weight:600; border-radius:8px; background:#25D366; border-color:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; gap:8px;">
+          Send Enquiry on WhatsApp <i class="fab fa-whatsapp" style="font-size: 18px;"></i>
+        </button>
       </form>
     </div>
   </div>
