@@ -1197,21 +1197,26 @@ async function initHotelDetailPage() {
   const mapPlaceholder = document.getElementById("hotel-map-placeholder");
   const mapLink = document.getElementById("hotel-map-link");
   if (mapIframe && mapPlaceholder) {
-    // Build embed URL: extract query from mapUrl or use hotel location
     let rawUrl = (selectedHotel.mapUrl || "").trim();
-    let locationQuery = selectedHotel.location || selectedHotel.name;
-    // Try to extract the ?q= param from a Google Maps URL
-    try {
-      const urlObj = new URL(rawUrl);
-      const q = urlObj.searchParams.get("q");
-      if (q) locationQuery = q;
-    } catch(e) { /* invalid URL, use location */ }
-    // Build an OpenStreetMap embed URL (works without API key)
-    const osmQuery = encodeURIComponent(locationQuery + ", Kerala, India");
-    const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=74.0,8.0,78.0,13.0&layer=mapnik&marker=&query=${osmQuery}`;
-    // Use Google Maps embed format (works without API key)
-    const googleEmbedSrc = `https://maps.google.com/maps?q=${osmQuery}&output=embed&hl=en&z=14`;
-    mapIframe.src = googleEmbedSrc;
+    let embedSrc = "";
+    
+    // Check if the administrator pasted a full iframe code or a raw URL
+    if (rawUrl.includes("<iframe")) {
+      const srcMatch = rawUrl.match(/src=["']([^"']+)["']/);
+      if (srcMatch && srcMatch[1]) {
+        embedSrc = srcMatch[1];
+      }
+    } else {
+      embedSrc = rawUrl;
+    }
+
+    // Fallback: If no valid embed URL is found, build a generic Google Maps search embed URL using location
+    if (!embedSrc || !embedSrc.startsWith("http")) {
+      const osmQuery = encodeURIComponent((selectedHotel.location || selectedHotel.name) + ", Kerala, India");
+      embedSrc = `https://maps.google.com/maps?q=${osmQuery}&output=embed&hl=en&z=14`;
+    }
+
+    mapIframe.src = embedSrc;
     mapIframe.style.display = "block";
     mapIframe.style.width = "100%";
     mapIframe.style.height = "320px";
