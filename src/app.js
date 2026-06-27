@@ -1210,8 +1210,15 @@ async function initHotelDetailPage() {
       embedSrc = rawUrl;
     }
 
+    // Verify if it is an allowed iframe embed URL format to prevent SAMEORIGIN block errors
+    const isEmbeddable = embedSrc && (
+      embedSrc.includes("/maps/embed") ||
+      embedSrc.includes("output=embed") ||
+      embedSrc.includes("openstreetmap.org")
+    );
+
     // Fallback: If no valid embed URL is found, build a generic Google Maps search embed URL using location
-    if (!embedSrc || !embedSrc.startsWith("http")) {
+    if (!isEmbeddable || !embedSrc.startsWith("http")) {
       const osmQuery = encodeURIComponent((selectedHotel.location || selectedHotel.name) + ", Kerala, India");
       embedSrc = `https://maps.google.com/maps?q=${osmQuery}&output=embed&hl=en&z=14`;
     }
