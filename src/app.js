@@ -782,14 +782,9 @@ function renderRoomCards(hotelRooms, activeRoomId) {
               <span class="price">₹${r.price.toLocaleString("en-IN")}</span>
               <span class="tax-info">/ night + taxes</span>
             </div>
-            ${window.innerWidth <= 1024
-              ? `<button type="button" class="btn btn-primary room-select-btn" onclick="window.openMobileBookingModal('${r.id}')" style="background:#25D366; border-color:#25D366; color:#fff; display:flex; align-items:center; gap:6px;">
-                   Book Now <i class="fab fa-whatsapp"></i>
-                 </button>`
-              : `<button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
-                   ${isSelected ? 'Selected <i class="fas fa-check"></i>' : 'Select Room'}
-                 </button>`
-            }
+            <button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
+              ${isSelected ? 'Selected <i class="fas fa-check"></i>' : 'Select Room'}
+            </button>
           </div>
         </div>
       </div>
@@ -1835,6 +1830,56 @@ function calculatePricing() {
   const stickyPriceDisplay = document.getElementById("sticky-price-display");
   if (stickyPriceDisplay) {
     stickyPriceDisplay.innerText = `₹${baseRate.toLocaleString("en-IN")}`;
+  }
+
+  const stickyBookBtn = document.getElementById("sticky-book-btn");
+  if (stickyBookBtn) {
+    if (roomSelect && roomSelect.value) {
+      const activeRoomId = roomSelect.value;
+      
+      // Update action to open the mobile booking modal
+      stickyBookBtn.onclick = function(e) {
+        e.preventDefault();
+        window.openMobileBookingModal(activeRoomId);
+      };
+      
+      // Style the sticky button to represent WhatsApp Booking
+      stickyBookBtn.innerHTML = `Book Room <i class="fab fa-whatsapp" style="margin-left: 6px;"></i>`;
+      stickyBookBtn.style.background = "#25D366";
+      stickyBookBtn.style.borderColor = "#25D366";
+      stickyBookBtn.style.color = "#fff";
+
+      // Append room name next to price if it doesn't exist
+      let stickyRoomName = document.getElementById("sticky-room-name");
+      if (!stickyRoomName) {
+        const priceContainer = document.querySelector(".sticky-mobile-price");
+        if (priceContainer) {
+          stickyRoomName = document.createElement("div");
+          stickyRoomName.id = "sticky-room-name";
+          stickyRoomName.style.cssText = "font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; font-weight: 700; margin-top: 2px;";
+          priceContainer.appendChild(stickyRoomName);
+        }
+      }
+      if (stickyRoomName) {
+        stickyRoomName.innerText = roomName;
+      }
+    } else {
+      // Revert to scroll to rooms if no room selected
+      stickyBookBtn.onclick = function(e) {
+        e.preventDefault();
+        const roomsSec = document.getElementById('rooms');
+        if (roomsSec) roomsSec.scrollIntoView({behavior: 'smooth'});
+      };
+      stickyBookBtn.innerHTML = `Book Now`;
+      stickyBookBtn.style.background = "";
+      stickyBookBtn.style.borderColor = "";
+      stickyBookBtn.style.color = "";
+      
+      const stickyRoomName = document.getElementById("sticky-room-name");
+      if (stickyRoomName) {
+        stickyRoomName.innerText = "";
+      }
+    }
   }
 }
 
