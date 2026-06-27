@@ -1210,30 +1210,45 @@ async function initHotelDetailPage() {
       embedSrc = rawUrl;
     }
 
-    // Verify if it is an allowed iframe embed URL format to prevent SAMEORIGIN block errors
+    // Verify if it is an allowed Google Maps embed URL format to prevent SAMEORIGIN block errors
     const isEmbeddable = embedSrc && (
       embedSrc.includes("/maps/embed") ||
-      embedSrc.includes("output=embed") ||
       embedSrc.includes("openstreetmap.org")
     );
 
-    // Fallback: If no valid embed URL is found, build a generic Google Maps search embed URL using location
-    if (!isEmbeddable || !embedSrc.startsWith("http")) {
-      const osmQuery = encodeURIComponent((selectedHotel.location || selectedHotel.name) + ", Kerala, India");
-      embedSrc = `https://maps.google.com/maps?q=${osmQuery}&output=embed&hl=en&z=14`;
+    if (isEmbeddable && embedSrc.startsWith("http")) {
+      mapIframe.src = embedSrc;
+      mapIframe.style.display = "block";
+      mapIframe.style.width = "100%";
+      mapIframe.style.height = "320px";
+      mapIframe.style.border = "none";
+      mapIframe.style.borderRadius = "8px";
+      mapPlaceholder.style.display = "none";
+    } else {
+      // Hide the iframe to prevent "refused to connect" error
+      mapIframe.style.display = "none";
+      
+      // Update the placeholder text to be a friendly call to action card
+      mapPlaceholder.style.display = "flex";
+      mapPlaceholder.style.background = "var(--white)";
+      mapPlaceholder.style.borderColor = "var(--border)";
+      mapPlaceholder.style.borderStyle = "solid";
+      mapPlaceholder.style.borderWidth = "1px";
+      mapPlaceholder.innerHTML = `
+        <div style="text-align: center; padding: 25px 20px;">
+          <i class="fas fa-map-marked-alt" style="font-size:42px; color: var(--primary); margin-bottom: 12px; opacity: 0.85;"></i>
+          <h4 style="font-size: 15px; font-weight:700; color: var(--text-main); margin-bottom: 6px;">View Location on Interactive Map</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px; max-width: 320px; margin-left: auto; margin-right: auto; line-height: 1.5;">Explore surrounding attractions, get directions, and view exact property coordinates directly on Google Maps.</p>
+          <a href="${rawUrl || `https://maps.google.com/?q=${encodeURIComponent(selectedHotel.location || selectedHotel.name)}`}" target="_blank" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 8px; border-radius: 30px; padding: 10px 24px; font-weight: 700; font-size: 13px; text-decoration: none;">
+            <i class="fas fa-external-link-alt"></i> Open Google Maps
+          </a>
+        </div>
+      `;
     }
 
-    mapIframe.src = embedSrc;
-    mapIframe.style.display = "block";
-    mapIframe.style.width = "100%";
-    mapIframe.style.height = "320px";
-    mapIframe.style.border = "none";
-    mapIframe.style.borderRadius = "8px";
-    mapPlaceholder.style.display = "none";
     if (mapLink) {
-      mapLink.href = rawUrl || `https://maps.google.com/?q=${osmQuery}`;
-      mapLink.style.display = "";
-      mapLink.innerHTML = `<i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Open in Google Maps`;
+      mapLink.href = rawUrl || `https://maps.google.com/?q=${encodeURIComponent(selectedHotel.location || selectedHotel.name)}`;
+      mapLink.style.display = isEmbeddable ? "block" : "none";
     }
   }
 
