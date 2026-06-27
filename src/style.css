@@ -1493,7 +1493,7 @@ footer ul a:hover {
   background: rgba(26, 43, 39, 0.6);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  z-index: 1000;
+  z-index: 99999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
