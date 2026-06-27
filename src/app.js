@@ -2205,7 +2205,9 @@ Please confirm availability. Thank you!`;
   form.reset();
 
   showBookingToast(`✅ Booking #${bookingId} created! Opening WhatsApp...`);
-  setTimeout(() => window.open(waUrl, "_blank"), 600);
+  setTimeout(() => {
+    window.location.href = waUrl;
+  }, 600);
 }
 
 // -------------------------------------------------------------
