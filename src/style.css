@@ -3535,20 +3535,7 @@ footer ul a:hover {
   }
   
   .sticky-mobile-booking-bar {
-    display: flex;
-    position: fixed;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 7999;
+    display: none !important;
   }
   
   .sticky-mobile-price {
@@ -3632,26 +3619,49 @@ footer ul a:hover {
     font-size: 12px;
   }
 
-  /* ─ Gallery: single column stack ─ */
+  /* ─ Gallery: horizontal slideshow slider ─ */
   .gallery-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border-radius: var(--radius-sm);
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 0 !important;
+    border-radius: var(--radius-md) !important;
+    position: relative !important;
+    scrollbar-width: none !important;
+    height: 280px !important;
+  }
+  
+  .gallery-grid::-webkit-scrollbar {
+    display: none !important;
   }
 
   .gallery-item {
-    height: 210px;
-    border-radius: var(--radius-sm);
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: 280px !important;
+    scroll-snap-align: start !important;
+    border-radius: 0 !important;
+    display: block !important;
+    background: transparent !important;
   }
 
   .gallery-main {
-    height: 240px;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: 280px !important;
   }
 
-  /* hide extra gallery thumbs on mobile — only show main + 1 */
+  .gallery-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
   .gallery-grid .gallery-item:nth-child(n+3) {
-    display: none;
+    display: block !important;
   }
 
   /* ─ Tabs: horizontally scrollable ─ */
@@ -4093,4 +4103,14 @@ footer ul a:hover {
 
 .modal-overlay.bottom-sheet.open .modal-box {
   transform: translateY(0) !important;
+}
+
+/* ─ Mobile Book Banner ─ */
+.mobile-book-banner {
+  display: none !important;
+}
+@media (max-width: 1024px) {
+  .mobile-book-banner {
+    display: flex !important;
+  }
 }

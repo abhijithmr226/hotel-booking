@@ -899,7 +899,8 @@ async function initHotelDetailPage() {
     document.head.appendChild(metaDesc);
   }
   const cleanDescription = selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '').substring(0, 150) : "";
-  metaDesc.setAttribute('content', `Book a stay at ${selectedHotel.name} in ${selectedHotel.location}, ${dist}, Kerala. ${cleanDescription}... Read reviews, check rates and book.`);
+  const pageDescription = `Book a stay at ${selectedHotel.name} in ${selectedHotel.location}, ${dist}, Kerala. ${cleanDescription}... Read reviews, check rates and book.`;
+  metaDesc.setAttribute('content', pageDescription);
 
   // Set canonical URL dynamically
   let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -908,7 +909,71 @@ async function initHotelDetailPage() {
     canonicalLink.setAttribute('rel', 'canonical');
     document.head.appendChild(canonicalLink);
   }
-  canonicalLink.setAttribute('href', `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`);
+  const pageUrl = `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`;
+  canonicalLink.setAttribute('href', pageUrl);
+
+  // Dynamically update sharing Open Graph and Twitter Card tags
+  const shareTitle = `${selectedHotel.name} | Book Hotels in ${dist}, Kerala`;
+  const shareImage = selectedHotel.image || "";
+
+  const updateMetaProperty = (prop, val) => {
+    let el = document.querySelector(`meta[property="${prop}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute('property', prop);
+      document.head.appendChild(el);
+    }
+    el.setAttribute('content', val);
+  };
+
+  const updateMetaName = (name, val) => {
+    let el = document.querySelector(`meta[name="${name}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute('name', name);
+      document.head.appendChild(el);
+    }
+    el.setAttribute('content', val);
+  };
+
+  updateMetaProperty("og:title", shareTitle);
+  updateMetaProperty("og:description", pageDescription);
+  updateMetaProperty("og:image", shareImage);
+  updateMetaProperty("og:url", pageUrl);
+
+  updateMetaName("twitter:title", shareTitle);
+  updateMetaName("twitter:description", pageDescription);
+  updateMetaName("twitter:image", shareImage);
+  updateMetaName("twitter:card", "summary_large_image");
+
+  // Wire Share Button
+  const shareBtn = document.getElementById("btn-share-hotel");
+  if (shareBtn) {
+    shareBtn.onclick = async (e) => {
+      e.preventDefault();
+      const shareData = {
+        title: selectedHotel.name,
+        text: selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '').substring(0, 150) : `Check out ${selectedHotel.name} in ${selectedHotel.location}!`,
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.warn("Share failed:", err);
+        }
+      } else {
+        // Fallback: Copy link to clipboard
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showBookingToast("✅ Hotel link copied to clipboard!");
+        } catch (err) {
+          alert("Sharing is not supported on this browser.");
+        }
+      }
+    };
+  }
 
   // Inject Hotel schema markup dynamically
   let hotelSchema = document.getElementById("hotel-schema-ld");
@@ -994,9 +1059,11 @@ async function initHotelDetailPage() {
     if (allImages[i]) {
       img.src = allImages[i];
       img.style.display = "";
+      if (img.parentElement) img.parentElement.style.display = "";
       img.alt = `${selectedHotel.name} photo ${i+1}`;
     } else {
       img.style.display = "none";
+      if (img.parentElement) img.parentElement.style.display = "none";
       const parent = img.parentElement;
       if (parent) parent.style.background = "var(--light)";
     }
@@ -1009,6 +1076,27 @@ async function initHotelDetailPage() {
       moreBtn.innerText = `+${allImages.length - 5} Photos`;
     } else {
       moreBtn.style.display = "none";
+    }
+  }
+
+  // Mobile Slideshow Swipe Indicator Badge Configuration
+  const galleryGrid = document.getElementById("hotel-gallery-grid");
+  const indexBadge = document.getElementById("gallery-index-badge");
+  if (galleryGrid && indexBadge) {
+    const validImagesCount = allImages.filter(Boolean).length;
+    if (window.innerWidth <= 768 && validImagesCount > 0) {
+      indexBadge.style.display = "block";
+      indexBadge.innerText = `1 / ${validImagesCount}`;
+      
+      galleryGrid.onscroll = () => {
+        const slideWidth = galleryGrid.clientWidth;
+        if (slideWidth > 0) {
+          const currentSlide = Math.round(galleryGrid.scrollLeft / slideWidth) + 1;
+          indexBadge.innerText = `${Math.min(currentSlide, validImagesCount)} / ${validImagesCount}`;
+        }
+      };
+    } else {
+      indexBadge.style.display = "none";
     }
   }
 
@@ -1827,57 +1915,46 @@ function calculatePricing() {
   document.getElementById("booking-header-price").innerText = `₹${baseRate.toLocaleString("en-IN")}`;
   document.getElementById("booking-header-tax").innerText = `+ ₹${taxRate.toLocaleString("en-IN")} taxes & fees`;
   
-  const stickyPriceDisplay = document.getElementById("sticky-price-display");
-  if (stickyPriceDisplay) {
-    stickyPriceDisplay.innerText = `₹${baseRate.toLocaleString("en-IN")}`;
+  const bannerBookBtn = document.getElementById("mobile-banner-book-btn");
+  const bannerPriceDisplay = document.getElementById("mobile-banner-price-display");
+  const bannerRoomName = document.getElementById("mobile-banner-room-name");
+
+  if (bannerPriceDisplay) {
+    bannerPriceDisplay.innerText = `₹${baseRate.toLocaleString("en-IN")}`;
   }
 
-  const stickyBookBtn = document.getElementById("sticky-book-btn");
-  if (stickyBookBtn) {
+  if (bannerBookBtn) {
     if (roomSelect && roomSelect.value) {
       const activeRoomId = roomSelect.value;
       
       // Update action to open the mobile booking modal
-      stickyBookBtn.onclick = function(e) {
+      bannerBookBtn.onclick = function(e) {
         e.preventDefault();
         window.openMobileBookingModal(activeRoomId);
       };
       
-      // Style the sticky button to represent WhatsApp Booking
-      stickyBookBtn.innerHTML = `Book Room <i class="fab fa-whatsapp" style="margin-left: 6px;"></i>`;
-      stickyBookBtn.style.background = "#25D366";
-      stickyBookBtn.style.borderColor = "#25D366";
-      stickyBookBtn.style.color = "#fff";
+      bannerBookBtn.innerHTML = `Book Room <i class="fab fa-whatsapp" style="margin-left: 6px;"></i>`;
+      bannerBookBtn.style.background = "#25D366";
+      bannerBookBtn.style.borderColor = "#25D366";
+      bannerBookBtn.style.color = "#fff";
 
-      // Append room name next to price if it doesn't exist
-      let stickyRoomName = document.getElementById("sticky-room-name");
-      if (!stickyRoomName) {
-        const priceContainer = document.querySelector(".sticky-mobile-price");
-        if (priceContainer) {
-          stickyRoomName = document.createElement("div");
-          stickyRoomName.id = "sticky-room-name";
-          stickyRoomName.style.cssText = "font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; font-weight: 700; margin-top: 2px;";
-          priceContainer.appendChild(stickyRoomName);
-        }
-      }
-      if (stickyRoomName) {
-        stickyRoomName.innerText = roomName;
+      if (bannerRoomName) {
+        bannerRoomName.innerText = roomName;
       }
     } else {
       // Revert to scroll to rooms if no room selected
-      stickyBookBtn.onclick = function(e) {
+      bannerBookBtn.onclick = function(e) {
         e.preventDefault();
         const roomsSec = document.getElementById('rooms');
         if (roomsSec) roomsSec.scrollIntoView({behavior: 'smooth'});
       };
-      stickyBookBtn.innerHTML = `Book Now`;
-      stickyBookBtn.style.background = "";
-      stickyBookBtn.style.borderColor = "";
-      stickyBookBtn.style.color = "";
+      bannerBookBtn.innerHTML = `Book Now`;
+      bannerBookBtn.style.background = "";
+      bannerBookBtn.style.borderColor = "";
+      bannerBookBtn.style.color = "";
       
-      const stickyRoomName = document.getElementById("sticky-room-name");
-      if (stickyRoomName) {
-        stickyRoomName.innerText = "";
+      if (bannerRoomName) {
+        bannerRoomName.innerText = "";
       }
     }
   }
