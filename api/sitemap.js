@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     // Fetch active hotels from Supabase
     const { data: hotels, error } = await supabase
       .from('hotels')
-      .select('id, created_at, status')
+      .select('id, name, location, whatsapp, created_at, status')
       .eq('status', 'active');
 
     if (error) throw error;
@@ -78,7 +78,12 @@ export default async function handler(req, res) {
     if (hotels && Array.isArray(hotels)) {
       hotels.forEach(h => {
         const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
+        const hotelName = h.name || 'Unknown Hotel';
+        const hotelPlace = h.location || 'Kerala';
+        const contactNum = h.whatsapp || 'N/A';
+        
         xml += `
+  <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
   <url>
     <loc>https://hotelsnearmeinkera.la/hotel.html?id=${h.id}</loc>
     <lastmod>${lastmod}</lastmod>
