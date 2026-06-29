@@ -3,7 +3,7 @@
 
 /* CSS Variables - Core Design System */
 :root {
-  --primary: #006C5B;
+  --primary: #005F50;
   --primary-rgb: 0, 108, 91;
   --primary-dark: #005649;
   --primary-light: #E4F1EE;
@@ -831,7 +831,7 @@ section {
 /* Footer Section */
 footer {
   background: #101F1B;
-  color: #B5C4C0;
+  color: #E2ECE8;
   padding: 70px 0 30px;
   font-size: 14px;
 }
@@ -939,7 +939,7 @@ footer ul a:hover {
 .footer-bottom {
   text-align: center;
   font-size: 12px;
-  color: #5A6B66;
+  color: #B5C4C0;
 }
 
 /* ==========================================

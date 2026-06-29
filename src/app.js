@@ -680,7 +680,7 @@ function getHotelCardHtml(h, isFav) {
   return `
     <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
       <div class="hotel-card-image">
-        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <img src="${optimizeImageUrl(h.image || '/assets/images/riverside.webp', 600, 400)}" alt="${h.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
         <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
         <button class="hotel-card-save" aria-label="${isFav ? 'Remove from saved hotels' : 'Save to wishlist'}" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
@@ -788,7 +788,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
     return `
       <div class="room-card ${isSelected ? 'selected' : ''}" data-room-id="${r.id}">
         <div class="room-card-image">
-          <img src="${roomImg}" alt="${r.type}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
+          <img src="${optimizeImageUrl(roomImg, 600, 400)}" alt="${r.type}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
         </div>
         <div class="room-card-content">
           <div>
@@ -1159,7 +1159,7 @@ async function initHotelDetailPage() {
   
   // ── Dynamic Multi-Image Gallery ────────────────────────────────────────────
   // Build full image list: primary image + extra images from admin
-  const allImages = [selectedHotel.image];
+  const allImages = [optimizeImageUrl(selectedHotel.image, 1200, 800)];
   if (Array.isArray(selectedHotel.images)) {
     selectedHotel.images.forEach(img => { if (img && img.trim()) allImages.push(img.trim()); });
   }
@@ -2772,7 +2772,7 @@ async function initBookingsPage() {
       const canCancel = b.status === "Confirmed" || b.status === "Pending";
       return `
         <div class="booking-card">
-          <img src="/assets/images/${b.hotelId?.split('_')[0] || 'riverside'}.webp"
+          <img src="${optimizeImageUrl('/assets/images/' + (b.hotelId?.split('_')[0] || 'riverside') + '.webp', 200, 150)}"
             class="booking-card-img"
             loading="lazy"
             onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=200&q=80'"
@@ -3866,7 +3866,7 @@ function renderHotelsTableData(list) {
       <tr style="transition:background .15s;" onmouseover="this.style.background='#fafffe'" onmouseout="this.style.background=''">
         <td>
           <div style="display:flex; align-items:center; gap:12px;">
-            <img src="${h.image || placeholderImg}" class="hotel-admin-card-img"
+            <img src="${optimizeImageUrl(h.image || placeholderImg, 120, 90)}" class="hotel-admin-card-img"
               loading="lazy"
               onerror="this.src='${placeholderImg}'"
               alt="${h.name}">
@@ -4609,7 +4609,7 @@ function renderTopHotels(hotels, bookings) {
 
   container.innerHTML = topList.slice(0, 5).map(h => `
     <div class="top-hotel-item">
-      <img src="${h.image}" alt="${h.name}" loading="lazy">
+      <img src="${optimizeImageUrl(h.image, 100, 100)}" alt="${h.name}" loading="lazy">
       <div class="top-hotel-info">
         <h4>${h.name}</h4>
         <span>${h.location}</span>
@@ -5016,7 +5016,7 @@ async function openWishlistDrawer() {
       if (!h) return "";
       return `
         <div class="wishlist-item" style="display:flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
-          <img src="${h.image}" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover;" loading="lazy">
+          <img src="${optimizeImageUrl(h.image, 100, 100)}" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover;" loading="lazy">
           <div style="flex:1;">
             <h4 style="font-size: 14px; margin-bottom: 4px;">${h.name}</h4>
             <span style="font-size: 11px; color: var(--text-secondary); display:block; margin-bottom: 6px;"><i class="fas fa-map-marker-alt"></i> ${h.location}</span>

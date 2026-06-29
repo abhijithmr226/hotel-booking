@@ -188,24 +188,25 @@
     <script>
       (function() {
         var video = document.getElementById('hero-bg-video');
-        if (video) {
-          var width = window.innerWidth;
+        // Only load video on desktop (>= 992px width) to save mobile bandwidth
+        if (video && window.innerWidth >= 992) {
           var videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_medium.mp4";
-          if (width < 600) {
-            videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_tiny.mp4";
-          } else if (width < 1200) {
+          if (window.innerWidth < 1200) {
             videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_small.mp4";
           }
           
           window.addEventListener('load', function() {
-            var source = document.createElement('source');
-            source.src = videoUrl;
-            source.type = 'video/mp4';
-            video.appendChild(source);
-            video.load();
-            video.play().catch(function(e) {
-              console.log("Autoplay deferred:", e);
-            });
+            // Defer video loading by 2.5 seconds to keep critical rendering path clean
+            setTimeout(function() {
+              var source = document.createElement('source');
+              source.src = videoUrl;
+              source.type = 'video/mp4';
+              video.appendChild(source);
+              video.load();
+              video.play().catch(function(e) {
+                console.log("Autoplay deferred:", e);
+              });
+            }, 2500);
           });
         }
       })();
