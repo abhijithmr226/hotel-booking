@@ -328,38 +328,63 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
-
 async function initNearbyHotels(allHotels) {
   const section = document.getElementById("nearby-hotels-section");
   const label = document.getElementById("nearby-hotels-label");
   const grid = document.getElementById("nearby-hotels-grid");
-  if (!section || !grid) return;
+  const btn = document.getElementById("btn-request-location");
+  const wrapper = document.getElementById("nearby-hotels-action-wrapper");
+  if (!section || !grid || !btn) return;
 
-  if (!navigator.geolocation) return;
+  if (!navigator.geolocation) {
+    if (label) label.textContent = "Geolocation is not supported by your browser.";
+    if (wrapper) wrapper.style.display = "none";
+    return;
+  }
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const { latitude, longitude } = pos.coords;
-      const active = allHotels.filter(h => h.status === "active");
+  btn.addEventListener("click", () => {
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Accessing Location...`;
+    
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        const active = allHotels.filter(h => h.status === "active");
 
-      const withDist = active.map(h => {
-        const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()];
-        const dist = coords ? haversineKm(latitude, longitude, coords.lat, coords.lon) : 9999;
-        return { ...h, _dist: dist };
-      }).sort((a, b) => a._dist - b._dist).slice(0, 6);
+        const withDist = active.map(h => {
+          const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()];
+          const dist = coords ? haversineKm(latitude, longitude, coords.lat, coords.lon) : 9999;
+          return { ...h, _dist: dist };
+        }).sort((a, b) => a._dist - b._dist).slice(0, 6);
 
-      if (withDist.length === 0) return;
+        if (withDist.length === 0) {
+          if (label) label.textContent = "No active hotels found near your location.";
+          if (wrapper) wrapper.style.display = "none";
+          return;
+        }
 
-      const nearest = withDist[0];
-      const distKm = Math.round(nearest._dist);
-      if (label) label.textContent = `Showing hotels near your location${distKm < 500 ? ` (closest: ${distKm} km away)` : " in Kerala"}`;
+        const nearest = withDist[0];
+        const distKm = Math.round(nearest._dist);
+        if (label) label.textContent = `Showing hotels near your location${distKm < 500 ? ` (closest: ${distKm} km away)` : " in Kerala"}`;
 
-      section.style.display = "block";
-      renderHotelsGrid("nearby-hotels-grid", withDist);
-    },
-    () => {},
-    { timeout: 8000, maximumAge: 300000 }
-  );
+        if (wrapper) wrapper.style.display = "none";
+        grid.style.display = "grid";
+        renderHotelsGrid("nearby-hotels-grid", withDist);
+      },
+      (err) => {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-map-marker-alt" style="margin-right:8px;"></i>Find Hotels Near Me`;
+        if (label) {
+          if (err.code === err.PERMISSION_DENIED) {
+            label.textContent = "Location access was denied. Please allow permission to view hotels near you.";
+          } else {
+            label.textContent = "Unable to retrieve location. Please try again.";
+          }
+        }
+      },
+      { timeout: 8000, maximumAge: 300000 }
+    );
+  });
 }
 
 async function initLandingPage() {
@@ -655,9 +680,9 @@ function getHotelCardHtml(h, isFav) {
   return `
     <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
       <div class="hotel-card-image">
-        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.name}" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
         <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
-        <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
+        <button class="hotel-card-save" aria-label="${isFav ? 'Remove from saved hotels' : 'Save to wishlist'}" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
         </button>
       </div>
@@ -763,7 +788,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
     return `
       <div class="room-card ${isSelected ? 'selected' : ''}" data-room-id="${r.id}">
         <div class="room-card-image">
-          <img src="${roomImg}" alt="${r.type}" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
+          <img src="${roomImg}" alt="${r.type}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
         </div>
         <div class="room-card-content">
           <div>
@@ -914,7 +939,7 @@ async function initHotelDetailPage() {
     canonicalLink.setAttribute('rel', 'canonical');
     document.head.appendChild(canonicalLink);
   }
-  const pageUrl = `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`;
+  const pageUrl = `https://hotelsnearmeinkera.la/hotel?id=${selectedHotel.id}`;
   canonicalLink.setAttribute('href', pageUrl);
 
   // Dynamically update sharing Open Graph and Twitter Card tags
@@ -1321,8 +1346,10 @@ async function initHotelDetailPage() {
   const checkinParam = params.get("checkin");
   const checkoutParam = params.get("checkout");
   
-  document.getElementById("checkin-input").value = checkinParam || formatInputDate(today);
-  document.getElementById("checkout-input").value = checkoutParam || formatInputDate(tomorrow);
+  const checkinInput = document.getElementById("checkin-input");
+  const checkoutInput = document.getElementById("checkout-input");
+  if (checkinInput) checkinInput.value = checkinParam || formatInputDate(today);
+  if (checkoutInput) checkoutInput.value = checkoutParam || formatInputDate(tomorrow);
 
   // Load Hotel Rooms
   const rooms = await getRooms();
@@ -1360,9 +1387,12 @@ async function initHotelDetailPage() {
   calculatePricing();
 
   // Calculate pricing when form changes
-  document.getElementById("checkin-input").addEventListener("change", calculatePricing);
-  document.getElementById("checkout-input").addEventListener("change", calculatePricing);
-  document.getElementById("guests-rooms").addEventListener("change", calculatePricing);
+  const checkinInputEl = document.getElementById("checkin-input");
+  const checkoutInputEl = document.getElementById("checkout-input");
+  const guestsRoomsEl = document.getElementById("guests-rooms");
+  if (checkinInputEl) checkinInputEl.addEventListener("change", calculatePricing);
+  if (checkoutInputEl) checkoutInputEl.addEventListener("change", calculatePricing);
+  if (guestsRoomsEl) guestsRoomsEl.addEventListener("change", calculatePricing);
 
   // Hook Apply Coupon Button
   const applyCouponBtn = document.getElementById("btn-apply-coupon");
@@ -1968,13 +1998,18 @@ function getEstimatedGrandTotalBeforeCoupon() {
 function calculatePricing() {
   if (!selectedHotel) return;
 
-  const inDate = new Date(document.getElementById("checkin-input").value);
-  const outDate = new Date(document.getElementById("checkout-input").value);
+  const checkinEl = document.getElementById("checkin-input");
+  const checkoutEl = document.getElementById("checkout-input");
+  const guestsEl = document.getElementById("guests-rooms");
+  if (!checkinEl || !checkoutEl || !guestsEl) return;
+
+  const inDate = new Date(checkinEl.value);
+  const outDate = new Date(checkoutEl.value);
   
   let nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
   if (isNaN(nights) || nights <= 0) nights = 1;
 
-  const roomsVal = document.getElementById("guests-rooms").value;
+  const roomsVal = guestsEl.value;
   const numRooms = parseInt(roomsVal.split(",")[1]) || 1;
 
   let baseRate = selectedHotel.price;
@@ -2209,7 +2244,7 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919447908576").replace(/\D/g, "");
   if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
   if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
@@ -2405,7 +2440,7 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919447908576").replace(/\D/g, "");
   if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
   if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
@@ -2739,6 +2774,7 @@ async function initBookingsPage() {
         <div class="booking-card">
           <img src="/assets/images/${b.hotelId?.split('_')[0] || 'riverside'}.webp"
             class="booking-card-img"
+            loading="lazy"
             onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=200&q=80'"
             alt="${b.hotelName}">
           <div class="booking-card-body">
@@ -3003,7 +3039,7 @@ async function initAdminPage() {
       const price = parseInt(document.getElementById("new-hotel-price").value) || 2999;
       const category = document.getElementById("new-hotel-category").value;
       const imageUrl = document.getElementById("new-hotel-image")?.value?.trim() || "/assets/images/riverside.webp";
-      const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919876543210";
+      const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919447908576";
       const description = document.getElementById("new-hotel-description")?.value?.trim() || `${name} is a premium hotel in ${district}, Kerala offering excellent service and stays.`;
       const checkInTime = document.getElementById("new-hotel-checkin")?.value?.trim() || "12:00 PM";
       const checkOutTime = document.getElementById("new-hotel-checkout")?.value?.trim() || "11:00 AM";
@@ -3831,6 +3867,7 @@ function renderHotelsTableData(list) {
         <td>
           <div style="display:flex; align-items:center; gap:12px;">
             <img src="${h.image || placeholderImg}" class="hotel-admin-card-img"
+              loading="lazy"
               onerror="this.src='${placeholderImg}'"
               alt="${h.name}">
             <div>
@@ -4572,7 +4609,7 @@ function renderTopHotels(hotels, bookings) {
 
   container.innerHTML = topList.slice(0, 5).map(h => `
     <div class="top-hotel-item">
-      <img src="${h.image}" alt="${h.name}">
+      <img src="${h.image}" alt="${h.name}" loading="lazy">
       <div class="top-hotel-info">
         <h4>${h.name}</h4>
         <span>${h.location}</span>
@@ -4754,7 +4791,7 @@ function initGlobalModals() {
           </div>
           <div class="form-group">
             <label for="profile-phone">Phone Number</label>
-            <input type="tel" id="profile-phone" placeholder="e.g. +91 98765 43210">
+            <input type="tel" id="profile-phone" placeholder="e.g. +91 9447908576">
           </div>
           <div class="form-group">
             <label for="profile-email">Email Address</label>
@@ -4776,13 +4813,13 @@ function initGlobalModals() {
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Booking ID</th>
-                <th>Hotel</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th scope="col">Booking ID</th>
+                <th scope="col">Hotel</th>
+                <th scope="col">Check-in</th>
+                <th scope="col">Check-out</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody id="my-bookings-list-tbody">
@@ -4979,7 +5016,7 @@ async function openWishlistDrawer() {
       if (!h) return "";
       return `
         <div class="wishlist-item" style="display:flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
-          <img src="${h.image}" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover;">
+          <img src="${h.image}" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover;" loading="lazy">
           <div style="flex:1;">
             <h4 style="font-size: 14px; margin-bottom: 4px;">${h.name}</h4>
             <span style="font-size: 11px; color: var(--text-secondary); display:block; margin-bottom: 6px;"><i class="fas fa-map-marker-alt"></i> ${h.location}</span>
@@ -5049,9 +5086,13 @@ window.toggleWishlist = async function(btn, hotelId) {
   if (isFav) {
     await removeFavorite(userKey, hotelId);
     icon.className = "far fa-heart";
+    icon.style.color = "";
+    btn.setAttribute("aria-label", "Save to wishlist");
   } else {
     await addFavorite(userKey, hotelId);
     icon.className = "fas fa-heart";
+    icon.style.color = "#FF5A5F";
+    btn.setAttribute("aria-label", "Remove from saved hotels");
   }
   setupSavedHotelsCount();
 };
@@ -5151,7 +5192,7 @@ function renderGatewaySettingsForm() {
   const whatsappEl = document.getElementById("gateway-whatsapp");
   const invoiceEl = document.getElementById("gateway-auto-invoice");
   if (currencyEl) currencyEl.value = s.currency || "INR";
-  if (whatsappEl) whatsappEl.value = s.whatsappNumber || "919876543210";
+  if (whatsappEl) whatsappEl.value = s.whatsappNumber || "919447908576";
   if (invoiceEl) invoiceEl.value = s.autoInvoice !== false ? "yes" : "no";
 }
 

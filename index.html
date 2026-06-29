@@ -31,14 +31,7 @@
     content="Search and book the best stays across God's Own Country — hotels, resorts, homestays and houseboats in Kerala.">
   <meta name="twitter:image" content="/sharing-banner.jpg">
 
-  <!-- Microsoft Clarity Tracking Code -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","kerala_hotel_clarity_id");
-  </script>
+  
 
   <!-- Structured Data: FAQPage -->
   <script type="application/ld+json">
@@ -358,16 +351,18 @@
   </section>
 
   <!-- Nearby Hotels (location-based) -->
-  <section id="nearby-hotels-section" style="display:none; background:#f0faf7; border-top:1px solid var(--border);">
+  <section id="nearby-hotels-section" style="background:#f0faf7; border-top:1px solid var(--border);">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
         <div>
-          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels
-            Near You</h2>
-          <p id="nearby-hotels-label">Finding hotels close to your location…</p>
+          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels Near You</h2>
+          <p id="nearby-hotels-label">Enable location access to discover hotels nearest to you in Kerala.</p>
+        </div>
+        <div id="nearby-hotels-action-wrapper">
+          <button id="btn-request-location" class="btn btn-primary" style="border-radius:30px; padding:10px 24px; font-size:13px; font-weight:600;"><i class="fas fa-map-marker-alt" style="margin-right:8px;"></i>Find Hotels Near Me</button>
         </div>
       </div>
-      <div class="grid hotels-grid" id="nearby-hotels-grid"></div>
+      <div class="grid hotels-grid" id="nearby-hotels-grid" style="display:none;"></div>
     </div>
   </section>
 
@@ -637,27 +632,27 @@
       <div class="grid why-book-grid">
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
-          <h4>Verified Hotels</h4>
+          <h3>Verified Hotels</h3>
           <p>Handpicked and verified hotels across Kerala.</p>
         </div>
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-tags"></i></div>
-          <h4>Best Price Guarantee</h4>
+          <h3>Best Price Guarantee</h3>
           <p>Get the best deals and exclusive offers.</p>
         </div>
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-bolt"></i></div>
-          <h4>Instant Booking</h4>
+          <h3>Instant Booking</h3>
           <p>Book your stay instantly and hassle-free.</p>
         </div>
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-lock"></i></div>
-          <h4>Secure Payments</h4>
+          <h3>Secure Payments</h3>
           <p>100% secure payments with trusted partners.</p>
         </div>
         <div class="why-card">
           <div class="why-icon"><i class="fas fa-headset"></i></div>
-          <h4>Local Support</h4>
+          <h3>Local Support</h3>
           <p>24/7 support from our Kerala based team.</p>
         </div>
       </div>
@@ -681,7 +676,7 @@
               src="/dest/testimonial1.webp"
               alt="Rahul K." width="80" height="80">
             <div>
-              <h4>Rahul K.</h4>
+              <h3>Rahul K.</h3>
               <span>Bangalore</span>
             </div>
             <div class="testimonial-stars">
@@ -698,7 +693,7 @@
               src="/dest/testimonial2.webp"
               alt="Ameen A." width="80" height="80">
             <div>
-              <h4>Ameen A.</h4>
+              <h3>Ameen A.</h3>
               <span>Kochi</span>
             </div>
             <div class="testimonial-stars">
@@ -811,7 +806,7 @@
   </footer>
 
   <!-- Floating WhatsApp Button (shown on mobile) -->
-  <a href="https://wa.me/919876543210?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala."
+  <a href="https://wa.me/919447908576?text=Hello!%20I%20found%20your%20platform%20and%20would%20like%20to%20enquire%20about%20hotel%20bookings%20in%20Kerala."
     target="_blank" rel="noopener noreferrer" id="float-whatsapp-home" aria-label="Chat with us on WhatsApp"
     style="display:none; position:fixed; bottom:80px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;"
     onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">

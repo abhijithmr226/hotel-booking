@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Page Not Found | HotelsNearMeInKerala.com</title>
+  <meta name="description" content="Oops! The page you are looking for could not be found. Return to HotelsNearMeInKerala.com to find and book the best hotels and resorts in Kerala.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://hotelsnearmeinkera.la/404">
+  
+  <!-- Preconnect to external origins -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts via preload (non-blocking) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
+  
+  <!-- Font Awesome (deferred, non-blocking) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css?v=2">
+  
+  <style>
+    .error-section {
+      padding: 100px 0 80px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--primary-light) 0%, #FAF9F6 100%);
+      min-height: calc(100vh - 350px);
+      display: flex;
+      align-items: center;
+    }
+    .error-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--white);
+      padding: 50px 40px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    .error-code {
+      font-size: 108px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Outfit', sans-serif;
+    }
+    .error-card h1 {
+      font-size: 28px;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+    .error-card p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+    .error-search-box {
+      margin-bottom: 35px;
+      position: relative;
+    }
+    .error-search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 45px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .error-search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 108, 91, 0.1);
+    }
+    .error-search-box i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+    }
+    .error-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .error-actions .btn {
+      min-width: 150px;
+      border-radius: 30px;
+    }
+    @media(max-width: 576px) {
+      .error-section {
+        padding: 60px 0;
+      }
+      .error-card {
+        padding: 30px 20px;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+      }
+      .error-code {
+        font-size: 80px;
+      }
+      .error-card h1 {
+        font-size: 22px;
+      }
+      .error-actions {
+        flex-direction: column;
+      }
+      .error-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/index.html" class="logo"><img src="/logo.webp" alt="HotelsNearMeInKerala.com"></a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+      <nav id="main-nav">
+        <div class="mobile-drawer-header">
+          <img src="/logo.webp" alt="Logo" class="drawer-logo">
+          <span class="drawer-greeting">Welcome to Kerala!</span>
+        </div>
+        <div class="mobile-drawer-actions">
+          <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
+          <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
+        </div>
+        <ul>
+          <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="/index.html#hotels-near-you"><i class="fas fa-hotel"></i> Hotels</a></li>
+          <li><a href="/index.html#popular-destinations"><i class="fas fa-map-marker-alt"></i> Destinations</a></li>
+          <li><a href="/about.html"><i class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
+      <div class="header-right">
+        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px;">Sign In</a>
+        <a href="/login.html#register" class="btn btn-primary btn-sm" style="border-radius:30px;">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="error-section">
+    <div class="container">
+      <div class="error-card">
+        <div class="error-code">404</div>
+        <h1>Oops! Page Not Found</h1>
+        <p>It seems like you have wandered off into the misty hills of Munnar or got lost in the backwaters of Alappuzha. Let's guide you back to your destination!</p>
+        
+        <form onsubmit="event.preventDefault(); window.location.href='/?q=' + encodeURIComponent(document.getElementById('error-search').value);" class="error-search-box">
+          <i class="fas fa-search"></i>
+          <input type="search" id="error-search" placeholder="Search hotels, cities or districts..." required autocomplete="off">
+        </form>
+
+        <div class="error-actions">
+          <a href="/index.html" class="btn btn-primary">Go to Home</a>
+          <a href="/index.html#hotels-near-you" class="btn btn-secondary">Explore Stays</a>
+          <a href="/contact.html" class="btn btn-outline">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <p>Kerala's premier local hotel booking engine. Plan and book your perfect stay in the Land of Coconuts and Backwaters.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Popular Destinations</h4>
+        <ul>
+          <li><a href="/?district=Idukki">Munnar Hotels</a></li>
+          <li><a href="/?district=Ernakulam">Kochi Hotels</a></li>
+          <li><a href="/?district=Alappuzha">Alappuzha Houseboats</a></li>
+          <li><a href="/?district=Wayanad">Wayanad Resorts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Stay Categories</h4>
+        <ul>
+          <li><a href="/?category=Luxury Resorts">Luxury Resorts</a></li>
+          <li><a href="/?category=Houseboats">Backwater Houseboats</a></li>
+          <li><a href="/?category=Homestays">Heritage Homestays</a></li>
+          <li><a href="/?category=Budget Hotels">Budget Hotels</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="/cancellation.html">Cancellation Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>

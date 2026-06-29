@@ -86,8 +86,7 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: var(--white);
+  background-color: var(--primary-dark);
 }
 
 .btn-primary:hover {
@@ -439,6 +438,7 @@ nav ul a:hover::after, nav ul li.active a::after {
   border-radius: 50%;
   border: 2px solid var(--white);
   margin-left: -8px;
+  object-fit: cover;
 }
 
 .avatar-group img:first-child {
@@ -707,7 +707,7 @@ section {
   margin-bottom: 12px;
 }
 
-.why-card h4 {
+.why-card h3 {
   font-size: 15px;
   margin-bottom: 6px;
 }
@@ -749,9 +749,10 @@ section {
   width: 44px;
   height: 44px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
-.testimonial-user h4 {
+.testimonial-user h3 {
   font-size: 14px;
 }
 
@@ -2030,6 +2031,7 @@ footer ul a:hover {
   height: 38px;
   border-radius: 50%;
   border: 1.5px solid var(--primary);
+  object-fit: cover;
 }
 
 .sidebar-user-info h4 {
@@ -2399,9 +2401,9 @@ footer ul a:hover {
   font-weight: 600;
 }
 
-.status-badge.confirmed { background: #E8F7F3; color: #108569; }
-.status-badge.pending { background: #FFF5E6; color: #E58E00; }
-.status-badge.cancelled { background: #FCEAEA; color: #FF5A5F; }
+.status-badge.confirmed { background: #D1E7DD; color: #0F5132; }
+.status-badge.pending { background: #FFF3CD; color: #664D03; }
+.status-badge.cancelled { background: #F8D7DA; color: #842029; }
 
 /* Top performing hotel list row */
 .top-hotel-list {
