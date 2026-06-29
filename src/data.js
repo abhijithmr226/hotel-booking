@@ -37,7 +37,7 @@ const DEFAULT_SETTINGS = {
   notifyWhatsapp: true,
   enableSound: true,
   currency: "INR",
-  whatsappNumber: "919876543210",
+  whatsappNumber: "919447908576",
   autoInvoice: true
 };
 

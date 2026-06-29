@@ -25,50 +25,44 @@ export default async function handler(req, res) {
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://hotelsnearmeinkera.la/about.html</loc>
+    <url>
+    <loc>https://hotelsnearmeinkera.la/about</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/categories.html</loc>
+    <loc>https://hotelsnearmeinkera.la/categories</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/contact.html</loc>
+    <loc>https://hotelsnearmeinkera.la/contact</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/login.html</loc>
+    <loc>https://hotelsnearmeinkera.la/login</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/bookings.html</loc>
-    <lastmod>2026-06-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://hotelsnearmeinkera.la/privacy.html</loc>
+    <loc>https://hotelsnearmeinkera.la/privacy</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/terms.html</loc>
+    <loc>https://hotelsnearmeinkera.la/terms</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/cancellation.html</loc>
+    <loc>https://hotelsnearmeinkera.la/cancellation</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

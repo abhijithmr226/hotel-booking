@@ -2209,7 +2209,7 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919447908576").replace(/\D/g, "");
   if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
   if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
@@ -2405,7 +2405,7 @@ Here are my booking details:
 Please confirm availability. Thank you!`;
 
   const urlEncodedText = encodeURIComponent(message);
-  let cleanWaNumber = String(selectedHotel.whatsapp || "919876543210").replace(/\D/g, "");
+  let cleanWaNumber = String(selectedHotel.whatsapp || "919447908576").replace(/\D/g, "");
   if (cleanWaNumber.length === 11 && cleanWaNumber.startsWith("0")) cleanWaNumber = cleanWaNumber.substring(1);
   if (cleanWaNumber.length === 10) cleanWaNumber = "91" + cleanWaNumber;
   const waUrl = `https://api.whatsapp.com/send/?phone=${cleanWaNumber}&text=${urlEncodedText}`;
@@ -3003,7 +3003,7 @@ async function initAdminPage() {
       const price = parseInt(document.getElementById("new-hotel-price").value) || 2999;
       const category = document.getElementById("new-hotel-category").value;
       const imageUrl = document.getElementById("new-hotel-image")?.value?.trim() || "/assets/images/riverside.webp";
-      const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919876543210";
+      const whatsapp = document.getElementById("new-hotel-whatsapp")?.value?.trim() || "919447908576";
       const description = document.getElementById("new-hotel-description")?.value?.trim() || `${name} is a premium hotel in ${district}, Kerala offering excellent service and stays.`;
       const checkInTime = document.getElementById("new-hotel-checkin")?.value?.trim() || "12:00 PM";
       const checkOutTime = document.getElementById("new-hotel-checkout")?.value?.trim() || "11:00 AM";
@@ -5151,7 +5151,7 @@ function renderGatewaySettingsForm() {
   const whatsappEl = document.getElementById("gateway-whatsapp");
   const invoiceEl = document.getElementById("gateway-auto-invoice");
   if (currencyEl) currencyEl.value = s.currency || "INR";
-  if (whatsappEl) whatsappEl.value = s.whatsappNumber || "919876543210";
+  if (whatsappEl) whatsappEl.value = s.whatsappNumber || "919447908576";
   if (invoiceEl) invoiceEl.value = s.autoInvoice !== false ? "yes" : "no";
 }
 
