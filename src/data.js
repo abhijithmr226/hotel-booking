@@ -2,12 +2,12 @@ import { supabase } from "./supabase";
 
 // ─── Static UI data (not stored in database) ───────────────────────────────
 export const DESTINATIONS = [
-  { name: "Kochi", count: 320, image: "/dest/kochi.webp" },
-  { name: "Munnar", count: 180, image: "/dest/munnar.webp" },
-  { name: "Alappuzha", count: 240, image: "/dest/alappuzha.webp" },
-  { name: "Varkala", count: 120, image: "/dest/varkala.webp" },
-  { name: "Kovalam", count: 96, image: "/dest/kovalam.webp" },
-  { name: "Wayanad", count: 130, image: "/dest/wayanad.webp" }
+  { name: "Kochi", count: 320, image: "/assets/images/kochi.webp" },
+  { name: "Munnar", count: 180, image: "/assets/images/munnar.webp" },
+  { name: "Alappuzha", count: 240, image: "/assets/images/alappuzha.webp" },
+  { name: "Varkala", count: 120, image: "/assets/images/varkala.webp" },
+  { name: "Kovalam", count: 96, image: "/assets/images/kovalam.webp" },
+  { name: "Wayanad", count: 130, image: "/assets/images/wayanad.webp" }
 ];
 
 export const CATEGORIES = [
@@ -37,7 +37,7 @@ const DEFAULT_SETTINGS = {
   notifyWhatsapp: true,
   enableSound: true,
   currency: "INR",
-  whatsappNumber: "919447908576",
+  whatsappNumber: "919876543210",
   autoInvoice: true
 };
 

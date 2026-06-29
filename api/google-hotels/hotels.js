@@ -36,7 +36,7 @@ export default async function handler(req, res) {
       <component name="state">Kerala</component>
       <component name="country">IN</component>
     </address>
-    <phone>${phone || '+919447908576'}</phone>
+    <phone>${phone || '+919876543210'}</phone>
   </listing>`;
       });
     }

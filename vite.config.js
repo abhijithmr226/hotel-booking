@@ -153,7 +153,6 @@ export default defineConfig({
         contact: resolve(__dirname, 'contact.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
-        404: resolve(__dirname, '404.html'),
       },
     },
   },

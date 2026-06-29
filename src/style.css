@@ -3,7 +3,7 @@
 
 /* CSS Variables - Core Design System */
 :root {
-  --primary: #005F50;
+  --primary: #006C5B;
   --primary-rgb: 0, 108, 91;
   --primary-dark: #005649;
   --primary-light: #E4F1EE;
@@ -86,7 +86,8 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--primary-dark);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .btn-primary:hover {
@@ -438,7 +439,6 @@ nav ul a:hover::after, nav ul li.active a::after {
   border-radius: 50%;
   border: 2px solid var(--white);
   margin-left: -8px;
-  object-fit: cover;
 }
 
 .avatar-group img:first-child {
@@ -707,7 +707,7 @@ section {
   margin-bottom: 12px;
 }
 
-.why-card h3 {
+.why-card h4 {
   font-size: 15px;
   margin-bottom: 6px;
 }
@@ -749,10 +749,9 @@ section {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  object-fit: cover;
 }
 
-.testimonial-user h3 {
+.testimonial-user h4 {
   font-size: 14px;
 }
 
@@ -831,7 +830,7 @@ section {
 /* Footer Section */
 footer {
   background: #101F1B;
-  color: #E2ECE8;
+  color: #B5C4C0;
   padding: 70px 0 30px;
   font-size: 14px;
 }
@@ -939,7 +938,7 @@ footer ul a:hover {
 .footer-bottom {
   text-align: center;
   font-size: 12px;
-  color: #B5C4C0;
+  color: #5A6B66;
 }
 
 /* ==========================================
@@ -2031,7 +2030,6 @@ footer ul a:hover {
   height: 38px;
   border-radius: 50%;
   border: 1.5px solid var(--primary);
-  object-fit: cover;
 }
 
 .sidebar-user-info h4 {
@@ -2401,9 +2399,9 @@ footer ul a:hover {
   font-weight: 600;
 }
 
-.status-badge.confirmed { background: #D1E7DD; color: #0F5132; }
-.status-badge.pending { background: #FFF3CD; color: #664D03; }
-.status-badge.cancelled { background: #F8D7DA; color: #842029; }
+.status-badge.confirmed { background: #E8F7F3; color: #108569; }
+.status-badge.pending { background: #FFF5E6; color: #E58E00; }
+.status-badge.cancelled { background: #FCEAEA; color: #FF5A5F; }
 
 /* Top performing hotel list row */
 .top-hotel-list {
