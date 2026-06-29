@@ -124,14 +124,12 @@
   <!-- Font Awesome CDN -->
   <!-- Preconnect to only 2 external origins -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.pixabay.com">
+  
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Google Fonts via <link> (no redirect, no render-blocking) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
-  <!-- Font Awesome (deferred, non-blocking) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+  
 
   <!-- Global Stylesheet -->
   <script type="module" crossorigin src="/assets/data-B3frf0Vy.js"></script>
@@ -841,6 +839,18 @@
   </nav>
 
   <!-- App Script -->
+
+  <!-- Deferred Font Awesome Loader (Completely removes 250KB font request from critical paint path) -->
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(link);
+      }, 1500);
+    });
+  </script>
 </body>
 
 </html>

@@ -11,9 +11,7 @@
     <!-- Google Fonts via <link> (no redirect, no render-blocking) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
-  <!-- Font Awesome (deferred, non-blocking) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+  
   <link rel="stylesheet" href="/src/style.css?v=2">
   <style>
     .page-hero { background:linear-gradient(135deg,var(--primary) 0%,#0d6b56 100%); color:#fff; padding:60px 0 40px; text-align:center; }
@@ -146,5 +144,17 @@
     <div class="footer-bottom"><p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p></div>
   </footer>
   <script>document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>{document.getElementById('main-nav')?.classList.toggle('mobile-open');});</script>
+
+  <!-- Deferred Font Awesome Loader (Completely removes 250KB font request from critical paint path) -->
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(link);
+      }, 1500);
+    });
+  </script>
 </body>
 </html>
