@@ -87,6 +87,7 @@ a {
 
 .btn-primary {
   background-color: var(--primary-dark);
+  color: var(--white);
 }
 
 .btn-primary:hover {
@@ -97,7 +98,7 @@ a {
 
 .btn-secondary {
   background-color: var(--primary-light);
-  color: var(--primary);
+  color: var(--primary-dark);
 }
 
 .btn-secondary:hover {
