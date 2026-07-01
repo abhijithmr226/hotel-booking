@@ -4734,3 +4734,70 @@ a.district-tag:hover {
   }
 }
 
+
+/* ── Mobile Form Inputs and Dropdowns Fixes ─────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent iOS zoom on search & filters input focus */
+  .search-simple-field input,
+  .filters-panel select,
+  .filters-panel input {
+    font-size: 16px !important;
+  }
+
+  /* Make autocomplete suggestions larger and easier to tap on mobile */
+  .autocomplete-suggestion {
+    padding: 14px 18px !important;
+    font-size: 15px !important;
+  }
+
+  /* Autocomplete container tweaks to prevent layout clipping */
+  #search-autocomplete-box {
+    max-height: 220px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
+  }
+
+  /* Prevent hero overflow hidden from clipping the autocomplete dropdown */
+  .hero {
+    overflow: visible !important;
+  }
+
+  /* Style filter panel select inputs to look modern and prevent default OS styling bugs */
+  .filters-panel select {
+    background-color: var(--white) !important;
+    color: var(--text-main) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: 10px !important;
+    padding: 12px 36px 12px 14px !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006c5b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    background-size: 16px !important;
+  }
+
+  /* Dark mode specific tweaks for select inputs and chevrons */
+  [data-theme="dark"] .filters-panel select {
+    background-color: #111f1a !important;
+    border-color: #1e3a2f !important;
+    color: #E8F5F0 !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231DB98A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+  }
+
+  /* Explicitly set option backgrounds and text colors for high readability */
+  .filters-panel select option {
+    background-color: var(--white) !important;
+    color: var(--text-main) !important;
+  }
+
+  [data-theme="dark"] .filters-panel select option {
+    background-color: #111f1a !important;
+    color: #E8F5F0 !important;
+  }
+}
+
+
