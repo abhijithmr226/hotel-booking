@@ -599,6 +599,26 @@ async function applyAdvancedFilters(hotels) {
   // Update filter badge on Filters button
   updateFilterBadge();
 
+  // Highlight active location chip based on current query
+  const chips = document.querySelectorAll(".location-chip");
+  chips.forEach(chip => {
+    const cleanQuery = query.toLowerCase().trim();
+    const chipText = chip.textContent.trim().toLowerCase();
+    const chipHref = chip.getAttribute("href");
+    
+    if (cleanQuery) {
+      if (chipHref && chipHref.includes(cleanQuery)) {
+        chip.classList.add("active");
+      } else if (chipText === cleanQuery || cleanQuery.includes(chipText)) {
+        chip.classList.add("active");
+      } else {
+        chip.classList.remove("active");
+      }
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+
   await renderHotelsGrid("hotels-near-you-grid", filtered);
 }
 

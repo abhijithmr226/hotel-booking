@@ -4904,3 +4904,308 @@ a.district-tag:hover {
 }
 
 
+/* ── Senior UI/UX Design System Refinements ─────────────────────── */
+
+/* 1. Global Elevation & Border Radius Consistency */
+.hotel-card {
+  border-radius: 20px !important; /* Cards: 20px */
+  box-shadow: 0 4px 16px rgba(0, 108, 91, 0.05) !important;
+  overflow: hidden !important;
+  border: 1.5px solid var(--border) !important;
+  transition: var(--transition) !important;
+}
+[data-theme="dark"] .hotel-card {
+  border-color: #1e3a2f !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+}
+.hotel-card-image {
+  border-radius: 20px 20px 0 0 !important;
+  overflow: hidden !important;
+}
+
+/* 2. Hero Overlay & Text Contrast */
+.hero::before {
+  background: rgba(0, 0, 0, 0.58) !important; /* Increased opacity for readability */
+}
+.hero-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+.hero h1 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+}
+.hero p {
+  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.65 !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4) !important;
+}
+
+/* 3. Top-Right Repositioned settings FAB (Dark Mode Toggle) */
+.dark-mode-toggle {
+  position: fixed !important;
+  top: 85px !important; /* Right below header on mobile and desktop */
+  right: 16px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 99999 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1.5px solid var(--border) !important;
+  background: var(--white) !important;
+}
+
+/* 4. Responsive Mobile Spacing & Usability (<= 768px viewport) */
+@media (max-width: 768px) {
+  /* Section breathing room spacing */
+  section {
+    padding: 32px 0 !important; /* Reduced whitespace */
+  }
+
+  /* Section header titles */
+  .section-header {
+    margin-bottom: 20px !important;
+  }
+  .section-header h2 {
+    font-size: 22px !important; /* Proper text nesting scale */
+    font-weight: 700 !important;
+    letter-spacing: -0.3px !important;
+  }
+  .section-header p {
+    font-size: 13px !important;
+    margin-top: 4px !important;
+  }
+
+  /* Header safe-areas & layout */
+  header {
+    padding-top: env(safe-area-inset-top, 0px) !important;
+    padding-left: calc(24px + env(safe-area-inset-left, 0px)) !important;
+    padding-right: calc(24px + env(safe-area-inset-right, 0px)) !important;
+    height: auto !important;
+    min-height: 72px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  header .container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
+  }
+  .logo, .header-right, .user-dropdown-wrapper, .dropdown-trigger {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Search Simple Field with centered icon and input */
+  .search-simple-field {
+    padding: 10px 14px !important;
+    background: rgba(0, 108, 91, 0.04) !important;
+    border-radius: 16px !important; /* Inputs: 16px */
+    border: 1.5px solid var(--border) !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 48px !important;
+  }
+  .search-simple-field input {
+    font-size: 16px !important;
+    height: 100% !important;
+    padding: 0 4px !important;
+    margin: 0 !important;
+    line-height: normal !important;
+  }
+  .search-simple-field > i {
+    font-size: 16px !important;
+    margin-right: 6px !important;
+    color: var(--primary) !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Autocomplete Dropdown above all other content */
+  #search-autocomplete-box {
+    position: absolute !important;
+    top: calc(100% + 4px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 100000 !important; /* Stays above cards, chips and nav */
+    max-height: 240px !important;
+    overflow-y: auto !important;
+    border-radius: 16px !important;
+    border: 1.5px solid var(--border) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    background: var(--white) !important;
+  }
+  [data-theme="dark"] #search-autocomplete-box {
+    background: #111f1a !important;
+    border-color: #1e3a2f !important;
+  }
+  .autocomplete-suggestion {
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    border-bottom: 1.5px solid var(--border) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .autocomplete-suggestion:last-of-type {
+    border-bottom: none !important;
+  }
+  .autocomplete-suggestion:hover,
+  .autocomplete-suggestion:active {
+    background: var(--primary-light) !important;
+  }
+  [data-theme="dark"] .autocomplete-suggestion:hover,
+  [data-theme="dark"] .autocomplete-suggestion:active {
+    background: #0d2b22 !important;
+  }
+
+  /* Search form & actions */
+  .search-widget {
+    padding: 12px !important;
+    gap: 12px !important; /* Spacing grid: 12px */
+  }
+  .btn-use-location {
+    flex: 1 !important;
+    height: 48px !important; /* Uniform height */
+    min-height: 48px !important;
+    border-radius: 16px !important;
+    border: 1.5px solid var(--primary) !important;
+    background: transparent !important;
+    color: var(--primary) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+  }
+  [data-theme="dark"] .btn-use-location {
+    border-color: #1DB98A !important;
+    color: #1DB98A !important;
+  }
+  .search-submit-btn {
+    flex: 1 !important;
+    height: 48px !important; /* Uniform height */
+    min-height: 48px !important;
+    border-radius: 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+  }
+
+  /* Category chips horizontal scrolling */
+  .location-chips {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 4px 0 8px !important;
+    gap: 12px !important; /* 12px grid */
+  }
+  .location-chips::-webkit-scrollbar {
+    display: none !important;
+  }
+  .location-chip {
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    border-radius: 24px !important; /* Chips: 24px */
+    flex-shrink: 0 !important;
+    border: 1.5px solid var(--border) !important;
+    background: var(--white) !important;
+    color: var(--text-secondary) !important;
+    transition: all 0.2s ease !important;
+  }
+  [data-theme="dark"] .location-chip {
+    background: #111f1a !important;
+    border-color: #1e3a2f !important;
+    color: #8db8a8 !important;
+  }
+  .location-chip.active {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .location-chip.active {
+    background: #1DB98A !important;
+    border-color: #1DB98A !important;
+    color: #111f1a !important;
+  }
+
+  /* Hotel cards structure above the fold */
+  .hotel-card-image {
+    height: 140px !important; /* Reduced image height to make info display higher */
+  }
+  .hotel-card-content {
+    padding: 12px !important; /* Improved inner padding */
+  }
+  .hotel-card h3 {
+    font-size: 15px !important;
+    margin-bottom: 4px !important;
+  }
+  .hotel-card-loc {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+  }
+  .hotel-card-rating {
+    font-size: 12px !important;
+    margin-bottom: 6px !important;
+  }
+  .hotel-card-footer {
+    padding-top: 10px !important;
+    margin-top: 10px !important;
+  }
+  .hotel-card-price .price-num {
+    font-size: 16px !important;
+  }
+
+  /* Mobile bottom navigation */
+  .mobile-bottom-nav {
+    height: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    z-index: 100000 !important;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.12) !important;
+  }
+  .mob-nav-item {
+    height: 100% !important;
+    padding: 6px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    font-size: 10px !important;
+  }
+  .mob-nav-item.active {
+    font-weight: 700 !important;
+  }
+  body {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 12px)) !important;
+  }
+}
+
+
+
