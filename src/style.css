@@ -5208,4 +5208,20 @@ a.district-tag:hover {
 }
 
 
+/* Stacking Context Fix to prevent Category Chips and Trending Links from overlapping Autocomplete dropdown */
+.search-widget {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+.search-simple-field {
+  z-index: 1001 !important;
+}
+.location-chips,
+.hero-quick-links {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+
+
 
