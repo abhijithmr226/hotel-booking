@@ -191,3 +191,269 @@ INSERT INTO coupons (code, discount_percent, expiry_date, usage_limit, min_booki
 ('SUMMER20', 20, '2026-09-30', 100, 5000, 'active'),
 ('WELCOME15', 15, '2026-12-31', 200, 2000, 'active')
 ON CONFLICT (code) DO NOTHING;
+
+
+-- ═══════════════════════════════════════════════════════════════════
+-- NEW HOTELS SEED (Added 2026-07-01)
+-- ═══════════════════════════════════════════════════════════════════
+
+INSERT INTO hotels (
+  id, name, location, district, category,
+  rating, reviews_count, price, tax,
+  image, images,
+  map_url, whatsapp,
+  distance, badge, description,
+  amenities, highlights, details, nearby,
+  featured, trending, status
+) VALUES
+(
+  'hotel-grand-hyatt-kochi',
+  'Grand Hyatt Kochi Bolgatty',
+  'Bolgatty Island, Kochi',
+  'Ernakulam',
+  'Luxury Resorts',
+  4.7, 1842, 12600, 18,
+  '/assets/hotels/hotel-grand-hyatt-kochi/main.webp',
+  '[
+    "/assets/hotels/hotel-grand-hyatt-kochi/room1.webp",
+    "/assets/hotels/hotel-grand-hyatt-kochi/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/CZEvnNYH5zk2Zt5R6',
+  '914842661234',
+  '8 km from Kochi Airport',
+  'Island Resort',
+  'Grand Hyatt Kochi Bolgatty is Kerala''s most spectacular island luxury resort, perched on the exclusive Bolgatty Island in Vembanad Lake. The 234-room property offers stunning harbour and backwater views, an award-winning spa, six dining venues, and the largest ballroom in Kerala. A private water taxi connects guests to the city.',
+  '["Infinity Pool","Island Location","6 Restaurants & Bars","Grand Spa","Fitness Center","Water Taxi","Banquet Halls","Tennis Court","Kids Club","Free WiFi","Butler Service","Harbour View Rooms","Helipad","Valet Parking"]'::jsonb,
+  '["Private island resort on Vembanad Lake","Water taxi to city centre","Largest ballroom in Kerala","Spectacular harbour & backwater views","Celebrity chef dining experiences"]'::jsonb,
+  '{"checkIn":"3:00 PM","checkOut":"12:00 PM","breakfast":"Available (Buffet — Rs.1800 per person)","cancellation":"Free cancellation 24 hours before check-in","phone":"+91 484 266 1234","email":"kochi.grand@hyatt.com","imageAlt":"Grand Hyatt Kochi Bolgatty exterior luxury island resort on Vembanad Lake","roomAlts":["Grand Hyatt Kochi Bolgatty premium guest bedroom room view","Grand Hyatt Kochi Bolgatty grand bathroom suite with bathtub and luxury amenities"]}'::jsonb,
+  '["Fort Kochi (10 km)","Marine Drive (6 km)","Cochin International Airport (8 km)","Bolgatty Palace (0.5 km)","Chinese Fishing Nets (12 km)"]'::jsonb,
+  true, true, 'active'
+),
+(
+  'hotel-crowne-plaza-kochi',
+  'Crowne Plaza Kochi',
+  'Kundanoor Junction, NH 47 Bypass, Maradu, Kochi',
+  'Ernakulam',
+  'Business Hotels',
+  4.5, 2134, 6800, 18,
+  '/assets/hotels/hotel-crowne-plaza-kochi/main.webp',
+  '[
+    "/assets/hotels/hotel-crowne-plaza-kochi/room1.webp",
+    "/assets/hotels/hotel-crowne-plaza-kochi/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/WJYrNv8U4UDWp8QP8',
+  '914847115000',
+  '12 km from Kochi Airport',
+  'Business Luxury',
+  'Crowne Plaza Kochi is a premium IHG hotel located on the NH 47 Bypass at Maradu, offering 237 well-appointed rooms with stunning backwater views. Popular with both business and leisure travellers, it features world-class conference facilities, an outdoor pool, an award-winning restaurant Essence, and the stylish Xcessories Bar.',
+  '["Outdoor Pool","Fitness Center","Spa","Essence Restaurant","Xcessories Bar","Business Center","6 Conference Halls","Free WiFi","Valet Parking","Airport Shuttle","Concierge","Room Service 24x7","Laundry Service"]'::jsonb,
+  '["Backwater & lake view rooms","NH 47 highway frontage","IHG loyalty rewards","Award-winning Essence restaurant","Conference facilities for 1,200 delegates"]'::jsonb,
+  '{"checkIn":"3:00 PM","checkOut":"12:00 PM","breakfast":"Available (Rs.850/person)","cancellation":"Free cancellation 24 hours before check-in","phone":"+91 484 711 5000","email":"reservations.crowneplazakochi@ihg.com","imageAlt":"Crowne Plaza Kochi main pool and exterior building at Maradu Kundanoor Junction","roomAlts":["Crowne Plaza Kochi executive luxury room design","Crowne Plaza Kochi guest suite bedroom and work desk"]}'::jsonb,
+  '["Vembanad Lake (2 km)","Lulu Mall (8 km)","Marine Drive (10 km)","Cochin Airport (12 km)","Fort Kochi (20 km)"]'::jsonb,
+  true, false, 'active'
+),
+(
+  'hotel-taj-malabar-cochin',
+  'Taj Malabar Resort & Spa, Cochin',
+  'Willingdon Island, Kochi',
+  'Ernakulam',
+  'Luxury Resorts',
+  4.8, 3267, 14200, 18,
+  '/assets/hotels/hotel-taj-malabar-cochin/main.webp',
+  '[
+    "/assets/hotels/hotel-taj-malabar-cochin/room1.webp",
+    "/assets/hotels/hotel-taj-malabar-cochin/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/uX3WUikcVofabs3QA',
+  '914846643000',
+  '5 km from Kochi City Centre',
+  'Heritage Luxury',
+  'The Taj Malabar Resort & Spa is Kochi''s most iconic luxury property — a heritage masterpiece on Willingdon Island overlooking the Arabian Sea harbour. Originally built in 1935 and completely renovated in 2024, it features 103 elegant rooms, an infinity pool overlooking the backwaters, award-winning Jiva Ayurveda Spa, and the legendary Rice Boat Restaurant.',
+  '["Infinity Pool with Harbour View","Jiva Ayurveda Spa","Rice Boat Restaurant","Harbour Restaurant","Bar","Fitness Centre","Heritage Architecture","Concierge","Valet Parking","Airport Transfer","Business Centre","Free WiFi","Butler Service"]'::jsonb,
+  '["Heritage 1935 property with sea & harbour views","Legendary Rice Boat fine dining restaurant","Award-winning Jiva Spa & Ayurveda","Chinese fishing nets visible from pool deck","Completely renovated in 2024"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"12:00 PM","breakfast":"Available","cancellation":"Free cancellation 24 hours before check-in","phone":"+91 484 664 3000","email":"malabar.cochin@tajhotels.com","imageAlt":"Taj Malabar Resort & Spa Cochin heritage resort exterior overlooking Arabian Sea","roomAlts":["Taj Malabar Resort & Spa Cochin heritage premium guest suite","Taj Malabar Resort & Spa Cochin dining by the waterfront with sunset views"]}'::jsonb,
+  '["Chinese Fishing Nets (3 km)","Fort Kochi (4 km)","Mattancherry Palace (5 km)","Cochin Airport (12 km)","Jew Town (5 km)"]'::jsonb,
+  true, true, 'active'
+),
+(
+  'hotel-postcard-mandalay-hall',
+  'The Postcard Mandalay Hall',
+  'Fort Kochi, Ernakulam',
+  'Ernakulam',
+  'Luxury Resorts',
+  4.9, 412, 17500, 18,
+  '/assets/hotels/hotel-postcard-mandalay-hall/main.webp',
+  '[
+    "/assets/hotels/hotel-postcard-mandalay-hall/room1.webp",
+    "/assets/hotels/hotel-postcard-mandalay-hall/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/iqeVTHrDZYak1V8H8',
+  '917999555222',
+  '0.5 km from Fort Kochi Ferry',
+  'Ultra Boutique',
+  'The Postcard Mandalay Hall is Fort Kochi''s most exclusive boutique hotel — a lovingly restored 1800s Burmese teak mansion with just 9 curated suites. Each suite is uniquely designed with rare antiques, custom-crafted furniture, and heritage artwork. Features a heritage courtyard, private library, chef''s table dining and bespoke concierge.',
+  '["9 Unique Heritage Suites","Private Library","Chef Table Dining","Heritage Courtyard","Bespoke Concierge","Curated Art Collection","Antique Decor","Fort Kochi Walking Tours","Bicycle Hire","Cultural Immersion","Free WiFi","Room Service"]'::jsonb,
+  '["Only 9 suites — ultra-exclusive","1800s Burmese teak heritage mansion","Bespoke chef table dining","Curated antique art collection","Walking distance to Fort Kochi heritage sites"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"12:00 PM","breakfast":"Included","cancellation":"Non-refundable — contact hotel for exceptions","phone":"+91 79995 55222","email":"book@postcardresorts.com","imageAlt":"The Postcard Mandalay Hall heritage courtyard luxury boutique hotel Fort Kochi","roomAlts":["The Postcard Mandalay Hall art-centric luxury guest suite interior","The Postcard Mandalay Hall premium library and lobby area lounge"]}'::jsonb,
+  '["Chinese Fishing Nets (0.8 km)","St Francis Church (0.5 km)","Mattancherry Palace (2 km)","Fort Kochi Beach (1 km)","Paradesi Synagogue (2.5 km)"]'::jsonb,
+  true, true, 'active'
+),
+(
+  'hotel-gokulam-grand-kumarakom',
+  'Gokulam Grand Resort and Spa Kumarakom',
+  'Athikkalam, Kumarakom, Kottayam',
+  'Kottayam',
+  'Luxury Resorts',
+  4.6, 876, 13500, 18,
+  '/assets/hotels/hotel-gokulam-grand-kumarakom/main.webp',
+  '[
+    "/assets/hotels/hotel-gokulam-grand-kumarakom/room1.webp",
+    "/assets/hotels/hotel-gokulam-grand-kumarakom/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/wsRWo8w7UdWqF9Mk8',
+  '919288003330',
+  '14 km from Kottayam City',
+  'Backwater Luxury',
+  'Gokulam Grand Resort and Spa Kumarakom is a sprawling lakeside luxury resort on the banks of Vembanad Lake offering breathtaking backwater views. Features lake view villas, pool villas, a state-of-the-art Ayurveda spa, an infinity pool overlooking Vembanad, sunset boat cruises, houseboat experiences, and exquisite Kerala cuisine at their lakeside restaurant.',
+  '["Infinity Pool Overlooking Vembanad","Lake View Villas","Pool Villas","Ayurveda Spa","Sunset Boat Cruise","Houseboat Experience","Lakeside Restaurant","Bar","Fitness Center","Yoga Centre","Bird Watching","Shikara Rides","Free WiFi","Airport Transfer"]'::jsonb,
+  '["Panoramic Vembanad Lake views","Private pool villas available","Sunset and sunrise shikara rides","Authentic Kerala Ayurveda spa","Kumarakom Bird Sanctuary adjacent"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"12:00 PM","breakfast":"Included","cancellation":"Free cancellation 48 hours before check-in","phone":"+91 92880 03330","email":"sales.kmk@gokulamhotels.com","imageAlt":"Gokulam Grand Resort and Spa Kumarakom lakeside pool and resort grounds","roomAlts":["Gokulam Grand Resort and Spa Kumarakom premium lakeview suite bedroom","Gokulam Grand Resort and Spa Kumarakom tropical garden cottage exterior"]}'::jsonb,
+  '["Kumarakom Bird Sanctuary (1 km)","Vembanad Lake (on property)","Kottayam City (14 km)","Alappuzha (30 km)","Kochi Airport (55 km)"]'::jsonb,
+  true, true, 'active'
+),
+(
+  'hotel-niraamaya-backwaters-kumarakom',
+  'Niraamaya Retreats Backwaters & Beyond',
+  'Kumarakom, Kottayam',
+  'Kottayam',
+  'Ayurveda Resorts',
+  4.8, 634, 13500, 18,
+  '/assets/hotels/hotel-niraamaya-backwaters-kumarakom/main.webp',
+  '[
+    "/assets/hotels/hotel-niraamaya-backwaters-kumarakom/room1.webp",
+    "/assets/hotels/hotel-niraamaya-backwaters-kumarakom/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/X1DHTHBN816fcK4Y7',
+  '914812527700',
+  '13 km from Kottayam City',
+  'Wellness Retreat',
+  'Niraamaya Retreats Backwaters & Beyond is one of Kerala''s most celebrated Ayurveda wellness retreats, set amid lush paddy fields and backwater canals in Kumarakom. The retreat offers traditional Kerala Ayurveda therapies with resident doctors, private lake view villas, a tranquil meditation garden, and an organic farm-to-table restaurant.',
+  '["Traditional Ayurveda Treatments","Resident Ayurvedic Doctors","Lake View Private Villas","Infinity Pool","Meditation Garden","Yoga Studio","Organic Restaurant","Shikara Rides","Bird Watching","Paddy Field Walks","Cultural Evenings","Free WiFi","Spa"]'::jsonb,
+  '["Traditional Kerala Ayurveda with resident doctors","Personalized wellness programs","Lake view private villa retreats","Organic farm-to-table dining","Tranquil paddy field and backwater setting"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"11:00 AM","breakfast":"Included (Full Board Available)","cancellation":"Free cancellation 72 hours before check-in","phone":"+91 481 252 7700","email":"reservations@niraamaya.com","imageAlt":"Niraamaya Retreats Backwaters & Beyond Kumarakom lush gardens and wellness paths","roomAlts":["Niraamaya Retreats Backwaters & Beyond luxury lake view cottage interior","Niraamaya Retreats Backwaters & Beyond tranquil spa treatment room"]}'::jsonb,
+  '["Kumarakom Bird Sanctuary (2 km)","Vembanad Lake","Kottayam City (13 km)","Bay Island Driftwood Museum (3 km)","Alappuzha (28 km)"]'::jsonb,
+  true, false, 'active'
+),
+(
+  'hotel-rhythm-kumarakom',
+  'Rhythm Kumarakom',
+  'Amankari Road, Kumarakom, Kottayam',
+  'Kottayam',
+  'Luxury Resorts',
+  4.7, 523, 9500, 18,
+  '/assets/hotels/hotel-rhythm-kumarakom/main.webp',
+  '[
+    "/assets/hotels/hotel-rhythm-kumarakom/room1.webp",
+    "/assets/hotels/hotel-rhythm-kumarakom/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/7ZgUaQq4GygSxNTw7',
+  '919072845000',
+  '12 km from Kottayam City',
+  'Boutique Backwater',
+  'Rhythm Kumarakom is a serene boutique resort on the banks of Vembanad Lake, offering an intimate and authentic backwater Kerala experience. Features lakeview terrace rooms, poolside cottages, plunge pool villas, a lakeside infinity pool, spa, Ayurveda centre, and the Spice Route restaurant. 15% discount on direct bookings.',
+  '["Infinity Pool with Lake View","Lakeview Terrace Rooms","Plunge Pool Villas","Poolside Cottages","Spice Route Restaurant","Ayurveda Centre","Spa","Shikara Rides","Sunset Cruises","Yoga","Bird Watching","Cycling","Free WiFi","Parking"]'::jsonb,
+  '["Intimate boutique lakefront property","Plunge pool villas for privacy","Sunset shikara rides on Vembanad","Traditional Kerala cuisine at Spice Route","15% discount on direct bookings"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"12:00 PM","breakfast":"Included","cancellation":"Free cancellation 48 hours before check-in","phone":"+91 90728 45000","email":"reservations.kum@rhythmhospitality.com","imageAlt":"Rhythm Kumarakom poolside cottages and backwater resort layout","roomAlts":["Rhythm Kumarakom lakeview terrace deluxe room interior","Rhythm Kumarakom traditional boat jetty at sunset on Vembanad Lake"]}'::jsonb,
+  '["Kumarakom Bird Sanctuary (1.5 km)","Vembanad Lake","Kottayam City (12 km)","Alappuzha (28 km)","Kochi Airport (52 km)"]'::jsonb,
+  false, true, 'active'
+),
+(
+  'hotel-taj-kumarakom',
+  'Taj Kumarakom Resort & Spa',
+  'Kavanattinkara, Kumarakom, Kottayam',
+  'Kottayam',
+  'Luxury Resorts',
+  4.9, 1456, 18500, 18,
+  '/assets/hotels/hotel-taj-kumarakom/main.webp',
+  '[
+    "/assets/hotels/hotel-taj-kumarakom/room1.webp",
+    "/assets/hotels/hotel-taj-kumarakom/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/L9UYzHU27enMeFpH6',
+  '914812525711',
+  '13 km from Kottayam City',
+  'Top Rated',
+  'Taj Kumarakom Resort & Spa is the most iconic luxury resort on Vembanad Lake — a 26-acre heritage estate of cottages and private pool villas seamlessly blending into the surrounding backwater landscape. The Jiva Spa offers world-class Kerala Ayurveda, while the restaurant serves legendary Keralan and international cuisine. Rated among the best resort experiences in Asia.',
+  '["26-Acre Heritage Estate","Private Pool Villas","Jiva Spa & Ayurveda","Multiple Restaurants","Infinity Pool","Backwater Dining","Sunset Cruise","Shikara Rides","Yoga Pavilion","Bird Watching","Cycling","Tennis Court","Concierge","Airport Transfer","Butler Service","Free WiFi"]'::jsonb,
+  '["26-acre estate on Vembanad Lake","Private pool villas with lake access","Award-winning Jiva Spa","Legendary Keralan and international cuisine","Consistently ranked among Asia best resorts"]'::jsonb,
+  '{"checkIn":"2:00 PM","checkOut":"12:00 PM","breakfast":"Included","cancellation":"Free cancellation 48 hours before check-in","phone":"+91 481 252 5711","email":"kumarakom.taj@tajhotels.com","imageAlt":"Taj Kumarakom Resort & Spa traditional heritage estate bungalow on Vembanad Lake","roomAlts":["Taj Kumarakom Resort & Spa lake view heritage cottage bedroom","Taj Kumarakom Resort & Spa private plunge pool villa patio"]}'::jsonb,
+  '["Kumarakom Bird Sanctuary (1 km)","Vembanad Lake (on property)","Kottayam City (13 km)","Bay Island Museum (5 km)","Alappuzha (30 km)"]'::jsonb,
+  true, true, 'active'
+),
+(
+  'hotel-uday-backwater-alappuzha',
+  'Uday Backwater Resort',
+  'Punnamada Lake, Alappuzha',
+  'Alappuzha',
+  'Beach Resorts',
+  4.5, 789, 6500, 12,
+  '/assets/hotels/hotel-uday-backwater-alappuzha/main.webp',
+  '[
+    "/assets/hotels/hotel-uday-backwater-alappuzha/room1.webp",
+    "/assets/hotels/hotel-uday-backwater-alappuzha/room2.webp"
+  ]'::jsonb,
+  'https://maps.app.goo.gl/S5uQXrxt5AL9QGb6A',
+  '919387217501',
+  '4 km from Alappuzha Town',
+  'Backwater View',
+  'Uday Backwater Resort is a beautifully appointed property on the banks of Punnamada Lake in Alappuzha — the Venice of the East. Features lake view deluxe rooms, pool villas, an outdoor pool overlooking the backwaters, an Ayurveda centre, and the lakeside Anjana Restaurant serving fresh Kerala seafood. Perfect base for the Alappuzha-Kollam backwater cruise.',
+  '["Outdoor Pool with Lake View","Lake View Deluxe Rooms","Pool Villas","Anjana Restaurant (Lakeside)","Ayurveda Centre","Shikara Rides","Backwater Cruise","Houseboat Access","Canoe Rides","Fishing","Yoga","Free WiFi","Parking","Room Service"]'::jsonb,
+  '["On the banks of Punnamada Lake","Alappuzha-Kollam cruise access","Fresh Kerala seafood at Anjana Restaurant","Pool villa with private lake view","Nehru Trophy Boat Race viewpoint"]'::jsonb,
+  '{"checkIn":"12:00 PM","checkOut":"11:00 AM","breakfast":"Included","cancellation":"Free cancellation 48 hours before check-in","phone":"+91 93872 17501","email":"reservations@udshotels.com","imageAlt":"Uday Backwater Resort Punnamada lakefront layout with boats in Alappuzha","roomAlts":["Uday Backwater Resort lake view deluxe room interior","Uday Backwater Resort lakeside swimming pool and deck"]}'::jsonb,
+  '["Punnamada Lake (on property)","Alappuzha Beach (4 km)","Nehru Trophy Boat Race venue","Krishnapuram Palace (14 km)","Marari Beach (12 km)"]'::jsonb,
+  true, true, 'active'
+)
+ON CONFLICT (id) DO NOTHING;
+
+
+INSERT INTO rooms (id, hotel_id, hotel_name, room_number, type, capacity, price, beds, availability, amenities, inventory) VALUES
+('room-ghk-001','hotel-grand-hyatt-kochi','Grand Hyatt Kochi Bolgatty','101','Deluxe King Room',2,12600,1,'available','["King Bed","Harbour View","AC","Free WiFi","Smart TV","Minibar","Safe","Bathtub","Rain Shower"]'::jsonb,30),
+('room-ghk-002','hotel-grand-hyatt-kochi','Grand Hyatt Kochi Bolgatty','201','Grand Suite',2,22000,1,'available','["King Bed","Private Balcony","Harbour & Lake View","Living Room","Jacuzzi","AC","Smart TV","Minibar","Butler Service"]'::jsonb,10),
+('room-ghk-003','hotel-grand-hyatt-kochi','Grand Hyatt Kochi Bolgatty','301','Family Room',4,18000,2,'available','["2 Queen Beds","Backwater View","AC","Free WiFi","Smart TV","Kids Amenities","Bathtub"]'::jsonb,15),
+('room-cpk-001','hotel-crowne-plaza-kochi','Crowne Plaza Kochi','101','Superior Room',2,6800,1,'available','["King Bed","City or Lake View","AC","Free WiFi","Smart TV","Work Desk","Minibar","Rain Shower"]'::jsonb,50),
+('room-cpk-002','hotel-crowne-plaza-kochi','Crowne Plaza Kochi','201','Club Room',2,9500,1,'available','["King Bed","Club Lounge Access","Backwater View","AC","Free WiFi","Smart TV","Minibar","Bathtub","Evening Cocktails"]'::jsonb,20),
+('room-cpk-003','hotel-crowne-plaza-kochi','Crowne Plaza Kochi','301','Junior Suite',2,13500,1,'available','["King Bed","Separate Living Area","Backwater View","Jacuzzi","AC","Smart TV","Minibar","Butler Service"]'::jsonb,8),
+('room-tmr-001','hotel-taj-malabar-cochin','Taj Malabar Resort & Spa, Cochin','101','Superior Heritage Room',2,14200,1,'available','["King Bed","Harbour View","Heritage Decor","AC","Free WiFi","Smart TV","Minibar","Rain Shower","Taj Branded Toiletries"]'::jsonb,20),
+('room-tmr-002','hotel-taj-malabar-cochin','Taj Malabar Resort & Spa, Cochin','201','Harbour View Suite',2,24000,1,'available','["King Bed","Full Harbour View","Private Balcony","Living Room","Jacuzzi","Butler Service","AC","Smart TV","Minibar"]'::jsonb,6),
+('room-tmr-003','hotel-taj-malabar-cochin','Taj Malabar Resort & Spa, Cochin','301','Pool Suite',2,32000,1,'available','["King Bed","Private Plunge Pool","Sea View","Outdoor Terrace","Butler Service","Jacuzzi","Minibar","Smart TV"]'::jsonb,4),
+('room-pmh-001','hotel-postcard-mandalay-hall','The Postcard Mandalay Hall','MS1','Heritage Suite',2,17500,1,'available','["King Bed","Antique Decor","Heritage Architecture","AC","Free WiFi","Premium Toiletries","Private Courtyard View","Bespoke Amenities"]'::jsonb,5),
+('room-pmh-002','hotel-postcard-mandalay-hall','The Postcard Mandalay Hall','MS2','Grand Heritage Suite',2,25000,1,'available','["King Bed","Rare Antiques","Private Sitting Room","Curated Art Pieces","AC","Free WiFi","Chef Table Dining Access","Premium Toiletries"]'::jsonb,4),
+('room-ggk-001','hotel-gokulam-grand-kumarakom','Gokulam Grand Resort and Spa Kumarakom','101','Deluxe Lake View Room',2,13500,1,'available','["King Bed","Vembanad Lake View","AC","Free WiFi","Smart TV","Minibar","Bathtub","Rain Shower"]'::jsonb,25),
+('room-ggk-002','hotel-gokulam-grand-kumarakom','Gokulam Grand Resort and Spa Kumarakom','201','Lake View Villa',2,22000,1,'available','["King Bed","Private Terrace","Lake View","Living Room","Jacuzzi","AC","Smart TV","Minibar","Outdoor Shower"]'::jsonb,10),
+('room-ggk-003','hotel-gokulam-grand-kumarakom','Gokulam Grand Resort and Spa Kumarakom','301','Pool Villa',2,28000,1,'available','["King Bed","Private Pool","Lake View","Living Room","Jacuzzi","AC","Smart TV","Minibar","Butler Service"]'::jsonb,5),
+('room-nrk-001','hotel-niraamaya-backwaters-kumarakom','Niraamaya Retreats Backwaters & Beyond','GV1','Garden Villa',2,13500,1,'available','["King Bed","Garden View","AC","Free WiFi","Smart TV","Ayurveda Toiletries","Rain Shower","Private Deck"]'::jsonb,8),
+('room-nrk-002','hotel-niraamaya-backwaters-kumarakom','Niraamaya Retreats Backwaters & Beyond','LV1','Lake View Villa',2,18000,1,'available','["King Bed","Lake View","Private Deck","AC","Free WiFi","Smart TV","Bathtub","Ayurveda Welcome Pack"]'::jsonb,6),
+('room-nrk-003','hotel-niraamaya-backwaters-kumarakom','Niraamaya Retreats Backwaters & Beyond','PV1','Pool Villa',2,26000,1,'available','["King Bed","Private Pool","Panoramic Lake View","Living Room","Butler Service","Jacuzzi","AC","Smart TV"]'::jsonb,3),
+('room-rkm-001','hotel-rhythm-kumarakom','Rhythm Kumarakom','101','Lakeview Terrace Room',2,9500,1,'available','["King Bed","Vembanad Lake View","Private Terrace","AC","Free WiFi","Smart TV","Minibar","Rain Shower"]'::jsonb,10),
+('room-rkm-002','hotel-rhythm-kumarakom','Rhythm Kumarakom','201','Poolside Cottage',2,14500,1,'available','["King Bed","Pool Access","Garden View","Private Patio","AC","Free WiFi","Smart TV","Outdoor Shower"]'::jsonb,6),
+('room-rkm-003','hotel-rhythm-kumarakom','Rhythm Kumarakom','301','Plunge Pool Villa',2,19500,1,'available','["King Bed","Private Plunge Pool","Lake View","Living Room","Jacuzzi","AC","Smart TV","Butler Service"]'::jsonb,4),
+('room-tkr-001','hotel-taj-kumarakom','Taj Kumarakom Resort & Spa','101','Lake View Cottage',2,18500,1,'available','["King Bed","Vembanad Lake View","Heritage Cottage","Private Deck","AC","Free WiFi","Smart TV","Minibar","Bathtub","Taj Toiletries"]'::jsonb,15),
+('room-tkr-002','hotel-taj-kumarakom','Taj Kumarakom Resort & Spa','201','Luxury Cottage',2,24500,1,'available','["King Bed","Garden & Lake View","Private Outdoor Shower","Living Room","AC","Smart TV","Minibar","Butler Service","Jacuzzi"]'::jsonb,8),
+('room-tkr-003','hotel-taj-kumarakom','Taj Kumarakom Resort & Spa','301','Private Pool Villa',2,35000,1,'available','["King Bed","Private Infinity Pool","Panoramic Lake View","Living & Dining Room","Jacuzzi","Butler Service","AC","Smart TV","Premium Minibar"]'::jsonb,4),
+('room-ubr-001','hotel-uday-backwater-alappuzha','Uday Backwater Resort','101','Lake View Deluxe Room',2,6500,1,'available','["King Bed","Punnamada Lake View","AC","Free WiFi","Smart TV","Minibar","Rain Shower","Private Balcony"]'::jsonb,20),
+('room-ubr-002','hotel-uday-backwater-alappuzha','Uday Backwater Resort','201','Elite Room',2,9500,1,'available','["King Bed","Extended Lake View","AC","Free WiFi","Smart TV","Minibar","Bathtub","In-room Dining"]'::jsonb,10),
+('room-ubr-003','hotel-uday-backwater-alappuzha','Uday Backwater Resort','301','Pool Villa',2,15000,1,'available','["King Bed","Private Pool","Lake View","Living Room","Jacuzzi","AC","Smart TV","Butler Service"]'::jsonb,4)
+ON CONFLICT (id) DO NOTHING;
+
+
+INSERT INTO reviews (review_id, hotel_id, hotel_name, user_id, user_name, user_photo, rating, comment, status) VALUES
+('rev-021','hotel-grand-hyatt-kochi','Grand Hyatt Kochi Bolgatty','u21','Aishwarya Menon','https://i.pravatar.cc/60?img=47',5,'The water taxi to the island at night was absolutely magical — like arriving in a dream. Room views over Vembanad Lake are breathtaking. The pool and spa are world-class. Best hotel experience in Kerala hands down!','approved'),
+('rev-022','hotel-crowne-plaza-kochi','Crowne Plaza Kochi','u22','Suresh Varma','https://i.pravatar.cc/60?img=33',4,'Excellent business hotel with outstanding conference facilities. The Essence restaurant has some of the best buffet spread I have seen in Kerala. Room was spacious and well-maintained. Pool area is lovely with backwater views.','approved'),
+('rev-023','hotel-taj-malabar-cochin','Taj Malabar Resort & Spa, Cochin','u23','Preethi Nair','https://i.pravatar.cc/60?img=23',5,'Stayed in the Harbour View Suite — watching ships pass the Chinese fishing nets from my window was surreal. The Rice Boat restaurant deserves a Michelin star. Post-renovation the rooms are stunning. Jiva Spa is world-class.','approved'),
+('rev-024','hotel-postcard-mandalay-hall','The Postcard Mandalay Hall','u24','Rohan Mathew','https://i.pravatar.cc/60?img=12',5,'An unmatched boutique experience. The 1800s teak mansion is authentically preserved. Each suite feels like a personal gallery. Chef table dinner was a highlight of our entire Kerala trip. Absolutely worth the price.','approved'),
+('rev-025','hotel-gokulam-grand-kumarakom','Gokulam Grand Resort and Spa Kumarakom','u25','Divya Krishnan','https://i.pravatar.cc/60?img=43',5,'The pool villa with private lake view was extraordinary. Woke up to birds flying over Vembanad Lake every morning. The Ayurveda spa treatments were excellent. Sunset shikara ride was the most romantic moment of our trip!','approved'),
+('rev-026','hotel-niraamaya-backwaters-kumarakom','Niraamaya Retreats Backwaters & Beyond','u26','Dr. Sreejith Kumar','https://i.pravatar.cc/60?img=18',5,'Came for a 7-day Panchakarma retreat. The resident Ayurvedic doctor was brilliant — my customised treatment plan made a real difference to my health. The villas are stunning and the organic food is therapeutic. Will be back.','approved'),
+('rev-027','hotel-rhythm-kumarakom','Rhythm Kumarakom','u27','Anitha George','https://i.pravatar.cc/60?img=38',4,'Smaller and more intimate than the big Kumarakom resorts — which is exactly what we wanted. The plunge pool villa had the most beautiful lake view. Spice Route restaurant food was exceptional Kerala home cooking. Great value!','approved'),
+('rev-028','hotel-taj-kumarakom','Taj Kumarakom Resort & Spa','u28','Vijay Anand','https://i.pravatar.cc/60?img=56',5,'The private pool villa directly on Vembanad Lake is a once in a lifetime experience. Woke up to elephants bathing in the lake! The 26-acre estate feels like your own private Kerala paradise. Jiva Spa is transformative.','approved'),
+('rev-029','hotel-uday-backwater-alappuzha','Uday Backwater Resort','u29','Meera Thomas','https://i.pravatar.cc/60?img=22',4,'Great value resort in Alleppey with beautiful Punnamada Lake views. The shikara ride at sunset was magical. Anjana restaurant serves fresh Kerala fish curry that is the best I have had anywhere. Perfect base for backwater exploration!','approved')
+ON CONFLICT (review_id) DO NOTHING;

@@ -1,7 +1,24 @@
 User-agent: *
 Allow: /
+
+# Block admin and private pages
 Disallow: /admin
+Disallow: /admin.html
 Disallow: /bookings
+Disallow: /bookings.html
 Disallow: /api/
 
-Sitemap: https://hotelsnearmeinkera.la/sitemap.xml
+# Allow key SEO pages explicitly
+Allow: /hotels-in-kochi
+Allow: /hotels-in-kollam
+Allow: /hotels-in-varkala
+Allow: /hotels-in-munnar
+Allow: /hotels-in-thiruvananthapuram
+Allow: /budget-hotels-in-kerala
+Allow: /resorts-in-kerala
+
+# Crawl delay (be polite to crawlers)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.hotelsnearmeinkerala.com/sitemap.xml

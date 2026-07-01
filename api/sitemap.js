@@ -20,53 +20,96 @@ export default async function handler(req, res) {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://hotelsnearmeinkera.la/</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/</loc>
     <lastmod>${todayStr}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-    <url>
-    <loc>https://hotelsnearmeinkera.la/about</loc>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-kochi</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-kollam</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-varkala</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-munnar</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-thiruvananthapuram</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/budget-hotels-in-kerala</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/resorts-in-kerala</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/about</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/categories</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/categories</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/contact</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/contact</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/login</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/login</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/privacy</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/privacy</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/terms</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/terms</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://hotelsnearmeinkera.la/cancellation</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/cancellation</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>`;
+
 
     // Add hotels dynamically
     if (hotels && Array.isArray(hotels)) {
@@ -86,7 +129,7 @@ export default async function handler(req, res) {
         xml += `
   <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
   <url>
-    <loc>https://hotelsnearmeinkera.la/hotel.html?id=${h.id}</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/hotel?id=${h.id}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
