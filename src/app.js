@@ -564,7 +564,22 @@ async function applyAdvancedFilters(hotels) {
     const locMatch = !query || loc.includes(query) || name.includes(query) || district.includes(query);
     const priceMatch = (h.price || 0) >= minPrice && (h.price || 0) <= maxPrice;
     const ratingMatch = (h.rating || 0) >= minRating;
-    const catMatch = !category || h.category === category;
+    let catMatch = true;
+    if (category) {
+      if (category === "Budget Hotels") {
+        catMatch = (h.price || 0) < 5000;
+      } else if (category === "Family Hotels") {
+        const desc = (h.description || "").toLowerCase();
+        const highlights = (h.highlights || []).join(" ").toLowerCase();
+        const amenities = (h.amenities || []).join(" ").toLowerCase();
+        catMatch = desc.includes("family") || desc.includes("kids") || 
+                   highlights.includes("family") || highlights.includes("kids") || 
+                   amenities.includes("kids") || amenities.includes("family") ||
+                   h.category === "Family Hotels";
+      } else {
+        catMatch = h.category === category;
+      }
+    }
     const amenitiesMatch = selectedAmenities.every(amenity => h.amenities && h.amenities.includes(amenity));
 
     return locMatch && priceMatch && ratingMatch && catMatch && amenitiesMatch;
