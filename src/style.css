@@ -4195,6 +4195,109 @@ footer ul a:hover {
   border-color: #1e3a2f;
 }
 
+/* ── Refined Dark Mode Styles & Component Overrides ────────────── */
+[data-theme="dark"] section {
+  background-color: #0a1810 !important;
+  color: #E8F5F0 !important;
+}
+
+[data-theme="dark"] section:nth-of-type(even) {
+  background-color: #111f1a !important;
+}
+
+[data-theme="dark"] section h2,
+[data-theme="dark"] section h3,
+[data-theme="dark"] section h4,
+[data-theme="dark"] section strong {
+  color: #E8F5F0 !important;
+}
+
+[data-theme="dark"] section p,
+[data-theme="dark"] section span:not(.price-num):not(.badge) {
+  color: #8db8a8 !important;
+}
+
+[data-theme="dark"] .faq-item {
+  background-color: #111f1a !important;
+  border-color: #1e3a2f !important;
+}
+
+[data-theme="dark"] .faq-question {
+  color: #E8F5F0 !important;
+}
+
+[data-theme="dark"] .faq-answer {
+  color: #8db8a8 !important;
+}
+
+[data-theme="dark"] footer h3 {
+  color: #E8F5F0 !important;
+}
+
+[data-theme="dark"] footer a {
+  color: #8db8a8 !important;
+}
+
+[data-theme="dark"] footer a:hover {
+  color: #1DB98A !important;
+}
+
+[data-theme="dark"] .mobile-bottom-nav {
+  background: rgba(10, 24, 16, 0.96) !important;
+  border-top-color: #1e3a2f !important;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3) !important;
+}
+
+[data-theme="dark"] .mob-nav-item {
+  color: #8db8a8 !important;
+}
+
+[data-theme="dark"] .mob-nav-item.active {
+  color: #1DB98A !important;
+}
+
+[data-theme="dark"] #main-nav {
+  background: #111f1a !important;
+}
+
+[data-theme="dark"] .mobile-drawer-header {
+  background: #0d2b22 !important;
+  border-bottom-color: #1e3a2f !important;
+}
+
+[data-theme="dark"] #main-nav ul li a {
+  color: #E8F5F0 !important;
+}
+
+[data-theme="dark"] #main-nav ul li a:hover,
+[data-theme="dark"] #main-nav ul li.active a {
+  color: #1DB98A !important;
+  background: #0d2b22 !important;
+}
+
+[data-theme="dark"] .location-chip {
+  background-color: #0d2b22 !important;
+  color: #1DB98A !important;
+  border-color: #1e3a2f !important;
+}
+
+[data-theme="dark"] .location-chip:hover {
+  background-color: #123e31 !important;
+  border-color: #1DB98A !important;
+}
+
+[data-theme="dark"] .loc-hero {
+  background: linear-gradient(rgba(10,24,16,0.8), rgba(6,15,12,0.95)) !important;
+}
+
+[data-theme="dark"] .hotel-card-rating span {
+  color: #8db8a8 !important;
+}
+
+[data-theme="dark"] .price-unit {
+  color: #8db8a8 !important;
+}
+
 /* ── Hero Glassmorphism Upgrade ───────────────────────────────── */
 .hero .search-widget {
   background: rgba(255,255,255,0.12);
