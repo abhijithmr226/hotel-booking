@@ -5217,10 +5217,12 @@ a.district-tag:hover {
   z-index: 1001 !important;
 }
 .location-chips,
-.hero-quick-links {
+.hero-quick-links,
+.hero-ql {
   position: relative !important;
   z-index: 1 !important;
 }
+
 
 
 
