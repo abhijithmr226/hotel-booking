@@ -5811,11 +5811,11 @@ a.district-tag:hover {
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background-color: #f1f5f9;
-  background-image: url('/logo.webp');
+  background-color: #ffffff;
+  background-image: url('/lazy-placeholder.webp');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 85px auto;
+  background-size: contain;
 }
 
 /* Subtle glowing shimmer pulse while waiting for lazy image */
