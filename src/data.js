@@ -628,7 +628,44 @@ export async function getBookings() {
 
 export async function getRooms() {
   await waitForData();
-  return [...store.rooms];
+  const dbRooms = [...store.rooms];
+  const hotelRooms = [];
+  store.hotels.forEach(h => {
+    if (Array.isArray(h.rooms) && h.rooms.length > 0) {
+      h.rooms.forEach(r => {
+        if (!dbRooms.some(dbr => dbr.id === r.id)) {
+          hotelRooms.push({
+            ...r,
+            hotelId: h.id,
+            hotelName: h.name,
+            roomNumber: r.id || "101",
+            availability: "available",
+            inventory: 5
+          });
+        }
+      });
+    } else if (h.price) {
+      // Default standard room if not explicitly defined
+      const defaultId = `${h.id}_std`;
+      if (!dbRooms.some(dbr => dbr.id === defaultId)) {
+        hotelRooms.push({
+          id: defaultId,
+          hotelId: h.id,
+          hotelName: h.name,
+          type: h.category && h.category.includes("Luxury") ? "Deluxe Lake/Mountain View Suite" : "Standard AC Room",
+          price: h.price,
+          beds: "1 King Bed",
+          maxGuests: 2,
+          size: "350 sq.ft",
+          availability: "available",
+          inventory: 5,
+          image: h.image,
+          amenities: ["Air Conditioning", "Free High-Speed Wi-Fi", "Complimentary Breakfast", "En-suite Bathroom"]
+        });
+      }
+    }
+  });
+  return [...dbRooms, ...hotelRooms];
 }
 
 export async function getUsers() {

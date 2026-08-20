@@ -166,11 +166,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 3. Routing check to run page-specific functions
   const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
   const isPath = (name) => path.endsWith("/" + name) || path.endsWith("/" + name + ".html");
+  const isHotelPage = isPath("hotel") || path.startsWith("/hotel/") || path.includes("/hotel/") || path.includes("hotel.html") || !!document.getElementById("hotel-title");
 
-  if (path === "" || path === "/" || path.endsWith("/index.html") || path.endsWith("/index")) {
-    initLandingPage();
-  } else if (isPath("hotel")) {
+  if (isHotelPage) {
     initHotelDetailPage();
+  } else if (path === "" || path === "/" || path.endsWith("/index.html") || path.endsWith("/index") || (document.getElementById("hotels-near-you-grid") && !document.getElementById("hotel-title"))) {
+    initLandingPage();
   } else if (isPath("login")) {
     initLoginPage();
   } else if (isPath("admin")) {
@@ -1008,8 +1009,11 @@ async function initHotelDetailPage() {
   // Extract slug from URL pathname: /hotel/grand-hyatt-kochi-bolgatty or query param
   let slugFromPath = null;
   const pathParts = window.location.pathname.split("/").filter(Boolean);
-  if (pathParts[0] === "hotel" && pathParts[1]) {
-    slugFromPath = decodeURIComponent(pathParts[1].replace(".html", ""));
+  const hotelIdx = pathParts.findIndex(p => p.toLowerCase() === "hotel");
+  if (hotelIdx !== -1 && pathParts[hotelIdx + 1]) {
+    slugFromPath = decodeURIComponent(pathParts[hotelIdx + 1].replace(".html", ""));
+  } else if (pathParts.length > 0 && pathParts[0] !== "hotel" && !pathParts[0].endsWith(".html")) {
+    slugFromPath = decodeURIComponent(pathParts[pathParts.length - 1].replace(".html", ""));
   }
 
   const params = new URLSearchParams(window.location.search);
@@ -1020,8 +1024,14 @@ async function initHotelDetailPage() {
   const hotels = await getHotels();
   if (queryParam) {
     selectedHotel = await getHotelBySlug(queryParam);
-    if (!selectedHotel) {
-      selectedHotel = hotels.find(h => h.id === queryParam || h.slug === queryParam) || null;
+    if (!selectedHotel && hotels.length > 0) {
+      const clean = String(queryParam).toLowerCase().trim();
+      selectedHotel = hotels.find(h => 
+        (h.slug && h.slug.toLowerCase() === clean) ||
+        (h.id && String(h.id).toLowerCase() === clean) ||
+        (h.name && generateSlug(h.name) === clean) ||
+        (h.name && h.name.toLowerCase().includes(clean))
+      ) || null;
     }
   }
   if (!selectedHotel && hotels.length > 0) {
@@ -1406,21 +1416,24 @@ async function initHotelDetailPage() {
   faqSchema.textContent = JSON.stringify(faqObj, null, 2);
 
 
-  document.getElementById("hotel-title").innerText = selectedHotel.name;
-  document.getElementById("breadcrumb-current").innerText = selectedHotel.name;
+  const setElText = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined && val !== null) el.innerText = val; };
+  const setElHTML = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined && val !== null) el.innerHTML = val; };
+
+  setElText("hotel-title", selectedHotel.name);
+  setElText("breadcrumb-current", selectedHotel.name);
   const bDistrict = document.getElementById("breadcrumb-district");
   const bHotelsIn = document.getElementById("breadcrumb-hotels-in");
   if (bDistrict) { bDistrict.innerText = dist; bDistrict.href = `/?district=${encodeURIComponent(dist)}`; }
   if (bHotelsIn) { bHotelsIn.innerText = `Hotels in ${dist}`; bHotelsIn.href = `/?district=${encodeURIComponent(dist)}`; }
-  
 
-  document.getElementById("hotel-stars").innerHTML = `<i class="fas fa-star"></i>`.repeat(Math.floor(selectedHotel.rating));
-  document.getElementById("hotel-rating-score").innerText = selectedHotel.rating;
-  document.getElementById("hotel-reviews-count").innerText = `(${selectedHotel.reviewsCount} reviews)`;
-  document.getElementById("hotel-location-text").innerText = selectedHotel.location;
-  if (document.getElementById("hotel-location-full")) document.getElementById("hotel-location-full").innerText = selectedHotel.location;
-  document.getElementById("hotel-badge-tag").innerText = selectedHotel.badge || selectedHotel.category;
-  document.getElementById("hotel-desc").innerHTML = selectedHotel.description;
+  const starEl = document.getElementById("hotel-stars");
+  if (starEl) starEl.innerHTML = `<i class="fas fa-star"></i>`.repeat(Math.floor(selectedHotel.rating || 4));
+  setElText("hotel-rating-score", selectedHotel.rating);
+  setElText("hotel-reviews-count", `(${selectedHotel.reviewsCount || 24} reviews)`);
+  setElText("hotel-location-text", selectedHotel.location);
+  setElText("hotel-location-full", selectedHotel.location);
+  setElText("hotel-badge-tag", selectedHotel.badge || selectedHotel.category);
+  setElHTML("hotel-desc", selectedHotel.description);
 
   // ── Inject unique editorial "Why We Recommend" note ──────────────────
   // This is HotelsNearMeInKerala.com's own original voice — not copied from
