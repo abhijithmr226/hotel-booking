@@ -1911,10 +1911,10 @@ async function initHotelDetailPage() {
       const initials = (r.userName || "G").charAt(0).toUpperCase();
       const avatarColors = ["#4285F4","#EA4335","#34A853","#FBBC05","#AA46BB","#0097A7"];
       const avatarColor = avatarColors[(r.userName || "G").charCodeAt(0) % avatarColors.length];
-      const hasPhoto = r.userPhoto && !r.userPhoto.includes("pravatar");
+      const hasPhoto = r.userPhoto && (r.userPhoto.startsWith("https://lh3.googleusercontent.com") || r.userPhoto.startsWith("data:image") || r.userPhoto.startsWith("blob:"));
       const avatarHtml = hasPhoto
         ? `<img src="${r.userPhoto}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">`
-        : `<div style="width:42px;height:42px;border-radius:50%;background:${avatarColor};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;">${initials}</div>`;
+        : `<div style="width:42px;height:42px;border-radius:50%;background:${avatarColor};color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,0.15);">${initials}</div>`;
       const stars = `<span style="color:#FF9A02;font-size:13px;">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`;
       
       // Trip type badge
