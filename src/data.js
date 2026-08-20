@@ -132,10 +132,29 @@ const reviewsKeyMap = {
 };
 const favoritesKeyMap = { userId: 'user_id', hotelId: 'hotel_id' };
 
+
+/**
+ * Generate a URL-friendly slug from a hotel name.
+ * Example: "The Raviz Ashtamudi Resort & Hotel" → "the-raviz-ashtamudi-resort-hotel"
+ * Used for SEO-friendly URLs like /hotel.html?slug=the-raviz-ashtamudi-resort-hotel
+ */
+export function generateSlug(name) {
+  if (!name) return '';
+  return name
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')  // strip accents
+    .replace(/[^a-z0-9\s-]/g, '')   // remove special chars (& ' . etc)
+    .trim()
+    .replace(/\s+/g, '-')            // spaces → hyphens
+    .replace(/-+/g, '-')             // collapse consecutive hyphens
+    .substring(0, 80);               // max 80 chars
+}
+
 function mapHotelRow(row) {
   if (!row) return null;
   return {
     id: row.id,
+    slug: generateSlug(row.name),  // SEO-friendly URL segment derived from hotel name
     name: row.name,
     location: row.location,
     district: row.district,
@@ -405,6 +424,19 @@ async function waitForData() {
 export async function getHotels() {
   await waitForData();
   return [...store.hotels];
+}
+
+/**
+ * Look up a hotel by its slug (SEO-friendly name).
+ * Falls back to id-based lookup for backwards compatibility with old ?id= links.
+ */
+export async function getHotelBySlug(slug) {
+  await waitForData();
+  // Exact slug match
+  const bySlug = store.hotels.find(h => h.slug === slug);
+  if (bySlug) return bySlug;
+  // Fallback: treat slug as a literal id (handles old links)
+  return store.hotels.find(h => h.id === slug) || null;
 }
 
 export async function getBookings() {

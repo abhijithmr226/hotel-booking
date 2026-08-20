@@ -1,12 +1,12 @@
 import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail } from "./firebase";
 import {
-  initRealtimeData, onDataChange, getHotels, getBookings, addBooking, addHotel, updateHotel, deleteHotel,
+  initRealtimeData, onDataChange, getHotels, getHotelBySlug, getBookings, addBooking, addHotel, updateHotel, deleteHotel,
   DESTINATIONS, CATEGORIES, addUser, updateUserProfile, getUsers, getFavorites,
   removeFavorite, addFavorite, getRooms, addRoom, updateRoom, deleteRoom,
   updateBookingStatus, deleteBooking, getReviews, addReview, updateReviewStatus,
   replyToReview, deleteReview, getCoupons, addCoupon, updateCoupon, deleteCoupon,
   getAuditLogs, getSettings, getSeo, saveSettings, saveSeo, saveGatewaySettings,
-  getSystemUsers, addSystemUser, deleteSystemUser, getUserByUid
+  getSystemUsers, addSystemUser, deleteSystemUser, getUserByUid, generateSlug
 } from "./data";
 import { supabase } from "./supabase";
 
@@ -770,6 +770,34 @@ window.clearAllFilters = function() {
   if (window._currentHotelsRef) applyAdvancedFilters(window._currentHotelsRef);
 };
 
+/**
+ * Optimize an image URL for faster delivery.
+ * - ImageKit: inserts a /tr:w-{w},h-{h},q-{q},f-auto/ transform segment.
+ * - Unsplash: rewrites query params to request the right size.
+ * - Local / other URLs are returned unchanged.
+ */
+function optimizeImageUrl(url, w = 600, h = 375, q = 75) {
+  if (!url || url.startsWith('/') || url.startsWith('data:')) return url;
+  try {
+    if (url.includes('ik.imagekit.io')) {
+      // Skip if transforms are already present
+      if (url.includes('/tr:') || url.includes('?tr=')) return url;
+      // Insert transform segment after the ImageKit account prefix
+      return url.replace(
+        /(https:\/\/ik\.imagekit\.io\/[^/]+\/)/,
+        `$1tr:w-${w},h-${h},q-${q},f-auto/`
+      );
+    }
+    if (url.includes('unsplash.com')) {
+      const base = url.split('?')[0];
+      return `${base}?auto=format&fit=crop&w=${w}&q=${q}`;
+    }
+  } catch (e) {
+    // Fall through on any URL parsing error
+  }
+  return url;
+}
+
 function getHotelCardHtml(h, isFav) {
   const price = h.price || 0;
   const rating = h.rating || 4.6;
@@ -785,9 +813,14 @@ function getHotelCardHtml(h, isFav) {
   }
 
   return `
-    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
+    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?slug=${h.slug}'">
       <div class="hotel-card-image">
-        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${escapeHTML(h.name)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <img src="${optimizeImageUrl(h.image || '/assets/images/riverside.webp', 600, 375, 75)}"
+             alt="${escapeHTML(h.name)}"
+             width="600" height="375"
+             loading="lazy"
+             decoding="async"
+             onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=600&q=75'">
         <span class="hotel-card-badge">${escapeHTML(badgeText)}</span>
         <button class="hotel-card-wishlist" aria-label="Save to Wishlist" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
@@ -810,7 +843,7 @@ function getHotelCardHtml(h, isFav) {
             <div class="hotel-card-tax-info">+ taxes &amp; fees</div>
           </div>
         </div>
-        <a href="/hotel.html?id=${h.id}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
+        <a href="/hotel.html?slug=${h.slug}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
           View Details &amp; Book <i class="fas fa-arrow-right" style="font-size:11px;"></i>
         </a>
       </div>
@@ -981,10 +1014,17 @@ window.selectRoomCard = function(roomId) {
 
 async function initHotelDetailPage() {
   const params = new URLSearchParams(window.location.search);
-  const hotelId = params.get("id") || "riverside";
+  const slugParam = params.get("slug");   // new SEO-friendly param
+  const idParam   = params.get("id");     // legacy fallback
   const hotels = await getHotels();
-  
-  selectedHotel = hotels.find(h => h.id === hotelId) || hotels[0];
+
+  // Resolve hotel: prefer slug, fall back to id, then first hotel as default
+  if (slugParam) {
+    selectedHotel = await getHotelBySlug(slugParam);
+  } else if (idParam) {
+    selectedHotel = hotels.find(h => h.id === idParam) || null;
+  }
+  if (!selectedHotel) selectedHotel = hotels[0];
   if (!selectedHotel) return;
 
   // Save button detail page listener
@@ -1051,7 +1091,8 @@ async function initHotelDetailPage() {
     canonicalLink.setAttribute('rel', 'canonical');
     document.head.appendChild(canonicalLink);
   }
-  const pageUrl = `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`;
+  // Canonical URL uses the SEO-friendly slug for Google indexing
+  const pageUrl = `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`;
   canonicalLink.setAttribute('href', pageUrl);
 
   // Dynamically update sharing Open Graph and Twitter Card tags
@@ -1214,7 +1255,7 @@ async function initHotelDetailPage() {
         "@type": "ListItem",
         "position": 4,
         "name": selectedHotel.name,
-        "item": `https://hotelsnearmeinkera.la/hotel.html?id=${selectedHotel.id}`
+        "item": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`
       }
     ]
   };
@@ -4073,7 +4114,7 @@ function renderHotelsTableData(list) {
         </td>
         <td>
           <div style="display:flex; gap:6px; align-items:center;">
-            <a href="/hotel.html?id=${h.id}" target="_blank" title="View on Website"
+            <a href="/hotel.html?slug=${h.slug}" target="_blank" title="View on Website"
               style="width:30px; height:30px; border-radius:8px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:12px; text-decoration:none; transition:all .2s;"
               onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
               <i class="fas fa-external-link-alt"></i>
@@ -5187,7 +5228,7 @@ async function openWishlistDrawer() {
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-weight:700; color: var(--primary); font-size:13px;">₹${h.price.toLocaleString("en-IN")}/night</span>
               <div style="display:flex; gap: 8px;">
-                <a href="hotel.html?id=${h.id}" class="btn btn-primary btn-sm" style="padding: 4px 10px; font-size: 11px; border-radius:4px;">View</a>
+                <a href="hotel.html?slug=${h.slug}" class="btn btn-primary btn-sm" style="padding: 4px 10px; font-size: 11px; border-radius:4px;">View</a>
                 <button class="btn btn-outline btn-sm" style="padding: 4px 8px; border-radius:4px; color:#FF5A5F; border-color:#FF5A5F;" onclick="removeFavoriteHotel('${h.id}')"><i class="fas fa-trash"></i></button>
               </div>
             </div>
