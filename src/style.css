@@ -5551,22 +5551,63 @@ a.district-tag:hover {
   border-color: transparent;
 }
 
-.hotel-card-image {
+.hotel-card-image,
+.seo-hotel-card-image,
+.destination-modern-card,
+.category-card-img,
+.gallery-main,
+.hotel-gallery-item,
+.room-card-image,
+.lazy-img-container {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #F1F5F9;
+  background-color: #f1f5f9;
+  background-image: url('/logo.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 85px auto;
 }
 
-.hotel-card-image img {
+/* Subtle glowing shimmer pulse while waiting for lazy image */
+.hotel-card-image::before,
+.destination-modern-card::before,
+.gallery-main::before,
+.lazy-img-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+  animation: lazyLogoShimmer 2s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes lazyLogoShimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+.hotel-card-image img,
+.seo-hotel-card-image img,
+.destination-modern-card img,
+.gallery-main img,
+.category-card-img img,
+.room-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.4s ease, opacity 0.3s ease;
 }
 
-.hotel-card:hover .hotel-card-image img {
+.hotel-card:hover .hotel-card-image img,
+.destination-modern-card:hover img {
   transform: scale(1.05);
 }
 
