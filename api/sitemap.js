@@ -261,7 +261,7 @@ export default async function handler(req, res) {
         xml += `
   <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?slug=${slug}</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/hotel/${slug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

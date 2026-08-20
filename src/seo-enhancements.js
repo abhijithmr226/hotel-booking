@@ -404,7 +404,7 @@ async function initSeoLandingPage() {
       const rating = h.rating || 0;
       const reviewsCount = h.reviewsCount || 0;
       const isFav = userFavIds.includes(h.id);
-      const hotelUrl = `/hotel.html?slug=${h.slug || h.id}`;
+      const hotelUrl = `/hotel/${h.slug || h.id}`;
       return `
         <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='${hotelUrl}'">
           <div class="hotel-card-image">

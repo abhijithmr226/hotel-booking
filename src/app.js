@@ -814,9 +814,10 @@ function getHotelCardHtml(h, isFav) {
   }
 
   const cardSlug = h.slug || h.id;
+  const hotelDetailUrl = `/hotel/${cardSlug}`;
 
   return `
-    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?slug=${cardSlug}'">
+    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='${hotelDetailUrl}'">
       <div class="hotel-card-image">
         <img src="${optimizeImageUrl(h.image || '/assets/images/riverside.webp', 600, 375, 75)}"
              alt="${escapeHTML(h.name)}"
@@ -846,7 +847,7 @@ function getHotelCardHtml(h, isFav) {
             <div class="hotel-card-tax-info">+ taxes &amp; fees</div>
           </div>
         </div>
-        <a href="/hotel.html?slug=${cardSlug}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
+        <a href="${hotelDetailUrl}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
           View Details &amp; Book <i class="fas fa-arrow-right" style="font-size:11px;"></i>
         </a>
       </div>
@@ -1004,10 +1005,17 @@ window.selectRoomCard = function(roomId) {
 };
 
 async function initHotelDetailPage() {
+  // Extract slug from URL pathname: /hotel/grand-hyatt-kochi-bolgatty or query param
+  let slugFromPath = null;
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  if (pathParts[0] === "hotel" && pathParts[1]) {
+    slugFromPath = decodeURIComponent(pathParts[1].replace(".html", ""));
+  }
+
   const params = new URLSearchParams(window.location.search);
   const slugParam = params.get("slug");   // SEO-friendly param
   const idParam   = params.get("id");     // fallback ID param
-  const queryParam = slugParam || idParam;
+  const queryParam = slugFromPath || slugParam || idParam;
   
   const hotels = await getHotels();
   if (queryParam) {
@@ -1085,8 +1093,9 @@ async function initHotelDetailPage() {
     canonicalLink.setAttribute('rel', 'canonical');
     document.head.appendChild(canonicalLink);
   }
-  // Canonical URL uses the SEO-friendly slug for Google indexing
-  const pageUrl = `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`;
+  // Canonical URL uses the clean SEO-friendly slug for Google indexing
+  const hotelSlugUrl = selectedHotel.slug || selectedHotel.id;
+  const pageUrl = `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugUrl}`;
   canonicalLink.setAttribute('href', pageUrl);
 
   // Dynamically update sharing Open Graph and Twitter Card tags
@@ -1188,7 +1197,7 @@ async function initHotelDetailPage() {
     "name": selectedHotel.name,
     "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '') : "",
     "image": allImages.length > 0 ? allImages : undefined,
-    "url": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`,
+    "url": `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugUrl}`,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": selectedHotel.location,
@@ -1238,7 +1247,7 @@ async function initHotelDetailPage() {
     "name": selectedHotel.name,
     "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '').substring(0, 200) : "",
     "image": allImages[0] || "",
-    "url": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`,
+    "url": `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugUrl}`,
     "telephone": selectedHotel.whatsapp
       ? (selectedHotel.whatsapp.startsWith('+') ? selectedHotel.whatsapp : `+${selectedHotel.whatsapp}`)
       : "+919447908576",
@@ -1269,7 +1278,7 @@ async function initHotelDetailPage() {
     } : undefined,
     "hasMap": selectedHotel.mapUrl || undefined,
     "sameAs": [
-      `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`
+      `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugUrl}`
     ]
   };
   localBizSchema.textContent = JSON.stringify(localBizObj, (k, v) => v === undefined ? undefined : v, 2);
@@ -1338,7 +1347,7 @@ async function initHotelDetailPage() {
         "@type": "ListItem",
         "position": 4,
         "name": selectedHotel.name,
-        "item": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`
+        "item": `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugUrl}`
       }
     ]
   };

@@ -4,6 +4,14 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/hotel/:slug",
+      "destination": "/hotel.html?slug=:slug"
+    },
+    {
+      "source": "/hotel/:slug/",
+      "destination": "/hotel.html?slug=:slug"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

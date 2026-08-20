@@ -16,6 +16,12 @@ export default defineConfig({
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = req.url ? req.url.split('?')[0] : '';
+        if (path.startsWith('/hotel/') && !path.includes('.')) {
+          const hotelSlug = path.replace('/hotel/', '').replace(/\/$/, '');
+          const sep = req.url.includes('?') ? '&' : '?';
+          req.url = '/hotel.html' + (hotelSlug ? `${sep}slug=${encodeURIComponent(hotelSlug)}` : '');
+          return next();
+        }
         if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');
@@ -80,6 +86,12 @@ export default defineConfig({
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = req.url ? req.url.split('?')[0] : '';
+        if (path.startsWith('/hotel/') && !path.includes('.')) {
+          const hotelSlug = path.replace('/hotel/', '').replace(/\/$/, '');
+          const sep = req.url.includes('?') ? '&' : '?';
+          req.url = '/hotel.html' + (hotelSlug ? `${sep}slug=${encodeURIComponent(hotelSlug)}` : '');
+          return next();
+        }
         if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');
