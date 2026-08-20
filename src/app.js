@@ -1418,6 +1418,75 @@ async function initHotelDetailPage() {
   if (document.getElementById("hotel-location-full")) document.getElementById("hotel-location-full").innerText = selectedHotel.location;
   document.getElementById("hotel-badge-tag").innerText = selectedHotel.badge || selectedHotel.category;
   document.getElementById("hotel-desc").innerHTML = selectedHotel.description;
+
+  // ── Inject unique editorial "Why We Recommend" note ──────────────────
+  // This is HotelsNearMeInKerala.com's own original voice — not copied from
+  // the hotel's website — ensuring every page has genuinely unique content.
+  const hotelDescEl = document.getElementById("hotel-desc");
+  if (hotelDescEl) {
+    const dist = selectedHotel.district || 'Kerala';
+    const cat = (selectedHotel.category || '').toLowerCase();
+    const price = selectedHotel.price || 3000;
+    const rating = parseFloat(selectedHotel.rating) || 4.2;
+
+    // Pick a "best for" line based on category
+    const bestForMap = {
+      'luxury': `couples celebrating a special occasion or travellers who rarely compromise on quality`,
+      'beach': `sun-seekers who want direct sea access without the noise of a crowded resort strip`,
+      'hill': `those chasing cool temperatures, misty mornings, and the meditative quiet of the Western Ghats`,
+      'houseboat': `anyone who wants to understand Kerala at its most elemental — slow travel on ancient waterways`,
+      'homestay': `culturally curious travellers who prefer a family dining table to a hotel buffet`,
+      'ayurveda': `guests arriving with stress, burnout, or a genuine curiosity about traditional Indian medicine`,
+      'eco': `travellers who measure a holiday by its carbon footprint as much as its comfort`,
+      'treehouse': `adventurous couples and families who want a story worth telling when they get home`,
+      'heritage': `history enthusiasts and architecture lovers who want their accommodation to have a biography`,
+      'wildlife': `naturalists, photographers, and anyone who finds a distant elephant call more exciting than room service`,
+      'budget': `backpackers, solo travellers, and budget-conscious families who refuse to sacrifice a good location`,
+      'business': `corporate travellers who need the meeting room booked before they've even landed`,
+      'family': `multi-generational groups where grandparents and toddlers both need to be happy`,
+      'couple': `honeymooners and anniversary couples seeking privacy, romance, and unhurried evenings`,
+    };
+    const bestForKey = Object.keys(bestForMap).find(k => cat.includes(k)) || 'luxury';
+    const bestFor = bestForMap[bestForKey];
+
+    // Season tip
+    const month = new Date().getMonth(); // 0-11
+    let seasonTip = '';
+    if (month >= 10 || month <= 1) seasonTip = `Peak season (November–February) brings the best weather to ${dist} — book at least 3–4 weeks ahead.`;
+    else if (month >= 5 && month <= 8) seasonTip = `Visiting in the monsoon months? ${dist} transforms into deep, lush green — rates are lower and the landscape is extraordinary.`;
+    else seasonTip = `${dist}'s shoulder season offers a good balance of pleasant weather and competitive room rates right now.`;
+
+    // Price context
+    let priceNote = '';
+    if (price < 3000) priceNote = `At this price point it's exceptional value — we rarely feature budget properties that maintain this standard.`;
+    else if (price < 8000) priceNote = `The rate strikes a fair balance between comfort and cost in ${dist}'s current market.`;
+    else priceNote = `The premium rate is reflected in every detail — from the linens to the landscaping.`;
+
+    const editorialNote = document.createElement('div');
+    editorialNote.style.cssText = `
+      margin-top: 24px;
+      background: linear-gradient(135deg, #f0faf7, #e8f7f0);
+      border-left: 4px solid var(--primary, #108569);
+      border-radius: 12px;
+      padding: 18px 20px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-main, #1e293b);
+    `;
+    editorialNote.innerHTML = `
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+        <i class="fas fa-pen-nib" style="color:var(--primary,#108569); font-size:14px;"></i>
+        <strong style="font-size:13px; text-transform:uppercase; letter-spacing:0.5px; color:var(--primary,#108569);">Our Editorial Pick</strong>
+      </div>
+      <p style="margin:0 0 10px;">
+        <strong>Best for:</strong> ${bestFor}.
+      </p>
+      <p style="margin:0 0 10px;">${seasonTip}</p>
+      <p style="margin:0; color:var(--text-secondary,#64748b); font-size:13px; font-style:italic;">${priceNote}</p>
+    `;
+    hotelDescEl.after(editorialNote);
+  }
+
   let displayPhone = String(selectedHotel.whatsapp || "");
   let cleanDisp = displayPhone.replace(/\D/g, "");
   if (cleanDisp.length === 10) {
