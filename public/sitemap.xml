@@ -1,369 +1,381 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/</loc>
+    <loc>https://hotelsnearmeinkerala.com/</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-kochi</loc>
+    <loc>https://hotelsnearmeinkerala.com/categories.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-kollam</loc>
+    <loc>https://hotelsnearmeinkerala.com/resorts-in-kerala.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-varkala</loc>
+    <loc>https://hotelsnearmeinkerala.com/budget-hotels-in-kerala.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-munnar</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotels-in-kochi.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-thiruvananthapuram</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotels-in-munnar.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/budget-hotels-in-kerala</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotels-in-thiruvananthapuram.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/resorts-in-kerala</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotels-in-varkala.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/categories</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotels-in-kollam.html</loc>
     <lastmod>2026-08-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/about</loc>
-    <lastmod>2026-08-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.hotelsnearmeinkerala.com/contact</loc>
+    <loc>https://hotelsnearmeinkerala.com/about.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/cancellation</loc>
+    <loc>https://hotelsnearmeinkerala.com/contact.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/privacy</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel_victory_kr_international_1782532251145</loc>
     <lastmod>2026-08-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/terms</loc>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=kr_inn_1782526937543</loc>
     <lastmod>2026-08-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel_victory_kr_international_1782532251145</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=kr_grand_residency_1782532857279</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=kr_inn_1782526937543</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=kr_thekkedathu_mana_1782546273679</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=kr_grand_residency_1782532857279</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=kr_mana_heritage_resort_1782543278352</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=kr_thekkedathu_mana_1782546273679</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=grand_residency___resort_1782554251640</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=kr_mana_heritage_resort_1782543278352</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-grand-hyatt-kochi</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=grand_residency___resort_1782554251640</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-crowne-plaza-kochi</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-grand-hyatt-kochi</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-taj-malabar-cochin</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-crowne-plaza-kochi</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-postcard-mandalay-hall</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-taj-malabar-cochin</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-gokulam-grand-kumarakom</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-postcard-mandalay-hall</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-niraamaya-backwaters-kumarakom</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-gokulam-grand-kumarakom</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-rhythm-kumarakom</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-niraamaya-backwaters-kumarakom</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-taj-kumarakom</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-rhythm-kumarakom</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-uday-backwater-alappuzha</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-taj-kumarakom</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-coconut-lagoon</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-uday-backwater-alappuzha</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-fragrant-nature-munnar</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-coconut-lagoon</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-brunton-boatyard</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-fragrant-nature-munnar</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-elixir-hills</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-brunton-boatyard</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-niraamaya-kovalam</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-elixir-hills</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-001</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-niraamaya-kovalam</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-002</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-001</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-003</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-002</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-004</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-003</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-005</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-004</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-006</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-005</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-007</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-006</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-008</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-007</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-009</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-008</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-010</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-009</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-011</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-010</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-012</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-011</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-013</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-012</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-014</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-013</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-015</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-014</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-017</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-015</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-018</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-017</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-019</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-018</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-020</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-019</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-016</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-020</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=murali_loadge_1785315396427</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=hotel-016</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=prabha_residency__1785583117970</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=murali_loadge_1785315396427</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=fort_gate_1786949681883</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=prabha_residency__1785583117970</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=fort_gate_1786949684452</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=fort_gate_1786949681883</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=samudra_restaurant__1786954105381</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=fort_gate_1786949684452</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=alankar_elights_inns___hotels_pvt_ltd__1786966769039</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=samudra_restaurant__1786954105381</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=alankar_elights_inns___hotels_pvt_ltd__1786966771867</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=alankar_elights_inns___hotels_pvt_ltd__1786966769039</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-the-leela-kovalam</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?id=alankar_elights_inns___hotels_pvt_ltd__1786966771867</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-taj-bekal-resort</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-vythiri-resort-wayanad</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-marari-beach-resort</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://hotelsnearmeinkerala.com/hotel.html?id=hotel-spice-village-thekkady</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
 </urlset>
