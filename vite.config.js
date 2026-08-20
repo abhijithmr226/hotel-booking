@@ -195,6 +195,17 @@ export default defineConfig({
         thrissur: resolve(__dirname, 'hotels-in-thrissur.html'),
         bekal: resolve(__dirname, 'resorts-in-bekal.html'),
         athirappilly: resolve(__dirname, 'hotels-near-athirappilly-waterfalls.html'),
+        kannur: resolve(__dirname, 'hotels-in-kannur.html'),
+        kasaragod: resolve(__dirname, 'hotels-in-kasaragod.html'),
+        palakkad: resolve(__dirname, 'hotels-in-palakkad.html'),
+        malappuram: resolve(__dirname, 'hotels-in-malappuram.html'),
+        pathanamthitta: resolve(__dirname, 'hotels-in-pathanamthitta.html'),
+        kottayam: resolve(__dirname, 'hotels-in-kottayam.html'),
+        alappuzha: resolve(__dirname, 'hotels-in-alappuzha.html'),
+        calicutBeach: resolve(__dirname, 'hotels-near-calicut-beach.html'),
+        guruvayur: resolve(__dirname, 'hotels-near-guruvayur-temple.html'),
+        sabarimala: resolve(__dirname, 'hotels-near-sabarimala.html'),
+        bekalFort: resolve(__dirname, 'hotels-near-bekal-fort.html'),
       },
       output: {
         // Split vendor libs into a shared cached chunk

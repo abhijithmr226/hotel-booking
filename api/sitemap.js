@@ -242,23 +242,62 @@ export default async function handler(req, res) {
       return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').substring(0, 80);
     }
 
-    // Add hotels dynamically
+    // Read local 500+ hotels catalog for guaranteed 500+ indexing coverage
+    let staticHotels = [];
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const jsonPath = path.join(process.cwd(), 'kerala_500_hotels.json');
+      if (fs.existsSync(jsonPath)) {
+        staticHotels = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+      }
+    } catch(e) {
+      console.warn("Could not read local kerala_500_hotels.json in sitemap:", e);
+    }
+
+    const hotelMap = new Map();
+    if (Array.isArray(staticHotels)) {
+      staticHotels.forEach(h => {
+        const slug = h.slug || toSlug(h.name);
+        hotelMap.set(slug, {
+          name: h.name,
+          location: h.location,
+          slug: slug,
+          whatsapp: h.whatsapp,
+          created_at: todayStr
+        });
+      });
+    }
+
     if (hotels && Array.isArray(hotels)) {
       hotels.forEach(h => {
-        const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
-        const hotelName = h.name || 'Unknown Hotel';
-        const hotelPlace = h.location || 'Kerala';
         const slug = toSlug(h.name) || h.id;
-        let contactNum = String(h.whatsapp || 'N/A').replace(/\D/g, "");
-        if (contactNum && contactNum !== "N/A" && contactNum !== "") {
-          if (contactNum.length === 11 && contactNum.startsWith("0")) contactNum = contactNum.substring(1);
-          if (contactNum.length === 10) contactNum = "91" + contactNum;
-          contactNum = "+" + contactNum;
-        } else {
-          contactNum = "N/A";
-        }
-        
-        xml += `
+        hotelMap.set(slug, {
+          name: h.name,
+          location: h.location,
+          slug: slug,
+          whatsapp: h.whatsapp,
+          created_at: h.created_at || todayStr
+        });
+      });
+    }
+
+    // Add all 500+ hotels dynamically
+    hotelMap.forEach(h => {
+      const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
+      const hotelName = h.name || 'Unknown Hotel';
+      const hotelPlace = h.location || 'Kerala';
+      const slug = h.slug;
+      let contactNum = String(h.whatsapp || 'N/A').replace(/\D/g, "");
+      if (contactNum && contactNum !== "N/A" && contactNum !== "") {
+        if (contactNum.length === 11 && contactNum.startsWith("0")) contactNum = contactNum.substring(1);
+        if (contactNum.length === 10) contactNum = "91" + contactNum;
+        contactNum = "+" + contactNum;
+      } else {
+        contactNum = "N/A";
+      }
+      
+      xml += `
   <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
   <url>
     <loc>https://www.hotelsnearmeinkerala.com/hotel/${slug}</loc>
@@ -266,8 +305,7 @@ export default async function handler(req, res) {
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>`;
-      });
-    }
+    });
 
     xml += `
 </urlset>`;

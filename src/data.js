@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import STATIC_HOTELS from "../kerala_500_hotels.json";
 
 // ─── Static UI data (not stored in database) ───────────────────────────────
 export const DESTINATIONS = [
@@ -49,7 +50,7 @@ const DEFAULT_SEO = {
 
 // ─── In-memory store ───────────────────────────────────────────────
 const store = {
-  hotels: [],
+  hotels: Array.isArray(STATIC_HOTELS) ? [...STATIC_HOTELS] : [],
   bookings: [],
   rooms: [],
   users: [],

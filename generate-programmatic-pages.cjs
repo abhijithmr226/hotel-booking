@@ -353,6 +353,193 @@ const LANDING_PAGES = [
       { q: 'Can you see Athirappilly Waterfalls directly from hotel rooms?', a: 'Yes, several boutique rainforest resorts offer private balconies and infinity pools facing the main waterfall cascade directly.' }
     ],
     chips: ['Athirappilly Falls', 'Vazhachal', 'Chalakudy River', 'Sholayar Forest', 'Thrissur']
+  },
+  {
+    filename: 'hotels-in-kannur.html',
+    slug: 'hotels-in-kannur',
+    gridId: 'kannur-hotels-grid',
+    title: 'Best Hotels & Beach Resorts in Kannur | Drive-In Beach & Theyyam Stays',
+    metaDescription: 'Book beachfront hotels, homestays, and resorts in Kannur (Cannanore). Close to Muzhappilangad Drive-In Beach, Payyambalam Beach, and Theyyam cultural events.',
+    h1: 'Hotels & Beach Resorts in Kannur',
+    subtitle: 'Discover the land of loomed textiles, pristine drive-in beaches, and mystical Theyyam rituals in northern Kerala.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kannur',
+    district: 'Kannur',
+    keyword: 'Kannur',
+    filterCode: `h => h.district === 'Kannur'`,
+    faqs: [
+      { q: 'What is Muzhappilangad Beach famous for?', a: 'It is Asia’s longest drive-in beach where visitors can drive personal vehicles along 4 km of firm golden sand right next to the Arabian Sea.' }
+    ],
+    chips: ['Muzhappilangad Beach', 'Payyambalam Beach', 'St Angelo Fort', 'Thalassery', 'Dharmadam Island']
+  },
+  {
+    filename: 'hotels-in-kasaragod.html',
+    slug: 'hotels-in-kasaragod',
+    gridId: 'kasaragod-hotels-grid',
+    title: 'Hotels & Luxury Resorts in Kasaragod | Bekal Fort & Nileshwar Stays',
+    metaDescription: 'Explore the best hotels, beach resorts, and backwater stays in Kasaragod district. Bekal Fort luxury resorts, Kavvayi backwaters, and Ranipuram hill stays.',
+    h1: 'Hotels & Resorts in Kasaragod',
+    subtitle: 'Northernmost coastal haven of Kerala renowned for historic sea forts, untouched palm beaches, and serene backwater estuaries.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kasaragod',
+    district: 'Kasaragod',
+    keyword: 'Kasaragod',
+    filterCode: `h => h.district === 'Kasaragod'`,
+    faqs: [
+      { q: 'Which is the top tourist attraction in Kasaragod?', a: 'The monumental 17th-century Bekal Fort offering 360-degree panoramic ocean views and surrounding luxury beach resorts.' }
+    ],
+    chips: ['Bekal Fort', 'Nileshwar', 'Kavvayi Backwaters', 'Ranipuram Hills', 'Ananthapura Temple']
+  },
+  {
+    filename: 'hotels-in-palakkad.html',
+    slug: 'hotels-in-palakkad',
+    gridId: 'palakkad-hotels-grid',
+    title: 'Best Hotels & Agro Eco Resorts in Palakkad | Silent Valley Stays',
+    metaDescription: 'Find heritage homestays, wellness resorts, and nature lodges in Palakkad. Close to Palakkad Fort, Silent Valley National Park, and Malampuzha Dam.',
+    h1: 'Hotels & Nature Resorts in Palakkad',
+    subtitle: 'Gateway to Kerala featuring vast emerald paddy fields, ancient forts, Ayurvedic healing sanctuaries, and prehistoric rainforests.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-palakkad',
+    district: 'Palakkad',
+    keyword: 'Palakkad',
+    filterCode: `h => h.district === 'Palakkad'`,
+    faqs: [
+      { q: 'Can I stay near Silent Valley National Park in Palakkad?', a: 'Yes, eco-tourism wilderness lodges and plantation stays are available in Mukkali and Mannarkkad for guided rainforest safaris.' }
+    ],
+    chips: ['Palakkad Fort', 'Silent Valley', 'Nelliyampathy Hills', 'Malampuzha Dam', 'Kalpathy']
+  },
+  {
+    filename: 'hotels-in-malappuram.html',
+    slug: 'hotels-in-malappuram',
+    gridId: 'malappuram-hotels-grid',
+    title: 'Hotels & Ayurvedic Resorts in Malappuram | Kottakkal & Nilambur Stays',
+    metaDescription: 'Book top hotels and wellness stays in Malappuram, Kerala. World-renowned Kottakkal Arya Vaidya Sala Ayurveda, Nilambur teak heritage, and riverfront resorts.',
+    h1: 'Hotels & Resorts in Malappuram',
+    subtitle: 'Heart of authentic Ayurvedic medicine at Kottakkal and historical teak plantation river retreats at Nilambur.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-malappuram',
+    district: 'Malappuram',
+    keyword: 'Malappuram',
+    filterCode: `h => h.district === 'Malappuram'`,
+    faqs: [
+      { q: 'Why is Kottakkal in Malappuram world-famous?', a: 'Kottakkal is the global headquarters of Arya Vaidya Sala, attracting wellness seekers from around the world for authentic Ayurvedic healing.' }
+    ],
+    chips: ['Kottakkal Ayurveda', 'Nilambur Teak', 'Kadalundi Estuary', 'Manjeri', 'Ponnani Port']
+  },
+  {
+    filename: 'hotels-in-pathanamthitta.html',
+    slug: 'hotels-in-pathanamthitta',
+    gridId: 'pathanamthitta-hotels-grid',
+    title: 'Hotels & Forest Eco Lodges in Pathanamthitta | Gavi & Sabarimala Stays',
+    metaDescription: 'Discover eco-tourism forest lodges, pilgrim hotels, and plantation stays in Pathanamthitta. Gavi rainforest safaris, Konni elephant reserve, and Sabarimala transit.',
+    h1: 'Hotels & Eco Lodges in Pathanamthitta',
+    subtitle: 'The spiritual and pilgrim capital of Kerala, blessed with dense evergreen forests at Gavi and sacred Pamba riverbanks.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-pathanamthitta',
+    district: 'Pathanamthitta',
+    keyword: 'Pathanamthitta',
+    filterCode: `h => h.district === 'Pathanamthitta'`,
+    faqs: [
+      { q: 'What eco-tourism activities are popular in Pathanamthitta?', a: 'Gavi rainforest jungle safaris, coracle boating at Adavi, and visiting the Konni elephant rehabilitation center.' }
+    ],
+    chips: ['Gavi Forest', 'Konni Elephants', 'Aranmula Mirror', 'Sabarimala Route', 'Thiruvalla']
+  },
+  {
+    filename: 'hotels-in-kottayam.html',
+    slug: 'hotels-in-kottayam',
+    gridId: 'kottayam-hotels-grid',
+    title: 'Best Hotels & Heritage Stays in Kottayam | Land of Letters & Lakes',
+    metaDescription: 'Book comfortable city hotels, rubber plantation heritage stays, and lakefront resorts in Kottayam, Kerala. Proximity to Kumarakom backwaters and Ilaveezhapoonchira.',
+    h1: 'Hotels & Heritage Stays in Kottayam',
+    subtitle: 'The cultural Land of Letters, Lakes, and Latex nestled between the Vembanad backwaters and High Range hillocks.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kottayam',
+    district: 'Kottayam',
+    keyword: 'Kottayam',
+    filterCode: `h => h.district === 'Kottayam'`,
+    faqs: [
+      { q: 'How far is Kottayam city from Kumarakom backwaters?', a: 'Kumarakom backwater resorts are just 14 km (20 minutes drive) from Kottayam railway station and city center.' }
+    ],
+    chips: ['Kumarakom', 'Pala', 'Ilaveezhapoonchira', 'Kanjirappally', 'Vaikom']
+  },
+  {
+    filename: 'hotels-in-alappuzha.html',
+    slug: 'hotels-in-alappuzha',
+    gridId: 'alappuzha-hotels-grid',
+    title: 'Hotels & Beach Resorts in Alappuzha (Alleppey) | Venice of the East',
+    metaDescription: 'Explore the best beach hotels, canal view resorts, and homestays in Alappuzha (Alleppey). Close to Alleppey Beach, Nehru Trophy Boat Race, and Marari.',
+    h1: 'Hotels & Resorts in Alappuzha (Alleppey)',
+    subtitle: 'Stay in the world-famous Venice of the East with picturesque canals, coastal beach resorts, and backwater lagoons.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-alappuzha',
+    district: 'Alappuzha',
+    keyword: 'Alappuzha',
+    filterCode: `h => h.district === 'Alappuzha'`,
+    faqs: [
+      { q: 'Where are the top areas to stay in Alappuzha?', a: 'Punnamada and Kuttanad for backwaters, Marari for quiet beaches, and Alleppey Beach for colonial lighthouse walks.' }
+    ],
+    chips: ['Punnamada Lake', 'Marari Beach', 'Alleppey Beach', 'Kuttanad', 'Champakulam']
+  },
+  {
+    filename: 'hotels-near-calicut-beach.html',
+    slug: 'hotels-near-calicut-beach',
+    gridId: 'calicut-beach-hotels-grid',
+    title: 'Hotels Near Calicut Beach (Kozhikode) | Beach Road & Sunset Stays',
+    metaDescription: 'Book top hotels and sea view rooms near Calicut Beach (Kozhikode Beach Road). Walking distance to sea pier, lighthouse, Malabar food streets, and sunsets.',
+    h1: 'Hotels Near Calicut Beach, Kozhikode',
+    subtitle: 'Stay steps away from the iconic Calicut Beach promenade, historic sea piers, and celebrated Malabar street dining.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-calicut-beach',
+    district: 'Kozhikode',
+    keyword: 'Calicut Beach',
+    filterCode: `h => h.district === 'Kozhikode'`,
+    faqs: [
+      { q: 'Are there beach view hotels near Calicut Beach?', a: 'Yes, Beach Road features historic properties like The Gateway Hotel and Sea Queen with direct Arabian Sea views.' }
+    ],
+    chips: ['Beach Road', 'Kozhikode Lighthouse', 'Mananchira', 'SM Street', 'Mavoor Road']
+  },
+  {
+    filename: 'hotels-near-guruvayur-temple.html',
+    slug: 'hotels-near-guruvayur-temple',
+    gridId: 'guruvayur-hotels-grid',
+    title: 'Hotels Near Guruvayur Temple | Pilgrim Stays & East Nada Accommodations',
+    metaDescription: 'Find hotels, lodges, and luxury stays near Guruvayur Sri Krishna Temple. Walking distance to East Nada, West Nada, marriage halls, and free parking.',
+    h1: 'Hotels Near Guruvayur Temple, Thrissur',
+    subtitle: 'Comfortable pilgrimage accommodations, AC family rooms, and banquet halls walking distance to the holy Guruvayur Temple.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-guruvayur-temple',
+    district: 'Thrissur',
+    keyword: 'Guruvayur',
+    filterCode: `h => h.district === 'Thrissur' || h.name.toLowerCase().includes('guruvayur') || h.location.toLowerCase().includes('guruvayur')`,
+    faqs: [
+      { q: 'How close are hotels to the Guruvayur Temple gates?', a: 'Numerous hotels and serviced suites are situated within 50 to 300 meters of East Nada and South Nada.' }
+    ],
+    chips: ['East Nada', 'West Nada', 'Mammiyoor', 'Punnathurkotta', 'Thrissur City']
+  },
+  {
+    filename: 'hotels-near-sabarimala.html',
+    slug: 'hotels-near-sabarimala',
+    gridId: 'sabarimala-hotels-grid',
+    title: 'Hotels Near Sabarimala Pilgrimage Route | Pathanamthitta & Pamba Stays',
+    metaDescription: 'Book transit hotels, guest houses, and family stays along the Sabarimala pilgrimage corridor in Pathanamthitta, Adoor, Pandalam, and Ranni.',
+    h1: 'Hotels Along the Sabarimala Pilgrimage Route',
+    subtitle: 'Pilgrim transit stays, vegetarian dining, and family accommodations along MC Road, Pathanamthitta, and Pamba base stations.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-sabarimala',
+    district: 'Pathanamthitta',
+    keyword: 'Sabarimala',
+    filterCode: `h => h.district === 'Pathanamthitta' || h.district === 'Kottayam'`,
+    faqs: [
+      { q: 'What is the best town to halt before trekking to Sabarimala?', a: 'Pathanamthitta town, Chengannur (railway station hub), and Ranni provide the closest transit hotels and parking facilities.' }
+    ],
+    chips: ['Pathanamthitta', 'Chengannur', 'Pandalam', 'Ranni', 'Pamba Base']
+  },
+  {
+    filename: 'hotels-near-bekal-fort.html',
+    slug: 'hotels-near-bekal-fort',
+    gridId: 'bekal-fort-hotels-grid',
+    title: 'Hotels & Beach Resorts Near Bekal Fort | Kasaragod Ocean View Stays',
+    metaDescription: 'Stay near the majestic 300-year-old Bekal Fort in Kasaragod. 5-star beachfront resorts, backwater villa escapes, and Ayurvedic wellness centers.',
+    h1: 'Hotels & Resorts Near Bekal Fort',
+    subtitle: 'World-class luxury beachfront retreats and heritage homestays framing Kerala’s most scenic coastal fortress.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-bekal-fort',
+    district: 'Kasaragod',
+    keyword: 'Bekal Fort',
+    filterCode: `h => h.district === 'Kasaragod' || h.name.toLowerCase().includes('bekal')`,
+    faqs: [
+      { q: 'Which luxury resorts are closest to Bekal Fort?', a: 'Taj Bekal Resort & Spa and The Lalit Resort & Spa Bekal are located within 3–5 km of the fort grounds.' }
+    ],
+    chips: ['Bekal Fort', 'Kappil Beach', 'Nileshwar', 'Kanhangad', 'Chandragiri Fort']
   }
 ];
 
