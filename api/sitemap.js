@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     // Fetch active hotels from Supabase
     const { data: hotels, error } = await supabase
       .from('hotels')
-      .select('id, name, location, whatsapp, created_at, status')
+      .select('id, name, location, district, whatsapp, image, created_at, status')
       .eq('status', 'active');
 
     if (error) throw error;
@@ -18,7 +18,8 @@ export default async function handler(req, res) {
     const todayStr = new Date().toISOString().split('T')[0];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.hotelsnearmeinkerala.com/</loc>
     <lastmod>${todayStr}</lastmod>
@@ -264,6 +265,7 @@ export default async function handler(req, res) {
           location: h.location,
           slug: slug,
           whatsapp: h.whatsapp,
+          image: h.image,
           created_at: todayStr
         });
       });
@@ -277,16 +279,27 @@ export default async function handler(req, res) {
           location: h.location,
           slug: slug,
           whatsapp: h.whatsapp,
+          image: h.image,
           created_at: h.created_at || todayStr
         });
       });
     }
 
+    function escapeXml(unsafe) {
+      if (!unsafe) return '';
+      return String(unsafe)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
     // Add all 500+ hotels dynamically
     hotelMap.forEach(h => {
       const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
-      const hotelName = h.name || 'Unknown Hotel';
-      const hotelPlace = h.location || 'Kerala';
+      const hotelName = escapeXml(h.name || 'Kerala Hotel');
+      const hotelPlace = escapeXml(h.location || 'Kerala');
       const slug = h.slug;
       let contactNum = String(h.whatsapp || 'N/A').replace(/\D/g, "");
       if (contactNum && contactNum !== "N/A" && contactNum !== "") {
@@ -296,14 +309,25 @@ export default async function handler(req, res) {
       } else {
         contactNum = "N/A";
       }
+
+      let imageTag = '';
+      if (h.image && typeof h.image === 'string') {
+        const fullImg = h.image.startsWith('http') ? h.image : `https://www.hotelsnearmeinkerala.com${h.image.startsWith('/') ? '' : '/'}${h.image}`;
+        imageTag = `
+    <image:image>
+      <image:loc>${escapeXml(fullImg)}</image:loc>
+      <image:title>${hotelName}</image:title>
+      <image:caption>${hotelName} in ${hotelPlace}, Kerala</image:caption>
+    </image:image>`;
+      }
       
       xml += `
-  <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
+  <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact: ${contactNum} -->
   <url>
     <loc>https://www.hotelsnearmeinkerala.com/hotel/${slug}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>${imageTag}
   </url>`;
     });
 

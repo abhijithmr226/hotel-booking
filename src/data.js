@@ -1162,13 +1162,7 @@ export async function addHotel(hotel) {
   if (error) throw error;
   await writeAuditLog("ADD_HOTEL", "hotel", hotel.id, "", JSON.stringify(hotel));
   await refreshAllData();
-
-  // Automatically notify Google and search engine crawlers of the new hotel
-  try {
-    if (typeof window !== "undefined" && window.fetch) {
-      fetch("https://www.google.com/ping?sitemap=https://www.hotelsnearmeinkerala.com/sitemap.xml", { mode: "no-cors" }).catch(() => {});
-    }
-  } catch (e) { /* ignore ping errors */ }
+  notifySearchEngines(hotel.slug || hotel.id);
 }
 
 export async function updateHotel(hotelId, updates) {
@@ -1182,6 +1176,8 @@ export async function updateHotel(hotelId, updates) {
   if (error) throw error;
   await writeAuditLog("UPDATE_HOTEL", "hotel", hotelId, old ? JSON.stringify(old) : "", JSON.stringify(updates));
   await refreshAllData();
+  const targetSlug = updates.slug || (old ? old.slug : hotelId);
+  notifySearchEngines(targetSlug);
 }
 
 export async function deleteHotel(hotelId) {
@@ -1190,6 +1186,44 @@ export async function deleteHotel(hotelId) {
   if (error) throw error;
   await writeAuditLog("DELETE_HOTEL", "hotel", hotelId, old ? JSON.stringify(old) : "", "");
   await refreshAllData();
+  notifySearchEngines();
+}
+
+/**
+ * Automatically notifies Google, Bing, and IndexNow of new/modified hotel URLs.
+ */
+export async function notifySearchEngines(hotelSlugOrUrl) {
+  const sitemapUrl = "https://www.hotelsnearmeinkerala.com/sitemap.xml";
+  const hotelUrl = hotelSlugOrUrl 
+    ? (hotelSlugOrUrl.startsWith("http") ? hotelSlugOrUrl : `https://www.hotelsnearmeinkerala.com/hotel/${hotelSlugOrUrl}`)
+    : null;
+
+  try {
+    if (typeof window !== "undefined" && window.fetch) {
+      // 1. Ping Google Sitemap Crawler
+      fetch(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, { mode: "no-cors" }).catch(() => {});
+
+      // 2. Ping Bing Sitemap Crawler
+      fetch(`https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, { mode: "no-cors" }).catch(() => {});
+
+      // 3. Instant IndexNow Protocol (Bing, Yandex, Seznam, Naver)
+      if (hotelUrl) {
+        fetch("https://api.indexnow.org/indexnow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          mode: "no-cors",
+          body: JSON.stringify({
+            host: "www.hotelsnearmeinkerala.com",
+            key: "hotelsnearmeinkerala2026",
+            keyLocation: "https://www.hotelsnearmeinkerala.com/hotelsnearmeinkerala2026.txt",
+            urlList: [hotelUrl, sitemapUrl]
+          })
+        }).catch(() => {});
+      }
+    }
+  } catch (e) {
+    // Non-blocking background execution
+  }
 }
 
 // ─── Bookings ─────────────────────────────────────────────────────────────────

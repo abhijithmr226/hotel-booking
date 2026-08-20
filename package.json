@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 80 --host",
-    "build": "vite build",
+    "build": "node generate-sitemap-xml.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
