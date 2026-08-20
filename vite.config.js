@@ -171,6 +171,18 @@ export default defineConfig({
         munroeIsland: resolve(__dirname, 'resorts-in-munroe-island.html'),
         wonderla: resolve(__dirname, 'hotels-near-wonderla-kochi.html'),
         listYourHotel: resolve(__dirname, 'list-your-hotel.html'),
+        wayanad: resolve(__dirname, 'hotels-in-wayanad.html'),
+        kumarakom: resolve(__dirname, 'resorts-in-kumarakom.html'),
+        alleppeyHouseboats: resolve(__dirname, 'houseboats-in-alleppey.html'),
+        thekkady: resolve(__dirname, 'resorts-in-thekkady.html'),
+        kovalam: resolve(__dirname, 'hotels-in-kovalam.html'),
+        vagamon: resolve(__dirname, 'resorts-in-vagamon.html'),
+        treehouse: resolve(__dirname, 'treehouse-resorts-in-kerala.html'),
+        ayurveda: resolve(__dirname, 'ayurveda-resorts-in-kerala.html'),
+        kozhikode: resolve(__dirname, 'hotels-in-kozhikode.html'),
+        thrissur: resolve(__dirname, 'hotels-in-thrissur.html'),
+        bekal: resolve(__dirname, 'resorts-in-bekal.html'),
+        athirappilly: resolve(__dirname, 'hotels-near-athirappilly-waterfalls.html'),
       },
       output: {
         // Split vendor libs into a shared cached chunk

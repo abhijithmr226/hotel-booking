@@ -339,7 +339,20 @@ async function initSeoLandingPage() {
     { id: 'jatayu-hotels-grid', filter: h => h.district === 'Kollam' || h.district === 'Thiruvananthapuram' },
     { id: 'kollam-beach-hotels-grid', filter: h => h.district === 'Kollam' },
     { id: 'munroe-island-hotels-grid', filter: h => h.district === 'Kollam' },
-    { id: 'wonderla-hotels-grid', filter: h => h.district === 'Ernakulam' }
+    { id: 'wonderla-hotels-grid', filter: h => h.district === 'Ernakulam' },
+    // Destination & Niche Landing Pages
+    { id: 'wayanad-hotels-grid', filter: h => h.district === 'Wayanad' },
+    { id: 'kumarakom-hotels-grid', filter: h => h.district === 'Kottayam' || h.name.toLowerCase().includes('kumarakom') || h.location.toLowerCase().includes('kumarakom') },
+    { id: 'alleppey-houseboats-grid', filter: h => h.district === 'Alappuzha' || h.category === 'Houseboats' || h.name.toLowerCase().includes('houseboat') || h.name.toLowerCase().includes('alleppey') },
+    { id: 'thekkady-hotels-grid', filter: h => (h.district === 'Idukki' && (h.name.toLowerCase().includes('thekkady') || h.location.toLowerCase().includes('thekkady') || h.location.toLowerCase().includes('kumily'))) || h.name.toLowerCase().includes('elephant court') || h.name.toLowerCase().includes('spice village') },
+    { id: 'kovalam-hotels-grid', filter: h => h.district === 'Thiruvananthapuram' && (h.name.toLowerCase().includes('kovalam') || h.location.toLowerCase().includes('kovalam') || h.name.toLowerCase().includes('leela') || h.name.toLowerCase().includes('samudra')) },
+    { id: 'vagamon-hotels-grid', filter: h => h.district === 'Idukki' && (h.name.toLowerCase().includes('vagamon') || h.location.toLowerCase().includes('vagamon')) },
+    { id: 'treehouse-resorts-grid', filter: h => h.category === 'Treehouse Stays' || h.name.toLowerCase().includes('tree') || h.name.toLowerCase().includes('vythiri') || h.name.toLowerCase().includes('wild') || (Array.isArray(h.amenities) && h.amenities.some(a => a.toLowerCase().includes('tree'))) },
+    { id: 'ayurveda-resorts-grid', filter: h => h.category === 'Ayurveda Resorts' || h.name.toLowerCase().includes('ayur') || h.name.toLowerCase().includes('retreat') || h.name.toLowerCase().includes('somatheeram') || (Array.isArray(h.amenities) && h.amenities.some(a => a.toLowerCase().includes('ayurveda') || a.toLowerCase().includes('spa'))) },
+    { id: 'kozhikode-hotels-grid', filter: h => h.district === 'Kozhikode' },
+    { id: 'thrissur-hotels-grid', filter: h => h.district === 'Thrissur' },
+    { id: 'bekal-hotels-grid', filter: h => h.district === 'Kasaragod' || h.name.toLowerCase().includes('bekal') || h.location.toLowerCase().includes('bekal') },
+    { id: 'athirappilly-hotels-grid', filter: h => h.district === 'Thrissur' || h.district === 'Ernakulam' || h.name.toLowerCase().includes('athirappilly') || h.location.toLowerCase().includes('athirappilly') }
   ];
 
   const activeConfig = configs.find(c => document.getElementById(c.id));

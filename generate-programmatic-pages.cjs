@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LANDING_PAGES = [
+  // ── 1. Transit & Landmark Pages ──
   {
     filename: 'hotels-near-kochi-airport.html',
     slug: 'hotels-near-kochi-airport',
@@ -62,352 +63,516 @@ const LANDING_PAGES = [
     slug: 'hotels-near-technopark-trivandrum',
     gridId: 'technopark-hotels-grid',
     title: 'Hotels Near Technopark Trivandrum | Kazhakkoottam Business Stays',
-    metaDescription: 'Top business hotels near Technopark Phase 1, 2, 3 & 4 (Kazhakkoottam, Thiruvananthapuram). High-speed Wi-Fi, conference facilities, and corporate tariff packages.',
-    h1: 'Hotels Near Technopark Trivandrum',
-    subtitle: 'Work-ready corporate hotels, extended-stay executive suites, and modern business properties in Kazhakkoottam & NH 66 corridor.',
+    metaDescription: 'Find hotels near Technopark Trivandrum in Kazhakkoottam. High-speed Wi-Fi, corporate rates, conference rooms, and close to NH 66 bypass corridor.',
+    h1: 'Hotels Near Technopark, Trivandrum',
+    subtitle: 'Executive business hotels, serviced apartments, and luxury stays around Technopark Phase 1, 2, 3 and Kazhakkoottam.',
     canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-technopark-trivandrum',
     district: 'Thiruvananthapuram',
     keyword: 'Technopark',
     filterCode: `h => h.district === 'Thiruvananthapuram'`,
     faqs: [
-      { q: 'Are there extended stay and serviced apartments near Technopark?', a: 'Yes, Kazhakkoottam and Kulathoor have multiple executive suites and business hotels with workstations and laundry.' },
-      { q: 'How far is Trivandrum Airport from Technopark?', a: 'Trivandrum International Airport (TRV) is approximately 11 km (15-20 min drive) from Technopark via NH 66.' }
+      { q: 'Are there long-stay options near Technopark Trivandrum?', a: 'Yes, multiple serviced apartments and business hotels in Kazhakkoottam offer weekly and monthly corporate booking packages.' },
+      { q: 'How far is Trivandrum Airport from Technopark?', a: 'Trivandrum International Airport (TRV) is approximately 10–12 km away via NH 66 bypass (15–20 minutes drive).' }
     ],
-    chips: ['Kazhakkoottam', 'Kovalam Beach', 'Trivandrum City', 'Varkala Cliff', 'Shangumugham']
+    chips: ['Kazhakkoottam', 'NH 66 Bypass', 'Kovalam', 'Palayam', 'Thampanoor']
   },
   {
     filename: 'hotels-near-jatayu-earth-center.html',
     slug: 'hotels-near-jatayu-earth-center',
     gridId: 'jatayu-hotels-grid',
-    title: 'Hotels Near Jatayu Earth’s Center | Chadayamangalam & Kollam Stays',
-    metaDescription: 'Find resorts and hotels near Jatayu Earth’s Center (Jatayu Nature Park, Chadayamangalam). Enjoy cable car rides, adventure games, and scenic hill resorts.',
+    title: 'Hotels Near Jatayu Earth Center Chadayamangalam | Kollam Stays',
+    metaDescription: 'Book resorts & hotels near Jatayu Earth’s Center (Jatayu Rock) Chadayamangalam, Kollam. Cable car access, adventure park stays, and scenic nature resorts.',
     h1: 'Hotels Near Jatayu Earth’s Center',
-    subtitle: 'Stay near the world’s largest bird sculpture in Chadayamangalam with scenic rock hill retreats and authentic Kerala hospitality.',
+    subtitle: 'Stay close to the world’s largest bird sculpture and adventure park at Chadayamangalam in Kollam district.',
     canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-jatayu-earth-center',
     district: 'Kollam',
     keyword: 'Jatayu',
     filterCode: `h => h.district === 'Kollam' || h.district === 'Thiruvananthapuram'`,
     faqs: [
-      { q: 'What is the best way to visit Jatayu Earth’s Center from Kollam or Trivandrum?', a: 'Jatayu Earth’s Center is located on MC Road (Chadayamangalam), roughly 38 km from Kollam city and 48 km from Trivandrum.' },
-      { q: 'Is Jatayu Earth’s Center open on all days?', a: 'Yes, the center and ropeway operate daily from 10:00 AM to 6:00 PM.' }
+      { q: 'What is the best time to visit Jatayu Earth Center?', a: 'Early morning or late afternoon (3:30 PM to 6:00 PM) offers the best weather for the cable car ride and panoramic sunset views.' },
+      { q: 'Can I stay near Jatayu Rock and travel to Varkala Beach?', a: 'Yes, Varkala Cliff and Beach are only 28 km (45 minutes drive) from Chadayamangalam.' }
     ],
-    chips: ['Chadayamangalam', 'Kollam Beach', 'Ashtamudi Lake', 'Munroe Island', 'Thenmala Eco Tourism']
+    chips: ['Chadayamangalam', 'Kollam City', 'Varkala Cliff', 'Ashtamudi Lake', 'Munroe Island']
   },
   {
     filename: 'hotels-in-kollam-beach.html',
     slug: 'hotels-in-kollam-beach',
     gridId: 'kollam-beach-hotels-grid',
-    title: 'Hotels in Kollam Beach | Seaside Resorts & Thangassery Stays',
-    metaDescription: 'Book seaside hotels and resorts near Kollam Beach (Mahatma Gandhi Beach) and Thangassery Lighthouse. Ocean-view rooms, seafood dining, and sunset terraces.',
-    h1: 'Hotels in Kollam Beach & Coastline',
-    subtitle: 'Wake up to Arabian Sea breezes, golden sand beaches, and historic Thangassery Lighthouse views.',
+    title: 'Hotels in Kollam Beach | Seaside Resorts & Ocean View Stays',
+    metaDescription: 'Discover oceanfront hotels and beach resorts along Kollam Beach and Mahatma Gandhi Park. Sunset views, fresh seafood dining, and port town heritage.',
+    h1: 'Hotels & Resorts in Kollam Beach',
+    subtitle: 'Relax along the scenic coastline of southern Kerala with direct beach access and Arabian Sea breeze.',
     canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kollam-beach',
     district: 'Kollam',
     keyword: 'Kollam Beach',
     filterCode: `h => h.district === 'Kollam'`,
     faqs: [
-      { q: 'What are the top beach attractions in Kollam?', a: 'Kollam Beach (MG Park), Thangassery Lighthouse (1902), Thirumullavaram Beach, and the coastal park promenade.' },
-      { q: 'Are beach resorts in Kollam less crowded than Kovalam or Varkala?', a: 'Yes! Kollam beaches are peaceful, unspoiled, and offer authentic local culture without heavy commercial tourist crowds.' }
+      { q: 'Are there beach resorts with swimming pools in Kollam?', a: 'Yes, several 4-star and 5-star beachfront and lake-confluence hotels feature infinity swimming pools and Ayurvedic spas.' }
     ],
-    chips: ['Thangassery', 'Ashtamudi Lake', 'Munroe Island', 'Chavara', 'Paravur Lake']
+    chips: ['Kollam Beach', 'Thangassery Lighthouse', 'Ashtamudi', 'Neendakara', 'Paravur']
   },
   {
     filename: 'resorts-in-munroe-island.html',
     slug: 'resorts-in-munroe-island',
     gridId: 'munroe-island-hotels-grid',
-    title: 'Resorts & Homestays in Munroe Island | Backwater Village Stays',
-    metaDescription: 'Experience serene backwater island life with canoe cruises, mangrove canal tours, and heritage homestays on Munroe Island (Mundrothuruthu), Kollam.',
+    title: 'Resorts in Munroe Island Kollam | Canoe Tours & Backwater Stays',
+    metaDescription: 'Experience authentic Kerala backwater village life at Munroe Island resorts and homestays. Sunrise canoe tours, Kallada river cruises, and organic local meals.',
     h1: 'Resorts & Homestays in Munroe Island',
-    subtitle: 'Immerse yourself in Kerala’s most tranquil backwater archipelago with traditional canoe tours and authentic canal-side cottages.',
+    subtitle: 'Cluster of 8 tranquil islands on Ashtamudi Lake famous for narrow canal canoe tours and lush mangrove water trails.',
     canonical: 'https://www.hotelsnearmeinkerala.com/resorts-in-munroe-island',
     district: 'Kollam',
     keyword: 'Munroe Island',
     filterCode: `h => h.district === 'Kollam'`,
     faqs: [
-      { q: 'What is the signature activity in Munroe Island?', a: 'The sunrise canoe boat tour through narrow canal waterways, mangrove arches, and coir retting villages.' },
-      { q: 'How far is Munroe Island from Kollam Railway Station?', a: 'Munroe Island is approximately 25 km from Kollam Junction (about 40 minutes by road or scenic train ride).' }
+      { q: 'Why is Munroe Island famous in Kerala?', a: 'Munroe Island is renowned for its tranquil, narrow backwater canals where traditional hand-paddled canoes cruise through mangrove arches.' }
     ],
-    chips: ['Munroe Island', 'Ashtamudi Lake', 'Kollam City', 'Alappuzha Backwaters', 'Varkala Cliff']
+    chips: ['Munroe Island', 'Ashtamudi Lake', 'Kallada River', 'Kollam', 'Varkala']
   },
   {
     filename: 'hotels-near-wonderla-kochi.html',
     slug: 'hotels-near-wonderla-kochi',
     gridId: 'wonderla-hotels-grid',
-    title: 'Hotels Near Wonderla Amusement Park Kochi | Family Stays Kakkanad',
-    metaDescription: 'Find family-friendly hotels near Wonderla Kochi Amusement Park (Pallikkara, Kakkanad). Swimming pools, connecting rooms, and amusement park packages.',
-    h1: 'Hotels Near Wonderla Kochi',
-    subtitle: 'Plan the ultimate family amusement getaway with convenient stays near Wonderla Kochi and SmartCity Kakkanad.',
+    title: 'Hotels Near Wonderla Kochi | Family Resorts & Kakkanad Stays',
+    metaDescription: 'Plan your amusement park holiday with hotels and family resorts near Wonderla Kochi (Pallikkara). Close to Infopark Kakkanad, theme park tickets, and pools.',
+    h1: 'Hotels Near Wonderla Amusement Park Kochi',
+    subtitle: 'Family-friendly hotels, water-park stays, and Kakkanad IT corridor accommodations near Wonderla Kochi.',
     canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-wonderla-kochi',
     district: 'Ernakulam',
     keyword: 'Wonderla',
     filterCode: `h => h.district === 'Ernakulam'`,
     faqs: [
-      { q: 'Where is Wonderla Kochi located?', a: 'Wonderla is situated at Pallikkara near Kakkanad, about 15 km from Ernakulam city centre.' },
-      { q: 'Are there resorts with pools near Wonderla Kochi?', a: 'Yes, Kakkanad and Infopark vicinity boast several 4-star resorts and hotels with pools and family suites.' }
+      { q: 'How far is Kakkanad Infopark from Wonderla Kochi?', a: 'Wonderla Kochi in Pallikkara is just 6–8 km (12 minutes drive) from Kakkanad Infopark and SmartCity.' }
     ],
-    chips: ['Kakkanad', 'Infopark', 'Edappally', 'Aluva', 'Fort Kochi']
+    chips: ['Pallikkara', 'Kakkanad Infopark', 'Edappally', 'Aluva', 'Kochi Airport']
+  },
+
+  // ── 2. NEW High-Intent Kerala Destination & Niche Pages ──
+  {
+    filename: 'hotels-in-wayanad.html',
+    slug: 'hotels-in-wayanad',
+    gridId: 'wayanad-hotels-grid',
+    title: 'Best Resorts & Hotels in Wayanad | Rainforest & Tea Estate Stays',
+    metaDescription: 'Book top-rated luxury resorts, jungle treehouses, and plantation stays in Wayanad. Private pool villas, Banasura lake views, Chembra Peak trekking, and Ayurvedic spas.',
+    h1: 'Resorts & Hotels in Wayanad',
+    subtitle: 'Misty rainforest retreats, private pool villas, and mountain plantation stays nestled in the Western Ghats of Wayanad.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-wayanad',
+    district: 'Wayanad',
+    keyword: 'Wayanad',
+    filterCode: `h => h.district === 'Wayanad'`,
+    faqs: [
+      { q: 'Which are the best areas to stay in Wayanad?', a: 'Vythiri and Lakkidi are ideal for misty rainforests and luxury treehouses; Sultan Bathery and Kalpetta offer central connectivity; Padinjarathara overlooks the Banasura Sagar dam.' },
+      { q: 'Are there resorts with private pool villas in Wayanad?', a: 'Yes, Wayanad features top luxury resorts like Mountain Shadows, Morickap, and Vythiri Resort with private plunge pools and jacuzzi suites.' }
+    ],
+    chips: ['Vythiri', 'Banasura Lake', 'Sultan Bathery', 'Kalpetta', 'Lakkidi', 'Meppadi']
+  },
+  {
+    filename: 'resorts-in-kumarakom.html',
+    slug: 'resorts-in-kumarakom',
+    gridId: 'kumarakom-hotels-grid',
+    title: 'Best Luxury Backwater Resorts in Kumarakom | Lake Vembanad',
+    metaDescription: 'Explore 5-star backwater resorts and heritage pool villas in Kumarakom on Lake Vembanad. Sunset boat cruises, Kumarakom Bird Sanctuary stays, and authentic Ayurveda.',
+    h1: 'Luxury Backwater Resorts in Kumarakom',
+    subtitle: 'Stay on the tranquil shores of Lake Vembanad with meandering pool villas, traditional Tharavadu heritage, and private houseboats.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/resorts-in-kumarakom',
+    district: 'Kottayam',
+    keyword: 'Kumarakom',
+    filterCode: `h => h.district === 'Kottayam' || h.name.toLowerCase().includes('kumarakom') || h.location.toLowerCase().includes('kumarakom')`,
+    faqs: [
+      { q: 'What is unique about Kumarakom backwater resorts?', a: 'Kumarakom resorts are built along the vast Vembanad Lake, featuring meandering swimming pools that connect directly to villa verandahs, heritage architecture, and direct bird sanctuary proximity.' },
+      { q: 'Can I book houseboat day cruises from Kumarakom resorts?', a: 'Yes, all premier Kumarakom resorts have dedicated private boat jetties offering morning and sunset backwater cruises.' }
+    ],
+    chips: ['Lake Vembanad', 'Bird Sanctuary', 'Kottayam', 'Alleppey', 'Marari Beach']
+  },
+  {
+    filename: 'houseboats-in-alleppey.html',
+    slug: 'houseboats-in-alleppey',
+    gridId: 'alleppey-houseboats-grid',
+    title: 'Luxury Houseboat Cruises & Stays in Alleppey (Alappuzha) Backwaters',
+    metaDescription: 'Book verified Kerala houseboats and backwater resorts in Alleppey (Alappuzha). 1 to 5 bedroom luxury AC houseboats, overnight cruises, and chef-prepared Kerala cuisine.',
+    h1: 'Houseboats & Stays in Alleppey',
+    subtitle: 'Glide through the legendary palm-fringed backwaters of Alappuzha aboard traditional thatched Kettuvallam houseboats.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/houseboats-in-alleppey',
+    district: 'Alappuzha',
+    keyword: 'Houseboat',
+    filterCode: `h => h.district === 'Alappuzha' || h.category === 'Houseboats' || h.name.toLowerCase().includes('houseboat') || h.name.toLowerCase().includes('alleppey')`,
+    faqs: [
+      { q: 'How does an overnight houseboat stay in Alleppey work?', a: 'Check-in is typically at 12:00 PM with a welcome drink, followed by a scenic backwater cruise, traditional Kerala lunch, evening tea with snacks, sunset anchoring, dinner, and breakfast the next morning.' },
+      { q: 'Are houseboats in Alleppey fully air-conditioned?', a: 'Yes, premium and luxury houseboats provide full-time or nighttime air conditioning with attached modern bathrooms and private viewing decks.' }
+    ],
+    chips: ['Punnamada Lake', 'Kainakary', 'Nedumudy', 'Vembanad Lake', 'Marari Beach']
+  },
+  {
+    filename: 'resorts-in-thekkady.html',
+    slug: 'resorts-in-thekkady',
+    gridId: 'thekkady-hotels-grid',
+    title: 'Best Resorts in Thekkady | Periyar Tiger Reserve & Wildlife Stays',
+    metaDescription: 'Find luxury jungle resorts and spice plantation stays in Thekkady (Kumily). Jungle safaris in Periyar National Park, bamboo rafting, elephant camps, and spice gardens.',
+    h1: 'Resorts & Hotels in Thekkady (Periyar)',
+    subtitle: 'Jungle lodges, organic spice garden resorts, and wildlife sanctuaries at the gateway to Periyar Tiger Reserve.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/resorts-in-thekkady',
+    district: 'Idukki',
+    keyword: 'Thekkady',
+    filterCode: `h => (h.district === 'Idukki' && (h.name.toLowerCase().includes('thekkady') || h.location.toLowerCase().includes('thekkady') || h.location.toLowerCase().includes('kumily'))) || h.name.toLowerCase().includes('elephant court') || h.name.toLowerCase().includes('spice village')`,
+    faqs: [
+      { q: 'Are there resorts inside the Periyar Tiger Reserve forest?', a: 'KTDC Aranya Nivas is situated inside the reserve perimeter, while premium eco-resorts like Spice Village and Elephant Court are located right at the sanctuary gate in Kumily.' }
+    ],
+    chips: ['Kumily', 'Periyar Tiger Reserve', 'Munnar', 'Vagamon', 'Ramakkalmedu']
+  },
+  {
+    filename: 'hotels-in-kovalam.html',
+    slug: 'hotels-in-kovalam',
+    gridId: 'kovalam-hotels-grid',
+    title: 'Best Beach Resorts in Kovalam | Clifftop & Ocean View Stays',
+    metaDescription: 'Book top beach resorts and luxury hotels in Kovalam, Kerala. Clifftop infinity pools, Lighthouse Beach, Hawa Beach, private beaches, and certified Ayurveda wellness.',
+    h1: 'Beach Resorts & Hotels in Kovalam',
+    subtitle: 'Iconic rocky cliff resorts, sandy crescent beach retreats, and world-renowned Ayurveda sanctuaries in Kovalam.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kovalam',
+    district: 'Thiruvananthapuram',
+    keyword: 'Kovalam',
+    filterCode: `h => h.district === 'Thiruvananthapuram' && (h.name.toLowerCase().includes('kovalam') || h.location.toLowerCase().includes('kovalam') || h.name.toLowerCase().includes('leela') || h.name.toLowerCase().includes('samudra'))`,
+    faqs: [
+      { q: 'Which is the most popular beach in Kovalam?', a: 'Lighthouse Beach is the most famous for its striped lighthouse and beachfront restaurants, followed by Eve’s (Hawa) Beach and the quiet Samudra Beach.' }
+    ],
+    chips: ['Lighthouse Beach', 'Hawa Beach', 'Samudra Beach', 'Chowara', 'Trivandrum City']
+  },
+  {
+    filename: 'resorts-in-vagamon.html',
+    slug: 'resorts-in-vagamon',
+    gridId: 'vagamon-hotels-grid',
+    title: 'Best Resorts in Vagamon | Pine Forest & Misty Hill Stays',
+    metaDescription: 'Discover scenic hilltop resorts and tea estate homestays in Vagamon, Kerala. Pine forests, green meadows, glass bridges, off-road safaris, and cool mountain air.',
+    h1: 'Resorts & Stays in Vagamon Hills',
+    subtitle: 'Offbeat hill station sanctuaries surrounded by rolling meadows, pine valleys, and mist-covered tea slopes.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/resorts-in-vagamon',
+    district: 'Idukki',
+    keyword: 'Vagamon',
+    filterCode: `h => h.district === 'Idukki' && (h.name.toLowerCase().includes('vagamon') || h.location.toLowerCase().includes('vagamon'))`,
+    faqs: [
+      { q: 'What are the top attractions near Vagamon resorts?', a: 'Vagamon Pine Forest, Kurisumala Ashram, Vagamon Glass Bridge, Marmala Waterfalls, and Vagamon Lake.' }
+    ],
+    chips: ['Pine Forest', 'Kurisumala', 'Moonmala', 'Kolahalamedu', 'Elappara']
+  },
+  {
+    filename: 'treehouse-resorts-in-kerala.html',
+    slug: 'treehouse-resorts-in-kerala',
+    gridId: 'treehouse-resorts-grid',
+    title: 'Best Treehouse Resorts in Kerala | Wayanad, Munnar & Athirappilly',
+    metaDescription: 'Experience staying in genuine wooden canopy treehouses in Kerala. High-elevation forest treehouses with modern luxury amenities in Wayanad, Munnar, and rainforest belts.',
+    h1: 'Treehouse Resorts in Kerala',
+    subtitle: 'Sleep high in the rainforest canopy surrounded by birdsong, cool mountain breezes, and panoramic valley views.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/treehouse-resorts-in-kerala',
+    district: 'Kerala',
+    keyword: 'Treehouse',
+    filterCode: `h => h.category === 'Treehouse Stays' || h.name.toLowerCase().includes('tree') || h.name.toLowerCase().includes('vythiri') || h.name.toLowerCase().includes('wild') || h.amenities.some(a => a.toLowerCase().includes('tree'))`,
+    faqs: [
+      { q: 'Are treehouses in Kerala safe and equipped with electricity?', a: 'Yes, luxury treehouse resorts in Wayanad and Munnar are engineered with secure access, electricity, attached modern bathrooms, and hot water.' }
+    ],
+    chips: ['Wayanad', 'Munnar', 'Athirappilly', 'Thekkady', 'Silent Valley']
+  },
+  {
+    filename: 'ayurveda-resorts-in-kerala.html',
+    slug: 'ayurveda-resorts-in-kerala',
+    gridId: 'ayurveda-resorts-grid',
+    title: 'Top Authentic Ayurveda & Wellness Resorts in Kerala',
+    metaDescription: 'Book certified Ayurveda retreats and wellness resorts in Kerala. Authentic Panchakarma treatments, daily yoga, Vaidya consultations, and organic satvik dining.',
+    h1: 'Ayurveda & Wellness Resorts in Kerala',
+    subtitle: 'Holistic rejuvenation in the birthplace of Ayurveda with certified doctors, herbal therapies, and beachside yoga.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/ayurveda-resorts-in-kerala',
+    district: 'Kerala',
+    keyword: 'Ayurveda',
+    filterCode: `h => h.category === 'Ayurveda Resorts' || h.name.toLowerCase().includes('ayur') || h.name.toLowerCase().includes('retreat') || h.name.toLowerCase().includes('somatheeram') || h.amenities.some(a => a.toLowerCase().includes('ayurveda') || a.toLowerCase().includes('spa'))`,
+    faqs: [
+      { q: 'How long should an Ayurvedic Panchakarma program be in Kerala?', a: 'A full Panchakarma detoxification ideally requires 14 to 21 days, while rejuvenation and stress-management packages range from 7 to 10 days.' }
+    ],
+    chips: ['Kovalam', 'Chowara', 'Varkala', 'Kumarakom', 'Marari Beach']
+  },
+  {
+    filename: 'hotels-in-kozhikode.html',
+    slug: 'hotels-in-kozhikode',
+    gridId: 'kozhikode-hotels-grid',
+    title: 'Best Hotels in Kozhikode (Calicut) | Beach Road & Bypass Stays',
+    metaDescription: 'Find top-rated luxury hotels, Chaliyar river resorts, and business stays in Kozhikode (Calicut). Proximity to Calicut Beach, authentic Malabar food, and airport connectivity.',
+    h1: 'Hotels & Resorts in Kozhikode (Calicut)',
+    subtitle: 'Experience world-famous Malabar hospitality, Chaliyar riverfront retreats, and coastal hotels in the historic spice port of Calicut.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-kozhikode',
+    district: 'Kozhikode',
+    keyword: 'Kozhikode',
+    filterCode: `h => h.district === 'Kozhikode'`,
+    faqs: [
+      { q: 'Where are the best areas to stay in Kozhikode?', a: 'Beach Road is ideal for sea views and sunsets; Mavoor Road and SM Street are great for shopping and dining; NH Bypass and Azhinjilam offer luxury river resorts.' }
+    ],
+    chips: ['Calicut Beach', 'Chaliyar River', 'Mavoor Road', 'Thondayad Bypass', 'Kappad Beach']
+  },
+  {
+    filename: 'hotels-in-thrissur.html',
+    slug: 'hotels-in-thrissur',
+    gridId: 'thrissur-hotels-grid',
+    title: 'Best Hotels in Thrissur | Cultural Capital & Pooram Stays',
+    metaDescription: 'Book top hotels and luxury accommodations in Thrissur, Kerala. Proximity to Vadakkumnathan Temple, Swaraj Round, Thrissur Railway Station, and Guruvayur.',
+    h1: 'Hotels in Thrissur (Cultural Capital)',
+    subtitle: 'Stay in the cultural heartland of Kerala close to historic temples, heritage festivals, and convention centers.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-in-thrissur',
+    district: 'Thrissur',
+    keyword: 'Thrissur',
+    filterCode: `h => h.district === 'Thrissur'`,
+    faqs: [
+      { q: 'Which hotels in Thrissur are best for festival and Pooram visitors?', a: 'Hotels located around Swaraj Round, Kuruppam Road, and Puzhakkal offer easy access to the temple grounds and festival venues.' }
+    ],
+    chips: ['Swaraj Round', 'Puzhakkal', 'Guruvayur', 'Athirappilly', 'Sakthan Nagar']
+  },
+  {
+    filename: 'resorts-in-bekal.html',
+    slug: 'resorts-in-bekal',
+    gridId: 'bekal-hotels-grid',
+    title: 'Luxury Beach & Backwater Resorts in Bekal | Kasaragod',
+    metaDescription: 'Discover premier 5-star beach and backwater resorts in Bekal, Kasaragod. Historic Bekal Fort views, private pool villas, Kappil Beach, and Jiva Grande spas.',
+    h1: 'Luxury Resorts in Bekal, Kasaragod',
+    subtitle: 'Secluded luxury along the untouched northern coast of Kerala featuring historic sea forts and backwater lagoons.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/resorts-in-bekal',
+    district: 'Kasaragod',
+    keyword: 'Bekal',
+    filterCode: `h => h.district === 'Kasaragod' || h.name.toLowerCase().includes('bekal') || h.location.toLowerCase().includes('bekal')`,
+    faqs: [
+      { q: 'What is Bekal famous for?', a: 'Bekal is renowned for the 300-year-old keyhole-shaped Bekal Fort overlooking the Arabian Sea and its ultra-luxury beachfront resorts like Taj Bekal and The Lalit.' }
+    ],
+    chips: ['Bekal Fort', 'Kappil Beach', 'Nileshwar', 'Kasaragod', 'Kannur']
+  },
+  {
+    filename: 'hotels-near-athirappilly-waterfalls.html',
+    slug: 'hotels-near-athirappilly-waterfalls',
+    gridId: 'athirappilly-hotels-grid',
+    title: 'Hotels & Resorts Near Athirappilly Waterfalls | Chalakudy River Stays',
+    metaDescription: 'Book scenic rainforest resorts and hotels near Athirappilly Waterfalls (the Niagara of India). Waterfall view rooms, Chalakudy riverfront, and Vazhachal forest stays.',
+    h1: 'Hotels & Resorts Near Athirappilly Waterfalls',
+    subtitle: 'Stay overlooking India’s most majestic waterfalls surrounded by lush Sholayar rainforests and riverfront trails.',
+    canonical: 'https://www.hotelsnearmeinkerala.com/hotels-near-athirappilly-waterfalls',
+    district: 'Thrissur',
+    keyword: 'Athirappilly',
+    filterCode: `h => h.district === 'Thrissur' || h.district === 'Ernakulam' || h.name.toLowerCase().includes('athirappilly') || h.location.toLowerCase().includes('athirappilly')`,
+    faqs: [
+      { q: 'Can you see Athirappilly Waterfalls directly from hotel rooms?', a: 'Yes, several boutique rainforest resorts offer private balconies and infinity pools facing the main waterfall cascade directly.' }
+    ],
+    chips: ['Athirappilly Falls', 'Vazhachal', 'Chalakudy River', 'Sholayar Forest', 'Thrissur']
   }
 ];
 
 function generateHtml(page) {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": page.faqs.map(f => ({
-      "@type": "Question",
-      "name": f.q,
-      "acceptedAnswer": { "@type": "Answer", "text": f.a }
-    }))
-  };
+  const faqSchemaItems = page.faqs.map(f => `
+      {
+        "@type": "Question",
+        "name": "${f.q.replace(/"/g, '\\"')}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "${f.a.replace(/"/g, '\\"')}"
+        }
+      }`).join(',');
 
-  const breadcrumbsSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.hotelsnearmeinkerala.com/" },
-      { "@type": "ListItem", "position": 2, "name": `Hotels in ${page.district}`, "item": `https://www.hotelsnearmeinkerala.com/?district=${encodeURIComponent(page.district)}` },
-      { "@type": "ListItem", "position": 3, "name": page.h1, "item": page.canonical }
-    ]
-  };
+  const chipsHtml = page.chips.map(c => `<span class="quick-category-chip">${c}</span>`).join('\n        ');
+
+  const faqAccordionHtml = page.faqs.map((f, i) => `
+      <div class="faq-item ${i === 0 ? 'open' : ''}">
+        <div class="faq-question">
+          <span>${f.q}</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          ${f.a}
+        </div>
+      </div>`).join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
   <title>${page.title}</title>
   <meta name="description" content="${page.metaDescription}">
-  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="${page.h1}, Hotels in ${page.district} Kerala, Book hotels ${page.keyword}, Kerala Tourism Stays, Best rates ${page.keyword}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="${page.canonical}">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="${page.canonical}">
   <meta property="og:title" content="${page.title}">
   <meta property="og:description" content="${page.metaDescription}">
-  <meta property="og:image" content="https://www.hotelsnearmeinkerala.com/dest/${page.district.toLowerCase() === 'idukki' ? 'munnar' : page.district.toLowerCase() === 'ernakulam' ? 'kochi' : page.district.toLowerCase()}.webp">
-  <meta property="og:url" content="${page.canonical}">
-  <meta property="og:site_name" content="HotelsNearMeInKerala.com">
+  <meta property="og:image" content="https://www.hotelsnearmeinkerala.com/og-banner.webp">
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${page.title}">
-  <meta name="twitter:description" content="${page.metaDescription}">
-  <meta name="twitter:image" content="https://www.hotelsnearmeinkerala.com/dest/${page.district.toLowerCase() === 'idukki' ? 'munnar' : page.district.toLowerCase() === 'ernakulam' ? 'kochi' : page.district.toLowerCase()}.webp">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="${page.canonical}">
+  <meta property="twitter:title" content="${page.title}">
+  <meta property="twitter:description" content="${page.metaDescription}">
+  <meta property="twitter:image" content="https://www.hotelsnearmeinkerala.com/og-banner.webp">
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-30NNKW9MXH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-30NNKW9MXH', { page_title: document.title, page_location: window.location.href });
-  </script>
+  <!-- Favicon & Styles -->
+  <link rel="icon" type="image/svg+xml" href="/vite.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/src/style.css">
 
-  <!-- Structured Data: BreadcrumbList -->
+  <!-- JSON-LD Breadcrumbs -->
   <script type="application/ld+json">
-  ${JSON.stringify(breadcrumbsSchema, null, 2)}
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.hotelsnearmeinkerala.com/" },
+      { "@type": "ListItem", "position": 2, "name": "${page.h1}", "item": "${page.canonical}" }
+    ]
+  }
   </script>
 
-  <!-- Structured Data: FAQPage -->
+  <!-- JSON-LD FAQPage Schema -->
   <script type="application/ld+json">
-  ${JSON.stringify(faqSchema, null, 2)}
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [${faqSchemaItems}
+    ]
+  }
   </script>
 
-  <!-- Preconnect & Styles -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-  <link rel="stylesheet" href="/src/style.css?v=3">
+  <!-- JSON-LD LodgingBusiness Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "${page.h1}",
+    "description": "${page.metaDescription.replace(/"/g, '\\"')}",
+    "url": "${page.canonical}",
+    "telephone": "+91 94470 00000",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "Kerala",
+      "addressCountry": "IN"
+    },
+    "priceRange": "₹₹ - ₹₹₹₹"
+  }
+  </script>
 </head>
-
 <body>
+
   <!-- Header -->
-  <header>
-    <div class="container">
-      <a href="/index.html" class="logo" aria-label="HotelsNearMeInKerala.com – Home">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="160" height="76">
+  <header class="header">
+    <div class="container header-container">
+      <a href="/" class="logo-link" aria-label="Hotels Near Me in Kerala Home">
+        <img src="/assets/logo.svg" alt="Hotels Near Me in Kerala" class="site-logo" width="160" height="42">
       </a>
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">
-        <i class="fas fa-bars"></i>
-      </button>
-      <nav id="main-nav" aria-label="Main Navigation">
-        <div class="mobile-drawer-header">
-          <img src="/logo.webp" alt="Logo" class="drawer-logo" width="160" height="76" loading="lazy">
-          <span class="drawer-greeting">Welcome to Kerala!</span>
-        </div>
-        <div class="mobile-drawer-actions">
-          <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
-          <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
-        </div>
-        <ul>
-          <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
-          <li class="active"><a href="${page.canonical}"><i class="fas fa-map-marker-alt"></i> ${page.keyword}</a></li>
-          <li><a href="/categories.html"><i class="fas fa-th-large"></i> Categories</a></li>
-        </ul>
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Explore Stays</a>
+        <a href="/categories.html" class="nav-link">Categories</a>
+        <a href="/resorts-in-kerala.html" class="nav-link">Resorts</a>
+        <a href="/list-your-hotel.html" class="nav-link" style="color: var(--primary); font-weight: 700;">🏨 List Hotel (Free)</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
-      <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
-      <div class="header-right" id="header-user-menu">
-        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px;">Register</a>
+      <div class="header-actions">
+        <a href="/list-your-hotel.html" class="btn btn-outline btn-sm">Partner Onboarding</a>
+        <a href="/login.html" class="btn btn-primary btn-sm">Sign In</a>
       </div>
     </div>
   </header>
 
-  <main id="main-content">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-container" style="background:#fff; border-bottom:1px solid var(--border); padding:10px 0;">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb" style="font-size:12.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <a href="/index.html" style="color:var(--text-secondary); text-decoration:none;"><i class="fas fa-home"></i> Home</a>
-          <span style="color:var(--border);">/</span>
-          <a href="/?district=${encodeURIComponent(page.district)}" style="color:var(--text-secondary); text-decoration:none;">Hotels in ${page.district}</a>
-          <span style="color:var(--border);">/</span>
-          <span style="color:var(--primary); font-weight:600;">${page.keyword}</span>
-        </nav>
+  <!-- Hero Section -->
+  <section class="destination-hero" style="background: linear-gradient(135deg, #09372d 0%, #108569 100%); color: #fff; padding: 60px 0 45px; text-align: center;">
+    <div class="container">
+      <span class="badge" style="background: rgba(255,255,255,0.2); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+        📍 Kerala Local Search Guide
+      </span>
+      <h1 style="font-size: 2.5rem; font-weight: 800; margin: 16px 0 12px; color: #fff;">${page.h1}</h1>
+      <p style="font-size: 1.1rem; max-width: 780px; margin: 0 auto 24px; opacity: 0.95; line-height: 1.6;">${page.subtitle}</p>
+
+      <!-- Popular Local Tags -->
+      <div class="hero-quick-categories" style="justify-content: center; margin-top: 15px;">
+        ${chipsHtml}
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Hotels Grid -->
+  <main class="container" style="padding: 50px 20px;">
+    <div class="section-header" style="margin-bottom: 30px;">
+      <div>
+        <h2>Verified Stays — Direct Booking at 0% Commission</h2>
+        <p>Browse handpicked hotels with direct WhatsApp booking links and verified traveler reviews.</p>
       </div>
     </div>
 
-    <!-- Hero Section -->
-    <section style="background: linear-gradient(135deg, #0d2b22 0%, #1a4a38 100%); color:#fff; padding: 48px 0 36px; text-align:center;">
-      <div class="container">
-        <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); padding:4px 14px; border-radius:30px; font-size:12px; font-weight:700; margin-bottom:14px;">
-          <i class="fas fa-compass" style="color:#25D366;"></i> Kerala Local Landmark Guide
-        </div>
-        <h1 style="font-size: clamp(24px, 4vw, 36px); font-weight:800; font-family:'Outfit', sans-serif; margin-bottom:12px; line-height:1.2;">
-          ${page.h1}
-        </h1>
-        <p style="font-size: 15px; color:rgba(255,255,255,0.85); max-width: 680px; margin: 0 auto 24px; line-height:1.6;">
-          ${page.subtitle}
-        </p>
-
-        <!-- Search input -->
-        <div style="max-width:560px; margin:0 auto;">
-          <form id="search-form" onsubmit="event.preventDefault(); window.location.href='/?q=' + encodeURIComponent(document.getElementById('page-search-input').value);">
-            <div style="display:flex; background:#fff; border-radius:40px; padding:4px 4px 4px 18px; box-shadow:0 4px 20px rgba(0,0,0,0.2); align-items:center; gap:8px;">
-              <i class="fas fa-search" style="color:var(--primary);"></i>
-              <input type="text" id="page-search-input" placeholder="Search stays near ${page.keyword}..." style="flex:1; border:none; outline:none; font-size:14px; color:var(--text-main);" value="${page.keyword}">
-              <button type="submit" class="btn btn-primary" style="border-radius:30px; padding:10px 22px; font-weight:700; font-size:13px;">Find Stays</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Landmark Nearby Chips -->
-    <section style="background:#fff; border-bottom:1px solid var(--border); padding:16px 0;">
-      <div class="container">
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <span style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Nearby Hubs:</span>
-          ${page.chips.map(c => `<a href="/?q=${encodeURIComponent(c)}" class="quick-category-chip" style="font-size:12px; padding:4px 12px; border-radius:20px; text-decoration:none;">${c}</a>`).join('\n          ')}
-        </div>
-      </div>
-    </section>
-
-    <!-- Verified Hotels Grid -->
-    <section style="background:#FAF9F6; padding: 48px 0;">
-      <div class="container">
-        <div class="section-header" style="margin-bottom:24px;">
-          <div>
-            <h2 style="font-size: 22px; font-weight:700; font-family:'Outfit', sans-serif;">Recommended Stays Near ${page.keyword}</h2>
-            <p style="color:var(--text-secondary); font-size:14px;">Direct booking with WhatsApp confirmation & zero booking fees</p>
-          </div>
-        </div>
-
-        <div class="grid hotels-grid" id="${page.gridId}">
-          <div style="grid-column: span 3; text-align:center; padding:40px; color:var(--text-secondary);">
-            <i class="fas fa-spinner fa-spin" style="font-size:32px; color:var(--primary); margin-bottom:12px;"></i>
-            <p>Loading verified stays...</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQs -->
-    <section style="background:#fff; border-top:1px solid var(--border); padding: 56px 0;">
-      <div class="container" style="max-width:800px;">
-        <h2 style="font-size: 22px; font-weight:700; margin-bottom:6px; font-family:'Outfit', sans-serif;">Frequently Asked Questions</h2>
-        <p style="color:var(--text-secondary); margin-bottom:24px; font-size:14px;">Everything you need to know about staying near ${page.keyword}</p>
-        
-        <div class="faq-list">
-          ${page.faqs.map(f => `
-            <div class="faq-item" style="border:1px solid var(--border); border-radius:12px; margin-bottom:12px; padding:16px 20px;">
-              <h3 style="font-size:15px; font-weight:700; color:var(--text-main); margin:0 0 8px;">${f.q}</h3>
-              <p style="font-size:13.5px; color:var(--text-secondary); margin:0; line-height:1.6;">${f.a}</p>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </section>
-
-    <!-- Internal Link Clusters -->
-    <section style="background:#F8FAFC; border-top:1px solid var(--border); padding:48px 0;">
-      <div class="container">
-        <h2 style="font-size: 18px; font-weight:700; margin-bottom:16px;">More Kerala Destinations to Explore</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px;">
-          <a href="/hotels-in-kochi" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-city" style="margin-right:8px;"></i>Hotels in Kochi</a>
-          <a href="/hotels-in-munnar" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-mountain" style="margin-right:8px;"></i>Hotels in Munnar</a>
-          <a href="/hotels-in-kollam" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-anchor" style="margin-right:8px;"></i>Hotels in Kollam</a>
-          <a href="/hotels-in-varkala" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-umbrella-beach" style="margin-right:8px;"></i>Hotels in Varkala</a>
-          <a href="/hotels-in-thiruvananthapuram" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-landmark" style="margin-right:8px;"></i>Hotels in Trivandrum</a>
-          <a href="/budget-hotels-in-kerala" style="padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-weight:600; color:var(--primary); text-decoration:none; background:#fff;"><i class="fas fa-wallet" style="margin-right:8px;"></i>Budget Hotels in Kerala</a>
-        </div>
-      </div>
-    </section>
+    <!-- Dynamic Grid Mount -->
+    <div class="grid hotels-grid" id="${page.gridId}">
+      <!-- Hydrated dynamically from seo-enhancements.js -->
+    </div>
   </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-brand">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="160" height="76" loading="lazy">
-        <p>Your trusted Kerala-specialist travel platform with direct hotel booking, verified reviews, and local destination intelligence.</p>
+  <!-- FAQ Section -->
+  <section style="background: #f8fafc; padding: 60px 0; border-top: 1px solid var(--border);">
+    <div class="container" style="max-width: 800px;">
+      <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+        <h2>Frequently Asked Questions</h2>
+        <p>Helpful local insights for travelers staying around ${page.keyword}.</p>
       </div>
-      <div>
-        <h3>Top Destinations</h3>
-        <ul>
+      <div class="faq-container">
+        ${faqAccordionHtml}
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-col">
+        <img src="/assets/logo.svg" alt="Hotels Near Me in Kerala" class="footer-logo" width="160" height="42">
+        <p style="margin-top: 14px; font-size: 13.5px; color: #94a3b8; line-height: 1.6;">
+          Kerala's dedicated direct hotel network. Connecting travelers directly with certified hotels, backwater resorts, and heritage homestays across God's Own Country.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Top Destinations</h4>
+        <ul class="footer-links">
           <li><a href="/hotels-in-kochi">Hotels in Kochi</a></li>
-          <li><a href="/hotels-in-munnar">Hotels in Munnar</a></li>
-          <li><a href="/hotels-in-kollam">Hotels in Kollam</a></li>
+          <li><a href="/hotels-in-munnar">Resorts in Munnar</a></li>
+          <li><a href="/hotels-in-wayanad">Resorts in Wayanad</a></li>
           <li><a href="/hotels-in-varkala">Hotels in Varkala</a></li>
-          <li><a href="/hotels-in-thiruvananthapuram">Hotels in Trivandrum</a></li>
+          <li><a href="/hotels-in-kollam">Hotels in Kollam</a></li>
+          <li><a href="/resorts-in-kumarakom">Resorts in Kumarakom</a></li>
         </ul>
       </div>
-      <div>
-        <h3>Company</h3>
-        <ul>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/contact.html">Contact Us</a></li>
-          <li><a href="/privacy.html">Privacy Policy</a></li>
-          <li><a href="/terms.html">Terms & Conditions</a></li>
+      <div class="footer-col">
+        <h4>Popular Guides</h4>
+        <ul class="footer-links">
+          <li><a href="/houseboats-in-alleppey">Houseboats in Alleppey</a></li>
+          <li><a href="/treehouse-resorts-in-kerala">Treehouse Resorts</a></li>
+          <li><a href="/ayurveda-resorts-in-kerala">Ayurveda Wellness Stays</a></li>
+          <li><a href="/resorts-in-vagamon">Resorts in Vagamon</a></li>
+          <li><a href="/resorts-in-thekkady">Thekkady Jungle Stays</a></li>
+          <li><a href="/resorts-in-bekal">Resorts in Bekal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>For Property Owners</h4>
+        <ul class="footer-links">
+          <li><a href="/list-your-hotel.html" style="color:#ffd166; font-weight:700;">🏨 List Your Hotel (Free)</a></li>
+          <li><a href="/list-your-hotel.html#property-listing-form">Featured Partner Upgrade</a></li>
+          <li><a href="https://wa.me/919447000000" target="_blank" rel="noopener">Partner WhatsApp Desk</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p>
+      <div class="container footer-bottom-content">
+        <p>© 2026 Hotels Near Me in Kerala. All rights reserved. Zero Commission Direct Hotel Network.</p>
+      </div>
     </div>
   </footer>
 
-  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
-    <a href="/index.html" class="mob-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="/?district=${encodeURIComponent(page.district)}" class="mob-nav-item active"><i class="fas fa-map-marker-alt"></i><span>${page.district}</span></a>
-    <a href="/categories.html" class="mob-nav-item"><i class="fas fa-th-large"></i><span>Categories</span></a>
-    <a href="/login.html" class="mob-nav-item"><i class="fas fa-user"></i><span>Account</span></a>
-  </nav>
-
-  <script type="module" src="/src/app.js"></script>
   <script type="module" src="/src/seo-enhancements.js"></script>
 </body>
 </html>`;
 }
 
-// Generate all pages
-for (const page of LANDING_PAGES) {
+// Generate all landing pages
+LANDING_PAGES.forEach(page => {
   const filePath = path.join(__dirname, page.filename);
   fs.writeFileSync(filePath, generateHtml(page), 'utf8');
-  console.log(`Created programmatic page: ${page.filename}`);
-}
+  console.log(`Generated SEO landing page: ${page.filename}`);
+});
 
-console.log('Finished generating programmatic landing pages.');
+console.log(`Total programmatic SEO pages generated: ${LANDING_PAGES.length}`);
