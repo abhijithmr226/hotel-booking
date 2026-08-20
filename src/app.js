@@ -812,8 +812,10 @@ function getHotelCardHtml(h, isFav) {
     distanceTag = `<span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:#0342C5; background:#EBF2FE; padding:2px 8px; border-radius:12px; margin-left:6px;"><i class="fas fa-location-arrow" style="color:#19A138; font-size:10px;"></i> ${dStr}</span>`;
   }
 
+  const cardSlug = h.slug || h.id;
+
   return `
-    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?slug=${h.slug}'">
+    <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?slug=${cardSlug}'">
       <div class="hotel-card-image">
         <img src="${optimizeImageUrl(h.image || '/assets/images/riverside.webp', 600, 375, 75)}"
              alt="${escapeHTML(h.name)}"
@@ -843,7 +845,7 @@ function getHotelCardHtml(h, isFav) {
             <div class="hotel-card-tax-info">+ taxes &amp; fees</div>
           </div>
         </div>
-        <a href="/hotel.html?slug=${h.slug}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
+        <a href="/hotel.html?slug=${cardSlug}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
           View Details &amp; Book <i class="fas fa-arrow-right" style="font-size:11px;"></i>
         </a>
       </div>
@@ -1014,17 +1016,20 @@ window.selectRoomCard = function(roomId) {
 
 async function initHotelDetailPage() {
   const params = new URLSearchParams(window.location.search);
-  const slugParam = params.get("slug");   // new SEO-friendly param
-  const idParam   = params.get("id");     // legacy fallback
+  const slugParam = params.get("slug");   // SEO-friendly param
+  const idParam   = params.get("id");     // fallback ID param
+  const queryParam = slugParam || idParam;
+  
   const hotels = await getHotels();
-
-  // Resolve hotel: prefer slug, fall back to id, then first hotel as default
-  if (slugParam) {
-    selectedHotel = await getHotelBySlug(slugParam);
-  } else if (idParam) {
-    selectedHotel = hotels.find(h => h.id === idParam) || null;
+  if (queryParam) {
+    selectedHotel = await getHotelBySlug(queryParam);
+    if (!selectedHotel) {
+      selectedHotel = hotels.find(h => h.id === queryParam || h.slug === queryParam) || null;
+    }
   }
-  if (!selectedHotel) selectedHotel = hotels[0];
+  if (!selectedHotel && hotels.length > 0) {
+    selectedHotel = hotels[0];
+  }
   if (!selectedHotel) return;
 
   // Save button detail page listener

@@ -159,175 +159,178 @@ export function generateSlug(name) {
  * Each combination produces a distinct result, so no two hotels share text.
  */
 export function generateUniqueDescription(hotel) {
-  const name = hotel.name || 'This property';
-  const dist = hotel.district || 'Kerala';
-  const cat = (hotel.category || '').toLowerCase();
-  const amenities = Array.isArray(hotel.amenities) ? hotel.amenities.map(a => a.toLowerCase()) : [];
-  const price = hotel.price || 3000;
-  const rating = parseFloat(hotel.rating) || 4.2;
+  try {
+    const name = hotel?.name || 'This property';
+    const dist = hotel?.district || 'Kerala';
+    const cat = String(hotel?.category || '').toLowerCase();
+    const amenities = Array.isArray(hotel?.amenities) ? hotel.amenities.map(a => String(a).toLowerCase()) : [];
+    const price = Number(hotel?.price) || 3000;
+    const rating = parseFloat(hotel?.rating) || 4.2;
 
-  // ── Setting sentences by category ────────────────────────────────────
-  const settingMap = {
-    'luxury resorts': [
-      `${name} is a handpicked luxury retreat set against the lush landscapes of ${dist}, Kerala`,
-      `Nestled in the pristine heartland of ${dist}, ${name} is a marquee address among Kerala's finest luxury properties`,
-      `Rising above ${dist}'s natural splendour, ${name} is a destination resort crafted for discerning travellers`,
-    ],
-    'beach resorts': [
-      `${name} occupies a prime stretch of Kerala's sun-kissed coastline in ${dist}`,
-      `With direct access to a secluded beach in ${dist}, ${name} offers an unfiltered connection with the Arabian Sea`,
-      `Positioned along one of ${dist}'s most scenic shores, ${name} combines salt-air freshness with curated comfort`,
-    ],
-    'hill station hotels': [
-      `Perched among the mist-draped peaks of ${dist}, ${name} is a sanctuary for those seeking cool mountain air and forest stillness`,
-      `Set at altitude in the Western Ghats region of ${dist}, ${name} commands sweeping valley views from every vantage point`,
-      `${name} sits quietly in the rolling tea and spice country of ${dist}, where mornings arrive with fog and birdsong`,
-    ],
-    'houseboats': [
-      `${name} is a beautifully appointed traditional Kerala houseboat drifting through the legendary backwaters of ${dist}`,
-      `Gliding silently across the palm-fringed waterways of ${dist}, ${name} offers an immersive stay on Kerala's iconic backwater network`,
-      `Aboard ${name}, guests experience the rhythm of life along ${dist}'s ancient canal system at a pace only a houseboat can offer`,
-    ],
-    'homestays': [
-      `${name} is an authentic Kerala homestay in ${dist} where guests are welcomed into a family home that has been passed down through generations`,
-      `Tucked inside a traditional Naluketttu compound in ${dist}, ${name} brings visitors face-to-face with the real texture of Kerala village life`,
-      `More than accommodation, ${name} is a living cultural experience — guests share meals, stories, and the unhurried rhythms of ${dist} family life`,
-    ],
-    'ayurveda resorts': [
-      `${name} in ${dist} is a dedicated Ayurveda wellness retreat where ancient healing traditions are practised by certified Vaidyas in an immersive natural setting`,
-      `Drawing on Kerala's 3,000-year Ayurveda heritage, ${name} in ${dist} offers medically supervised rejuvenation programmes within a tranquil residential campus`,
-      `${name} is ${dist}'s premier Ayurveda destination, where personalised Panchakarma therapies are delivered in a serene, medically sound environment`,
-    ],
-    'eco lodges': [
-      `${name} is an award-winning eco lodge in ${dist} built with locally sourced materials and designed to leave the surrounding forest entirely undisturbed`,
-      `Hidden inside a protected forest buffer zone in ${dist}, ${name} operates on solar power and rainwater harvesting to minimise its ecological footprint`,
-      `${name} demonstrates that responsible tourism and genuine comfort can coexist — its cabins in ${dist} are sensitively integrated into the natural terrain`,
-    ],
-    'treehouse stays': [
-      `${name} offers a rare chance to sleep suspended among the forest canopy in ${dist}, with wooden platforms built around living trees`,
-      `At ${name}, guests climb a bamboo ladder to their room above the ${dist} forest floor — a childhood fantasy translated into a surprisingly luxurious experience`,
-      `Perched in the treetops of ${dist}'s rainforest, ${name}'s treehouse rooms sway gently and open to dawn chorus views that few properties in Kerala can match`,
-    ],
-    'heritage hotels': [
-      `${name} is a lovingly restored heritage property in ${dist} that preserves the architectural grace of a bygone era while delivering modern comforts`,
-      `Once a private estate, ${name} in ${dist} has been thoughtfully converted into a boutique heritage hotel where each room tells a different chapter of Kerala's history`,
-      `The teak-beam ceilings, hand-carved doorways, and courtyard gardens of ${name} transport guests to ${dist}'s royal past without sacrificing any contemporary amenity`,
-    ],
-    'wildlife resorts': [
-      `${name} sits on the edge of a protected wildlife corridor in ${dist}, giving guests front-row access to Kerala's most biodiverse jungles`,
-      `With ${dist}'s forests as its backdrop, ${name} is a naturalist's base camp — offering guided safaris, nocturnal walks, and the remote possibility of sighting an elephant at the waterhole`,
-      `${name} occupies a privileged position within ${dist}'s wildlife buffer zone, where the boundary between lodge and jungle is deliberately blurred`,
-    ],
-    'budget hotels': [
-      `${name} is a well-maintained budget hotel in the heart of ${dist}, offering clean, comfortable rooms at prices that make exploring Kerala genuinely accessible`,
-      `Practical without being plain, ${name} in ${dist} delivers reliable hospitality and central connectivity at one of the most honest price points in the district`,
-      `${name} proves that a Kerala stay doesn't need to cost a fortune — its ${dist} location, attentive staff, and tidy rooms offer real value for independent travellers`,
-    ],
-    'business hotels': [
-      `${name} is ${dist}'s go-to address for business travellers — purpose-built conference facilities, high-speed connectivity, and a central location combine without compromise`,
-      `Designed for the corporate circuit, ${name} in ${dist} keeps professionals productive with ergonomic workspaces, express dining, and seamless airport transfers`,
-      `${name} understands the working traveller's priorities: reliable Wi-Fi, quick check-in, a well-equipped gym, and a restaurant open before the first meeting — all available in ${dist}`,
-    ],
-    'family hotels': [
-      `${name} in ${dist} is built around the needs of families — children's activity zones, connecting rooms, and a menu that goes well beyond grown-up tastes`,
-      `From the shallow splash pool to the supervised kids' club, ${name} in ${dist} ensures that younger guests are as well catered for as their parents`,
-      `${name} earns its family-friendly reputation in ${dist} through genuine thoughtfulness: cots on request, child-safe balconies, and local sightseeing packages that excite every age group`,
-    ],
-    'couple retreats': [
-      `${name} is one of ${dist}'s most sought-after romantic retreats — its private pool villas, candlelit dining settings, and couples' spa ritual have made it a favourite for anniversaries and honeymoons`,
-      `Designed for intimacy, ${name} in ${dist} offers secluded cottages, in-room dining at sunset, and Ayurvedic couple treatments under an open-air pavilion`,
-      `Whether you're celebrating a honeymoon or simply escaping together, ${name} in ${dist} wraps every moment in the kind of quiet luxury that makes time feel slower`,
-    ],
-  };
+    // ── Setting sentences by category ────────────────────────────────────
+    const settingMap = {
+      'luxury resorts': [
+        `${name} is a handpicked luxury retreat set against the lush landscapes of ${dist}, Kerala`,
+        `Nestled in the pristine heartland of ${dist}, ${name} is a marquee address among Kerala's finest luxury properties`,
+        `Rising above ${dist}'s natural splendour, ${name} is a destination resort crafted for discerning travellers`,
+      ],
+      'beach resorts': [
+        `${name} occupies a prime stretch of Kerala's sun-kissed coastline in ${dist}`,
+        `With direct access to a secluded beach in ${dist}, ${name} offers an unfiltered connection with the Arabian Sea`,
+        `Positioned along one of ${dist}'s most scenic shores, ${name} combines salt-air freshness with curated comfort`,
+      ],
+      'hill station hotels': [
+        `Perched among the mist-draped peaks of ${dist}, ${name} is a sanctuary for those seeking cool mountain air and forest stillness`,
+        `Set at altitude in the Western Ghats region of ${dist}, ${name} commands sweeping valley views from every vantage point`,
+        `${name} sits quietly in the rolling tea and spice country of ${dist}, where mornings arrive with fog and birdsong`,
+      ],
+      'houseboats': [
+        `${name} is a beautifully appointed traditional Kerala houseboat drifting through the legendary backwaters of ${dist}`,
+        `Gliding silently across the palm-fringed waterways of ${dist}, ${name} offers an immersive stay on Kerala's iconic backwater network`,
+        `Aboard ${name}, guests experience the rhythm of life along ${dist}'s ancient canal system at a pace only a houseboat can offer`,
+      ],
+      'homestays': [
+        `${name} is an authentic Kerala homestay in ${dist} where guests are welcomed into a family home that has been passed down through generations`,
+        `Tucked inside a traditional Naluketttu compound in ${dist}, ${name} brings visitors face-to-face with the real texture of Kerala village life`,
+        `More than accommodation, ${name} is a living cultural experience — guests share meals, stories, and the unhurried rhythms of ${dist} family life`,
+      ],
+      'ayurveda resorts': [
+        `${name} in ${dist} is a dedicated Ayurveda wellness retreat where ancient healing traditions are practised by certified Vaidyas in an immersive natural setting`,
+        `Drawing on Kerala's 3,000-year Ayurveda heritage, ${name} in ${dist} offers medically supervised rejuvenation programmes within a tranquil residential campus`,
+        `${name} is ${dist}'s premier Ayurveda destination, where personalised Panchakarma therapies are delivered in a serene, medically sound environment`,
+      ],
+      'eco lodges': [
+        `${name} is an award-winning eco lodge in ${dist} built with locally sourced materials and designed to leave the surrounding forest entirely undisturbed`,
+        `Hidden inside a protected forest buffer zone in ${dist}, ${name} operates on solar power and rainwater harvesting to minimise its ecological footprint`,
+        `${name} demonstrates that responsible tourism and genuine comfort can coexist — its cabins in ${dist} are sensitively integrated into the natural terrain`,
+      ],
+      'treehouse stays': [
+        `${name} offers a rare chance to sleep suspended among the forest canopy in ${dist}, with wooden platforms built around living trees`,
+        `At ${name}, guests climb a bamboo ladder to their room above the ${dist} forest floor — a childhood fantasy translated into a surprisingly luxurious experience`,
+        `Perched in the treetops of ${dist}'s rainforest, ${name}'s treehouse rooms sway gently and open to dawn chorus views that few properties in Kerala can match`,
+      ],
+      'heritage hotels': [
+        `${name} is a lovingly restored heritage property in ${dist} that preserves the architectural grace of a bygone era while delivering modern comforts`,
+        `Once a private estate, ${name} in ${dist} has been thoughtfully converted into a boutique heritage hotel where each room tells a different chapter of Kerala's history`,
+        `The teak-beam ceilings, hand-carved doorways, and courtyard gardens of ${name} transport guests to ${dist}'s royal past without sacrificing any contemporary amenity`,
+      ],
+      'wildlife resorts': [
+        `${name} sits on the edge of a protected wildlife corridor in ${dist}, giving guests front-row access to Kerala's most biodiverse jungles`,
+        `With ${dist}'s forests as its backdrop, ${name} is a naturalist's base camp — offering guided safaris, nocturnal walks, and the remote possibility of sighting an elephant at the waterhole`,
+        `${name} occupies a privileged position within ${dist}'s wildlife buffer zone, where the boundary between lodge and jungle is deliberately blurred`,
+      ],
+      'budget hotels': [
+        `${name} is a well-maintained budget hotel in the heart of ${dist}, offering clean, comfortable rooms at prices that make exploring Kerala genuinely accessible`,
+        `Practical without being plain, ${name} in ${dist} delivers reliable hospitality and central connectivity at one of the most honest price points in the district`,
+        `${name} proves that a Kerala stay doesn't need to cost a fortune — its ${dist} location, attentive staff, and tidy rooms offer real value for independent travellers`,
+      ],
+      'business hotels': [
+        `${name} is ${dist}'s go-to address for business travellers — purpose-built conference facilities, high-speed connectivity, and a central location combine without compromise`,
+        `Designed for the corporate circuit, ${name} in ${dist} keeps professionals productive with ergonomic workspaces, express dining, and seamless airport transfers`,
+        `${name} understands the working traveller's priorities: reliable Wi-Fi, quick check-in, a well-equipped gym, and a restaurant open before the first meeting — all available in ${dist}`,
+      ],
+      'family hotels': [
+        `${name} in ${dist} is built around the needs of families — children's activity zones, connecting rooms, and a menu that goes well beyond grown-up tastes`,
+        `From the shallow splash pool to the supervised kids' club, ${name} in ${dist} ensures that younger guests are as well catered for as their parents`,
+        `${name} earns its family-friendly reputation in ${dist} through genuine thoughtfulness: cots on request, child-safe balconies, and local sightseeing packages that excite every age group`,
+      ],
+      'couple retreats': [
+        `${name} is one of ${dist}'s most sought-after romantic retreats — its private pool villas, candlelit dining settings, and couples' spa ritual have made it a favourite for anniversaries and honeymoons`,
+        `Designed for intimacy, ${name} in ${dist} offers secluded cottages, in-room dining at sunset, and Ayurvedic couple treatments under an open-air pavilion`,
+        `Whether you're celebrating a honeymoon or simply escaping together, ${name} in ${dist} wraps every moment in the kind of quiet luxury that makes time feel slower`,
+      ],
+    };
 
-  // ── Amenity highlight sentences ───────────────────────────────────────
-  const amenityPhrases = [];
-  if (amenities.some(a => a.includes('pool') || a.includes('infinity pool')))
-    amenityPhrases.push('an infinity-edge pool that seems to pour into the surrounding landscape');
-  if (amenities.some(a => a.includes('spa') || a.includes('ayurveda')))
-    amenityPhrases.push('a full-service spa offering traditional Kerala Ayurveda and contemporary wellness therapies');
-  if (amenities.some(a => a.includes('restaurant') || a.includes('dining')))
-    amenityPhrases.push('an in-house restaurant serving Kerala\'s rich coastal cuisine alongside continental favourites');
-  if (amenities.some(a => a.includes('wi-fi') || a.includes('wifi')))
-    amenityPhrases.push('complimentary high-speed Wi-Fi throughout the property');
-  if (amenities.some(a => a.includes('parking') || a.includes('free parking')))
-    amenityPhrases.push('ample free parking for guests arriving by car');
-  if (amenities.some(a => a.includes('gym') || a.includes('fitness')))
-    amenityPhrases.push('a well-equipped fitness centre');
-  if (amenities.some(a => a.includes('rooftop') || a.includes('terrace')))
-    amenityPhrases.push('a rooftop terrace with panoramic district views');
-  if (amenities.some(a => a.includes('beach') || a.includes('beachfront')))
-    amenityPhrases.push('direct beachfront access via a private pathway');
+    // ── Amenity highlight sentences ───────────────────────────────────────
+    const amenityPhrases = [];
+    if (amenities.some(a => a.includes('pool') || a.includes('infinity pool')))
+      amenityPhrases.push('an infinity-edge pool that seems to pour into the surrounding landscape');
+    if (amenities.some(a => a.includes('spa') || a.includes('ayurveda')))
+      amenityPhrases.push('a full-service spa offering traditional Kerala Ayurveda and contemporary wellness therapies');
+    if (amenities.some(a => a.includes('restaurant') || a.includes('dining')))
+      amenityPhrases.push('an in-house restaurant serving Kerala\'s rich coastal cuisine alongside continental favourites');
+    if (amenities.some(a => a.includes('wi-fi') || a.includes('wifi')))
+      amenityPhrases.push('complimentary high-speed Wi-Fi throughout the property');
+    if (amenities.some(a => a.includes('parking') || a.includes('free parking')))
+      amenityPhrases.push('ample free parking for guests arriving by car');
+    if (amenities.some(a => a.includes('gym') || a.includes('fitness')))
+      amenityPhrases.push('a well-equipped fitness centre');
+    if (amenities.some(a => a.includes('rooftop') || a.includes('terrace')))
+      amenityPhrases.push('a rooftop terrace with panoramic district views');
+    if (amenities.some(a => a.includes('beach') || a.includes('beachfront')))
+      amenityPhrases.push('direct beachfront access via a private pathway');
 
-  // ── Price-tier context sentence ───────────────────────────────────────
-  let priceSentence = '';
-  if (price < 2000) {
-    priceSentence = `Starting at just ₹${price.toLocaleString('en-IN')} per night, ${name} is one of ${dist}'s most affordable options without compromising on cleanliness or location.`;
-  } else if (price < 5000) {
-    priceSentence = `With rates from ₹${price.toLocaleString('en-IN')} per night, ${name} sits squarely in ${dist}'s mid-range — delivering genuine value in a competitive market.`;
-  } else if (price < 12000) {
-    priceSentence = `Priced from ₹${price.toLocaleString('en-IN')} per night, ${name} positions itself at the premium end of ${dist}'s hospitality landscape, justifying every rupee with considered service and refined surroundings.`;
-  } else {
-    priceSentence = `As one of ${dist}'s top-tier properties with rates from ₹${price.toLocaleString('en-IN')} per night, ${name} sets the benchmark for Kerala luxury — an investment in an experience, not just a room.`;
+    // ── Price-tier context sentence ───────────────────────────────────────
+    let priceSentence = '';
+    if (price < 2000) {
+      priceSentence = `Starting at just ₹${price.toLocaleString('en-IN')} per night, ${name} is one of ${dist}'s most affordable options without compromising on cleanliness or location.`;
+    } else if (price < 5000) {
+      priceSentence = `With rates from ₹${price.toLocaleString('en-IN')} per night, ${name} sits squarely in ${dist}'s mid-range — delivering genuine value in a competitive market.`;
+    } else if (price < 12000) {
+      priceSentence = `Priced from ₹${price.toLocaleString('en-IN')} per night, ${name} positions itself at the premium end of ${dist}'s hospitality landscape, justifying every rupee with considered service and refined surroundings.`;
+    } else {
+      priceSentence = `As one of ${dist}'s top-tier properties with rates from ₹${price.toLocaleString('en-IN')} per night, ${name} sets the benchmark for Kerala luxury — an investment in an experience, not just a room.`;
+    }
+
+    // ── Rating-based trust sentence ───────────────────────────────────────
+    let ratingLine = '';
+    if (rating >= 4.8) ratingLine = `Consistently rated among Kerala's finest by returning guests, ${name} maintains an exceptional standard that speaks louder than any marketing copy.`;
+    else if (rating >= 4.5) ratingLine = `With a strong guest rating and a growing base of loyal visitors, ${name} has established itself as one of ${dist}'s most dependable stays.`;
+    else if (rating >= 4.0) ratingLine = `${name} is well-regarded by guests for its warm staff, reliable facilities, and the kind of unhurried hospitality that ${dist} is known for.`;
+    else ratingLine = `${name} is a welcoming address in ${dist} for travellers who value comfort, simplicity, and the honest warmth of Kerala service.`;
+
+    // ── Assemble the description ──────────────────────────────────────────
+    const catKey = Object.keys(settingMap).find(k => cat.includes(k)) || 'luxury resorts';
+    const pool = settingMap[catKey] || settingMap['luxury resorts'];
+    const nameHash = String(name).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const settingSentence = pool[nameHash % pool.length];
+
+    let amenityLine = '';
+    if (amenityPhrases.length >= 2) {
+      amenityLine = `Guests enjoy ${amenityPhrases.slice(0, 2).join(', and ')}.`;
+    } else if (amenityPhrases.length === 1) {
+      amenityLine = `Facilities include ${amenityPhrases[0]}.`;
+    }
+
+    const parts = [settingSentence + '.', amenityLine, priceSentence, ratingLine].filter(Boolean);
+    return parts.join(' ');
+  } catch (err) {
+    console.warn("generateUniqueDescription fallback for:", hotel?.name, err);
+    return `${hotel?.name || 'This hotel'} is a certified accommodation located in ${hotel?.location || hotel?.district || 'Kerala'}, offering comfortable rooms, friendly local hospitality, and direct booking at best rates.`;
   }
-
-  // ── Rating-based trust sentence ───────────────────────────────────────
-  let ratingLine = '';
-  if (rating >= 4.8) ratingLine = `Consistently rated among Kerala's finest by returning guests, ${name} maintains an exceptional standard that speaks louder than any marketing copy.`;
-  else if (rating >= 4.5) ratingLine = `With a strong guest rating and a growing base of loyal visitors, ${name} has established itself as one of ${dist}'s most dependable stays.`;
-  else if (rating >= 4.0) ratingLine = `${name} is well-regarded by guests for its warm staff, reliable facilities, and the kind of unhurried hospitality that ${dist} is known for.`;
-  else ratingLine = `${name} is a welcoming address in ${dist} for travellers who value comfort, simplicity, and the honest warmth of Kerala service.`;
-
-  // ── Assemble the description ──────────────────────────────────────────
-  const catKey = Object.keys(settingMap).find(k => cat.includes(k)) || 'luxury resorts';
-  const pool = settingMap[catKey];
-  // Pick setting sentence deterministically from name hash (so same hotel always gets same sentence)
-  const nameHash = name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  const settingSentence = pool[nameHash % pool.length];
-
-  let amenityLine = '';
-  if (amenityPhrases.length >= 2) {
-    amenityLine = `Guests enjoy ${amenityPhrases.slice(0, 2).join(', and ')}.`;
-  } else if (amenityPhrases.length === 1) {
-    amenityLine = `Facilities include ${amenityPhrases[0]}.`;
-  }
-
-  const parts = [settingSentence + '.', amenityLine, priceSentence, ratingLine].filter(Boolean);
-  return parts.join(' ');
 }
 
 function mapHotelRow(row) {
   if (!row) return null;
   const hotel = {
     id: row.id,
-    slug: generateSlug(row.name),  // SEO-friendly URL segment derived from hotel name
-    name: row.name,
-    location: row.location,
-    district: row.district,
-    category: row.category,
-    rating: parseFloat(row.rating),
-    reviewsCount: row.reviews_count,
-    price: row.price,
-    tax: row.tax,
-    image: row.image,
-    images: row.images || [],
+    slug: generateSlug(row.name) || String(row.id),
+    name: row.name || 'Kerala Hotel',
+    location: row.location || 'Kerala',
+    district: row.district || 'Kerala',
+    category: row.category || 'Hotel & Resort',
+    rating: parseFloat(row.rating) || 4.5,
+    reviewsCount: Number(row.reviews_count) || 0,
+    price: Number(row.price) || 2500,
+    tax: row.tax || null,
+    image: row.image || '/assets/images/riverside.webp',
+    images: Array.isArray(row.images) ? row.images : [],
     mapUrl: row.map_url || '',
-    whatsapp: row.whatsapp,
-    distance: row.distance,
-    badge: row.badge,
-    description: row.description,
-    amenities: row.amenities || [],
-    highlights: row.highlights || [],
+    whatsapp: row.whatsapp || '',
+    distance: row.distance || null,
+    badge: row.badge || '',
+    description: row.description || '',
+    amenities: Array.isArray(row.amenities) ? row.amenities : [],
+    highlights: Array.isArray(row.highlights) ? row.highlights : [],
     details: row.details || {},
-    nearby: row.nearby || [],
-    featured: row.featured,
-    trending: row.trending,
-    status: row.status
+    nearby: Array.isArray(row.nearby) ? row.nearby : [],
+    featured: Boolean(row.featured),
+    trending: Boolean(row.trending),
+    status: row.status || 'active'
   };
 
-  // Auto-generate a unique description if admin left the field empty.
-  // This ensures every hotel has original content — never a blank or copied placeholder.
-  if (!hotel.description || hotel.description.trim().length < 60) {
+  const descStr = typeof hotel.description === 'string' ? hotel.description.trim() : '';
+  if (!descStr || descStr.length < 30) {
     hotel.description = generateUniqueDescription(hotel);
   }
 
@@ -602,11 +605,19 @@ export async function getHotels() {
  */
 export async function getHotelBySlug(slug) {
   await waitForData();
-  // Exact slug match
-  const bySlug = store.hotels.find(h => h.slug === slug);
+  if (!slug) return store.hotels[0] || null;
+  const clean = String(slug).toLowerCase().trim();
+  // 1. Exact slug match
+  const bySlug = store.hotels.find(h => h.slug && h.slug.toLowerCase() === clean);
   if (bySlug) return bySlug;
-  // Fallback: treat slug as a literal id (handles old links)
-  return store.hotels.find(h => h.id === slug) || null;
+  // 2. Match generated slug from name
+  const byGen = store.hotels.find(h => generateSlug(h.name) === clean);
+  if (byGen) return byGen;
+  // 3. Fallback: match by id
+  const byId = store.hotels.find(h => h.id && h.id.toLowerCase() === clean);
+  if (byId) return byId;
+  // 4. Loose match
+  return store.hotels.find(h => (h.name && h.name.toLowerCase().includes(clean)) || (h.slug && h.slug.includes(clean))) || store.hotels[0] || null;
 }
 
 export async function getBookings() {
