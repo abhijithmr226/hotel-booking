@@ -1,7 +1,41 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
+function handleHotelRewrites(req, res, next) {
+  const [pathname, search] = (req.url || '').split('?');
+  const path = pathname.toLowerCase();
+  
+  if (path === '/hotel' || path === '/hotel/') {
+    req.url = '/hotel.html' + (search ? `?${search}` : '');
+    return next();
+  }
+  if (path.startsWith('/hotel/') && !path.includes('.')) {
+    const hotelSlug = pathname.replace(/^\/hotel\//i, '').replace(/\/$/, '');
+    const searchParams = new URLSearchParams(search || '');
+    if (hotelSlug && !searchParams.has('slug')) {
+      searchParams.set('slug', decodeURIComponent(hotelSlug));
+    }
+    const query = searchParams.toString();
+    req.url = '/hotel.html' + (query ? `?${query}` : '');
+    return next();
+  }
+  next();
+}
+
+function hotelRoutingPlugin() {
+  return {
+    name: 'hotel-routing-plugin',
+    configureServer(server) {
+      server.middlewares.use(handleHotelRewrites);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(handleHotelRewrites);
+    }
+  };
+}
+
 export default defineConfig({
+  plugins: [hotelRoutingPlugin()],
   server: {
     port: 80,
     host: true,
@@ -14,14 +48,9 @@ export default defineConfig({
       }
     },
     configureServer(server) {
+      server.middlewares.use(handleHotelRewrites);
       server.middlewares.use(async (req, res, next) => {
         const path = req.url ? req.url.split('?')[0] : '';
-        if (path.startsWith('/hotel/') && !path.includes('.')) {
-          const hotelSlug = path.replace('/hotel/', '').replace(/\/$/, '');
-          const sep = req.url.includes('?') ? '&' : '?';
-          req.url = '/hotel.html' + (hotelSlug ? `${sep}slug=${encodeURIComponent(hotelSlug)}` : '');
-          return next();
-        }
         if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');
@@ -85,13 +114,7 @@ export default defineConfig({
     port: 4173,
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        const path = req.url ? req.url.split('?')[0] : '';
-        if (path.startsWith('/hotel/') && !path.includes('.')) {
-          const hotelSlug = path.replace('/hotel/', '').replace(/\/$/, '');
-          const sep = req.url.includes('?') ? '&' : '?';
-          req.url = '/hotel.html' + (hotelSlug ? `${sep}slug=${encodeURIComponent(hotelSlug)}` : '');
-          return next();
-        }
+        handleHotelRewrites(req, res, () => {});
         if (path === '/sitemap.xml') {
           try {
             const { default: handler } = await import('./api/sitemap.js');

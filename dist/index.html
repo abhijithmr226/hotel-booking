@@ -190,10 +190,10 @@
   <script type="module" crossorigin src="/assets/vendor-firebase-CU4xpe_m.js"></script>
   <script type="module" crossorigin src="/assets/vendor-supabase-CAnXRK75.js"></script>
   <script type="module" crossorigin src="/assets/supabase-BNkfM0eF.js"></script>
-  <script type="module" crossorigin src="/assets/data-WpufIvHh.js"></script>
-  <script type="module" crossorigin src="/assets/app-CdeOm2lR.js"></script>
-  <script type="module" crossorigin src="/assets/seo-enhancements-D-z3IsHT.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-CpIcVmAf.css">
+  <script type="module" crossorigin src="/assets/data-Co-HGQ5x.js"></script>
+  <script type="module" crossorigin src="/assets/app-DgRA5l9a.js"></script>
+  <script type="module" crossorigin src="/assets/seo-enhancements-CIeFCH1U.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-UvCQ6AME.css">
 </head>
 
 <body>
@@ -565,6 +565,30 @@
         <div style="display:flex; align-items:center; gap:12px;">
           <span id="filter-results-count" style="font-size:13px; color:var(--text-secondary); font-weight:600; display:none;"></span>
           <button onclick="clearAllFilters()" class="btn btn-outline btn-sm" style="border-radius:20px; font-weight:700;">Show All</button>
+        </div>
+      </div>
+
+      <!-- Quick Sort Bar -->
+      <div class="hotels-sort-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px; padding:12px 18px; background:var(--light); border:1px solid var(--border); border-radius:14px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px; margin-right:4px;">
+            <i class="fas fa-arrow-down-wide-short" style="color:var(--primary);"></i> Sort:
+          </span>
+          <button type="button" class="quick-sort-btn active" data-sort="recommended">
+            ✨ Recommended
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="price-low">
+            <i class="fas fa-arrow-up-1-9"></i> Price: Low to High
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="price-high">
+            <i class="fas fa-arrow-down-9-1"></i> Price: High to Low
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="rating-high">
+            <i class="fas fa-star" style="color:#f59e0b;"></i> Top Rated
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="distance">
+            <i class="fas fa-location-arrow" style="color:var(--primary);"></i> Nearest First
+          </button>
         </div>
       </div>
 

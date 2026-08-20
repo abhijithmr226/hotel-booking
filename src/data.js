@@ -48,9 +48,286 @@ const DEFAULT_SEO = {
   trustBadge: "Trusted by 25,000+ Happy Travelers"
 };
 
+// ─── Normalization & Defaults for Hotel Objects ──────────────────────────────
+export function getNearbyAttractionsForDistrict(district = '', location = '') {
+  const dist = String(district).toLowerCase();
+  if (dist.includes('ernakulam') || dist.includes('kochi')) {
+    return [
+      { name: "Fort Kochi & Chinese Fishing Nets", distance: "4.2 km" },
+      { name: "Marine Drive Waterfront Promenade", distance: "2.1 km" },
+      { name: "Mattancherry Dutch Palace", distance: "5.5 km" },
+      { name: "Lulu Mall & Metro Hub", distance: "6.8 km" },
+      { name: "Cherai Beach & Sunset Point", distance: "22 km" }
+    ];
+  }
+  if (dist.includes('idukki') || dist.includes('munnar')) {
+    return [
+      { name: "Tata Tea Museum & Plantation Trails", distance: "3.5 km" },
+      { name: "Mattupetty Dam & Speed Boating", distance: "9.2 km" },
+      { name: "Eravikulam National Park (Nilgiri Tahr)", distance: "11 km" },
+      { name: "Attukad Waterfalls", distance: "7.8 km" },
+      { name: "Top Station & Kundala Lake", distance: "26 km" }
+    ];
+  }
+  if (dist.includes('alappuzha') || dist.includes('alleppey')) {
+    return [
+      { name: "Alleppey Backwaters & Houseboat Jetty", distance: "1.8 km" },
+      { name: "Alappuzha Beach & Historic Lighthouse", distance: "3.2 km" },
+      { name: "Marari White Sand Beach", distance: "14 km" },
+      { name: "Pathiramanal Bird Island", distance: "12 km" },
+      { name: "Kuttanad Below-Sea-Level Paddy Fields", distance: "16 km" }
+    ];
+  }
+  if (dist.includes('thiruvananthapuram') || dist.includes('trivandrum') || dist.includes('kovalam') || dist.includes('varkala')) {
+    return [
+      { name: "Kovalam Beach & Lighthouse Point", distance: "3.5 km" },
+      { name: "Sree Padmanabhaswamy Temple", distance: "8.2 km" },
+      { name: "Varkala Cliff & Papanasam Beach", distance: "38 km" },
+      { name: "Poovar Island Golden Sand Beach", distance: "16 km" },
+      { name: "Napier Museum & Art Gallery", distance: "9.4 km" }
+    ];
+  }
+  if (dist.includes('wayanad')) {
+    return [
+      { name: "Banasura Sagar Earthen Dam", distance: "14 km" },
+      { name: "Edakkal Prehistoric Caves", distance: "18 km" },
+      { name: "Chembra Peak & Heart Lake", distance: "12 km" },
+      { name: "Pookode Natural Freshwater Lake", distance: "6.5 km" },
+      { name: "Soochipara Waterfalls", distance: "15 km" }
+    ];
+  }
+  if (dist.includes('kottayam') || dist.includes('kumarakom')) {
+    return [
+      { name: "Kumarakom Bird Sanctuary", distance: "2.8 km" },
+      { name: "Vembanad Lake Backwater Cruise", distance: "1.5 km" },
+      { name: "Aymanam Heritage Village", distance: "7.2 km" },
+      { name: "Marmala Waterfalls", distance: "32 km" }
+    ];
+  }
+  if (dist.includes('kollam')) {
+    return [
+      { name: "Ashtamudi Lake & DTPC Jetty", distance: "2.0 km" },
+      { name: "Jatayu Earth's Center & Cable Car", distance: "34 km" },
+      { name: "Munroe Island Backwater Canals", distance: "22 km" },
+      { name: "Kollam Beach & Mahatma Gandhi Park", distance: "4.1 km" }
+    ];
+  }
+  if (dist.includes('thrissur')) {
+    return [
+      { name: "Athirappilly & Vazhachal Waterfalls", distance: "48 km" },
+      { name: "Vadakkumnathan Shiva Temple", distance: "3.2 km" },
+      { name: "Shakthan Thampuran Palace", distance: "2.8 km" },
+      { name: "Snehatheeram Beach", distance: "24 km" }
+    ];
+  }
+  if (dist.includes('kozhikode') || dist.includes('calicut')) {
+    return [
+      { name: "Calicut Beach & Historic Pier", distance: "2.4 km" },
+      { name: "Mananchira Square & Heritage Park", distance: "1.8 km" },
+      { name: "Kappad Beach (Vasco da Gama Point)", distance: "16 km" },
+      { name: "Beypore Port & Ancient Uru Shipyard", distance: "11 km" }
+    ];
+  }
+  if (dist.includes('kannur')) {
+    return [
+      { name: "Muzhappilangad Drive-in Beach", distance: "12 km" },
+      { name: "St. Angelo Colonial Sea Fort", distance: "3.6 km" },
+      { name: "Payyambalam Beach & Cliffs", distance: "2.8 km" },
+      { name: "Theyyam Heritage Centers", distance: "8.5 km" }
+    ];
+  }
+  if (dist.includes('kasaragod') || dist.includes('bekal')) {
+    return [
+      { name: "Historic Bekal Fort & Beach", distance: "3.2 km" },
+      { name: "Chandragiri Fort & River Confluence", distance: "10 km" },
+      { name: "Ranipuram Trekking Hills", distance: "38 km" },
+      { name: "Ananthapura Lake Temple", distance: "14 km" }
+    ];
+  }
+  if (dist.includes('palakkad')) {
+    return [
+      { name: "Palakkad Fort (Tipu's Fort)", distance: "2.5 km" },
+      { name: "Malampuzha Dam & Gardens", distance: "12 km" },
+      { name: "Silent Valley National Park", distance: "52 km" },
+      { name: "Dhoni Waterfalls & Trekking Trails", distance: "14 km" }
+    ];
+  }
+  if (dist.includes('malappuram')) {
+    return [
+      { name: "Teak Museum Nilambur", distance: "28 km" },
+      { name: "Kottakkal Arya Vaidya Sala", distance: "12 km" },
+      { name: "Kadalundi Bird Sanctuary", distance: "22 km" },
+      { name: "Padinjarekara Beach Confluence", distance: "35 km" }
+    ];
+  }
+  if (dist.includes('pathanamthitta')) {
+    return [
+      { name: "Konni Elephant Training Centre & Eco-Tourism", distance: "12 km" },
+      { name: "Perunthenaruvi Waterfalls", distance: "24 km" },
+      { name: "Aranmula Parthasarathy Temple & Heritage Village", distance: "14 km" },
+      { name: "Gavi Ecotourism Forests", distance: "65 km" }
+    ];
+  }
+  return [
+    { name: "Scenic Backwater Canals & Boating", distance: "3.0 km" },
+    { name: "Local Spices & Cultural Market", distance: "2.2 km" },
+    { name: "Traditional Kerala Heritage Temple", distance: "4.5 km" },
+    { name: "Sunset View Point", distance: "5.8 km" }
+  ];
+}
+
+export function normalizeHotel(raw) {
+  if (!raw) return null;
+  const name = (raw.name || 'Kerala Hotel').trim();
+  const id = raw.id || `hotel_${generateSlug(name)}_${Date.now()}`;
+  const slug = raw.slug || generateSlug(name) || String(id);
+  const district = raw.district || 'Kerala';
+  const location = raw.location || (district ? `${district}, Kerala` : 'Kerala, India');
+  const category = raw.category || 'Hotel & Resort';
+  const rating = parseFloat(raw.rating) || 4.5;
+  const reviewsCount = Number(raw.reviewsCount || raw.reviews_count || Math.floor(Math.random() * 50) + 20);
+  const price = Number(raw.price || 2500);
+  const tax = raw.tax || Math.round(price * 0.18);
+  const image = raw.image || (Array.isArray(raw.gallery) && raw.gallery[0]) || (Array.isArray(raw.images) && raw.images[0]) || '/assets/images/riverside.webp';
+  
+  let gallery = [];
+  if (Array.isArray(raw.images) && raw.images.length > 0) {
+    gallery = raw.images.filter(Boolean);
+  } else if (Array.isArray(raw.gallery) && raw.gallery.length > 0) {
+    gallery = raw.gallery.filter(Boolean);
+  }
+  if (!gallery.includes(image)) {
+    gallery.unshift(image);
+  }
+  if (gallery.length === 0) gallery = ['/assets/images/riverside.webp'];
+
+  const mapUrl = raw.mapUrl || raw.map_url || raw.google_maps_url || `https://maps.google.com/?q=${encodeURIComponent(`${name} ${location} Kerala`)}`;
+  const whatsapp = raw.whatsapp || '919447908576';
+  const badge = raw.badge || (rating >= 4.7 ? '★ Top Rated' : (category || 'Verified Partner'));
+  
+  let description = raw.description || '';
+  if (!description || description.trim().length < 30) {
+    description = generateUniqueDescription({ name, district, category, price, rating, location });
+  }
+
+  const amenities = Array.isArray(raw.amenities) && raw.amenities.length > 0
+    ? raw.amenities
+    : ['Free Wi-Fi', 'Air Conditioning', 'Complimentary Breakfast', 'Room Service', '24/7 Front Desk', 'Free Parking'];
+
+  let highlights = [];
+  if (Array.isArray(raw.highlights) && raw.highlights.length > 0) {
+    highlights = raw.highlights;
+  } else {
+    highlights = amenities.slice(0, 4).map(a => ({
+      title: a,
+      desc: `Modern ${a.toLowerCase()} provided for ultimate guest comfort and convenience.`
+    }));
+  }
+
+  const details = raw.details || {
+    checkIn: raw.checkin || '12:00 PM',
+    checkOut: raw.checkout || '11:00 AM',
+    propertyType: category,
+    roomCount: (raw.rooms && raw.rooms.length) ? `${raw.rooms.length * 8}+ Rooms` : '20+ Rooms',
+    starRating: `${Math.round(rating)} Star Accommodation`,
+    languages: 'English, Malayalam, Hindi',
+    station: `${district} Railway Station`,
+    airport: district === 'Ernakulam' ? 'Cochin International Airport (CIAL)' : (district === 'Thiruvananthapuram' ? 'Trivandrum International Airport' : 'Cochin / Calicut International Airport')
+  };
+
+  let nearby = [];
+  if (Array.isArray(raw.nearby) && raw.nearby.length > 0) {
+    nearby = raw.nearby;
+  } else {
+    nearby = getNearbyAttractionsForDistrict(district, location);
+  }
+
+  let rooms = [];
+  if (Array.isArray(raw.rooms) && raw.rooms.length > 0) {
+    rooms = raw.rooms.map((r, idx) => ({
+      id: r.id || `${id}_r${idx + 1}`,
+      hotelId: id,
+      hotelName: name,
+      roomNumber: r.room_number || r.roomNumber || `10${idx + 1}`,
+      type: r.type || (idx === 0 ? 'Standard Deluxe Room' : 'Executive Lake / Mountain View Suite'),
+      capacity: Number(r.capacity || r.maxGuests || 2),
+      price: Number(r.price || price),
+      beds: r.beds || '1 King Bed',
+      size: r.size || '350 sq.ft',
+      image: r.image || gallery[idx % gallery.length] || image,
+      availability: r.availability || 'available',
+      inventory: Number(r.inventory || 5),
+      amenities: Array.isArray(r.amenities) && r.amenities.length > 0 ? r.amenities : ['Free High-Speed Wi-Fi', 'Air Conditioning', 'En-suite Bathroom', 'Complimentary Breakfast', 'HD Smart TV']
+    }));
+  } else {
+    rooms = [
+      {
+        id: `${id}_r1`,
+        hotelId: id,
+        hotelName: name,
+        roomNumber: '101',
+        type: category.includes('Luxury') ? 'Deluxe Lake/Mountain View Suite' : 'Standard AC Room',
+        capacity: 2,
+        price: price,
+        beds: '1 King Bed',
+        size: '350 sq.ft',
+        image: gallery[0] || image,
+        availability: 'available',
+        inventory: 5,
+        amenities: ['Air Conditioning', 'Free High-Speed Wi-Fi', 'Complimentary Breakfast', 'En-suite Bathroom', 'HD Smart TV']
+      },
+      {
+        id: `${id}_r2`,
+        hotelId: id,
+        hotelName: name,
+        roomNumber: '102',
+        type: 'Premium Executive Suite',
+        capacity: 3,
+        price: Math.round(price * 1.35),
+        beds: '1 King Bed + 1 Single',
+        size: '480 sq.ft',
+        image: gallery[1] || gallery[0] || image,
+        availability: 'available',
+        inventory: 3,
+        amenities: ['Panoramic View Balcony', 'Air Conditioning', 'Free High-Speed Wi-Fi', 'Complimentary Breakfast', 'Mini Refrigerator', 'Bathtub']
+      }
+    ];
+  }
+
+  return {
+    id,
+    slug,
+    name,
+    district,
+    location,
+    category,
+    rating,
+    reviewsCount,
+    price,
+    tax,
+    image,
+    images: gallery,
+    gallery,
+    mapUrl,
+    map_url: mapUrl,
+    google_maps_url: mapUrl,
+    whatsapp,
+    badge,
+    description,
+    amenities,
+    highlights,
+    details,
+    nearby,
+    rooms,
+    status: raw.status || 'active',
+    featured: Boolean(raw.featured),
+    trending: Boolean(raw.trending)
+  };
+}
+
 // ─── In-memory store ───────────────────────────────────────────────
 const store = {
-  hotels: Array.isArray(STATIC_HOTELS) ? [...STATIC_HOTELS] : [],
+  hotels: Array.isArray(STATIC_HOTELS) ? STATIC_HOTELS.map(normalizeHotel) : [],
   bookings: [],
   rooms: [],
   users: [],
@@ -485,8 +762,20 @@ async function refreshAllData() {
       // Hotels
       (async () => {
         const { data, error } = await supabase.from('hotels').select('*').order('name', { ascending: true });
-        if (!error && data) {
-          store.hotels = data.map(mapHotelRow);
+        if (!error && data && data.length > 0) {
+          const dbHotels = data.map(mapHotelRow).map(normalizeHotel);
+          const dbIds = new Set(dbHotels.map(h => String(h.id).toLowerCase()));
+          const dbSlugs = new Set(dbHotels.map(h => String(h.slug).toLowerCase()));
+          
+          const staticRemain = Array.isArray(STATIC_HOTELS) 
+            ? STATIC_HOTELS.filter(sh => {
+                const shId = String(sh.id).toLowerCase();
+                const shSlug = String(sh.slug || generateSlug(sh.name)).toLowerCase();
+                return !dbIds.has(shId) && !dbSlugs.has(shSlug);
+              }).map(normalizeHotel)
+            : [];
+          
+          store.hotels = [...dbHotels, ...staticRemain];
           notifyChange("hotels");
         }
       })(),
@@ -601,24 +890,113 @@ export async function getHotels() {
 }
 
 /**
- * Look up a hotel by its slug (SEO-friendly name).
- * Falls back to id-based lookup for backwards compatibility with old ?id= links.
+ * Look up a hotel by its slug (SEO-friendly name) or ID.
+ * Matches exact slugs, generated names, IDs, or keywords.
+ * Returns null if no match is found.
  */
 export async function getHotelBySlug(slug) {
   await waitForData();
-  if (!slug) return store.hotels[0] || null;
-  const clean = String(slug).toLowerCase().trim();
+  if (!slug) return null;
+
+  let clean = String(slug).toLowerCase().trim()
+    .replace(/^\/hotel\//, '')
+    .replace(/^hotel\//, '')
+    .replace(/^hotel\.html\?slug=/, '')
+    .replace(/^hotel\.html\?id=/, '')
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '')
+    .trim();
+
+  try {
+    clean = decodeURIComponent(clean);
+  } catch (e) {}
+
+  if (!clean) return null;
+
+  const cleanAlpha = clean.replace(/[^a-z0-9]/g, '');
+
   // 1. Exact slug match
-  const bySlug = store.hotels.find(h => h.slug && h.slug.toLowerCase() === clean);
-  if (bySlug) return bySlug;
-  // 2. Match generated slug from name
-  const byGen = store.hotels.find(h => generateSlug(h.name) === clean);
-  if (byGen) return byGen;
-  // 3. Fallback: match by id
-  const byId = store.hotels.find(h => h.id && h.id.toLowerCase() === clean);
-  if (byId) return byId;
-  // 4. Loose match
-  return store.hotels.find(h => (h.name && h.name.toLowerCase().includes(clean)) || (h.slug && h.slug.includes(clean))) || store.hotels[0] || null;
+  let matched = store.hotels.find(h => h.slug && h.slug.toLowerCase() === clean);
+  if (matched) return matched;
+
+  // 2. Match generated slug from hotel name
+  matched = store.hotels.find(h => h.name && generateSlug(h.name) === clean);
+  if (matched) return matched;
+
+  // 3. Match by ID (exact or normalized)
+  matched = store.hotels.find(h => {
+    if (!h.id) return false;
+    const cleanId = String(h.id).toLowerCase();
+    return cleanId === clean || generateSlug(cleanId) === clean;
+  });
+  if (matched) return matched;
+
+  // 4. Normalized Alphanumeric comparison (ignores all hyphens, underscores, dots, special chars)
+  matched = store.hotels.find(h => {
+    const nameAlpha = (h.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const idAlpha = String(h.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const slugAlpha = (h.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return nameAlpha === cleanAlpha || 
+           idAlpha === cleanAlpha || 
+           slugAlpha === cleanAlpha ||
+           (cleanAlpha.length >= 8 && (nameAlpha.startsWith(cleanAlpha) || cleanAlpha.startsWith(nameAlpha) || idAlpha.startsWith(cleanAlpha) || cleanAlpha.startsWith(idAlpha)));
+  });
+  if (matched) return matched;
+
+  // 5. Keyword fuzzy token score match
+  const rawTokens = clean.split(/[-_\s.]+/).filter(k => k.length >= 3);
+  // Expand common abbreviations like "pvtltd" -> ["pvt", "ltd"]
+  const tokens = [];
+  rawTokens.forEach(t => {
+    if (t === 'pvtltd') { tokens.push('pvt', 'ltd'); }
+    else { tokens.push(t); }
+  });
+
+  if (tokens.length > 0) {
+    // 5a. All keywords match
+    matched = store.hotels.find(h => {
+      const hText = `${h.name || ''} ${h.id || ''} ${h.slug || ''}`.toLowerCase();
+      return tokens.every(kw => hText.includes(kw));
+    });
+    if (matched) return matched;
+
+    // 5b. Best matching score (at least primary unique word + other tokens)
+    let bestHotel = null;
+    let highestScore = 0;
+
+    store.hotels.forEach(h => {
+      const hText = `${h.name || ''} ${h.id || ''} ${h.slug || ''}`.toLowerCase();
+      let matchedCount = 0;
+      let primaryMatched = false;
+
+      tokens.forEach((kw, idx) => {
+        if (hText.includes(kw)) {
+          matchedCount++;
+          if (idx === 0) primaryMatched = true; // First keyword (usually hotel primary brand/name)
+        }
+      });
+
+      const score = (matchedCount / tokens.length) + (primaryMatched ? 0.5 : 0);
+      if (score > highestScore && (primaryMatched || matchedCount >= 2)) {
+        highestScore = score;
+        bestHotel = h;
+      }
+    });
+
+    if (bestHotel && highestScore >= 0.6) {
+      return bestHotel;
+    }
+  }
+
+  // 6. Partial name / slug / ID match
+  matched = store.hotels.find(h => 
+    (h.name && h.name.toLowerCase().includes(clean)) || 
+    (h.slug && h.slug.toLowerCase().includes(clean)) ||
+    (h.id && String(h.id).toLowerCase().includes(clean))
+  );
+  if (matched) return matched;
+
+  return null;
 }
 
 export async function getBookings() {

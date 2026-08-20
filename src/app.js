@@ -297,31 +297,191 @@ function initMobileNav() {
 // -------------------------------------------------------------
 // LANDING PAGE CONTROLLER
 // -------------------------------------------------------------
-// Kerala district → approximate coordinates mapping
-const KERALA_DISTRICT_COORDS = {
+// -------------------------------------------------------------
+// LANDING PAGE CONTROLLER
+// -------------------------------------------------------------
+// Comprehensive high-accuracy coordinates for all Kerala destinations, districts, and towns
+const KERALA_DESTINATION_COORDS = {
+  // 1. Thiruvananthapuram District
   "Thiruvananthapuram": { lat: 8.5241, lon: 76.9366 },
   "Trivandrum":         { lat: 8.5241, lon: 76.9366 },
+  "Kovalam":            { lat: 8.4004, lon: 76.9782 },
+  "Varkala":            { lat: 8.7379, lon: 76.7163 },
+  "Poovar":             { lat: 8.3183, lon: 77.0628 },
+  "Technopark":         { lat: 8.5581, lon: 76.8814 },
+  "Ponmudi":            { lat: 8.7609, lon: 77.1167 },
+  "Neyyar Dam":         { lat: 8.5333, lon: 77.1500 },
+  "Attingal":           { lat: 8.6968, lon: 76.8141 },
+  "Vizhinjam":          { lat: 8.3792, lon: 76.9933 },
+
+  // 2. Kollam District
   "Kollam":             { lat: 8.8932, lon: 76.6141 },
+  "Quilon":             { lat: 8.8932, lon: 76.6141 },
+  "Munroe Island":      { lat: 8.9953, lon: 76.6106 },
+  "Ashtamudi":          { lat: 8.9400, lon: 76.5800 },
+  "Jatayu":             { lat: 8.8687, lon: 76.8665 },
+  "Chadayamangalam":    { lat: 8.8687, lon: 76.8665 },
+  "Paravur":            { lat: 8.8142, lon: 76.6711 },
+  "Karunagappally":     { lat: 9.0544, lon: 76.5369 },
+
+  // 3. Pathanamthitta District
   "Pathanamthitta":     { lat: 9.2648, lon: 76.7870 },
+  "Sabarimala":         { lat: 9.4406, lon: 77.0817 },
+  "Thiruvalla":         { lat: 9.3835, lon: 76.5741 },
+  "Adoor":              { lat: 9.1530, lon: 76.7356 },
+  "Ranni":              { lat: 9.3800, lon: 76.8100 },
+  "Konni":              { lat: 9.2436, lon: 76.8522 },
+  "Aranmula":           { lat: 9.3333, lon: 76.6833 },
+
+  // 4. Alappuzha (Alleppey) District
   "Alappuzha":          { lat: 9.4981, lon: 76.3388 },
+  "Alleppey":           { lat: 9.4981, lon: 76.3388 },
+  "Marari":             { lat: 9.5985, lon: 76.2974 },
+  "Mararikulam":        { lat: 9.5985, lon: 76.2974 },
+  "Punnamada":          { lat: 9.5167, lon: 76.3500 },
+  "Kuttanad":           { lat: 9.4000, lon: 76.4500 },
+  "Cherthala":          { lat: 9.6844, lon: 76.3267 },
+  "Kayamkulam":         { lat: 9.1728, lon: 76.5000 },
+  "Muhamma":            { lat: 9.6000, lon: 76.3667 },
+
+  // 5. Kottayam District
   "Kottayam":           { lat: 9.5916, lon: 76.5222 },
+  "Kumarakom":          { lat: 9.6160, lon: 76.4323 },
+  "Pala":               { lat: 9.7117, lon: 76.6844 },
+  "Changanassery":      { lat: 9.4442, lon: 76.5383 },
+  "Ettumanoor":         { lat: 9.6692, lon: 76.5614 },
+  "Illikkal Kallu":     { lat: 9.7436, lon: 76.8206 },
+
+  // 6. Idukki District
   "Idukki":             { lat: 9.9189, lon: 77.1025 },
   "Munnar":             { lat: 10.0889, lon: 77.0595 },
-  "Ernakulam":          { lat: 10.0105, lon: 76.3527 },
-  "Kochi":              { lat: 9.9312, lon: 76.2673 },
-  "Thrissur":           { lat: 10.5276, lon: 76.2144 },
-  "Palakkad":           { lat: 10.7867, lon: 76.6548 },
-  "Malappuram":         { lat: 11.0730, lon: 76.0740 },
-  "Kozhikode":          { lat: 11.2588, lon: 75.7804 },
-  "Wayanad":            { lat: 11.6854, lon: 76.1320 },
-  "Kannur":             { lat: 11.8745, lon: 75.3704 },
-  "Kasaragod":          { lat: 12.4996, lon: 74.9869 },
-  "Varkala":            { lat: 8.7379, lon: 76.7163 },
-  "Kovalam":            { lat: 8.4004, lon: 76.9782 },
-  "Kumarakom":          { lat: 9.6160, lon: 76.4323 },
   "Thekkady":           { lat: 9.5979, lon: 77.1700 },
+  "Kumily":             { lat: 9.5979, lon: 77.1700 },
+  "Vagamon":            { lat: 9.6897, lon: 76.9056 },
+  "Marayoor":           { lat: 10.2797, lon: 77.1603 },
+  "Chinnar":            { lat: 10.3300, lon: 77.2000 },
+  "Kattappana":         { lat: 9.7719, lon: 77.1197 },
+  "Nedumkandam":        { lat: 9.8333, lon: 77.1500 },
+  "Ramakkalmedu":       { lat: 9.8000, lon: 77.2333 },
+
+  // 7. Ernakulam (Kochi) District
+  "Ernakulam":          { lat: 9.9816, lon: 76.2999 },
+  "Kochi":              { lat: 9.9312, lon: 76.2673 },
+  "Cochin":             { lat: 9.9312, lon: 76.2673 },
+  "Fort Kochi":         { lat: 9.9658, lon: 76.2421 },
+  "Mattancherry":       { lat: 9.9577, lon: 76.2597 },
+  "Bolgatty":           { lat: 9.9881, lon: 76.2683 },
+  "Marine Drive":       { lat: 9.9816, lon: 76.2750 },
+  "Cherai":             { lat: 10.1416, lon: 76.1783 },
+  "Vypeen":             { lat: 10.0667, lon: 76.2167 },
+  "Kochi Airport":      { lat: 10.1518, lon: 76.3930 },
+  "Nedumbassery":       { lat: 10.1518, lon: 76.3930 },
+  "Aluva":              { lat: 10.1076, lon: 76.3516 },
+  "Kakkanad":           { lat: 10.0159, lon: 76.3419 },
+  "Infopark":           { lat: 10.0159, lon: 76.3419 },
+  "Lulu Mall":          { lat: 10.0284, lon: 76.3079 },
+  "Edappally":          { lat: 10.0284, lon: 76.3079 },
+  "Wonderla":           { lat: 10.0292, lon: 76.3986 },
+  "Angamaly":           { lat: 10.1960, lon: 76.3860 },
+  "Maradu":             { lat: 9.9372, lon: 76.3314 },
+
+  // 8. Thrissur District
+  "Thrissur":           { lat: 10.5276, lon: 76.2144 },
+  "Trichur":            { lat: 10.5276, lon: 76.2144 },
+  "Guruvayur":          { lat: 10.5946, lon: 76.0407 },
+  "Athirappilly":       { lat: 10.2851, lon: 76.5698 },
+  "Chalakudy":          { lat: 10.3070, lon: 76.3333 },
+  "Irinjalakuda":       { lat: 10.3424, lon: 76.2081 },
+  "Triprayar":          { lat: 10.4192, lon: 76.1172 },
+  "Kodungallur":        { lat: 10.2277, lon: 76.1970 },
+
+  // 9. Palakkad District
+  "Palakkad":           { lat: 10.7867, lon: 76.6548 },
+  "Palghat":            { lat: 10.7867, lon: 76.6548 },
+  "Nelliyampathy":      { lat: 10.5342, lon: 76.6936 },
+  "Malampuzha":         { lat: 10.8306, lon: 76.6833 },
+  "Silent Valley":      { lat: 11.1333, lon: 76.4500 },
+  "Ottapalam":          { lat: 10.7725, lon: 76.3789 },
+  "Mannarkkad":         { lat: 10.9889, lon: 76.4600 },
+
+  // 10. Malappuram District
+  "Malappuram":         { lat: 11.0730, lon: 76.0740 },
+  "Nilambur":           { lat: 11.2778, lon: 76.2267 },
+  "Manjeri":            { lat: 11.1200, lon: 76.1200 },
+  "Tirur":              { lat: 10.9167, lon: 75.9167 },
+  "Kottakkal":          { lat: 11.0000, lon: 76.0000 },
+  "Perinthalmanna":     { lat: 10.9789, lon: 76.2264 },
+  "Ponnani":            { lat: 10.7719, lon: 75.9250 },
+
+  // 11. Kozhikode (Calicut) District
+  "Kozhikode":          { lat: 11.2588, lon: 75.7804 },
+  "Calicut":            { lat: 11.2588, lon: 75.7804 },
+  "Calicut Beach":      { lat: 11.2588, lon: 75.7700 },
+  "Beypore":            { lat: 11.1786, lon: 75.8078 },
+  "Kappad":             { lat: 11.3853, lon: 75.7194 },
+  "Thamarassery":       { lat: 11.4167, lon: 75.9333 },
+  "Vadakara":           { lat: 11.6083, lon: 75.5917 },
+  "Koyilandy":          { lat: 11.4394, lon: 75.6989 },
+
+  // 12. Wayanad District
+  "Wayanad":            { lat: 11.6854, lon: 76.1320 },
+  "Kalpetta":           { lat: 11.6103, lon: 76.0829 },
+  "Vythiri":            { lat: 11.5516, lon: 76.0416 },
+  "Meppadi":            { lat: 11.5500, lon: 76.1200 },
+  "Sultan Bathery":     { lat: 11.6628, lon: 76.2570 },
+  "Mananthavady":       { lat: 11.8028, lon: 76.0033 },
+  "Lakkidi":            { lat: 11.5167, lon: 76.0167 },
+  "Banasura":           { lat: 11.6700, lon: 75.9500 },
+
+  // 13. Kannur District
+  "Kannur":             { lat: 11.8745, lon: 75.3704 },
+  "Cannanore":          { lat: 11.8745, lon: 75.3704 },
+  "Thalassery":         { lat: 11.7491, lon: 75.4890 },
+  "Payyannur":          { lat: 12.1000, lon: 75.2000 },
+  "Muzhappilangad":     { lat: 11.7944, lon: 75.4472 },
+  "Iritty":             { lat: 11.9800, lon: 75.6600 },
+  "Taliparamba":        { lat: 12.0400, lon: 75.3500 },
+
+  // 14. Kasaragod District
+  "Kasaragod":          { lat: 12.4996, lon: 74.9869 },
   "Bekal":              { lat: 12.3972, lon: 75.0395 },
+  "Nileshwaram":        { lat: 12.2500, lon: 75.1333 },
+  "Kanhangad":          { lat: 12.3167, lon: 75.0833 },
+  "Ranipuram":          { lat: 12.4200, lon: 75.3500 }
 };
+
+const KERALA_DISTRICT_COORDS = KERALA_DESTINATION_COORDS;
+
+/**
+ * Resolves the most accurate latitude & longitude coordinates for a hotel.
+ */
+function getHotelCoordinates(h) {
+  if (!h) return { lat: 9.9816, lon: 76.2999 };
+  if (h.latitude && h.longitude && !isNaN(h.latitude) && !isNaN(h.longitude)) {
+    return { lat: Number(h.latitude), lon: Number(h.longitude) };
+  }
+  if (h.lat && h.lon && !isNaN(h.lat) && !isNaN(h.lon)) {
+    return { lat: Number(h.lat), lon: Number(h.lon) };
+  }
+  if (h.lat && h.lng && !isNaN(h.lat) && !isNaN(h.lng)) {
+    return { lat: Number(h.lat), lon: Number(h.lng) };
+  }
+
+  const searchText = `${h.name || ''} ${h.location || ''} ${h.city || ''} ${h.district || ''}`.toLowerCase();
+  
+  for (const [placeName, coords] of Object.entries(KERALA_DESTINATION_COORDS)) {
+    const pLow = placeName.toLowerCase();
+    if (searchText.includes(pLow)) {
+      return coords;
+    }
+  }
+
+  if (h.district && KERALA_DESTINATION_COORDS[h.district]) {
+    return KERALA_DESTINATION_COORDS[h.district];
+  }
+
+  return { lat: 9.9816, lon: 76.2999 };
+}
 
 function haversineKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -348,7 +508,7 @@ async function initNearbyHotels(allHotels) {
     const active = allHotels.filter(h => h.status === "active");
 
     const withDist = active.map(h => {
-      const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()] || { lat: 9.9816, lon: 76.2999 };
+      const coords = getHotelCoordinates(h);
       const dist = haversineKm(latitude, longitude, coords.lat, coords.lon);
       return { ...h, _dist: dist };
     }).sort((a, b) => a._dist - b._dist);
@@ -528,6 +688,34 @@ async function initLandingPage() {
     el.addEventListener("change", () => applyAdvancedFilters(hotels));
   });
 
+  // Hook Quick Sort Buttons
+  const sortSelect = document.getElementById("filter-sorting");
+  const quickSortBtns = document.querySelectorAll(".quick-sort-btn");
+
+  function updateQuickSortUI(selectedSort) {
+    quickSortBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.sort === selectedSort);
+    });
+    if (sortSelect && sortSelect.value !== selectedSort) {
+      sortSelect.value = selectedSort;
+    }
+  }
+
+  quickSortBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sortVal = btn.dataset.sort;
+      updateQuickSortUI(sortVal);
+      applyAdvancedFilters(hotels);
+    });
+  });
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      updateQuickSortUI(sortSelect.value);
+      applyAdvancedFilters(hotels);
+    });
+  }
+
   // Autocomplete Location Search
   const searchInput = document.getElementById("search-location");
   const autoBox = document.getElementById("search-autocomplete-box");
@@ -668,12 +856,34 @@ async function applyAdvancedFilters(hotels) {
   });
 
   if (sort === "price-low") {
-    filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+    filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
   } else if (sort === "price-high") {
-    filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+    filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
   } else if (sort === "rating-high") {
-    filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    filtered.sort((a, b) => (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0) || (Number(b.reviewsCount) || 0) - (Number(a.reviewsCount) || 0));
+  } else if (sort === "distance") {
+    const userLat = window._userGeoLat || parseFloat(localStorage.getItem("knm_user_lat")) || 9.9312;
+    const userLng = window._userGeoLng || parseFloat(localStorage.getItem("knm_user_lng")) || 76.2673;
+    filtered.sort((a, b) => {
+      const aCoords = getHotelCoordinates(a);
+      const bCoords = getHotelCoordinates(b);
+      const aDist = a._dist !== undefined ? a._dist : haversineKm(userLat, userLng, aCoords.lat, aCoords.lon);
+      const bDist = b._dist !== undefined ? b._dist : haversineKm(userLat, userLng, bCoords.lat, bCoords.lon);
+      return aDist - bDist;
+    });
+  } else {
+    // "recommended" (Featured first, then highest rating & review score)
+    filtered.sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
+    });
   }
+
+  // Sync quick sort button active state
+  document.querySelectorAll(".quick-sort-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.sort === sort);
+  });
 
   const gridTitle = document.querySelector("#hotels-near-you h2");
   if (gridTitle) gridTitle.innerText = query ? `Search Results for "${query}"` : "Hotels Near You";
@@ -766,6 +976,9 @@ window.clearAllFilters = function() {
   if (rating) rating.value = "";
   if (category) category.value = "";
   if (sorting) sorting.value = "recommended";
+  document.querySelectorAll(".quick-sort-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.sort === "recommended");
+  });
   document.querySelectorAll(".filter-amenity:checked").forEach(el => el.checked = false);
   updateFilterBadge();
   // Re-run filters with no criteria (shows all)
@@ -919,9 +1132,14 @@ function renderRoomCards(hotelRooms, activeRoomId) {
   roomsContainer.innerHTML = hotelRooms.map((r) => {
     const isSelected = r.id === activeRoomId;
     const roomImg = r.image || getRoomImage(r.type);
-    const capacityText = `${r.capacity} Guest${r.capacity > 1 ? 's' : ''}`;
-    const bedText = `${r.beds} Bed${r.beds > 1 ? 's' : ''}`;
-    const amHtml = (r.amenities || []).map(a => `<span class="room-amenity-tag">${a}</span>`).join("");
+    const capacityVal = Number(r.capacity || r.maxGuests || 2);
+    const capacityText = `${capacityVal} Guest${capacityVal > 1 ? 's' : ''}`;
+    const bedText = r.beds || "1 King Bed";
+    const amList = Array.isArray(r.amenities) && r.amenities.length > 0
+      ? r.amenities
+      : ["Free High-Speed Wi-Fi", "Air Conditioning", "En-suite Bathroom", "Complimentary Breakfast"];
+    const amHtml = amList.map(a => `<span class="room-amenity-tag">${a}</span>`).join("");
+    const inventoryVal = Number(r.inventory || 5);
     
     return `
       <div class="room-card ${isSelected ? 'selected' : ''}" data-room-id="${r.id}">
@@ -932,7 +1150,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
           <div>
             <div class="room-card-header">
               <h3>${r.type}</h3>
-              <span class="room-inventory-badge">${r.inventory} left</span>
+              <span class="room-inventory-badge">${inventoryVal} left</span>
             </div>
             <div class="room-card-details">
               <span><i class="fas fa-user-friends"></i> Max ${capacityText}</span>
@@ -944,7 +1162,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
           </div>
           <div class="room-card-footer">
             <div class="room-card-price">
-              <span class="price">₹${r.price.toLocaleString("en-IN")}</span>
+              <span class="price">₹${(r.price || 2500).toLocaleString("en-IN")}</span>
               <span class="tax-info">/ night + taxes</span>
             </div>
             <button type="button" class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} room-select-btn" onclick="selectRoomCard('${r.id}')">
@@ -1005,21 +1223,45 @@ window.selectRoomCard = function(roomId) {
   window.openMobileBookingModal(roomId);
 };
 
+function renderHotelNotFound(attemptedSlug) {
+  const main = document.querySelector("main.container") || document.querySelector("main") || document.body;
+  if (!main) return;
+  document.title = "Hotel Not Found | HotelsNearMeInKerala.com";
+  main.innerHTML = `
+    <div style="text-align: center; padding: 80px 20px; max-width: 650px; margin: 0 auto;">
+      <div style="font-size: 64px; margin-bottom: 20px;">🏨🔍</div>
+      <h1 style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; font-family:'Outfit', sans-serif;">Hotel Not Found</h1>
+      <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 30px;">
+        We could not find the property matching <strong>"${escapeHTML(attemptedSlug || '')}"</strong>. It may have been updated, relocated, or temporarily unlisted.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="/index.html" class="btn btn-primary" style="border-radius: 30px; padding: 12px 28px; font-weight: 700;">
+          <i class="fas fa-home" style="margin-right: 8px;"></i> Return to Home
+        </a>
+        <a href="/index.html#hotels-near-you" class="btn btn-outline" style="border-radius: 30px; padding: 12px 28px; font-weight: 700;">
+          <i class="fas fa-search" style="margin-right: 8px;"></i> Explore All 500+ Hotels
+        </a>
+      </div>
+    </div>
+  `;
+}
+
 async function initHotelDetailPage() {
-  // Extract slug from URL pathname: /hotel/grand-hyatt-kochi-bolgatty or query param
+  // Extract slug from URL pathname: /hotel/grand-hyatt-kochi-bolgatty or query param ?slug= or ?id=
+  const params = new URLSearchParams(window.location.search);
+  const slugParam = params.get("slug");   // SEO-friendly param
+  const idParam   = params.get("id");     // fallback ID param
+  
   let slugFromPath = null;
   const pathParts = window.location.pathname.split("/").filter(Boolean);
   const hotelIdx = pathParts.findIndex(p => p.toLowerCase() === "hotel");
   if (hotelIdx !== -1 && pathParts[hotelIdx + 1]) {
     slugFromPath = decodeURIComponent(pathParts[hotelIdx + 1].replace(".html", ""));
-  } else if (pathParts.length > 0 && pathParts[0] !== "hotel" && !pathParts[0].endsWith(".html")) {
+  } else if (pathParts.length > 0 && pathParts[0] !== "hotel" && !pathParts[0].endsWith(".html") && !pathParts[0].endsWith(".js")) {
     slugFromPath = decodeURIComponent(pathParts[pathParts.length - 1].replace(".html", ""));
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const slugParam = params.get("slug");   // SEO-friendly param
-  const idParam   = params.get("id");     // fallback ID param
-  const queryParam = slugFromPath || slugParam || idParam;
+  const queryParam = slugParam || idParam || slugFromPath;
   
   const hotels = await getHotels();
   if (queryParam) {
@@ -1035,7 +1277,12 @@ async function initHotelDetailPage() {
     }
   }
   if (!selectedHotel && hotels.length > 0) {
-    selectedHotel = hotels[0];
+    if (!queryParam) {
+      selectedHotel = hotels[0];
+    } else {
+      renderHotelNotFound(queryParam);
+      return;
+    }
   }
   if (!selectedHotel) return;
 
@@ -1538,15 +1785,20 @@ async function initHotelDetailPage() {
   }
   
   // ── Dynamic Multi-Image Gallery ────────────────────────────────────────────
-  // Build full image list: primary image + extra images from admin
-  const galleryImages = [selectedHotel.image];
-  if (Array.isArray(selectedHotel.images)) {
-    selectedHotel.images.forEach(img => { if (img && img.trim()) galleryImages.push(img.trim()); });
+  const rawGallery = Array.isArray(selectedHotel.images) && selectedHotel.images.length > 0
+    ? selectedHotel.images
+    : (Array.isArray(selectedHotel.gallery) && selectedHotel.gallery.length > 0 ? selectedHotel.gallery : [selectedHotel.image]);
+  const galleryImages = rawGallery.filter(Boolean);
+  if (selectedHotel.image && !galleryImages.includes(selectedHotel.image)) {
+    galleryImages.unshift(selectedHotel.image);
+  }
+  if (galleryImages.length === 0) {
+    galleryImages.push('/assets/images/riverside.webp');
   }
   
   const mainImg = document.getElementById("gallery-img-main");
   if (mainImg) {
-    mainImg.src = galleryImages[0] || "/assets/images/riverside.webp";
+    mainImg.src = galleryImages[0];
     mainImg.alt = `${selectedHotel.name} - Main Hotel Image, ${selectedHotel.location}, ${dist}`;
     mainImg.style.cursor = "pointer";
     mainImg.onclick = () => window.openPhotoLightbox(0);
@@ -1555,8 +1807,8 @@ async function initHotelDetailPage() {
   for (let i = 1; i <= 4; i++) {
     const img = document.getElementById(`gallery-img-${i}`);
     if (!img) continue;
-    if (allImages[i]) {
-      img.src = allImages[i];
+    if (galleryImages[i]) {
+      img.src = galleryImages[i];
       img.style.display = "";
       img.style.cursor = "pointer";
       img.onclick = () => window.openPhotoLightbox(i);
@@ -1572,9 +1824,9 @@ async function initHotelDetailPage() {
   
   const moreBtn = document.getElementById("gallery-more-btn");
   if (moreBtn) {
-    if (allImages.length > 5) {
+    if (galleryImages.length > 5) {
       moreBtn.style.display = "";
-      moreBtn.innerText = `+${allImages.length - 5} Photos`;
+      moreBtn.innerText = `+${galleryImages.length - 5} Photos`;
       moreBtn.onclick = () => window.openPhotoLightbox(4);
     } else {
       moreBtn.style.display = "none";
@@ -1582,7 +1834,7 @@ async function initHotelDetailPage() {
   }
 
   // ── Fullscreen Photo Lightbox Controller ──────────────────────────────────
-  const validPhotos = allImages.filter(img => img && typeof img === "string" && img.trim() !== "");
+  const validPhotos = galleryImages.filter(img => img && typeof img === "string" && img.trim() !== "");
   let activePhotoIndex = 0;
 
   const lightboxModal = document.getElementById("photo-lightbox-modal");
@@ -1680,8 +1932,9 @@ async function initHotelDetailPage() {
   const mapPlaceholder = document.getElementById("hotel-map-placeholder");
   const mapLink = document.getElementById("hotel-map-link");
   if (mapIframe) {
-    let rawUrl = (selectedHotel.mapUrl || "").trim();
+    let rawUrl = (selectedHotel.mapUrl || selectedHotel.google_maps_url || "").trim();
     let embedSrc = "";
+    const coords = getHotelCoordinates(selectedHotel);
     
     // Check if administrator provided a specific embed or iframe code
     if (rawUrl.includes("<iframe")) {
@@ -1693,10 +1946,10 @@ async function initHotelDetailPage() {
       embedSrc = rawUrl;
     }
 
-    // If no valid embed URL provided, auto-generate standard Google Maps embed for hotel location
+    // If no valid embed URL provided, generate high-accuracy Google Maps coordinate embed
     if (!embedSrc) {
-      const locationQuery = encodeURIComponent(`${selectedHotel.name}, ${selectedHotel.location || selectedHotel.district || 'Kerala'}, Kerala, India`);
-      embedSrc = `https://maps.google.com/maps?q=${locationQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      const locLabel = encodeURIComponent(`${selectedHotel.name}, ${selectedHotel.location || selectedHotel.district || 'Kerala'}`);
+      embedSrc = `https://maps.google.com/maps?q=${coords.lat},${coords.lon}+(${locLabel})&t=&z=15&ie=UTF8&iwloc=&output=embed`;
     }
 
     mapIframe.src = embedSrc;
@@ -1712,10 +1965,12 @@ async function initHotelDetailPage() {
     }
 
     if (mapLink) {
-      const googleMapsDirectionUrl = rawUrl.startsWith("http") && !rawUrl.includes("/embed")
+      const googleMapsDirectionUrl = rawUrl.startsWith("http") && !rawUrl.includes("/embed") && !rawUrl.includes("maps/embed")
         ? rawUrl
-        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${selectedHotel.name} ${selectedHotel.location || selectedHotel.district} Kerala`)}`;
+        : `https://www.google.com/maps/dir/?api=1&destination=${coords.lat},${coords.lon}&destination_place_id=&travelmode=driving`;
       mapLink.href = googleMapsDirectionUrl;
+      mapLink.target = "_blank";
+      mapLink.rel = "noopener noreferrer";
       mapLink.style.display = "inline-flex";
       mapLink.innerHTML = `<i class="fas fa-directions" style="margin-right: 8px;"></i> Get Directions on Google Maps`;
     }

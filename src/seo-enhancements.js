@@ -368,14 +368,8 @@ async function initSeoLandingPage() {
 
   try {
     const hotels = await getHotels();
-    const active = hotels.filter(h => h.status === 'active' && activeConfig.filter(h));
+    const allMatching = hotels.filter(h => h.status === 'active' && activeConfig.filter(h));
     
-    if (activeConfig.sort) {
-      active.sort(activeConfig.sort);
-    } else {
-      active.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    }
-
     let userFavIds = [];
     const userJson = localStorage.getItem("hbooking_user");
     if (userJson) {
@@ -389,7 +383,7 @@ async function initSeoLandingPage() {
       }
     }
 
-    if (active.length === 0) {
+    if (allMatching.length === 0) {
       container.innerHTML = `
         <div style="grid-column: span 3; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
           <div style="font-size:48px; margin-bottom:16px;">🔍</div>
@@ -399,40 +393,91 @@ async function initSeoLandingPage() {
       return;
     }
 
-    container.innerHTML = active.map(h => {
-      const price = h.price || 0;
-      const rating = h.rating || 0;
-      const reviewsCount = h.reviewsCount || 0;
-      const isFav = userFavIds.includes(h.id);
-      const hotelUrl = `/hotel/${h.slug || h.id}`;
-      return `
-        <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='${hotelUrl}'">
-          <div class="hotel-card-image">
-            <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.details?.imageAlt || h.name}" loading="lazy" decoding="async" onerror="this.src='/assets/images/riverside.webp'">
-            <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
-            <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); window.toggleWishlist && window.toggleWishlist(this, '${h.id}')">
-              <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
-            </button>
-          </div>
-          <div class="hotel-card-content">
-            <div class="hotel-card-rating">
-              <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
+    function renderList(list) {
+      container.innerHTML = list.map(h => {
+        const price = h.price || 0;
+        const rating = h.rating || 0;
+        const reviewsCount = h.reviewsCount || 0;
+        const isFav = userFavIds.includes(h.id);
+        const hotelUrl = `/hotel/${h.slug || h.id}`;
+        return `
+          <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='${hotelUrl}'">
+            <div class="hotel-card-image">
+              <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.details?.imageAlt || h.name}" loading="lazy" decoding="async" onerror="this.src='/assets/images/riverside.webp'">
+              <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
+              <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); window.toggleWishlist && window.toggleWishlist(this, '${h.id}')">
+                <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
+              </button>
             </div>
-            <h3>${h.name}</h3>
-            <div class="hotel-card-loc">
-              <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
-            </div>
-            <div class="hotel-card-footer">
-              <div class="hotel-card-price">
-                <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
-                <span class="price-unit">/night</span>
+            <div class="hotel-card-content">
+              <div class="hotel-card-rating">
+                <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
               </div>
-              <a href="${hotelUrl}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
+              <h3>${h.name}</h3>
+              <div class="hotel-card-loc">
+                <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
+              </div>
+              <div class="hotel-card-footer">
+                <div class="hotel-card-price">
+                  <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
+                  <span class="price-unit">/night</span>
+                </div>
+                <a href="${hotelUrl}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
+              </div>
             </div>
           </div>
+        `;
+      }).join('');
+    }
+
+    let currentSort = activeConfig.sort ? 'custom' : 'rating-high';
+    let currentHotels = [...allMatching];
+    if (activeConfig.sort) {
+      currentHotels.sort(activeConfig.sort);
+    } else {
+      currentHotels.sort((a, b) => (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0));
+    }
+
+    // Insert or update sorting bar above the grid
+    let sortBar = container.previousElementSibling;
+    if (!sortBar || !sortBar.classList.contains('landing-sort-bar')) {
+      sortBar = document.createElement('div');
+      sortBar.className = 'landing-sort-bar hotels-sort-bar';
+      sortBar.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px; margin-right:4px;">
+            <i class="fas fa-arrow-down-wide-short" style="color:var(--primary);"></i> Sort:
+          </span>
+          <button type="button" class="quick-sort-btn active" data-sort="rating-high"><i class="fas fa-star" style="color:#f59e0b;"></i> Top Rated</button>
+          <button type="button" class="quick-sort-btn" data-sort="price-low"><i class="fas fa-arrow-up-1-9"></i> Price: Low to High</button>
+          <button type="button" class="quick-sort-btn" data-sort="price-high"><i class="fas fa-arrow-down-9-1"></i> Price: High to Low</button>
+          <button type="button" class="quick-sort-btn" data-sort="recommended">✨ Recommended</button>
         </div>
+        <span style="font-size:13px; color:var(--text-secondary); font-weight:600;">${allMatching.length} verified stays</span>
       `;
-    }).join('');
+      container.parentNode.insertBefore(sortBar, container);
+
+      sortBar.querySelectorAll('.quick-sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sortMode = btn.dataset.sort;
+          sortBar.querySelectorAll('.quick-sort-btn').forEach(b => b.classList.toggle('active', b === btn));
+          
+          let sorted = [...allMatching];
+          if (sortMode === 'price-low') {
+            sorted.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+          } else if (sortMode === 'price-high') {
+            sorted.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+          } else if (sortMode === 'rating-high') {
+            sorted.sort((a, b) => (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0) || (Number(b.reviewsCount) || 0) - (Number(a.reviewsCount) || 0));
+          } else {
+            sorted.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0));
+          }
+          renderList(sorted);
+        });
+      });
+    }
+
+    renderList(currentHotels);
   } catch (err) {
     console.error('Error loading SEO landing page hotels:', err);
     container.innerHTML = `

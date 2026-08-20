@@ -560,6 +560,30 @@
         </div>
       </div>
 
+      <!-- Quick Sort Bar -->
+      <div class="hotels-sort-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px; padding:12px 18px; background:var(--light); border:1px solid var(--border); border-radius:14px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px; margin-right:4px;">
+            <i class="fas fa-arrow-down-wide-short" style="color:var(--primary);"></i> Sort:
+          </span>
+          <button type="button" class="quick-sort-btn active" data-sort="recommended">
+            ✨ Recommended
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="price-low">
+            <i class="fas fa-arrow-up-1-9"></i> Price: Low to High
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="price-high">
+            <i class="fas fa-arrow-down-9-1"></i> Price: High to Low
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="rating-high">
+            <i class="fas fa-star" style="color:#f59e0b;"></i> Top Rated
+          </button>
+          <button type="button" class="quick-sort-btn" data-sort="distance">
+            <i class="fas fa-location-arrow" style="color:var(--primary);"></i> Nearest First
+          </button>
+        </div>
+      </div>
+
       <div class="grid hotels-grid" id="hotels-near-you-grid">
         <!-- Rendered Dynamically from app.js -->
       </div>
