@@ -162,6 +162,14 @@ export default defineConfig({
         trivandrum: resolve(__dirname, 'hotels-in-thiruvananthapuram.html'),
         budgetHotels: resolve(__dirname, 'budget-hotels-in-kerala.html'),
         resorts: resolve(__dirname, 'resorts-in-kerala.html'),
+        kochiAirport: resolve(__dirname, 'hotels-near-kochi-airport.html'),
+        luluMall: resolve(__dirname, 'hotels-near-lulu-mall.html'),
+        marineDrive: resolve(__dirname, 'hotels-near-marine-drive.html'),
+        technopark: resolve(__dirname, 'hotels-near-technopark-trivandrum.html'),
+        jatayu: resolve(__dirname, 'hotels-near-jatayu-earth-center.html'),
+        kollamBeach: resolve(__dirname, 'hotels-in-kollam-beach.html'),
+        munroeIsland: resolve(__dirname, 'resorts-in-munroe-island.html'),
+        wonderla: resolve(__dirname, 'hotels-near-wonderla-kochi.html'),
       },
       output: {
         // Split vendor libs into a shared cached chunk

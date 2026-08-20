@@ -16,7 +16,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Book Hotels and Resorts in Kerala | HotelsNearMeInKerala.com">
   <meta property="og:description" content="View hotel details, photos, guest reviews and amenities. Book your perfect stay in Munnar, Kochi, Alappuzha, Wayanad or anywhere in Kerala.">
-  <meta property="og:image" content="https://hotelsnearmeinkera.la/sharing-banner.jpg">
+  <meta property="og:image" content="https://hotelsnearmeinkera.la/sharing-banner.webp">
   <meta property="og:url" content="https://hotelsnearmeinkera.la/hotel">
   <meta property="og:site_name" content="HotelsNearMeInKerala.com">
   <meta property="og:locale" content="en_IN">
@@ -25,11 +25,15 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Book Hotels and Resorts in Kerala | HotelsNearMeInKerala.com">
   <meta name="twitter:description" content="View hotel details, photos, guest reviews and amenities. Book your perfect stay across God's Own Country.">
-  <meta name="twitter:image" content="https://hotelsnearmeinkera.la/sharing-banner.jpg">
+  <meta name="twitter:image" content="https://hotelsnearmeinkera.la/sharing-banner.webp">
 
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <!-- Preconnect to ImageKit CDN (hotel gallery images) -->
+  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+  <!-- DNS prefetch for Supabase -->
+  <link rel="dns-prefetch" href="https://yabbnbocscfxfwmkeyem.supabase.co">
   <!-- Google Fonts (non-blocking) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
@@ -38,9 +42,12 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
   <!-- Global Stylesheet -->
-  <script type="module" crossorigin src="/assets/data-CGaKMkOA.js"></script>
-  <script type="module" crossorigin src="/assets/app-CcTbPObe.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-CxMFzYhM.css">
+  <script type="module" crossorigin src="/assets/vendor-C9eSHFI5.js"></script>
+  <script type="module" crossorigin src="/assets/vendor-supabase-CAnXRK75.js"></script>
+  <script type="module" crossorigin src="/assets/data-j7SvfjWi.js"></script>
+  <script type="module" crossorigin src="/assets/vendor-firebase-CU4xpe_m.js"></script>
+  <script type="module" crossorigin src="/assets/app-DBJUboEx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-Ci9PxJXZ.css">
 </head>
 
 <body>
@@ -49,7 +56,7 @@
   <header>
     <div class="container">
       <a href="/index.html" class="logo">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="220" height="104" fetchpriority="high">
       </a>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
@@ -58,7 +65,7 @@
 
       <nav id="main-nav">
         <div class="mobile-drawer-header">
-        <img src="/logo.webp" alt="Logo" class="drawer-logo">
+        <img src="/logo.webp" alt="Logo" class="drawer-logo" width="160" height="76" loading="lazy">
         <span class="drawer-greeting">Welcome to Kerala!</span>
       </div>
       <div class="mobile-drawer-actions">
@@ -119,7 +126,7 @@
     <div class="gallery-grid" id="hotel-gallery-grid" style="position: relative;">
       <!-- Injected dynamically by app.js -->
       <div class="gallery-item gallery-main">
-        <img src="/assets/images/riverside.webp" alt="Hotel Main Image" id="gallery-img-main">
+        <img src="/assets/images/riverside.webp" alt="Hotel Main Image" id="gallery-img-main" fetchpriority="high" width="1200" height="700">
       </div>
       <div class="gallery-item"><img src="" alt="" id="gallery-img-1" style="display:none;"></div>
       <div class="gallery-item"><img src="" alt="" id="gallery-img-2" style="display:none;"></div>
@@ -274,32 +281,118 @@
           </div>
 
           <!-- Add Review Form -->
-          <div class="add-review-container"
-            style="background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-top: 35px;"
-            id="review-submission-box">
-            <h3 style="font-size:16px; margin-bottom:12px; font-weight:700;">Share Your Experience</h3>
-            <form id="form-submit-review">
-              <div class="form-group" style="margin-bottom:15px;">
-                <label style="display:block; margin-bottom:6px; font-size:13px; font-weight:600;">Rating *</label>
-                <div class="star-rating-input"
-                  style="display:flex; gap:8px; font-size:22px; color:#E2ECE8; cursor:pointer;" id="review-stars-input">
-                  <i class="fas fa-star" data-value="1" style="color:#FF9A02;"></i>
-                  <i class="fas fa-star" data-value="2" style="color:#FF9A02;"></i>
-                  <i class="fas fa-star" data-value="3" style="color:#FF9A02;"></i>
-                  <i class="fas fa-star" data-value="4" style="color:#FF9A02;"></i>
-                  <i class="fas fa-star" data-value="5" style="color:#FF9A02;"></i>
+          <div class="add-review-container" id="review-submission-box"
+            style="background:var(--white); border:1px solid var(--border); border-radius:16px; padding:28px 24px; margin-top:35px; box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+
+            <!-- Incentive header -->
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+              <div style="width:44px;height:44px;background:linear-gradient(135deg,#108569,#0d6e56);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-pen-to-square" style="color:#fff;font-size:18px;"></i>
+              </div>
+              <div>
+                <h3 style="font-size:17px;font-weight:700;margin:0 0 3px;">Share Your Experience</h3>
+                <p style="font-size:12px;color:var(--text-secondary);margin:0;">Your verified review and photos help fellow Kerala travellers find great stays.</p>
+              </div>
+            </div>
+
+            <form id="form-submit-review" novalidate>
+
+              <!-- Overall star rating -->
+              <div style="margin-bottom:22px; text-align:center;">
+                <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:12px;">Overall Rating *</label>
+                <div id="review-stars-input" style="display:inline-flex;gap:10px;font-size:34px;cursor:pointer;" aria-label="Star rating">
+                  <i class="fas fa-star" data-value="1" style="color:#FF9A02;" title="1 star — Terrible"></i>
+                  <i class="fas fa-star" data-value="2" style="color:#FF9A02;" title="2 stars — Poor"></i>
+                  <i class="fas fa-star" data-value="3" style="color:#FF9A02;" title="3 stars — Average"></i>
+                  <i class="fas fa-star" data-value="4" style="color:#FF9A02;" title="4 stars — Good"></i>
+                  <i class="fas fa-star" data-value="5" style="color:#FF9A02;" title="5 stars — Excellent"></i>
                 </div>
                 <input type="hidden" id="review-rating-value" value="5">
+                <div id="review-rating-label" style="font-size:13px;font-weight:600;color:#FF9A02;margin-top:6px;">Excellent ★★★★★</div>
               </div>
-              <div class="form-group" style="margin-bottom:15px;">
-                <label for="review-text" style="display:block; margin-bottom:6px; font-size:13px; font-weight:600;">Your
-                  Review *</label>
-                <textarea id="review-text" rows="3" required
-                  placeholder="Write about cleanliness, location, staff hospitality..."
-                  style="width:100%; border:1px solid var(--border); padding:12px; border-radius:12px; font-size:13px; resize:none; outline:none; font-family:inherit; color: var(--text-main);"></textarea>
+
+              <!-- Sub-category ratings -->
+              <div style="background:var(--light);border-radius:12px;padding:16px 20px;margin-bottom:20px;">
+                <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin:0 0 14px;">Rate Each Category</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                  <div>
+                    <label style="font-size:12px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px;">
+                      Cleanliness <span id="lbl-clean" style="color:var(--primary);">5 / 5</span>
+                    </label>
+                    <input type="range" id="sub-clean" min="1" max="5" value="5" step="1"
+                      style="width:100%;accent-color:var(--primary);" oninput="document.getElementById('lbl-clean').textContent=this.value+' / 5'">
+                  </div>
+                  <div>
+                    <label style="font-size:12px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px;">
+                      Location <span id="lbl-location" style="color:var(--primary);">5 / 5</span>
+                    </label>
+                    <input type="range" id="sub-location" min="1" max="5" value="5" step="1"
+                      style="width:100%;accent-color:var(--primary);" oninput="document.getElementById('lbl-location').textContent=this.value+' / 5'">
+                  </div>
+                  <div>
+                    <label style="font-size:12px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px;">
+                      Service <span id="lbl-service" style="color:var(--primary);">5 / 5</span>
+                    </label>
+                    <input type="range" id="sub-service" min="1" max="5" value="5" step="1"
+                      style="width:100%;accent-color:var(--primary);" oninput="document.getElementById('lbl-service').textContent=this.value+' / 5'">
+                  </div>
+                  <div>
+                    <label style="font-size:12px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px;">
+                      Value for Money <span id="lbl-value" style="color:var(--primary);">5 / 5</span>
+                    </label>
+                    <input type="range" id="sub-value" min="1" max="5" value="5" step="1"
+                      style="width:100%;accent-color:var(--primary);" oninput="document.getElementById('lbl-value').textContent=this.value+' / 5'">
+                  </div>
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 20px;">Submit
-                Review</button>
+
+              <!-- Trip type -->
+              <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:10px;">Type of Trip</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;" id="trip-type-selector">
+                  <button type="button" class="trip-type-btn active" data-type="Leisure" style="padding:7px 14px;border-radius:30px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">🌴 Leisure</button>
+                  <button type="button" class="trip-type-btn" data-type="Business" style="padding:7px 14px;border-radius:30px;border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;">💼 Business</button>
+                  <button type="button" class="trip-type-btn" data-type="Family" style="padding:7px 14px;border-radius:30px;border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;">👨‍👩‍👧 Family</button>
+                  <button type="button" class="trip-type-btn" data-type="Couple" style="padding:7px 14px;border-radius:30px;border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;">❤️ Couple</button>
+                  <button type="button" class="trip-type-btn" data-type="Solo" style="padding:7px 14px;border-radius:30px;border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;">🎒 Solo</button>
+                </div>
+                <input type="hidden" id="review-trip-type" value="Leisure">
+              </div>
+
+              <!-- Review text -->
+              <div style="margin-bottom:18px;">
+                <label for="review-text" style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:8px;">
+                  Your Review * <span id="review-char-count" style="font-weight:400;color:var(--text-secondary);">0 / 500</span>
+                </label>
+                <textarea id="review-text" rows="4" required maxlength="500"
+                  placeholder="Tell others what made your stay special — the view, the food, the staff, a memorable moment..."
+                  style="width:100%;border:1.5px solid var(--border);padding:14px;border-radius:12px;font-size:14px;resize:none;outline:none;font-family:inherit;color:var(--text-main);line-height:1.6;transition:border-color 0.2s;box-sizing:border-box;"
+                  oninput="document.getElementById('review-char-count').textContent=this.value.length+' / 500'"></textarea>
+              </div>
+
+              <!-- Photo upload -->
+              <div style="margin-bottom:22px;">
+                <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:8px;">
+                  Add Photos <span style="font-weight:400;text-transform:none;">(optional — up to 4 photos)</span>
+                </label>
+                <label for="review-photos-input" id="review-photo-dropzone"
+                  style="display:flex;align-items:center;gap:12px;border:2px dashed var(--border);border-radius:12px;padding:16px 20px;cursor:pointer;background:var(--light);transition:border-color 0.2s;"
+                  onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+                  <i class="fas fa-camera" style="font-size:24px;color:var(--primary);"></i>
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--text-main);">Tap to upload photos</div>
+                    <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">Upload room, view, or resort photos</div>
+                  </div>
+                  <input type="file" id="review-photos-input" multiple accept="image/*" style="display:none;" aria-label="Upload review photos">
+                </label>
+                <div id="review-photo-previews" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;"></div>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" id="review-submit-btn" class="btn btn-primary"
+                style="width:100%;border-radius:12px;padding:14px;font-size:15px;font-weight:700;background:linear-gradient(135deg,#108569,#0a6b53);border:none;display:flex;align-items:center;justify-content:center;gap:8px;">
+                <i class="fas fa-paper-plane"></i> Submit Review
+              </button>
             </form>
           </div>
         </div>
@@ -670,7 +763,7 @@
   <footer>
     <div class="container">
       <div class="footer-brand">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="160" height="76" loading="lazy">
         <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the
           beautiful state of Kerala.</p>
         <div class="footer-socials">

@@ -407,6 +407,18 @@ function mapUserRow(row) {
 
 function mapReviewRow(row) {
   if (!row) return null;
+  let photos = [];
+  try {
+    if (Array.isArray(row.photos)) photos = row.photos;
+    else if (typeof row.photos === 'string' && row.photos.startsWith('[')) photos = JSON.parse(row.photos);
+  } catch (e) {}
+
+  let subRatings = null;
+  try {
+    if (row.sub_ratings && typeof row.sub_ratings === 'object') subRatings = row.sub_ratings;
+    else if (typeof row.sub_ratings === 'string' && row.sub_ratings.startsWith('{')) subRatings = JSON.parse(row.sub_ratings);
+  } catch (e) {}
+
   return {
     reviewId: row.review_id,
     hotelId: row.hotel_id,
@@ -418,6 +430,9 @@ function mapReviewRow(row) {
     comment: row.comment,
     replyText: row.reply_text,
     status: row.status,
+    photos: photos,
+    subRatings: subRatings,
+    tripType: row.trip_type || '',
     createdAt: row.created_at
   };
 }
@@ -888,7 +903,7 @@ export async function addReview(review) {
   review.status = "pending";
   review.replyText = review.replyText || "";
 
-  const { error } = await supabase.from('reviews').insert({
+  const payload = {
     review_id: review.reviewId,
     hotel_id: review.hotelId,
     hotel_name: review.hotelName,
@@ -896,10 +911,41 @@ export async function addReview(review) {
     user_name: review.userName,
     user_photo: review.userPhoto,
     rating: review.rating,
-    comment: review.comment,
+    comment: review.comment || review.reviewText,
     reply_text: review.replyText || '',
     status: review.status || 'pending'
-  });
+  };
+
+  if (review.photos && review.photos.length > 0) {
+    payload.photos = review.photos;
+  }
+  if (review.subRatings) {
+    payload.sub_ratings = review.subRatings;
+  }
+  if (review.tripType) {
+    payload.trip_type = review.tripType;
+  }
+
+  let { error } = await supabase.from('reviews').insert(payload);
+  
+  // If database table doesn't have the new optional columns yet, retry with base payload
+  if (error && (error.message.includes('column') || error.code === '42703')) {
+    const basePayload = {
+      review_id: review.reviewId,
+      hotel_id: review.hotelId,
+      hotel_name: review.hotelName,
+      user_id: review.userId,
+      user_name: review.userName,
+      user_photo: review.userPhoto,
+      rating: review.rating,
+      comment: review.comment || review.reviewText,
+      reply_text: review.replyText || '',
+      status: review.status || 'pending'
+    };
+    const retry = await supabase.from('reviews').insert(basePayload);
+    error = retry.error;
+  }
+
   if (error) throw error;
   await writeAuditLog("ADD_REVIEW", "review", review.reviewId, "", JSON.stringify(review));
   await refreshAllData();

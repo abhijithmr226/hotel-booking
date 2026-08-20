@@ -20,7 +20,7 @@
   <meta property="og:title" content="Hotels Near Me in Kerala | Find Nearby Hotels, Resorts &amp; Homestays">
   <meta property="og:description"
     content="Find hotels near your location across Kerala. Explore resorts, homestays and budget stays in Kochi, Kollam, Munnar, Varkala and more.">
-  <meta property="og:image" content="https://www.hotelsnearmeinkerala.com/sharing-banner.jpg">
+  <meta property="og:image" content="https://www.hotelsnearmeinkerala.com/sharing-banner.webp">
   <meta property="og:url" content="https://www.hotelsnearmeinkerala.com/">
   <meta property="og:site_name" content="HotelsNearMeInKerala.com">
   <meta property="og:locale" content="en_IN">
@@ -30,7 +30,7 @@
   <meta name="twitter:title" content="Hotels Near Me in Kerala | Find Nearby Hotels, Resorts &amp; Homestays">
   <meta name="twitter:description"
     content="Find hotels near your location across Kerala. Explore resorts, homestays and budget stays in Kochi, Kollam, Munnar, Varkala and more.">
-  <meta name="twitter:image" content="https://www.hotelsnearmeinkerala.com/sharing-banner.jpg">
+  <meta name="twitter:image" content="https://www.hotelsnearmeinkerala.com/sharing-banner.webp">
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-30NNKW9MXH"></script>
@@ -44,14 +44,14 @@
     });
   </script>
 
-  <!-- Microsoft Clarity Tracking Code -->
-  <script type="text/javascript">
+  <!-- Microsoft Clarity Tracking Code (enable once a valid project ID is obtained) -->
+  <!-- <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","kerala_hotel_clarity_id");
-  </script>
+    })(window,document,"clarity","script","REPLACE_WITH_REAL_CLARITY_ID");
+  </script> -->
 
   <!-- Structured Data: FAQPage -->
   <script type="application/ld+json">
@@ -165,10 +165,18 @@
   </script>
 
   <!-- Font Awesome CDN -->
-  <!-- Preconnect to only 2 external origins -->
+  <!-- Preconnect to critical origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.pixabay.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preconnect to ImageKit CDN (hotel images) -->
+  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+  <!-- DNS prefetch for Supabase and analytics -->
+  <link rel="dns-prefetch" href="https://yabbnbocscfxfwmkeyem.supabase.co">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <!-- Preload LCP hero poster to eliminate render delay -->
+  <link rel="preload" as="image" href="/Landing-Page.webp" fetchpriority="high">
   <!-- Google Fonts via <link> (no redirect, no render-blocking) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
@@ -177,10 +185,13 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
   <!-- Global Stylesheet -->
-  <script type="module" crossorigin src="/assets/data-CGaKMkOA.js"></script>
-  <script type="module" crossorigin src="/assets/app-CcTbPObe.js"></script>
-  <script type="module" crossorigin src="/assets/seo-enhancements-AsMJTGnN.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-CxMFzYhM.css">
+  <script type="module" crossorigin src="/assets/vendor-C9eSHFI5.js"></script>
+  <script type="module" crossorigin src="/assets/vendor-supabase-CAnXRK75.js"></script>
+  <script type="module" crossorigin src="/assets/data-j7SvfjWi.js"></script>
+  <script type="module" crossorigin src="/assets/vendor-firebase-CU4xpe_m.js"></script>
+  <script type="module" crossorigin src="/assets/app-DBJUboEx.js"></script>
+  <script type="module" crossorigin src="/assets/seo-enhancements-CitGdJEE.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-Ci9PxJXZ.css">
 </head>
 
 <body>
@@ -189,7 +200,7 @@
   <header>
     <div class="container">
       <a href="/index.html" class="logo" aria-label="HotelsNearMeInKerala.com – Home">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="1201" height="567">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="220" height="104" fetchpriority="high">
       </a>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false"
@@ -199,7 +210,7 @@
 
       <nav id="main-nav" aria-label="Main Navigation">
         <div class="mobile-drawer-header">
-        <img src="/logo.webp" alt="Logo" class="drawer-logo" width="1201" height="567">
+        <img src="/logo.webp" alt="Logo" class="drawer-logo" width="160" height="76" loading="lazy">
         <span class="drawer-greeting">Welcome to Kerala!</span>
       </div>
       <div class="mobile-drawer-actions">
@@ -419,42 +430,42 @@
 
       <div class="destinations-modern-grid">
         <a class="destination-modern-card" href="/hotels-in-munnar" data-destination="Idukki">
-          <img src="/dest/munnar.webp" alt="Munnar Tea Hills Kerala" loading="lazy">
+          <img src="/dest/munnar.webp" alt="Munnar Tea Hills Kerala" loading="lazy" width="480" height="330" decoding="async">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Munnar</h3>
             <span class="destination-modern-subtitle">Tea Hills &amp; Mist • 120+ Stays</span>
           </div>
         </a>
         <a class="destination-modern-card" href="/hotels-in-kochi" data-destination="Ernakulam">
-          <img src="/dest/kochi.webp" alt="Hotels in Kochi Ernakulam" loading="lazy">
+          <img src="/dest/kochi.webp" alt="Hotels in Kochi Ernakulam" loading="lazy" width="480" height="330" decoding="async">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Kochi</h3>
             <span class="destination-modern-subtitle">Heritage &amp; City • 180+ Stays</span>
           </div>
         </a>
         <a class="destination-modern-card" href="/?district=Alappuzha" data-destination="Alappuzha">
-          <img src="/dest/alappuzha.webp" alt="Alappuzha Backwaters & Houseboats" loading="lazy">
+          <img src="/dest/alappuzha.webp" alt="Alappuzha Backwaters & Houseboats" loading="lazy" width="480" height="330" decoding="async">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Alappuzha</h3>
             <span class="destination-modern-subtitle">Backwaters &amp; Houseboats • 95+ Stays</span>
           </div>
         </a>
         <a class="destination-modern-card" href="/hotels-in-varkala" data-destination="Thiruvananthapuram">
-          <img src="/dest/varkala.webp" alt="Varkala Sea Cliff Resorts" loading="lazy" onerror="this.src='/dest/trivandrum.webp'">
+          <img src="/dest/varkala.webp" alt="Varkala Sea Cliff Resorts" loading="lazy" width="480" height="330" decoding="async" onerror="this.src='/dest/trivandrum.webp'">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Varkala</h3>
             <span class="destination-modern-subtitle">Sea Cliffs &amp; Beach • 65+ Stays</span>
           </div>
         </a>
         <a class="destination-modern-card" href="/?district=Wayanad" data-destination="Wayanad">
-          <img src="/dest/wayanad.webp" alt="Wayanad Rainforests & Nature Stays" loading="lazy">
+          <img src="/dest/wayanad.webp" alt="Wayanad Rainforests & Nature Stays" loading="lazy" width="480" height="330" decoding="async">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Wayanad</h3>
             <span class="destination-modern-subtitle">Rainforests &amp; Mist • 110+ Stays</span>
           </div>
         </a>
         <a class="destination-modern-card" href="/hotels-in-thiruvananthapuram" data-destination="Thiruvananthapuram">
-          <img src="/dest/trivandrum.webp" alt="Trivandrum & Kovalam Stays" loading="lazy">
+          <img src="/dest/trivandrum.webp" alt="Trivandrum & Kovalam Stays" loading="lazy" width="480" height="330" decoding="async">
           <div class="destination-modern-overlay">
             <h3 class="destination-modern-title">Kovalam &amp; Trivandrum</h3>
             <span class="destination-modern-subtitle">Capital &amp; Beaches • 85+ Stays</span>
@@ -615,7 +626,7 @@
         <div class="testimonial-card">
           <p class="testimonial-quote">"Found an incredible tea estate resort in Munnar within 2 minutes. WhatsApp booking directly with the property was super smooth and hassle-free!"</p>
           <div class="testimonial-user">
-            <img src="/dest/testimonial1.webp" alt="Rahul K." width="80" height="80">
+            <img src="/dest/testimonial1.webp" alt="Rahul K." width="80" height="80" loading="lazy" decoding="async">
             <div>
               <h4>Rahul K.</h4>
               <span>Bangalore, Karnataka</span>
@@ -628,7 +639,7 @@
         <div class="testimonial-card">
           <p class="testimonial-quote">"Booked an authentic luxury houseboat in Alleppey. Transparent pricing, no hidden fees, and the local host gave us the warmest Kerala hospitality."</p>
           <div class="testimonial-user">
-            <img src="/dest/testimonial2.webp" alt="Ameen A." width="80" height="80">
+            <img src="/dest/testimonial2.webp" alt="Ameen A." width="80" height="80" loading="lazy" decoding="async">
             <div>
               <h4>Ameen A.</h4>
               <span>Kochi, Kerala</span>
@@ -787,7 +798,7 @@
   <footer>
     <div class="container">
       <div class="footer-brand">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="1201" height="567">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com" width="160" height="76" loading="lazy">
         <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across the
           beautiful state of Kerala.</p>
         <div class="footer-socials">

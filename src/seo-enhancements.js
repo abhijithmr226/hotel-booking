@@ -330,7 +330,16 @@ async function initSeoLandingPage() {
     { id: 'munnar-hotels-grid', district: 'Idukki', filter: h => h.district === 'Idukki' && (h.name.toLowerCase().includes('munnar') || h.location.toLowerCase().includes('munnar')) },
     { id: 'trivandrum-hotels-grid', district: 'Thiruvananthapuram', filter: h => h.district === 'Thiruvananthapuram' && !h.name.toLowerCase().includes('varkala') && !h.location.toLowerCase().includes('varkala') },
     { id: 'budget-hotels-grid', filter: h => h.price <= 7000 || h.category === 'Budget Hotels' || h.category === 'Backpacker Hostels', sort: (a, b) => a.price - b.price },
-    { id: 'resorts-grid', filter: h => h.category.toLowerCase().includes('resort') || h.name.toLowerCase().includes('resort') }
+    { id: 'resorts-grid', filter: h => h.category.toLowerCase().includes('resort') || h.name.toLowerCase().includes('resort') },
+    // Programmatic Landmark & Transit Pages
+    { id: 'kochi-airport-hotels-grid', filter: h => h.district === 'Ernakulam' || h.location.toLowerCase().includes('nedumbassery') || h.location.toLowerCase().includes('airport') || h.name.toLowerCase().includes('airport') || h.name.toLowerCase().includes('hyatt') },
+    { id: 'lulu-mall-hotels-grid', filter: h => h.district === 'Ernakulam' },
+    { id: 'marine-drive-hotels-grid', filter: h => h.district === 'Ernakulam' },
+    { id: 'technopark-hotels-grid', filter: h => h.district === 'Thiruvananthapuram' },
+    { id: 'jatayu-hotels-grid', filter: h => h.district === 'Kollam' || h.district === 'Thiruvananthapuram' },
+    { id: 'kollam-beach-hotels-grid', filter: h => h.district === 'Kollam' },
+    { id: 'munroe-island-hotels-grid', filter: h => h.district === 'Kollam' },
+    { id: 'wonderla-hotels-grid', filter: h => h.district === 'Ernakulam' }
   ];
 
   const activeConfig = configs.find(c => document.getElementById(c.id));
@@ -382,10 +391,11 @@ async function initSeoLandingPage() {
       const rating = h.rating || 0;
       const reviewsCount = h.reviewsCount || 0;
       const isFav = userFavIds.includes(h.id);
+      const hotelUrl = `/hotel.html?slug=${h.slug || h.id}`;
       return `
-        <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
+        <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='${hotelUrl}'">
           <div class="hotel-card-image">
-            <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.details?.imageAlt || h.name}" loading="lazy" onerror="this.src='/assets/images/riverside.webp'">
+            <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.details?.imageAlt || h.name}" loading="lazy" decoding="async" onerror="this.src='/assets/images/riverside.webp'">
             <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
             <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); window.toggleWishlist && window.toggleWishlist(this, '${h.id}')">
               <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
@@ -404,7 +414,7 @@ async function initSeoLandingPage() {
                 <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
                 <span class="price-unit">/night</span>
               </div>
-              <a href="/hotel.html?id=${h.id}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
+              <a href="${hotelUrl}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
             </div>
           </div>
         </div>

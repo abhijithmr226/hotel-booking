@@ -67,6 +67,55 @@ export default async function handler(req, res) {
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
   </url>
+  <!-- Programmatic Landmark & High-Intent Landing Pages -->
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-kochi-airport</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-lulu-mall</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-marine-drive</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-technopark-trivandrum</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-jatayu-earth-center</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-in-kollam-beach</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/resorts-in-munroe-island</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.hotelsnearmeinkerala.com/hotels-near-wonderla-kochi</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
   <url>
     <loc>https://www.hotelsnearmeinkerala.com/about</loc>
     <lastmod>2026-06-21</lastmod>
@@ -110,6 +159,10 @@ export default async function handler(req, res) {
     <priority>0.3</priority>
   </url>`;
 
+    function toSlug(name) {
+      if (!name) return '';
+      return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').substring(0, 80);
+    }
 
     // Add hotels dynamically
     if (hotels && Array.isArray(hotels)) {
@@ -117,6 +170,7 @@ export default async function handler(req, res) {
         const lastmod = h.created_at ? new Date(h.created_at).toISOString().split('T')[0] : todayStr;
         const hotelName = h.name || 'Unknown Hotel';
         const hotelPlace = h.location || 'Kerala';
+        const slug = toSlug(h.name) || h.id;
         let contactNum = String(h.whatsapp || 'N/A').replace(/\D/g, "");
         if (contactNum && contactNum !== "N/A" && contactNum !== "") {
           if (contactNum.length === 11 && contactNum.startsWith("0")) contactNum = contactNum.substring(1);
@@ -129,7 +183,7 @@ export default async function handler(req, res) {
         xml += `
   <!-- Hotel: ${hotelName} | Place: ${hotelPlace} | Contact Number: ${contactNum} -->
   <url>
-    <loc>https://www.hotelsnearmeinkerala.com/hotel?id=${h.id}</loc>
+    <loc>https://www.hotelsnearmeinkerala.com/hotel.html?slug=${slug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

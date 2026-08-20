@@ -1523,14 +1523,14 @@ async function initHotelDetailPage() {
   
   // ── Dynamic Multi-Image Gallery ────────────────────────────────────────────
   // Build full image list: primary image + extra images from admin
-  const allImages = [selectedHotel.image];
+  const galleryImages = [selectedHotel.image];
   if (Array.isArray(selectedHotel.images)) {
-    selectedHotel.images.forEach(img => { if (img && img.trim()) allImages.push(img.trim()); });
+    selectedHotel.images.forEach(img => { if (img && img.trim()) galleryImages.push(img.trim()); });
   }
   
   const mainImg = document.getElementById("gallery-img-main");
   if (mainImg) {
-    mainImg.src = allImages[0] || "/assets/images/riverside.webp";
+    mainImg.src = galleryImages[0] || "/assets/images/riverside.webp";
     mainImg.alt = `${selectedHotel.name} - Main Hotel Image, ${selectedHotel.location}, ${dist}`;
     mainImg.style.cursor = "pointer";
     mainImg.onclick = () => window.openPhotoLightbox(0);
@@ -1911,7 +1911,7 @@ async function initHotelDetailPage() {
       return;
     }
 
-    hotelReviewsList.innerHTML = approvedReviews.map(r => {
+    hotelReviewsList.innerHTML = approvedReviews.map((r, rIdx) => {
       const reviewText = r.comment || r.reviewText || "";
       const dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" }) : "";
       const initials = (r.userName || "G").charAt(0).toUpperCase();
@@ -1922,6 +1922,30 @@ async function initHotelDetailPage() {
         ? `<img src="${r.userPhoto}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">`
         : `<div style="width:42px;height:42px;border-radius:50%;background:${avatarColor};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;">${initials}</div>`;
       const stars = `<span style="color:#FF9A02;font-size:13px;">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</span>`;
+      
+      // Trip type badge
+      let tripBadge = "";
+      if (r.tripType) {
+        tripBadge = `<span style="background:#F1F5F9;color:#475569;font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;"><i class="fas fa-suitcase" style="margin-right:4px;font-size:10px;"></i>${escapeHTML(r.tripType)}</span>`;
+      }
+
+      // Guest photos gallery
+      let photosHtml = "";
+      if (r.photos && Array.isArray(r.photos) && r.photos.length > 0) {
+        photosHtml = `
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            ${r.photos.map((photoUrl, pIdx) => `
+              <img src="${photoUrl}" alt="Guest photo ${pIdx + 1}"
+                style="width:72px;height:72px;border-radius:8px;object-fit:cover;cursor:pointer;border:1px solid var(--border);transition:transform 0.2s;"
+                loading="lazy"
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+                onclick="window.openGuestPhotoLightbox('${escapeHTML(photoUrl)}', '${escapeHTML(r.userName)}')">
+            `).join("")}
+          </div>
+        `;
+      }
+
       return `
       <div style="padding:18px 0; border-bottom:1px solid var(--border); display:flex; gap:14px; align-items:flex-start;">
         ${avatarHtml}
@@ -1929,12 +1953,14 @@ async function initHotelDetailPage() {
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
             <span style="font-size:14px;font-weight:600;color:var(--text-main);">${escapeHTML(r.userName)}</span>
             <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;"><i class="fas fa-check-circle" style="margin-right:3px;"></i>Verified Stay</span>
+            ${tripBadge}
           </div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
             ${stars}
             ${dateStr ? `<span style="font-size:11px;color:var(--text-secondary);">${dateStr}</span>` : ""}
           </div>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin:0;">${escapeHTML(reviewText)}</p>
+          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.7;margin:0;">${escapeHTML(reviewText)}</p>
+          ${photosHtml}
           ${r.replyText ? `
             <div style="background:#F8F9FA;padding:12px 14px;border-radius:8px;margin-top:12px;border-left:3px solid var(--primary);">
               <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px;"><i class="fas fa-hotel" style="margin-right:4px;"></i>Response from Management</div>
@@ -2004,6 +2030,21 @@ async function initHotelDetailPage() {
     if (valueFillEl) valueFillEl.style.width = `${Math.round(valVal * 20)}%`;
   }
 
+  // Global helper for opening guest review photo in full lightbox
+  window.openGuestPhotoLightbox = function(photoUrl, guestName) {
+    const modal = document.getElementById("photo-lightbox-modal");
+    const mainImg = document.getElementById("lightbox-main-img");
+    const titleEl = document.getElementById("lightbox-hotel-title");
+    const captionEl = document.getElementById("lightbox-caption");
+    if (modal && mainImg) {
+      mainImg.src = photoUrl;
+      if (titleEl) titleEl.innerText = "Guest Photo";
+      if (captionEl) captionEl.innerText = `Uploaded by ${guestName || 'Verified Guest'}`;
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+  };
+
   // Load and Render Reviews
   const hotelReviewsList = document.getElementById("hotel-reviews-list");
   if (hotelReviewsList) {
@@ -2015,18 +2056,115 @@ async function initHotelDetailPage() {
   // Star Rating Input click handler
   const starsContainer = document.getElementById("review-stars-input");
   const ratingInput = document.getElementById("review-rating-value");
+  const ratingLabel = document.getElementById("review-rating-label");
+  const ratingLabels = {
+    1: "Terrible ★☆☆☆☆",
+    2: "Poor ★★☆☆☆",
+    3: "Average ★★★☆☆",
+    4: "Good ★★★★☆",
+    5: "Excellent ★★★★★"
+  };
   if (starsContainer && ratingInput) {
     const stars = starsContainer.querySelectorAll("i");
     stars.forEach(star => {
       star.addEventListener("click", () => {
         const val = parseInt(star.dataset.value);
         ratingInput.value = val;
+        if (ratingLabel) ratingLabel.textContent = ratingLabels[val] || `${val} Stars`;
         stars.forEach(s => {
           const sVal = parseInt(s.dataset.value);
           s.style.color = sVal <= val ? "#FF9A02" : "#E2ECE8";
         });
       });
     });
+  }
+
+  // Trip Type Selector
+  const tripSelector = document.getElementById("trip-type-selector");
+  const tripTypeInput = document.getElementById("review-trip-type");
+  if (tripSelector && tripTypeInput) {
+    const btns = tripSelector.querySelectorAll(".trip-type-btn");
+    btns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        btns.forEach(b => {
+          b.style.border = "1.5px solid var(--border)";
+          b.style.background = "transparent";
+          b.style.color = "var(--text-secondary)";
+        });
+        btn.style.border = "1.5px solid var(--primary)";
+        btn.style.background = "var(--primary-light)";
+        btn.style.color = "var(--primary)";
+        tripTypeInput.value = btn.dataset.type;
+      });
+    });
+  }
+
+  // User uploaded photos state
+  let uploadedReviewPhotos = [];
+  const photoInput = document.getElementById("review-photos-input");
+  const photoPreviews = document.getElementById("review-photo-previews");
+
+  if (photoInput && photoPreviews) {
+    photoInput.addEventListener("change", async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      for (const file of files.slice(0, 4 - uploadedReviewPhotos.length)) {
+        if (!file.type.startsWith("image/")) continue;
+        
+        // Compress & read as base64 image (max 1000px width)
+        const compressedBase64 = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              let width = img.width;
+              let height = img.height;
+              const maxDim = 1000;
+              if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                  height = Math.round((height * maxDim) / width);
+                  width = maxDim;
+                } else {
+                  width = Math.round((width * maxDim) / height);
+                  height = maxDim;
+                }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, width, height);
+              resolve(canvas.toDataURL("image/jpeg", 0.78));
+            };
+            img.src = re.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        uploadedReviewPhotos.push(compressedBase64);
+      }
+
+      renderPhotoPreviews();
+      photoInput.value = "";
+    });
+
+    function renderPhotoPreviews() {
+      photoPreviews.innerHTML = uploadedReviewPhotos.map((dataUrl, idx) => `
+        <div style="position:relative;width:70px;height:70px;border-radius:10px;overflow:hidden;border:1px solid var(--border);">
+          <img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;">
+          <button type="button" onclick="window.removeReviewPhoto(${idx})"
+            style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join("");
+    }
+
+    window.removeReviewPhoto = function(idx) {
+      uploadedReviewPhotos.splice(idx, 1);
+      renderPhotoPreviews();
+    };
   }
 
   // Review Submit Form
@@ -2036,7 +2174,7 @@ async function initHotelDetailPage() {
       e.preventDefault();
       const userJson = localStorage.getItem("hbooking_user");
       if (!userJson) {
-        alert("Please log in to submit a review.");
+        alert("Please sign in or register to submit a verified review.");
         window.location.href = "/login.html";
         return;
       }
@@ -2044,23 +2182,57 @@ async function initHotelDetailPage() {
       
       const rating = parseInt(document.getElementById("review-rating-value").value) || 5;
       const reviewText = document.getElementById("review-text").value.trim();
-      
-      if (!reviewText) return;
+      const tripType = document.getElementById("review-trip-type")?.value || "Leisure";
 
-      const reviewObj = {
-        userId: user.uid || user.email,
-        userName: user.name || user.email.split("@")[0],
-        userPhoto: user.photoURL,
-        hotelId: selectedHotel.id,
-        rating,
-        reviewText
+      const subRatings = {
+        cleanliness: parseInt(document.getElementById("sub-clean")?.value) || 5,
+        location: parseInt(document.getElementById("sub-location")?.value) || 5,
+        service: parseInt(document.getElementById("sub-service")?.value) || 5,
+        value: parseInt(document.getElementById("sub-value")?.value) || 5
       };
+      
+      if (!reviewText) {
+        alert("Please write a few words about your stay.");
+        return;
+      }
 
-      await addReview(reviewObj);
-      alert("Thank you! Your review has been submitted successfully and is pending moderation.");
-      reviewForm.reset();
-      ratingInput.value = "5";
-      starsContainer.querySelectorAll("i").forEach(s => s.style.color = "#FF9A02");
+      const submitBtn = document.getElementById("review-submit-btn");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
+      }
+
+      try {
+        const reviewObj = {
+          userId: user.uid || user.email,
+          userName: user.name || user.email.split("@")[0],
+          userPhoto: user.photoURL || "",
+          hotelId: selectedHotel.id,
+          hotelName: selectedHotel.name,
+          rating,
+          subRatings,
+          tripType,
+          photos: uploadedReviewPhotos,
+          reviewText
+        };
+
+        await addReview(reviewObj);
+        alert("Thank you! Your verified review and photos have been submitted and are pending moderation.");
+        reviewForm.reset();
+        uploadedReviewPhotos = [];
+        if (photoPreviews) photoPreviews.innerHTML = "";
+        if (ratingInput) ratingInput.value = "5";
+        if (ratingLabel) ratingLabel.textContent = "Excellent ★★★★★";
+        starsContainer.querySelectorAll("i").forEach(s => s.style.color = "#FF9A02");
+      } catch (err) {
+        console.error("Review submission failed:", err);
+        alert("Could not submit review. Please try again.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> Submit Review`;
+        }
+      }
     });
   }
 
