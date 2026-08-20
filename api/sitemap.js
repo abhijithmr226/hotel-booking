@@ -129,6 +129,12 @@ export default async function handler(req, res) {
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.hotelsnearmeinkerala.com/list-your-hotel</loc>
+    <lastmod>${todayStr}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.hotelsnearmeinkerala.com/contact</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>

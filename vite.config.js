@@ -170,6 +170,7 @@ export default defineConfig({
         kollamBeach: resolve(__dirname, 'hotels-in-kollam-beach.html'),
         munroeIsland: resolve(__dirname, 'resorts-in-munroe-island.html'),
         wonderla: resolve(__dirname, 'hotels-near-wonderla-kochi.html'),
+        listYourHotel: resolve(__dirname, 'list-your-hotel.html'),
       },
       output: {
         // Split vendor libs into a shared cached chunk
