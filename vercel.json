@@ -5,12 +5,16 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/hotel/:slug*",
+      "destination": "/hotel"
+    },
+    {
       "source": "/hotel/(.*)",
-      "destination": "/hotel.html"
+      "destination": "/hotel"
     },
     {
       "source": "/hotel",
-      "destination": "/hotel.html"
+      "destination": "/hotel"
     },
     {
       "source": "/sitemap.xml",
