@@ -1158,7 +1158,7 @@ async function initHotelDetailPage() {
     };
   }
 
-  // Inject Hotel schema markup dynamically
+  // ─── Hotel Schema (enriched) ─────────────────────────────────────────────
   let hotelSchema = document.getElementById("hotel-schema-ld");
   if (!hotelSchema) {
     hotelSchema = document.createElement('script');
@@ -1166,34 +1166,122 @@ async function initHotelDetailPage() {
     hotelSchema.type = "application/ld+json";
     document.head.appendChild(hotelSchema);
   }
+
+  // Build image array — main image first, then additional gallery images
+  const allImages = [selectedHotel.image, ...(selectedHotel.images || [])]
+    .filter(Boolean)
+    .map(img => img.startsWith('http') ? img : `https://www.hotelsnearmeinkerala.com${img.startsWith('/') ? '' : '/'}${img}`);
+
+  // Build reviews array for schema (up to 5 most recent)
+  let schemaReviews = [];
+  try {
+    const allReviews = await getReviews();
+    schemaReviews = allReviews
+      .filter(r => r.hotelId === selectedHotel.id && r.status !== 'rejected')
+      .slice(0, 5)
+      .map(r => ({
+        "@type": "Review",
+        "reviewRating": { "@type": "Rating", "ratingValue": r.rating || 5, "bestRating": 5 },
+        "author": { "@type": "Person", "name": r.userName || "Guest" },
+        "reviewBody": r.text || "",
+        "datePublished": r.createdAt ? r.createdAt.split('T')[0] : new Date().toISOString().split('T')[0]
+      }));
+  } catch (e) { /* skip reviews if unavailable */ }
+
   const schemaObj = {
     "@context": "https://schema.org",
     "@type": "Hotel",
     "name": selectedHotel.name,
     "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '') : "",
-    "image": selectedHotel.image ? (selectedHotel.image.startsWith('http') ? selectedHotel.image : `https://hotelsnearmeinkera.la${selectedHotel.image.startsWith('/') ? '' : '/'}${selectedHotel.image}`) : "",
+    "image": allImages.length > 0 ? allImages : undefined,
+    "url": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`,
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": selectedHotel.location,
       "addressLocality": selectedHotel.location,
       "addressRegion": dist,
       "addressCountry": "IN"
     },
-    "telephone": selectedHotel.whatsapp ? (selectedHotel.whatsapp.startsWith('+') ? selectedHotel.whatsapp : `+${selectedHotel.whatsapp}`) : "",
-    "starRating": {
-      "@type": "Rating",
-      "ratingValue": selectedHotel.rating || 4.5
-    },
-    "priceRange": selectedHotel.price ? `INR ${selectedHotel.price} - ${(selectedHotel.price * 1.5).toFixed(0)}` : "INR 1500 - 15000",
-    "url": window.location.href,
-    "amenityFeature": Array.isArray(selectedHotel.amenities) ? selectedHotel.amenities.map(amenity => ({
+    "telephone": selectedHotel.whatsapp
+      ? (selectedHotel.whatsapp.startsWith('+') ? selectedHotel.whatsapp : `+${selectedHotel.whatsapp}`)
+      : "+919447908576",
+    "starRating": { "@type": "Rating", "ratingValue": Math.round(selectedHotel.rating || 4.5) },
+    "aggregateRating": selectedHotel.reviewsCount > 0 ? {
+      "@type": "AggregateRating",
+      "ratingValue": (selectedHotel.rating || 4.5).toFixed(1),
+      "reviewCount": selectedHotel.reviewsCount || 1,
+      "bestRating": "5",
+      "worstRating": "1"
+    } : undefined,
+    "review": schemaReviews.length > 0 ? schemaReviews : undefined,
+    "priceRange": selectedHotel.price ? `₹${selectedHotel.price} - ₹${(selectedHotel.price * 1.5).toFixed(0)}` : "₹1500 - ₹15000",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Bank Transfer",
+    "checkinTime": "12:00",
+    "checkoutTime": "11:00",
+    "numberOfRooms": selectedHotel.details?.rooms || undefined,
+    "amenityFeature": Array.isArray(selectedHotel.amenities) ? selectedHotel.amenities.map(a => ({
       "@type": "LocationFeatureSpecification",
-      "name": amenity,
+      "name": a,
       "value": true
     })) : []
   };
-  hotelSchema.textContent = JSON.stringify(schemaObj, null, 2);
+  // Remove undefined keys so Google doesn't choke on them
+  hotelSchema.textContent = JSON.stringify(schemaObj, (k, v) => v === undefined ? undefined : v, 2);
 
-  // Inject Organization schema markup dynamically
+  // ─── LocalBusiness Schema ─────────────────────────────────────────────────
+  // Complements Hotel schema with location/geo signals for local SEO
+  let localBizSchema = document.getElementById("local-business-schema-ld");
+  if (!localBizSchema) {
+    localBizSchema = document.createElement('script');
+    localBizSchema.id = "local-business-schema-ld";
+    localBizSchema.type = "application/ld+json";
+    document.head.appendChild(localBizSchema);
+  }
+  const localBizObj = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "LodgingBusiness"],
+    "name": selectedHotel.name,
+    "description": selectedHotel.description ? selectedHotel.description.replace(/<[^>]*>/g, '').substring(0, 200) : "",
+    "image": allImages[0] || "",
+    "url": `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`,
+    "telephone": selectedHotel.whatsapp
+      ? (selectedHotel.whatsapp.startsWith('+') ? selectedHotel.whatsapp : `+${selectedHotel.whatsapp}`)
+      : "+919447908576",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": selectedHotel.location,
+      "addressLocality": selectedHotel.location,
+      "addressRegion": dist,
+      "postalCode": "695001",
+      "addressCountry": "IN"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "priceRange": selectedHotel.price ? `₹${selectedHotel.price}` : "₹1500+",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, UPI, Credit Card",
+    "servesCuisine": selectedHotel.amenities?.includes("Restaurant") ? "Indian, Kerala Cuisine" : undefined,
+    "aggregateRating": selectedHotel.reviewsCount > 0 ? {
+      "@type": "AggregateRating",
+      "ratingValue": (selectedHotel.rating || 4.5).toFixed(1),
+      "reviewCount": selectedHotel.reviewsCount || 1,
+      "bestRating": "5",
+      "worstRating": "1"
+    } : undefined,
+    "hasMap": selectedHotel.mapUrl || undefined,
+    "sameAs": [
+      `https://www.hotelsnearmeinkerala.com/hotel.html?slug=${selectedHotel.slug}`
+    ]
+  };
+  localBizSchema.textContent = JSON.stringify(localBizObj, (k, v) => v === undefined ? undefined : v, 2);
+
+
+  // ─── Organization Schema ──────────────────────────────────────────────────
   let orgSchema = document.getElementById("organization-schema-ld");
   if (!orgSchema) {
     orgSchema = document.createElement('script');
@@ -1205,15 +1293,15 @@ async function initHotelDetailPage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "HotelsNearMeInKerala.com",
-    "url": "https://hotelsnearmeinkera.la/",
-    "logo": "https://hotelsnearmeinkera.la/logo.webp",
+    "url": "https://www.hotelsnearmeinkerala.com/",
+    "logo": "https://www.hotelsnearmeinkerala.com/logo.webp",
     "sameAs": [
       "https://www.facebook.com/hotelsnearmeinkerala",
       "https://twitter.com/hotelsnearmeinkerala"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+916238199113",
+      "telephone": "+919447908576",
       "contactType": "customer service",
       "areaServed": "IN",
       "availableLanguage": ["English", "Malayalam"]
@@ -1221,7 +1309,8 @@ async function initHotelDetailPage() {
   };
   orgSchema.textContent = JSON.stringify(orgObj, null, 2);
 
-  // Inject BreadcrumbList schema markup dynamically
+
+  // ─── BreadcrumbList Schema ────────────────────────────────────────────────
   let breadcrumbSchema = document.getElementById("breadcrumb-schema-ld");
   if (!breadcrumbSchema) {
     breadcrumbSchema = document.createElement('script');
@@ -1237,19 +1326,19 @@ async function initHotelDetailPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://hotelsnearmeinkera.la/"
+        "item": "https://www.hotelsnearmeinkerala.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Kerala",
-        "item": "https://hotelsnearmeinkera.la/categories.html"
+        "name": `Hotels in Kerala`,
+        "item": "https://www.hotelsnearmeinkerala.com/"
       },
       {
         "@type": "ListItem",
         "position": 3,
-        "name": dist,
-        "item": `https://hotelsnearmeinkera.la/categories.html?district=${encodeURIComponent(dist)}`
+        "name": `Hotels in ${dist}`,
+        "item": `https://www.hotelsnearmeinkerala.com/?district=${encodeURIComponent(dist)}`
       },
       {
         "@type": "ListItem",
@@ -1260,6 +1349,59 @@ async function initHotelDetailPage() {
     ]
   };
   breadcrumbSchema.textContent = JSON.stringify(breadcrumbList, null, 2);
+
+  // ─── FAQ Schema (hotel-specific questions) ────────────────────────────────
+  let faqSchema = document.getElementById("hotel-faq-schema-ld");
+  if (!faqSchema) {
+    faqSchema = document.createElement('script');
+    faqSchema.id = "hotel-faq-schema-ld";
+    faqSchema.type = "application/ld+json";
+    document.head.appendChild(faqSchema);
+  }
+  const faqObj = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What is the price per night at ${selectedHotel.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": selectedHotel.price
+            ? `Rooms at ${selectedHotel.name} start from ₹${selectedHotel.price.toLocaleString('en-IN')} per night. Taxes and fees are additional. Best prices guaranteed when booked directly through HotelsNearMeInKerala.com.`
+            : `Contact ${selectedHotel.name} directly for current room rates and availability.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Where is ${selectedHotel.name} located?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `${selectedHotel.name} is located in ${selectedHotel.location}, ${dist}, Kerala, India. ${selectedHotel.mapUrl ? 'View the exact location on Google Maps.' : ''}`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What amenities does ${selectedHotel.name} offer?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": Array.isArray(selectedHotel.amenities) && selectedHotel.amenities.length > 0
+            ? `${selectedHotel.name} offers the following amenities: ${selectedHotel.amenities.join(', ')}.`
+            : `Please contact ${selectedHotel.name} to confirm available amenities.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How can I book ${selectedHotel.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `You can book ${selectedHotel.name} directly through HotelsNearMeInKerala.com. Click "Check Availability" on this page to send an instant WhatsApp inquiry to the property. Check-in is from 12:00 PM and check-out is by 11:00 AM.`
+        }
+      }
+    ]
+  };
+  faqSchema.textContent = JSON.stringify(faqObj, null, 2);
+
 
   document.getElementById("hotel-title").innerText = selectedHotel.name;
   document.getElementById("breadcrumb-current").innerText = selectedHotel.name;
