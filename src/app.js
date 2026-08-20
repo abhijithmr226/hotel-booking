@@ -2019,41 +2019,109 @@ async function initHotelDetailPage() {
     mobWaBtn.onclick = (e) => { e.preventDefault(); openBookingModal(); };
   }
   
-  // ── Dynamic Multi-Image Gallery ────────────────────────────────────────────
-  const rawGallery = Array.isArray(selectedHotel.images) && selectedHotel.images.length > 0
-    ? selectedHotel.images
-    : (Array.isArray(selectedHotel.gallery) && selectedHotel.gallery.length > 0 ? selectedHotel.gallery : [selectedHotel.image]);
-  const galleryImages = rawGallery.filter(Boolean);
-  if (selectedHotel.image && !galleryImages.includes(selectedHotel.image)) {
-    galleryImages.unshift(selectedHotel.image);
+  // ── Dynamic Multi-Image Gallery (Strict Deduplication & Adaptive Layout) ──
+  function getUniqueImages(sources) {
+    const seen = new Set();
+    const result = [];
+    
+    for (const src of sources) {
+      if (!src || typeof src !== "string") continue;
+      const cleanSrc = src.trim();
+      if (!cleanSrc) continue;
+      
+      // Normalize path to prevent duplicates like 'assets/images/foo.webp' vs '/assets/images/foo.webp'
+      const normKey = cleanSrc.toLowerCase()
+        .replace(/^https?:\/\/[^\/]+/i, '') // strip origin
+        .replace(/^\.?\//, '')             // strip leading slashes
+        .replace(/\?.*$/, '');              // strip query params
+        
+      if (!seen.has(normKey)) {
+        seen.add(normKey);
+        result.push(cleanSrc);
+      }
+    }
+    return result;
   }
+
+  const rawCandidateImages = [
+    selectedHotel.image,
+    ...(Array.isArray(selectedHotel.images) ? selectedHotel.images : []),
+    ...(Array.isArray(selectedHotel.gallery) ? selectedHotel.gallery : [])
+  ];
+
+  let galleryImages = getUniqueImages(rawCandidateImages);
   if (galleryImages.length === 0) {
-    galleryImages.push('/assets/images/riverside.webp');
+    galleryImages = ['/assets/images/riverside.webp'];
   }
-  
+
+  const galleryGridEl = document.getElementById("hotel-gallery-grid");
   const mainImg = document.getElementById("gallery-img-main");
+  const mainParent = mainImg ? mainImg.parentElement : null;
+
   if (mainImg) {
     mainImg.src = galleryImages[0];
     mainImg.alt = `${selectedHotel.name} - Main Hotel Image, ${selectedHotel.location}, ${dist}`;
     mainImg.style.cursor = "pointer";
     mainImg.onclick = () => window.openPhotoLightbox(0);
   }
+
+  // Adjust gallery grid CSS layout based on number of unique images available
+  if (galleryGridEl) {
+    if (galleryImages.length === 1) {
+      galleryGridEl.style.gridTemplateColumns = "1fr";
+      galleryGridEl.style.gridTemplateRows = "400px";
+      if (mainParent) {
+        mainParent.style.gridRow = "1";
+        mainParent.style.height = "400px";
+      }
+    } else if (galleryImages.length === 2) {
+      galleryGridEl.style.gridTemplateColumns = "1fr 1fr";
+      galleryGridEl.style.gridTemplateRows = "360px";
+      if (mainParent) {
+        mainParent.style.gridRow = "1";
+        mainParent.style.height = "360px";
+      }
+    } else if (galleryImages.length === 3) {
+      galleryGridEl.style.gridTemplateColumns = "2fr 1fr";
+      galleryGridEl.style.gridTemplateRows = "repeat(2, 175px)";
+      if (mainParent) {
+        mainParent.style.gridRow = "span 2";
+        mainParent.style.height = "362px";
+      }
+    } else {
+      galleryGridEl.style.gridTemplateColumns = "2fr 1fr 1fr";
+      galleryGridEl.style.gridTemplateRows = "repeat(2, 175px)";
+      if (mainParent) {
+        mainParent.style.gridRow = "span 2";
+        mainParent.style.height = "362px";
+      }
+    }
+  }
   
   for (let i = 1; i <= 4; i++) {
     const img = document.getElementById(`gallery-img-${i}`);
     if (!img) continue;
+    const parent = img.parentElement;
+
     if (galleryImages[i]) {
       img.src = galleryImages[i];
       img.style.display = "";
       img.style.cursor = "pointer";
       img.onclick = () => window.openPhotoLightbox(i);
-      if (img.parentElement) img.parentElement.style.display = "";
+      if (parent) {
+        parent.style.display = "";
+        if (galleryImages.length === 2 && i === 1) {
+          parent.style.gridRow = "1";
+          parent.style.height = "360px";
+        } else {
+          parent.style.gridRow = "";
+          parent.style.height = "";
+        }
+      }
       img.alt = `${selectedHotel.name} photo ${i+1}`;
     } else {
       img.style.display = "none";
-      if (img.parentElement) img.parentElement.style.display = "none";
-      const parent = img.parentElement;
-      if (parent) parent.style.background = "var(--light)";
+      if (parent) parent.style.display = "none";
     }
   }
   
@@ -2062,7 +2130,10 @@ async function initHotelDetailPage() {
     if (galleryImages.length > 5) {
       moreBtn.style.display = "";
       moreBtn.innerText = `+${galleryImages.length - 5} Photos`;
-      moreBtn.onclick = () => window.openPhotoLightbox(4);
+      moreBtn.onclick = (e) => {
+        e.stopPropagation();
+        window.openPhotoLightbox(4);
+      };
     } else {
       moreBtn.style.display = "none";
     }
