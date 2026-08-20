@@ -642,8 +642,8 @@
         <a href="/contact.html" class="nav-link">Support</a>
       </nav>
       <div class="header-actions">
-        <a href="https://wa.me/919447000000?text=Hi%2C%20I%20want%20to%20list%20and%20upgrade%20my%20hotel%20on%20HotelsNearMeInKerala" class="btn btn-primary btn-sm" target="_blank" rel="noopener">
-          <i class="fab fa-whatsapp"></i> Partner Desk
+        <a href="https://wa.me/919447908576?text=Hi%2C%20I%20want%20to%20list%20and%20upgrade%20my%20hotel%20on%20HotelsNearMeInKerala" class="btn btn-primary btn-sm" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> Partner Desk (+91 9447908576)
         </a>
       </div>
     </div>
@@ -662,8 +662,8 @@
         <a href="#property-listing-form" class="btn btn-lg" style="background:#ffd166; color:#0f172a; font-weight:800; border-radius:30px; padding:14px 32px;">
           <i class="fas fa-plus-circle" style="margin-right:8px;"></i> List Property Free
         </a>
-        <a href="https://wa.me/919447000000?text=Hi%2C%20I%20am%20a%20hotel%20owner%20in%20Kerala%20and%20want%20to%20upgrade%20my%20listing" class="btn btn-outline btn-lg" style="color:#ffffff; border-color:rgba(255,255,255,0.6); border-radius:30px; padding:14px 32px;" target="_blank" rel="noopener">
-          <i class="fab fa-whatsapp" style="margin-right:8px; color:#25d366;"></i> Chat with Partner Manager
+        <a href="https://wa.me/919447908576?text=Hi%2C%20I%20am%20a%20hotel%20owner%20in%20Kerala%20and%20want%20to%20upgrade%20my%20listing" class="btn btn-outline btn-lg" style="color:#ffffff; border-color:rgba(255,255,255,0.6); border-radius:30px; padding:14px 32px;" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp" style="margin-right:8px; color:#25d366;"></i> Chat with Partner Desk
         </a>
       </div>
 
@@ -918,11 +918,11 @@
       <h2>Prefer to Speak with a Partner Manager?</h2>
       <p>Have questions regarding bulk property listings, resort marketing partnerships, or custom integration? Our Kerala team is available 7 days a week.</p>
       <div class="connect-buttons-row">
-        <a href="https://wa.me/919447000000?text=Hi%20HotelsNearMeInKerala%20Team%2C%20I%20am%20a%20hotel%20owner%20and%20would%20like%20to%20discuss%20partnering%20and%20upgrading%20my%20listing." class="btn-whatsapp-partner" target="_blank" rel="noopener">
-          <i class="fab fa-whatsapp" style="font-size:20px;"></i> Chat on WhatsApp (+91 94470 00000)
+        <a href="https://wa.me/919447908576?text=Hi%20HotelsNearMeInKerala%20Team%2C%20I%20am%20a%20hotel%20owner%20and%20would%20like%20to%20discuss%20partnering%20and%20upgrading%20my%20listing." class="btn-whatsapp-partner" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp" style="font-size:20px;"></i> Chat on WhatsApp (+91 9447908576)
         </a>
-        <a href="tel:+919447000000" class="btn-call-partner">
-          <i class="fas fa-phone-alt"></i> Call Partner Desk
+        <a href="tel:+919447908576" class="btn-call-partner">
+          <i class="fas fa-phone-alt"></i> Call Partner Desk (+91 9447908576)
         </a>
       </div>
     </div>
@@ -1114,10 +1114,8 @@
             price: price,
             rating: 4.5,
             reviews_count: 0,
-            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-            images: [
-              "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
-            ],
+            image: "/assets/images/riverside.webp",
+            images: [],
             map_url: mapsUrl,
             whatsapp: whatsapp,
             description: desc || `${name} is a certified accommodation located in ${city}, ${district}, Kerala offering comfortable stays at best rates.`,
@@ -1133,14 +1131,18 @@
           console.warn("Supabase insertion fallback:", err);
         }
 
-        // WhatsApp Fast-Track URL for Owner
-        const waText = encodeURIComponent(`Hello HotelsNearMeInKerala Team,\n\nI just submitted my property:\n🏨 *${name}*\n📍 *${city}, ${district}*\n💰 *Starting Rate:* ₹${price}\n📋 *Plan Selected:* ${plan.toUpperCase()}\n👤 *Owner:* ${contactName} (${whatsapp})\n\nPlease verify and fast-track my listing!`);
-        document.getElementById('modal-whatsapp-link').href = `https://wa.me/919447000000?text=${waText}`;
+        // WhatsApp Fast-Track URL for Owner & Admin Routing (Sent to 9447908576)
+        const waText = encodeURIComponent(`*New Hotel Listing Submission*\n\n🏨 *Property:* ${name}\n📂 *Category:* ${category}\n📍 *District:* ${district}\n🏙️ *City/Area:* ${city}\n🗺️ *Address:* ${address}\n🔗 *Google Maps:* ${mapsUrl || 'Not provided'}\n\n👤 *Owner Name:* ${contactName}\n📞 *Owner Phone:* ${phone}\n💬 *WhatsApp Leads To:* ${whatsapp}\n📧 *Owner Email:* ${email}\n🌐 *Website:* ${website || 'None'}\n\n💰 *Starting Rate:* ₹${price}/night\n🚪 *Rooms:* ${rooms}\n⭐ *Plan Selected:* ${plan.toUpperCase()}\n🛎️ *Amenities:* ${amenities.join(', ') || 'Standard'}\n\n_Admin Contact: directrajeev@gmail.com | WhatsApp: +91 9447908576_`);
+        const waUrl = `https://wa.me/919447908576?text=${waText}`;
 
+        document.getElementById('modal-whatsapp-link').href = waUrl;
         document.getElementById('success-modal').classList.add('show');
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Submit Property for Verification';
         form.reset();
+
+        // Automatically open WhatsApp in new tab for 1-click verification
+        window.open(waUrl, '_blank');
       });
     }
 

@@ -1490,20 +1490,20 @@ async function initHotelDetailPage() {
   }
   document.getElementById("sidebar-hotel-whatsapp").innerText = displayPhone;
 
+  const defaultWa = "919447908576";
+  let waNum = String(selectedHotel.whatsapp || defaultWa).replace(/\D/g, "");
+  if (waNum.length === 11 && waNum.startsWith("0")) waNum = waNum.substring(1);
+  if (waNum.length === 10) waNum = "91" + waNum;
+  if (!waNum || waNum.length < 10) waNum = defaultWa;
+
   const sidebarWaBtn = document.getElementById("sidebar-hotel-whatsapp-btn");
-  if (sidebarWaBtn && selectedHotel.whatsapp) {
-    let waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
-    if (waNum.length === 11 && waNum.startsWith("0")) waNum = waNum.substring(1);
-    if (waNum.length === 10) waNum = "91" + waNum;
+  if (sidebarWaBtn) {
     sidebarWaBtn.href = `https://wa.me/${waNum}?text=${encodeURIComponent(`Hello, I need help booking a stay at ${selectedHotel.name}.`)}`;
   }
 
-  // Set floating WhatsApp button for hotel-specific number
+  // Set floating WhatsApp button
   const floatWa = document.getElementById("float-whatsapp-btn");
-  if (floatWa && selectedHotel.whatsapp) {
-    let waNum = String(selectedHotel.whatsapp).replace(/\D/g, "");
-    if (waNum.length === 11 && waNum.startsWith("0")) waNum = waNum.substring(1);
-    if (waNum.length === 10) waNum = "91" + waNum;
+  if (floatWa) {
     const waMsg = encodeURIComponent(`Hi! I found ${selectedHotel.name} on HotelsNearMeInKerala.com and would like to enquire about availability and rates.`);
     floatWa.href = `https://wa.me/${waNum}?text=${waMsg}`;
     floatWa.title = `WhatsApp ${selectedHotel.name}`;

@@ -440,7 +440,7 @@ function generateHtml(page) {
     "name": "${page.h1}",
     "description": "${page.metaDescription.replace(/"/g, '\\"')}",
     "url": "${page.canonical}",
-    "telephone": "+91 94470 00000",
+    "telephone": "+91 94479 08576",
     "address": {
       "@type": "PostalAddress",
       "addressRegion": "Kerala",
@@ -552,7 +552,7 @@ function generateHtml(page) {
         <ul class="footer-links">
           <li><a href="/list-your-hotel.html" style="color:#ffd166; font-weight:700;">🏨 List Your Hotel (Free)</a></li>
           <li><a href="/list-your-hotel.html#property-listing-form">Featured Partner Upgrade</a></li>
-          <li><a href="https://wa.me/919447000000" target="_blank" rel="noopener">Partner WhatsApp Desk</a></li>
+          <li><a href="https://wa.me/919447908576" target="_blank" rel="noopener">Partner WhatsApp Desk (+91 9447908576)</a></li>
         </ul>
       </div>
     </div>
