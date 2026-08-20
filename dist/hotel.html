@@ -9,7 +9,7 @@
   <meta name="description" content="View hotel details, photos, guest reviews and amenities. Book your perfect stay in Munnar, Kochi, Alappuzha, Wayanad or anywhere in Kerala.">
   <meta name="keywords" content="Kerala hotel details, book resorts Kerala, hotel reviews Kerala, budget hotel booking Kerala">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#1a9e6e">
+  <meta name="theme-color" content="#0EA5E9">
   <link rel="canonical" href="https://hotelsnearmeinkera.la/hotel">
 
   <!-- Open Graph -->
@@ -38,9 +38,9 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
   <!-- Global Stylesheet -->
-  <script type="module" crossorigin src="/assets/data-C0KBlBI1.js"></script>
-  <script type="module" crossorigin src="/assets/app-CYt1ErKk.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-DcBi49sl.css">
+  <script type="module" crossorigin src="/assets/data-CGaKMkOA.js"></script>
+  <script type="module" crossorigin src="/assets/app-CcTbPObe.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-CxMFzYhM.css">
 </head>
 
 <body>
@@ -205,21 +205,21 @@
           </table>
         </div>
 
-        <!-- Location Section -->
+                        <!-- Location Section -->
         <div id="location" class="detail-section">
-          <h2>Location</h2>
-          <p style="font-size: 14px; color: var(--text-secondary);"><i class="fas fa-map-marker-alt"
+          <h2>Location &amp; Surrounding</h2>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;"><i class="fas fa-map-marker-alt"
               style="color: var(--primary);"></i> <span id="hotel-location-full">Kerala, India</span></p>
-          <div class="map-card" id="hotel-map-card">
-            <!-- Google Map embed — set dynamically from hotel.mapUrl -->
-            <iframe id="hotel-map-iframe" src="" allowfullscreen="" loading="lazy" style="display:none;"></iframe>
-            <div id="hotel-map-placeholder"
-              style="width:100%; height:320px; background:var(--light); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--text-secondary); border:1px dashed var(--border);">
-              <i class="fas fa-map" style="font-size:40px; opacity:0.3;"></i>
-              <span style="font-size:13px;">No map configured. Admin can set a Google Maps embed URL.</span>
+          <div class="map-card" id="hotel-map-card" style="border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: var(--white); box-shadow: 0 4px 18px rgba(0,0,0,0.05);">
+            <!-- Live Interactive Google Map -->
+            <iframe id="hotel-map-iframe" src="" allowfullscreen="" loading="lazy" style="display:block; width:100%; height:360px; border:none;"></iframe>
+            <div id="hotel-map-placeholder" style="display:none;"></div>
+            <div style="padding: 12px 18px; background: #FFFFFF; border-top: 1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+              <span style="font-size:13px; color:var(--text-secondary);"><i class="fas fa-map-marked-alt" style="color:var(--primary); margin-right:6px;"></i> Live interactive map with directions</span>
+              <a id="hotel-map-link" href="#" target="_blank" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:8px; border-radius:30px; font-weight:700; font-size:12.5px; text-decoration:none; padding:8px 18px;">
+                <i class="fas fa-directions"></i> Get Directions on Google Maps
+              </a>
             </div>
-            <a id="hotel-map-link" href="#" target="_blank" class="btn btn-primary map-overlay-btn"
-              style="display:none;">View on Google Maps</a>
           </div>
         </div>
 
@@ -459,7 +459,7 @@
   </div>
 
   <!-- Mobile WhatsApp Booking Modal -->
-  <div class="modal-overlay" id="mobile-booking-modal" style="z-index: 1050;">
+  <div class="modal-overlay" id="mobile-booking-modal">
     <div class="modal-box">
       <div class="modal-header">
         <h3>Enquire & Book Room</h3>
@@ -523,15 +523,15 @@
           <textarea id="mob-guest-requests" rows="2" placeholder="e.g. extra bed, late check-in..." style="width:100%; border:1px solid var(--border); padding:10px 12px; border-radius:var(--radius-sm); font-size:13px; outline:none; font-family:inherit; resize:none;"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:14px; font-weight:600; border-radius:8px; background:#25D366; border-color:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; gap:8px;">
-          Send Enquiry on WhatsApp <i class="fab fa-whatsapp" style="font-size: 18px;"></i>
+        <button type="submit" id="mobile-booking-submit-btn" class="btn btn-primary" style="width:100%; min-height:50px; padding:14px; font-size:15px; font-weight:700; border-radius:12px; background:#25D366; border-color:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; margin-bottom:20px; box-shadow:0 4px 14px rgba(37,211,102,0.4);">
+          Send Enquiry on WhatsApp <i class="fab fa-whatsapp" style="font-size: 19px;"></i>
         </button>
       </form>
     </div>
   </div>
 
   <!-- Online Booking Checkout Modal -->
-  <div class="modal-overlay" id="checkout-modal" style="z-index: 1100;">
+  <div class="modal-overlay" id="checkout-modal">
     <div class="modal-box" style="max-width: 550px; width: 90%;">
       <!-- Loading State Overlay -->
       <div id="checkout-loading"
@@ -626,7 +626,7 @@
   </div>
 
   <!-- Booking Success Modal -->
-  <div class="modal-overlay" id="booking-success-modal" style="z-index: 1100;">
+  <div class="modal-overlay" id="booking-success-modal">
     <div class="modal-box" style="max-width: 500px; width: 90%; text-align: center;">
       <div style="padding: 20px 0;">
         <div
@@ -727,6 +727,37 @@
     </div>
   </footer>
 
+  <!-- Fullscreen Photo Lightbox Modal -->
+  <div id="photo-lightbox-modal" class="lightbox-overlay" style="display:none;">
+    <div class="lightbox-header">
+      <div class="lightbox-title-wrap">
+        <h3 id="lightbox-hotel-title">Hotel Gallery</h3>
+        <span id="lightbox-counter">1 / 5</span>
+      </div>
+      <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close Lightbox">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="lightbox-stage">
+      <button class="lightbox-nav-btn prev" id="lightbox-prev-btn" aria-label="Previous Photo">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="lightbox-img-wrapper" style="flex-direction: column; gap: 8px;">
+        <img id="lightbox-main-img" src="" alt="Hotel Photo Full View">
+        <div id="lightbox-caption" style="text-align:center; color:#E2E8F0; font-size:13.5px; font-weight:500; margin-top:8px; max-width:800px; line-height:1.4;"></div>
+      </div>
+      <button class="lightbox-nav-btn next" id="lightbox-next-btn" aria-label="Next Photo">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="lightbox-thumbnails" id="lightbox-thumbnails-strip">
+      <!-- Thumbnails injected dynamically -->
+    </div>
+  </div>
+
+
   <!-- Floating WhatsApp Button -->
   <a id="float-whatsapp-btn" href="#" target="_blank"
     style="display:none; position:fixed; bottom:24px; right:20px; z-index:9000; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; align-items:center; justify-content:center; font-size:26px; box-shadow:0 4px 20px rgba(37,211,102,0.5); text-decoration:none; transition:transform 0.2s;"
@@ -770,9 +801,7 @@
     </a>
   </nav>
 
-  <!-- App Script -->
-
-  <!-- Deferred Font Awesome Loader (Completely removes 250KB font request from critical paint path) -->
+  <!-- App Script --><!-- Deferred Font Awesome Loader (Completely removes 250KB font request from critical paint path) -->
   <script>
     window.addEventListener('load', function() {
       setTimeout(function() {

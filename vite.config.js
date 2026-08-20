@@ -140,6 +140,8 @@ export default defineConfig({
     }
   },
   build: {
+    target: 'es2018',           // modern browsers — smaller output than es5
+    chunkSizeWarningLimit: 400, // warn when any chunk exceeds 400KB
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
@@ -160,6 +162,19 @@ export default defineConfig({
         trivandrum: resolve(__dirname, 'hotels-in-thiruvananthapuram.html'),
         budgetHotels: resolve(__dirname, 'budget-hotels-in-kerala.html'),
         resorts: resolve(__dirname, 'resorts-in-kerala.html'),
+      },
+      output: {
+        // Split vendor libs into a shared cached chunk
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // Firebase: large, versioned — keep separate so cached across pages
+            if (id.includes('firebase')) return 'vendor-firebase';
+            // Supabase: also large and versioned
+            if (id.includes('@supabase') || id.includes('supabase')) return 'vendor-supabase';
+            // Everything else in node_modules
+            return 'vendor';
+          }
+        },
       },
     },
   },

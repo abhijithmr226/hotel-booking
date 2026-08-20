@@ -5717,7 +5717,8 @@ a.district-tag:hover {
 
 .hotel-card-tax-info {
   font-size: 11px;
-  color: #94A3B8;
+  /* Darkened from #94A3B8 → #64748B to meet WCAG AA 4.5:1 contrast on white */
+  color: #64748B;
   margin-top: 3px;
 }
 
