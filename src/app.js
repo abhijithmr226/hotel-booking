@@ -66,12 +66,13 @@ async function syncUserSession(firebaseUser) {
   const profile = await getUserByUid(firebaseUser.uid);
   const adminEmail = "directrajeev@gmail.com";
   const role = (firebaseUser.email === adminEmail || firebaseUser.email === "admin@hotelsnearme.com" || profile?.role === "admin") ? "admin" : "user";
+  const userName = profile?.name || firebaseUser.displayName || firebaseUser.email.split("@")[0];
   const userData = {
     uid: firebaseUser.uid,
-    name: profile?.name || firebaseUser.displayName || firebaseUser.email.split("@")[0],
+    name: userName,
     email: firebaseUser.email,
     phone: profile?.phone || firebaseUser.phoneNumber || "",
-    photoURL: profile?.photoURL || firebaseUser.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80",
+    photoURL: profile?.photoURL || firebaseUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=108569&color=fff`,
     role,
     status: profile?.status || "active"
   };
@@ -822,7 +823,7 @@ function getHotelCardHtml(h, isFav) {
              width="600" height="375"
              loading="lazy"
              decoding="async"
-             onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=600&q=75'">
+             onerror="this.src='/assets/images/riverside.webp'">
         <span class="hotel-card-badge">${escapeHTML(badgeText)}</span>
         <button class="hotel-card-wishlist" aria-label="Save to Wishlist" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
@@ -895,20 +896,8 @@ let appliedCoupon = null;
 let currentHotelRooms = [];
 
 function getRoomImage(roomType) {
-  const type = (roomType || "").toLowerCase();
-  if (type.includes("suite")) {
-    return "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80";
-  }
-  if (type.includes("deluxe") || type.includes("premium")) {
-    return "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=600&q=80";
-  }
-  if (type.includes("villa")) {
-    return "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80";
-  }
-  if (type.includes("houseboat")) {
-    return "https://images.unsplash.com/photo-1593692909825-44b7b37a4d76?auto=format&fit=crop&w=600&q=80";
-  }
-  return "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80";
+  if (selectedHotel?.image) return selectedHotel.image;
+  return '/assets/images/riverside.webp';
 }
 
 function renderRoomCards(hotelRooms, activeRoomId) {
@@ -927,7 +916,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
 
   roomsContainer.innerHTML = hotelRooms.map((r) => {
     const isSelected = r.id === activeRoomId;
-    const roomImg = getRoomImage(r.type);
+    const roomImg = r.image || getRoomImage(r.type);
     const capacityText = `${r.capacity} Guest${r.capacity > 1 ? 's' : ''}`;
     const bedText = `${r.beds} Bed${r.beds > 1 ? 's' : ''}`;
     const amHtml = (r.amenities || []).map(a => `<span class="room-amenity-tag">${a}</span>`).join("");
@@ -935,7 +924,7 @@ function renderRoomCards(hotelRooms, activeRoomId) {
     return `
       <div class="room-card ${isSelected ? 'selected' : ''}" data-room-id="${r.id}">
         <div class="room-card-image">
-          <img src="${roomImg}" alt="${r.type}" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80'">
+          <img src="${roomImg}" alt="${r.type}" onerror="this.src='/assets/images/riverside.webp'">
         </div>
         <div class="room-card-content">
           <div>
@@ -4455,7 +4444,7 @@ function renderHotelsTableData(list) {
     const isFeatured = !!h.featured;
     const isTrending = !!h.trending;
     const isActive = h.status === 'active';
-    const placeholderImg = "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=80&q=60";
+    const placeholderImg = "/assets/images/riverside.webp";
     return `
       <tr style="transition:background .15s;" onmouseover="this.style.background='#fafffe'" onmouseout="this.style.background=''">
         <td>
@@ -4736,7 +4725,7 @@ window.renderAdminReviewsTable = function() {
     <tr>
       <td>
         <div style="display:flex; align-items:center; gap:8px;">
-          <img src="${r.userPhoto || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
+          <img src="${r.userPhoto || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(r.userName || 'User') + '&background=108569&color=fff')}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
           <span style="font-weight:500;">${escapeHTML(r.userName)}</span>
         </div>
       </td>
