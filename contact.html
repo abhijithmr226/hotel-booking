@@ -4,295 +4,384 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <title>Contact Us | HotelsNearMeInKerala.com</title>
-  <meta name="description" content="Contact HotelsNearMeInKerala.com for hotel booking support, listing enquiries, or travel assistance across Kerala. We're here to help.">
+  <title>Contact Us | HotelsNearMeInKerala.com - Customer Support & Partner Desk</title>
+  <meta name="description" content="Contact HotelsNearMeInKerala.com for hotel reservations, partner listings, WhatsApp assistance, or travel inquiries across all 14 Kerala districts.">
+  <meta name="keywords" content="contact hotels near me in kerala, kerala hotel booking support, list hotel enquiry, kerala tourism contact">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#0EA5E9">
-  <link rel="canonical" href="https://hotelsnearmeinkera.la/contact">
+  <meta name="theme-color" content="#108569">
+  <link rel="canonical" href="https://www.hotelsnearmeinkerala.com/contact.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Contact Us | HotelsNearMeInKerala.com">
-  <meta property="og:description" content="Contact HotelsNearMeInKerala.com for hotel booking support, listing enquiries, or travel assistance across Kerala. We're here to help.">
-  <meta property="og:image" content="https://hotelsnearmeinkera.la/sharing-banner.webp">
-  <meta property="og:url" content="https://hotelsnearmeinkera.la/contact">
+  <meta property="og:description" content="Contact HotelsNearMeInKerala.com for hotel booking support, listing enquiries, or travel assistance across Kerala.">
+  <meta property="og:image" content="https://www.hotelsnearmeinkerala.com/logo.webp">
+  <meta property="og:url" content="https://www.hotelsnearmeinkerala.com/contact.html">
   <meta property="og:site_name" content="HotelsNearMeInKerala.com">
-  <meta property="og:locale" content="en_IN">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Contact Us | HotelsNearMeInKerala.com">
-  <meta name="twitter:description" content="Contact HotelsNearMeInKerala.com for hotel booking support, listing enquiries, or travel assistance across Kerala.">
-  <meta name="twitter:image" content="https://hotelsnearmeinkera.la/sharing-banner.webp">
-
-  <!-- Preconnect -->
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <!-- Font Awesome (non-blocking) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <!-- Google Fonts via <link> (no redirect, no render-blocking) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <link rel="stylesheet" href="/src/style.css?v=2">
+  <link rel="stylesheet" href="/src/style.css">
   <style>
-    .page-hero { background:linear-gradient(135deg,var(--primary) 0%,#0d6b56 100%); color:#fff; padding:70px 0 50px; text-align:center; }
-    .page-hero h1 { color:#fff; font-size:38px; margin-bottom:12px; }
-    .page-hero p { font-size:17px; opacity:.9; max-width:580px; margin:0 auto; }
-    .contact-layout { display:grid; grid-template-columns:1fr 1.4fr; gap:50px; padding:60px 0; align-items:start; }
-    .contact-info h2 { font-size:24px; margin-bottom:20px; }
-    .contact-item { display:flex; gap:16px; align-items:flex-start; margin-bottom:28px; }
-    .contact-icon { width:46px; height:46px; background:var(--primary-light); border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:18px; flex-shrink:0; }
-    .contact-item h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
-    .contact-item p, .contact-item a { font-size:14px; color:var(--text-secondary); text-decoration:none; }
-    .contact-item a:hover { color:var(--primary); }
-    .contact-form-card { background:#fff; border-radius:20px; padding:36px; border:1px solid var(--border); box-shadow:0 4px 24px rgba(0,0,0,.06); }
-    .contact-form-card h3 { font-size:20px; margin-bottom:24px; }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .form-group { margin-bottom:18px; }
-    .form-group label { display:block; font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
-    .form-group input, .form-group select, .form-group textarea { width:100%; border:1.5px solid var(--border); border-radius:10px; padding:11px 14px; font-size:14px; font-family:inherit; outline:none; transition:border-color .2s; background:var(--light); }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--primary); background:#fff; }
-    .form-group textarea { resize:vertical; min-height:120px; }
-    .form-success { display:none; text-align:center; padding:30px; }
-    .form-success i { font-size:48px; color:var(--primary); margin-bottom:16px; display:block; }
-    @media(max-width:768px){
-      .contact-layout { grid-template-columns:1fr; gap:30px; padding:40px 0; }
-      .form-row { grid-template-columns:1fr; }
-      .page-hero h1 { font-size:26px; }
-      .contact-form-card { padding:24px 18px; }
+    .contact-page-hero {
+      background: linear-gradient(135deg, #09382b 0%, #108569 100%);
+      color: #fff;
+      padding: 64px 20px 80px;
+      text-align: center;
+      position: relative;
+    }
+    .contact-page-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 12px;
+    }
+    .contact-page-hero p {
+      font-size: clamp(14.5px, 1.8vw, 17px);
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .contact-layout-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 48px;
+      padding: 56px 0 80px;
+      align-items: start;
+    }
+    .contact-info-col h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 12px;
+    }
+    .contact-item-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+    .contact-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #E8F5F1;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #108569;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .contact-item-row h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 3px;
+    }
+    .contact-item-row p, .contact-item-row a {
+      font-size: 13.5px;
+      color: #64748B;
+      text-decoration: none;
+      margin: 0;
+    }
+    .contact-item-row a:hover {
+      color: #108569;
+      text-decoration: underline;
+    }
+    .contact-form-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 36px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+    .contact-form-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 0 0 20px;
+    }
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group-field {
+      margin-bottom: 18px;
+    }
+    .form-group-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .form-group-field input,
+    .form-group-field select,
+    .form-group-field textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #F8FAFC;
+      box-sizing: border-box;
+    }
+    .form-group-field input:focus,
+    .form-group-field select:focus,
+    .form-group-field textarea:focus {
+      border-color: #108569;
+      background: #FFFFFF;
+    }
+    .form-group-field textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-success-box {
+      display: none;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .form-success-box i {
+      font-size: 48px;
+      color: #108569;
+      margin-bottom: 16px;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .contact-layout-wrap {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 40px 0;
+      }
+      .form-row-2col {
+        grid-template-columns: 1fr;
+      }
+      .contact-form-card {
+        padding: 24px 18px;
+      }
     }
   </style>
-  
 </head>
-<body>
+<body style="background-color: #F8FAFC;">
+
+  <!-- Header -->
   <header>
     <div class="container">
-      <a href="/index.html" class="logo"><img src="/logo.webp" alt="HotelsNearMeInKerala.com"></a>
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+      <a href="/index.html" class="logo">
+        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
+      </a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav id="main-nav">
         <div class="mobile-drawer-header">
-        <img src="/logo.webp" alt="Logo" class="drawer-logo">
-        <span class="drawer-greeting">Welcome to Kerala!</span>
-      </div>
-      <div class="mobile-drawer-actions">
-        <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
-      </div>
-      <ul>
+          <img src="/logo.webp" alt="Logo" class="drawer-logo">
+          <span class="drawer-greeting">Kerala Stays Desk</span>
+        </div>
+        <div class="mobile-drawer-actions">
+          <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
+          <a href="/list-your-hotel.html" class="btn btn-primary btn-sm">🏨 List Your Hotel</a>
+        </div>
+        <ul>
           <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="/index.html#hotels-near-you"><i class="fas fa-hotel"></i> Hotels</a></li>
-          <li><a href="/about.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="/categories.html"><i class="fas fa-th-large"></i> Categories</a></li>
           <li class="active"><a href="/contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+          <li><a href="/list-your-hotel.html"><i class="fas fa-plus-circle"></i> Partner Desk</a></li>
         </ul>
       </nav>
       <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
       <div class="header-right">
-        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px;">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm" style="border-radius:30px;">Register</a>
+        <a href="/list-your-hotel.html" class="btn btn-outline btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px; font-weight:700; color:var(--primary); border-color:var(--primary);">🏨 List Your Hotel</a>
+        <a href="/login.html" class="btn btn-primary btn-sm" style="border-radius:30px; padding:8px 18px; font-size:13px; font-weight:700;">Sign In</a>
       </div>
     </div>
   </header>
 
-  <section class="page-hero">
+  <!-- Hero Section -->
+  <section class="contact-page-hero">
     <div class="container">
-      <h1>Contact Us</h1>
-      <p>Have a question, need support, or want to list your property? We'd love to hear from you.</p>
+      <h1>Contact Our Team</h1>
+      <p>Have a question about a Kerala stay, need booking support, or want to list your property? Reach our team directly on WhatsApp or email.</p>
     </div>
   </section>
 
-  
-  <link rel="stylesheet" href="/src/style.css?v=2">
-  <style>
-    .page-hero { background:linear-gradient(135deg,var(--primary) 0%,#0d6b56 100%); color:#fff; padding:70px 0 50px; text-align:center; }
-    .page-hero h1 { color:#fff; font-size:38px; margin-bottom:12px; }
-    .page-hero p { font-size:17px; opacity:.9; max-width:580px; margin:0 auto; }
-    .contact-layout { display:grid; grid-template-columns:1fr 1.4fr; gap:50px; padding:60px 0; align-items:start; }
-    .contact-info h2 { font-size:24px; margin-bottom:20px; }
-    .contact-item { display:flex; gap:16px; align-items:flex-start; margin-bottom:28px; }
-    .contact-icon { width:46px; height:46px; background:var(--primary-light); border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:18px; flex-shrink:0; }
-    .contact-item h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
-    .contact-item p, .contact-item a { font-size:14px; color:var(--text-secondary); text-decoration:none; }
-    .contact-item a:hover { color:var(--primary); }
-    .contact-form-card { background:#fff; border-radius:20px; padding:36px; border:1px solid var(--border); box-shadow:0 4px 24px rgba(0,0,0,.06); }
-    .contact-form-card h3 { font-size:20px; margin-bottom:24px; }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .form-group { margin-bottom:18px; }
-    .form-group label { display:block; font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
-    .form-group input, .form-group select, .form-group textarea { width:100%; border:1.5px solid var(--border); border-radius:10px; padding:11px 14px; font-size:14px; font-family:inherit; outline:none; transition:border-color .2s; background:var(--light); }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--primary); background:#fff; }
-    .form-group textarea { resize:vertical; min-height:120px; }
-    .form-success { display:none; text-align:center; padding:30px; }
-    .form-success i { font-size:48px; color:var(--primary); margin-bottom:16px; display:block; }
-    @media(max-width:768px){
-      .contact-layout { grid-template-columns:1fr; gap:30px; padding:40px 0; }
-      .form-row { grid-template-columns:1fr; }
-      .page-hero h1 { font-size:26px; }
-      .contact-form-card { padding:24px 18px; }
-    }
-  </style>
-  
-</head>
-<body>
-  <header>
+  <!-- Main Content Layout -->
+  <main>
     <div class="container">
-      <a href="/index.html" class="logo"><img src="/logo.webp" alt="HotelsNearMeInKerala.com"></a>
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
-      <nav id="main-nav">
-        <div class="mobile-drawer-header">
-        <img src="/logo.webp" alt="Logo" class="drawer-logo">
-        <span class="drawer-greeting">Welcome to Kerala!</span>
-      </div>
-      <div class="mobile-drawer-actions">
-        <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm">Register</a>
-      </div>
-      <ul>
-          <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="/index.html#hotels-near-you"><i class="fas fa-hotel"></i> Hotels</a></li>
-          <li><a href="/about.html"><i class="fas fa-info-circle"></i> About</a></li>
-          <li class="active"><a href="/contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-        </ul>
-      </nav>
-      <div class="nav-backdrop" onclick="document.getElementById('mobile-menu-btn').click()"></div>
-      <div class="header-right">
-        <a href="/login.html" class="btn btn-outline btn-sm" style="border-radius:30px;">Sign In</a>
-        <a href="/login.html#register" class="btn btn-primary btn-sm" style="border-radius:30px;">Register</a>
-      </div>
-    </div>
-  </header>
-
-  <section class="page-hero">
-    <div class="container">
-      <h1>Contact Us</h1>
-      <p>Have a question, need support, or want to list your property? We'd love to hear from you.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="contact-layout">
-        <div class="contact-info">
+      <div class="contact-layout-wrap">
+        <div class="contact-info-col">
           <h2>Get In Touch</h2>
-          <p style="color:var(--text-secondary); font-size:14.5px; line-height:1.8; margin-bottom:32px;">Whether you need help with a booking, want to list your hotel, or just have a question about travelling in Kerala — we're here to help.</p>
+          <p style="color:#64748B; font-size:14.5px; line-height:1.7; margin-bottom:28px;">Whether you're planning a holiday in God's Own Country or managing a hotel property in Kerala, we're here to assist you.</p>
 
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-item-row">
+            <div class="contact-icon-box"><i class="fab fa-whatsapp" style="color:#25D366; font-size:22px;"></i></div>
             <div>
-              <h4>Email Us</h4>
-              <a href="mailto:directrajeev@gmail.com">directrajeev@gmail.com</a>
-              <p>We reply within 24 hours</p>
+              <h4>Official WhatsApp Support Desk</h4>
+              <a href="https://wa.me/919447908576" target="_blank" style="font-weight:700; color:#108569;">+91 9447908576 (Chat on WhatsApp)</a>
+              <p>Instant support &amp; fast responses (9 AM – 9 PM IST)</p>
             </div>
           </div>
 
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-item-row">
+            <div class="contact-icon-box"><i class="fas fa-envelope"></i></div>
             <div>
-              <h4>Call Us</h4>
-              <a href="tel:+919447908576">+91 9447908576</a>
-              <p>Mon–Sat, 9 AM – 6 PM IST</p>
+              <h4>Official Email</h4>
+              <a href="mailto:directrajeev@gmail.com" style="font-weight:700; color:#108569;">directrajeev@gmail.com</a>
+              <p>For general inquiries &amp; business partnerships</p>
             </div>
           </div>
 
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="contact-item-row">
+            <div class="contact-icon-box"><i class="fas fa-phone-alt"></i></div>
             <div>
-              <h4>WhatsApp</h4>
-              <a href="https://wa.me/919447908576" target="_blank">+91 9447908576</a>
-              <p>Quick replies via WhatsApp</p>
+              <h4>Direct Phone</h4>
+              <a href="tel:+919447908576" style="font-weight:700; color:#108569;">+91 9447908576</a>
+              <p>Mon–Sat, 9:00 AM – 7:00 PM IST</p>
             </div>
           </div>
 
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-item-row">
+            <div class="contact-icon-box"><i class="fas fa-map-marker-alt"></i></div>
             <div>
-              <h4>Location</h4>
-              <p>Kochi, Kerala, India — 682 001</p>
+              <h4>Headquarters</h4>
+              <p style="font-weight:600; color:#1E293B;">Kochi, Kerala, India — 682 001</p>
+              <p>Serving all 14 districts across Kerala</p>
             </div>
           </div>
 
-          <div style="margin-top:32px; padding:20px; background:var(--primary-light); border-radius:14px; border:1px solid rgba(16,133,105,.2);">
-            <h4 style="font-size:14px; color:var(--primary); margin-bottom:8px;"><i class="fas fa-building" style="margin-right:6px;"></i>Want to List Your Hotel?</h4>
-            <p style="font-size:13px; color:var(--text-secondary); margin:0; line-height:1.7;">We welcome hotels, resorts, homestays, and houseboats across all 14 Kerala districts. <a href="/list-your-hotel.html" style="color:var(--primary); font-weight:700;">List your property for free here</a>.</p>
+          <div style="padding:22px; background:#E8F5F1; border-radius:14px; border:1px solid rgba(16,133,105,.25); margin-top:28px;">
+            <h4 style="font-size:15px; color:#09634E; margin:0 0 8px; font-weight:800;"><i class="fas fa-hotel" style="margin-right:6px;"></i>Hotel Owner or Resort Manager?</h4>
+            <p style="font-size:13px; color:#334155; margin:0; line-height:1.6;">List your property to receive direct traveler inquiries with 0% commission. <a href="/list-your-hotel.html" style="color:#09634E; font-weight:800; text-decoration:underline;">Click here to list your hotel</a>.</p>
           </div>
         </div>
 
         <div class="contact-form-card">
           <h3>Send Us a Message</h3>
           <form id="contact-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label>Your Name</label>
+            <div class="form-row-2col">
+              <div class="form-group-field">
+                <label>Your Name *</label>
                 <input type="text" id="contact-name-input" placeholder="Full name" required>
               </div>
-              <div class="form-group">
-                <label>Email Address</label>
+              <div class="form-group-field">
+                <label>Email Address *</label>
                 <input type="email" id="contact-email-input" placeholder="you@email.com" required>
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Phone (optional)</label>
+            <div class="form-row-2col">
+              <div class="form-group-field">
+                <label>Phone / WhatsApp Number</label>
                 <input type="tel" id="contact-phone-input" placeholder="+91 94479 08576">
               </div>
-              <div class="form-group">
-                <label>Subject</label>
+              <div class="form-group-field">
+                <label>Inquiry Type</label>
                 <select id="contact-subject-input">
-                  <option value="Booking Support">Booking Support</option>
-                  <option value="List My Hotel">List My Hotel</option>
-                  <option value="General Enquiry">General Enquiry</option>
-                  <option value="Partnership">Partnership</option>
+                  <option value="Booking Inquiry">Booking Inquiry</option>
+                  <option value="List My Hotel">List My Hotel (Partner Desk)</option>
+                  <option value="General Support">General Support</option>
+                  <option value="Advertising & Featured Tier">Advertising &amp; Featured Tier</option>
                   <option value="Feedback">Feedback</option>
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label>Message</label>
-              <textarea id="contact-msg-input" placeholder="Tell us how we can help…" required></textarea>
+            <div class="form-group-field">
+              <label>Message *</label>
+              <textarea id="contact-msg-input" placeholder="Please describe how we can help you..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; border-radius:10px; height:48px; font-size:15px;">
-              <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Send Message to WhatsApp Desk
+            <button type="submit" class="btn btn-primary" style="width:100%; border-radius:12px; height:50px; font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <i class="fab fa-whatsapp" style="font-size:18px;"></i> Send Message to WhatsApp Desk
             </button>
           </form>
-          <div class="form-success" id="form-success">
+          <div class="form-success-box" id="form-success">
             <i class="fas fa-check-circle"></i>
-            <h3>Message Sent!</h3>
-            <p style="color:var(--text-secondary); margin-bottom: 16px;">Thank you for reaching out. We have opened WhatsApp to confirm your message.</p>
-            <a id="wa-handoff-btn" href="https://wa.me/919447908576" target="_blank" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:8px;">
+            <h3 style="font-family:'Outfit',sans-serif; font-size:22px; font-weight:800; color:#0F172A; margin:0 0 8px;">Message Sent Successfully!</h3>
+            <p style="color:#64748B; margin-bottom: 20px; font-size:14px;">Thank you for reaching out. We have opened WhatsApp to connect you directly with our support team.</p>
+            <a id="wa-handoff-btn" href="https://wa.me/919447908576" target="_blank" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:30px; font-weight:700;">
               <i class="fab fa-whatsapp"></i> Continue on WhatsApp
             </a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
-  <footer>
+  <!-- Standard 5-Column Footer -->
+  <footer style="background: #0F172A; color: #94A3B8; padding: 60px 0 30px; border-top: 1px solid #1E293B;">
     <div class="container">
-      <div class="footer-brand">
-        <img src="/logo.webp" alt="HotelsNearMeInKerala.com">
-        <p>Your trusted travel partner for booking the best hotels, resorts, homestays and houseboats across Kerala.</p>
-        <div class="footer-socials">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 36px; margin-bottom: 40px;">
+        <div>
+          <img src="/logo.webp" alt="HotelsNearMeInKerala.com" style="height: 38px; filter: brightness(0) invert(1); margin-bottom: 14px;">
+          <p style="font-size: 13px; line-height: 1.6; color: #94A3B8;">Kerala's dedicated local hotel directory connecting travelers directly to verified properties with 0% booking commission.</p>
+          <div style="display: flex; gap: 12px; margin-top: 16px;">
+            <a href="https://wa.me/919447908576" target="_blank" style="color: #25D366; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:directrajeev@gmail.com" style="color: #38BDF8; font-size: 18px;"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 14px; font-weight: 700; margin-bottom: 14px;">Top Destinations</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; line-height: 2;">
+            <li><a href="/hotels-in-munnar.html" style="color: inherit; text-decoration: none;">Hotels in Munnar</a></li>
+            <li><a href="/hotels-in-kochi.html" style="color: inherit; text-decoration: none;">Hotels in Kochi</a></li>
+            <li><a href="/houseboats-in-alleppey.html" style="color: inherit; text-decoration: none;">Houseboats in Alleppey</a></li>
+            <li><a href="/hotels-in-wayanad.html" style="color: inherit; text-decoration: none;">Resorts in Wayanad</a></li>
+            <li><a href="/hotels-in-varkala.html" style="color: inherit; text-decoration: none;">Hotels in Varkala</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 14px; font-weight: 700; margin-bottom: 14px;">Stay Categories</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; line-height: 2;">
+            <li><a href="/resorts-in-kerala.html" style="color: inherit; text-decoration: none;">Luxury Resorts</a></li>
+            <li><a href="/treehouse-resorts-in-kerala.html" style="color: inherit; text-decoration: none;">Treehouse Stays</a></li>
+            <li><a href="/ayurveda-resorts-in-kerala.html" style="color: inherit; text-decoration: none;">Ayurveda Sanctuaries</a></li>
+            <li><a href="/budget-hotels-in-kerala.html" style="color: inherit; text-decoration: none;">Budget Accommodations</a></li>
+            <li><a href="/categories.html" style="color: inherit; text-decoration: none;">All 16 Categories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 14px; font-weight: 700; margin-bottom: 14px;">Hotel Partners</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; line-height: 2;">
+            <li><a href="/list-your-hotel.html" style="color: inherit; text-decoration: none;">🏨 List Your Property</a></li>
+            <li><a href="/admin.html" style="color: inherit; text-decoration: none;">Partner Dashboard</a></li>
+            <li><a href="https://wa.me/919447908576" target="_blank" style="color: inherit; text-decoration: none;">WhatsApp Partner Desk</a></li>
+            <li><a href="/contact.html" style="color: inherit; text-decoration: none;">Contact Support</a></li>
+          </ul>
         </div>
       </div>
-      <div>
-        <h3>Company</h3>
-        <ul>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/contact.html">Contact Us</a></li>
-          <li><a href="/list-your-hotel.html">List Your Hotel</a></li>
-          <li><a href="/privacy.html">Privacy Policy</a></li>
-          <li><a href="/terms.html">Terms &amp; Conditions</a></li>
-          <li><a href="/cancellation.html">Cancellation Policy</a></li>
-        </ul>
+      <div style="border-top: 1px solid #1E293B; padding-top: 24px; text-align: center; font-size: 12px; color: #64748B;">
+        <p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved. Direct Hotel WhatsApp Booking Platform.</p>
       </div>
     </div>
-    <div class="footer-bottom"><p>&copy; 2026 HotelsNearMeInKerala.com. All rights reserved.</p></div>
   </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="/index.html" class="mob-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="/index.html#hotels-near-you" class="mob-nav-item"><i class="fas fa-search"></i><span>Search</span></a>
+    <a href="/categories.html" class="mob-nav-item"><i class="fas fa-th-large"></i><span>Categories</span></a>
+    <a href="/list-your-hotel.html" class="mob-nav-item"><i class="fas fa-hotel"></i><span>List Hotel</span></a>
+    <a href="/contact.html" class="mob-nav-item active"><i class="fas fa-envelope"></i><span>Contact</span></a>
+  </nav>
 
   <script>
     document.getElementById('contact-form').addEventListener('submit', function(e) {
@@ -303,7 +392,7 @@
       const subject = document.getElementById('contact-subject-input').value;
       const msg = document.getElementById('contact-msg-input').value.trim();
 
-      const text = encodeURIComponent(`*New Inquiry via HotelsNearMeInKerala*\n\n👤 *Name:* ${name}\n📧 *Email:* ${email}\n📞 *Phone:* ${phone || 'Not provided'}\n📌 *Subject:* ${subject}\n💬 *Message:* ${msg}`);
+      const text = encodeURIComponent(`*New Inquiry via HotelsNearMeInKerala Contact Page*\n\n👤 *Name:* ${name}\n📧 *Email:* ${email}\n📞 *Phone:* ${phone || 'Not provided'}\n📌 *Subject:* ${subject}\n💬 *Message:* ${msg}`);
       const waUrl = `https://wa.me/919447908576?text=${text}`;
 
       document.getElementById('wa-handoff-btn').href = waUrl;
@@ -313,21 +402,13 @@
       // Automatically open WhatsApp in new tab
       window.open(waUrl, '_blank');
     });
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-      document.getElementById('main-nav')?.classList.toggle('mobile-open');
-    });
-  </script>
 
-  <!-- Deferred Font Awesome Loader (Completely removes 250KB font request from critical paint path) -->
-  <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-        document.head.appendChild(link);
-      }, 1500);
-    });
+    // Mobile nav toggle
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+    if (menuBtn && nav) {
+      menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
+    }
   </script>
 </body>
 </html>
