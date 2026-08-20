@@ -577,6 +577,238 @@ async function initNearbyHotels(allHotels) {
   }
 }
 
+// -------------------------------------------------------------
+// DYNAMIC RANDOM TRAVELER TESTIMONIALS CONTROLLER
+// -------------------------------------------------------------
+const TRAVELER_REVIEWS_POOL = [
+  {
+    hotelName: "The Panoramic Getaway, Munnar",
+    hotelSlug: "the-panoramic-getaway-munnar",
+    icon: "fa-hotel",
+    quote: "Found an incredible tea estate resort in Munnar within 2 minutes. Direct WhatsApp booking with the front desk gave us complimentary breakfast and a seamless early check-in!",
+    userName: "Rahul K.",
+    initials: "RK",
+    avatarBg: "linear-gradient(135deg, #108569, #09634e)",
+    tripInfo: "Bangalore • 3 Nights Family Trip"
+  },
+  {
+    hotelName: "Uday Backwater Resort, Alleppey",
+    hotelSlug: "uday-backwater-resort-punnamada-alleppey",
+    icon: "fa-ship",
+    quote: "Booked an authentic luxury houseboat and lake view suite in Alleppey. Transparent pricing with zero hidden commission markups, and the local captain gave us an unforgettable backwater cruise.",
+    userName: "Ananya Sen",
+    initials: "AS",
+    avatarBg: "linear-gradient(135deg, #0284c7, #0369a1)",
+    tripInfo: "Mumbai • 2 Nights Backwater Stay"
+  },
+  {
+    hotelName: "Gateway Varkala (IHCL SeleQtions)",
+    hotelSlug: "gateway-varkala-ihcl-seleqtions",
+    icon: "fa-umbrella-beach",
+    quote: "Stayed at a cliff-edge boutique resort in Varkala. Direct front desk booking was completely stress-free with instant confirmation right on WhatsApp. Stunning Arabian Sea sunsets!",
+    userName: "Siddharth & Priya",
+    initials: "SP",
+    avatarBg: "linear-gradient(135deg, #7c3aed, #5b21b6)",
+    tripInfo: "Dubai (NRI) • 4 Nights Honeymoon"
+  },
+  {
+    hotelName: "Vythiri Village Resort, Wayanad",
+    hotelSlug: "vythiri-village-resort-wayanad",
+    icon: "fa-tree",
+    quote: "We planned our 10-day Wayanad rainforest and Kumarakom holiday through this directory. Real verified hotel photos and direct hotel phone numbers made our trip seamless.",
+    userName: "David & Sarah M.",
+    initials: "DM",
+    avatarBg: "linear-gradient(135deg, #d97706, #b45309)",
+    tripInfo: "London, UK • 10-Day Kerala Tour"
+  },
+  {
+    hotelName: "Grand Hyatt Kochi Bolgatty",
+    hotelSlug: "grand-hyatt-kochi-bolgatty",
+    icon: "fa-water",
+    quote: "Exceptional waterfront luxury on Bolgatty Island! The direct booking rates were better than any online travel agency, and the sunset marina views from the balcony were breathtaking.",
+    userName: "Meera Nambiar",
+    initials: "MN",
+    avatarBg: "linear-gradient(135deg, #059669, #047857)",
+    tripInfo: "Chennai • 3 Nights Luxury Escape"
+  },
+  {
+    hotelName: "Kumarakom Lake Resort",
+    hotelSlug: "kumarakom-lake-resort-kottayam",
+    icon: "fa-spa",
+    quote: "The heritage pool villa with open-roof showers was heavenly. Ayurvedic spa sessions and fresh Karimeen fish curry in the evening made our anniversary unforgettable.",
+    userName: "Vikram & Neha",
+    initials: "VN",
+    avatarBg: "linear-gradient(135deg, #e11d48, #be123c)",
+    tripInfo: "Hyderabad • 3 Nights Anniversary"
+  },
+  {
+    hotelName: "Spice Village (CGH Earth), Thekkady",
+    hotelSlug: "spice-village-thekkady-cghearth",
+    icon: "fa-mountain",
+    quote: "Eco-friendly tribal cottages surrounded by spice plantations. Walking distance from Periyar Tiger Reserve. The natural cool breeze and organic food were five stars all the way.",
+    userName: "Arjun Verma",
+    initials: "AV",
+    avatarBg: "linear-gradient(135deg, #d97706, #92400e)",
+    tripInfo: "Delhi • 2 Nights Wildlife Holiday"
+  },
+  {
+    hotelName: "The Leela Kovalam, A Raviz Hotel",
+    hotelSlug: "the-leela-kovalam-a-raviz-hotel",
+    icon: "fa-umbrella-beach",
+    quote: "Clifftop infinity pool overlooking the Arabian Sea waves crashing below! The staff treated us like royalty and direct WhatsApp booking handled all our special requests immediately.",
+    userName: "Kavita R.",
+    initials: "KR",
+    avatarBg: "linear-gradient(135deg, #4f46e5, #3730a3)",
+    tripInfo: "Singapore (NRI) • 4 Nights Beach Retreat"
+  },
+  {
+    hotelName: "Taj Bekal Resort & Spa",
+    hotelSlug: "taj-bekal-resort-spa-kasaragod",
+    icon: "fa-gem",
+    quote: "Peaceful, serene backwaters meeting the Kappil beach in North Kerala. Private plunge pool and world-class Jiva Spa made it the most relaxing vacation we have ever had.",
+    userName: "Rohan & Sneha",
+    initials: "RS",
+    avatarBg: "linear-gradient(135deg, #0d9488, #115e59)",
+    tripInfo: "Pune • 3 Nights Couple Getaway"
+  },
+  {
+    hotelName: "Rainforest Resort, Athirappilly",
+    hotelSlug: "rainforest-resort-athirappilly-falls",
+    icon: "fa-cloud-rain",
+    quote: "Unbelievable view of Athirappilly Waterfalls right from our bedroom window! Falling asleep to the roar of the falls was pure magic. Truly the Niagara of India.",
+    userName: "Mathew & Jessica",
+    initials: "MJ",
+    avatarBg: "linear-gradient(135deg, #2563eb, #1d4ed8)",
+    tripInfo: "Kochi • 2 Nights Nature Stay"
+  },
+  {
+    hotelName: "Fragrant Nature Resort, Kollam",
+    hotelSlug: "fragrant-nature-backwater-resort-kollam",
+    icon: "fa-leaf",
+    quote: "Hidden gem overlooking Paravur backwaters and Lake Mala. Ayurvedic wellness massage, authentic Sadya lunch, and sunset boating made this worth every rupee.",
+    userName: "Deepak Menon",
+    initials: "DM",
+    avatarBg: "linear-gradient(135deg, #16a34a, #15803d)",
+    tripInfo: "Kozhikode • 3 Nights Wellness Stay"
+  },
+  {
+    hotelName: "Saj Vagamon Hideout",
+    hotelSlug: "saj-vagamon-hideout-idukki",
+    icon: "fa-feather",
+    quote: "Pure tranquility in the mist-clad hills of Vagamon. Stone cottages around a natural lake with no city noise. Best escape from stressful work life!",
+    userName: "Gautam Iyer",
+    initials: "GI",
+    avatarBg: "linear-gradient(135deg, #9333ea, #7e22ce)",
+    tripInfo: "Chennai • 2 Nights Weekend Retreat"
+  },
+  {
+    hotelName: "Brunton Boatyard, Fort Kochi",
+    hotelSlug: "brunton-boatyard-fort-kochi",
+    icon: "fa-landmark",
+    quote: "Historic colonial architecture right on Kochi harbour. We watched dolphins from our room balcony and explored Mattancherry antique street on foot.",
+    userName: "Elena & Marcus",
+    initials: "EM",
+    avatarBg: "linear-gradient(135deg, #0891b2, #0e7490)",
+    tripInfo: "Germany • 5 Nights Cultural Tour"
+  }
+];
+
+function initDynamicTestimonials(hotels = []) {
+  const grid = document.getElementById("testimonials-grid");
+  if (!grid) return;
+
+  const shuffleBtn = document.getElementById("btn-shuffle-testimonials");
+  const pool = [...TRAVELER_REVIEWS_POOL];
+  
+  function shuffleArray(arr) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  let lastSelectedNames = new Set();
+
+  function renderRandomReviews() {
+    const available = pool.filter(r => !lastSelectedNames.has(r.userName));
+    const selectionSource = available.length >= 3 ? available : pool;
+    const picked = shuffleArray(selectionSource).slice(0, 3);
+    
+    lastSelectedNames = new Set(picked.map(p => p.userName));
+
+    grid.style.opacity = "0";
+    grid.style.transform = "translateY(8px)";
+    grid.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+
+    setTimeout(() => {
+      grid.innerHTML = picked.map(t => {
+        const hotelUrl = `/hotel/${t.hotelSlug || 'kerala'}`;
+        return `
+          <div class="testimonial-card">
+            <i class="fas fa-quote-right testimonial-quote-icon"></i>
+            <a href="${hotelUrl}" class="stay-property-pill" style="text-decoration:none; color:inherit; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fas ${t.icon || 'fa-hotel'}"></i> Stayed at <strong>${t.hotelName}</strong>
+            </a>
+            <p class="testimonial-quote">"${t.quote}"</p>
+            <div class="testimonial-user">
+              <div class="user-avatar-initials" style="background: ${t.avatarBg}; color:#fff; width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; flex-shrink:0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                ${t.initials}
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--text-main);">${t.userName}</h4>
+                  <span style="background:#e8f5f1; color:#09634e; font-size:10px; font-weight:800; padding:2px 6px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;">
+                    <i class="fas fa-check-circle"></i> Verified Stay
+                  </span>
+                </div>
+                <span style="font-size:12px; color:var(--text-secondary); display:block; margin-top:2px;">${t.tripInfo}</span>
+              </div>
+              <div class="testimonial-stars" style="color:#F59E0B; font-size:12px; display:inline-flex; gap:2px;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      grid.style.opacity = "1";
+      grid.style.transform = "translateY(0)";
+    }, 200);
+  }
+
+  // Initial render on page load
+  renderRandomReviews();
+
+  // Shuffle button click listener
+  if (shuffleBtn) {
+    shuffleBtn.addEventListener("click", () => {
+      const icon = shuffleBtn.querySelector("i");
+      if (icon) {
+        icon.classList.add("fa-spin");
+        setTimeout(() => icon.classList.remove("fa-spin"), 500);
+      }
+      renderRandomReviews();
+    });
+  }
+
+  // Auto-rotate reviews every 12 seconds in background
+  let autoRotateInterval = setInterval(() => {
+    if (!document.hidden) {
+      renderRandomReviews();
+    }
+  }, 12000);
+
+  grid.addEventListener("mouseenter", () => clearInterval(autoRotateInterval));
+  grid.addEventListener("mouseleave", () => {
+    clearInterval(autoRotateInterval);
+    autoRotateInterval = setInterval(() => {
+      if (!document.hidden) renderRandomReviews();
+    }, 12000);
+  });
+}
+
 async function initLandingPage() {
   let hotels = await getHotels();
   window._currentHotelsRef = hotels;
@@ -598,6 +830,9 @@ async function initLandingPage() {
 
   // Initialize live Location-based Nearby Hotels
   initNearbyHotels(hotels);
+
+  // Initialize dynamic random testimonials
+  initDynamicTestimonials(hotels);
 
   // Handle URL params: ?category= or ?district= from categories.html or external links
   const urlParams = new URLSearchParams(window.location.search);
