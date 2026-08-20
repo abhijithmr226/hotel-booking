@@ -3553,12 +3553,75 @@ async function initAdminPage() {
     });
   });
 
-  // Mobile menu sidebar toggler
-  const toggleSidebarBtn = document.querySelector(".sidebar-toggle");
+  // Mobile menu sidebar toggler & backdrop
+  const toggleSidebarBtn = document.getElementById("sidebar-toggle-btn") || document.querySelector(".sidebar-toggle");
   const adminSidebar = document.querySelector(".admin-sidebar");
+  const adminBackdrop = document.getElementById("admin-sidebar-backdrop");
+
+  function openSidebar() {
+    if (adminSidebar) adminSidebar.classList.add("open");
+    if (adminBackdrop) adminBackdrop.classList.add("show");
+  }
+
+  function closeSidebar() {
+    if (adminSidebar) adminSidebar.classList.remove("open");
+    if (adminBackdrop) adminBackdrop.classList.remove("show");
+  }
+
   if (toggleSidebarBtn && adminSidebar) {
-    toggleSidebarBtn.addEventListener("click", () => {
-      adminSidebar.classList.toggle("open");
+    toggleSidebarBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (adminSidebar.classList.contains("open")) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+  }
+
+  if (adminBackdrop) {
+    adminBackdrop.addEventListener("click", closeSidebar);
+  }
+
+  // Auto-close sidebar on mobile when navigating
+  sidebarItems.forEach(item => {
+    item.addEventListener("click", () => {
+      if (window.innerWidth <= 1024) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // Notification Bell Dropdown handler
+  const notifBellBtn = document.getElementById("notification-bell-btn") || document.querySelector(".notification-bell");
+  const notifDropdown = document.getElementById("notification-dropdown");
+  const notifBadge = document.getElementById("notif-badge-count") || document.querySelector(".notification-count");
+  const markReadBtn = document.getElementById("btn-mark-notif-read");
+
+  if (notifBellBtn && notifDropdown) {
+    notifBellBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      notifDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!notifDropdown.contains(e.target) && !notifBellBtn.contains(e.target)) {
+        notifDropdown.classList.remove("show");
+      }
+    });
+  }
+
+  if (markReadBtn && notifBadge) {
+    markReadBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.querySelectorAll(".notif-item.unread").forEach(item => {
+        item.classList.remove("unread");
+      });
+      notifBadge.textContent = "0";
+      notifBadge.style.display = "none";
+      if (typeof window.showAdminToast === "function") {
+        window.showAdminToast("All notifications marked as read", "info");
+      }
     });
   }
 

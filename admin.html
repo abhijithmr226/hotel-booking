@@ -124,10 +124,13 @@
 
       <!-- Main Content Panel -->
       <main class="admin-main">
+        <!-- Backdrop for mobile drawer -->
+        <div class="admin-sidebar-backdrop" id="admin-sidebar-backdrop"></div>
+
         <!-- Header -->
         <header class="admin-header">
           <div class="admin-header-left">
-            <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <button class="sidebar-toggle" id="sidebar-toggle-btn" aria-label="Toggle navigation menu"><i class="fas fa-bars"></i></button>
             <div class="admin-search">
               <i class="fas fa-search"></i>
               <input
@@ -138,9 +141,54 @@
           </div>
 
           <div class="admin-header-right">
-            <div class="notification-bell">
-              <i class="far fa-bell"></i>
-              <span class="notification-count">5</span>
+            <div class="notification-bell-container">
+              <div class="notification-bell" id="notification-bell-btn" title="View notifications">
+                <i class="far fa-bell"></i>
+                <span class="notification-count" id="notif-badge-count">4</span>
+              </div>
+              <div class="notification-dropdown" id="notification-dropdown">
+                <div class="notif-header">
+                  <h4>Notifications</h4>
+                  <button id="btn-mark-notif-read">Mark all as read</button>
+                </div>
+                <ul class="notif-list" id="notif-list-container">
+                  <li class="notif-item unread" onclick="switchAdminTab('bookings'); document.getElementById('notification-dropdown').classList.remove('show');">
+                    <div class="notif-icon booking"><i class="fas fa-calendar-check"></i></div>
+                    <div class="notif-content">
+                      <div class="notif-title">New Booking Confirmed</div>
+                      <div class="notif-desc">Arun Kumar reserved Grand Hyatt Kochi (2 Nights).</div>
+                      <div class="notif-time">10 mins ago</div>
+                    </div>
+                  </li>
+                  <li class="notif-item unread" onclick="switchAdminTab('hotels'); document.getElementById('notification-dropdown').classList.remove('show');">
+                    <div class="notif-icon lead"><i class="fas fa-handshake"></i></div>
+                    <div class="notif-content">
+                      <div class="notif-title">New Property Partner Application</div>
+                      <div class="notif-desc">Spice Tree Munnar submitted verification request.</div>
+                      <div class="notif-time">45 mins ago</div>
+                    </div>
+                  </li>
+                  <li class="notif-item unread" onclick="switchAdminTab('reviews'); document.getElementById('notification-dropdown').classList.remove('show');">
+                    <div class="notif-icon review"><i class="fas fa-star"></i></div>
+                    <div class="notif-content">
+                      <div class="notif-title">5-Star Guest Review</div>
+                      <div class="notif-desc">Priya M rated The Leela Kovalam with 5 stars.</div>
+                      <div class="notif-time">2 hours ago</div>
+                    </div>
+                  </li>
+                  <li class="notif-item unread" onclick="switchAdminTab('hotels'); document.getElementById('notification-dropdown').classList.remove('show');">
+                    <div class="notif-icon hotel"><i class="fas fa-hotel"></i></div>
+                    <div class="notif-content">
+                      <div class="notif-title">Catalog Updated</div>
+                      <div class="notif-desc">100 verified Kerala hotels synced with live Google Maps.</div>
+                      <div class="notif-time">5 hours ago</div>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notif-footer">
+                  <a href="#" onclick="switchAdminTab('bookings'); document.getElementById('notification-dropdown').classList.remove('show'); return false;">View All Activity</a>
+                </div>
+              </div>
             </div>
             <a href="/index.html" class="btn btn-outline btn-sm"
               >Visit Website
