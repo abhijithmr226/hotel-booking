@@ -1349,6 +1349,18 @@ async function initHotelDetailPage() {
       lightboxCounter.textContent = `${activePhotoIndex + 1} / ${validPhotos.length}`;
     }
 
+    const captionEl = document.getElementById("lightbox-caption");
+    if (captionEl) {
+      const defaultCaptions = [
+        `Panoramic property view & surrounding landscapes at ${selectedHotel.name}`,
+        `Spacious Master Bedroom Suite with luxury bedding & natural view`,
+        `Balcony & private relaxation deck overlooking ${selectedHotel.location}`,
+        `Specialty dining, authentic Kerala cuisine & wellness pavilion`,
+        `Waterfront sunset pathways & resort amenities at ${selectedHotel.name}`
+      ];
+      captionEl.textContent = defaultCaptions[activePhotoIndex % defaultCaptions.length];
+    }
+
     if (lightboxThumbStrip) {
       lightboxThumbStrip.innerHTML = validPhotos.map((src, i) => `
         <div class="lightbox-thumb ${i === activePhotoIndex ? 'active' : ''}" onclick="window.openPhotoLightbox(${i})">
