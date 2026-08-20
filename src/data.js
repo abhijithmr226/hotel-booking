@@ -533,6 +533,13 @@ export async function addHotel(hotel) {
   if (error) throw error;
   await writeAuditLog("ADD_HOTEL", "hotel", hotel.id, "", JSON.stringify(hotel));
   await refreshAllData();
+
+  // Automatically notify Google and search engine crawlers of the new hotel
+  try {
+    if (typeof window !== "undefined" && window.fetch) {
+      fetch("https://www.google.com/ping?sitemap=https://www.hotelsnearmeinkerala.com/sitemap.xml", { mode: "no-cors" }).catch(() => {});
+    }
+  } catch (e) { /* ignore ping errors */ }
 }
 
 export async function updateHotel(hotelId, updates) {

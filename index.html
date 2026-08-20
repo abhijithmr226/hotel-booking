@@ -11,7 +11,7 @@
   <meta name="keywords"
     content="hotels near me in Kerala, hotels near current location, hotels in Kerala, budget hotels in Kerala, resorts in Kerala, hotels in Kochi, hotels in Kollam, hotels in Munnar, hotels in Varkala, hotels in Thiruvananthapuram, hotels in Trivandrum, Kerala hotel booking, homestays Kerala, houseboats Kerala">
   <meta name="author" content="HotelsNearMeInKerala.com">
-  <meta name="theme-color" content="#006C5B">
+  <meta name="theme-color" content="#0EA5E9">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.hotelsnearmeinkerala.com/">
 
@@ -221,9 +221,9 @@
     </div>
   </header>
 
-  <main id="main-content">
+    <main id="main-content">
 
-  <!-- Hero Banner -->
+  <!-- Modern Hero Banner with Glassmorphism Search Engine -->
   <section class="hero">
     <video autoplay muted loop playsinline class="hero-video" id="hero-bg-video" preload="none" poster="/Landing-Page.webp" aria-label="Kerala scenic background video">
       <track kind="captions" src="" label="No captions" default>
@@ -239,82 +239,96 @@
           } else if (width < 1200) {
             videoUrl = "https://cdn.pixabay.com/video/2025/01/22/254020_small.mp4";
           }
-          
           window.addEventListener('load', function() {
             var source = document.createElement('source');
             source.src = videoUrl;
             source.type = 'video/mp4';
             video.appendChild(source);
             video.load();
-            video.play().catch(function(e) {
-              console.log("Autoplay deferred:", e);
-            });
+            video.play().catch(function(e) { console.log("Autoplay deferred:", e); });
           });
         }
       })();
     </script>
     <div class="container">
       <h1>Find The Perfect Stay<br>Anywhere in <span>Kerala</span></h1>
-      <p>Search and book the best hotels, resorts, homestays, and houseboats across God's Own Country.</p>
+      <p class="hero-subtitle">Handpicked luxury resorts, backwater houseboats, tea garden villas, and authentic certified homestays.</p>
 
-      <!-- Search Form Widget -->
-      <form class="search-widget" id="search-form">
-        <div class="search-simple-field">
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <input type="text" id="search-location" placeholder="Hotels near me in Kerala…" autocomplete="off"
-            required aria-label="Search hotels near me in Kerala by city, district, or hotel name">
-
-          <div id="search-autocomplete-box" role="listbox" aria-label="Search suggestions">
+      <!-- Clean & Focused Hero Search Card (Single Input + Search Button) -->
+      <div class="search-card-container">
+        <form class="search-form-single" id="search-form">
+          <div class="search-single-input-wrap">
+            <i class="fas fa-search search-single-icon"></i>
+            <input type="text" class="search-single-input" id="search-location" placeholder="Search destination, hotel, resort or city in Kerala (e.g. Munnar, Kochi)..." autocomplete="off" required aria-label="Search destination or hotel name">
+            <div id="search-autocomplete-box" role="listbox" aria-label="Search suggestions"></div>
           </div>
-        </div>
-        <button type="button" id="btn-use-location" class="btn-use-location" title="Use my current location" aria-label="Find hotels near my current location">
-          <i class="fas fa-location-arrow"></i><span>Near Me</span>
-        </button>
-        <button type="button" class="search-filter-btn" id="btn-toggle-filters" title="Filters" aria-expanded="false"
-          aria-controls="advanced-filters-panel">
-          <i class="fas fa-sliders-h"></i><span>Filters</span>
-        </button>
-        <button type="submit" class="btn btn-primary search-submit-btn">
-          <i class="fas fa-search"></i> Search
-        </button>
-      </form>
-
-      <!-- Location Filter Chips -->
-      <div class="location-chips" id="location-chips" role="navigation" aria-label="Quick location filters">
-        <a href="/hotels-in-kochi" class="location-chip" data-district="Ernakulam">Kochi</a>
-        <a href="/hotels-in-kollam" class="location-chip" data-district="Kollam">Kollam</a>
-        <a href="/hotels-in-munnar" class="location-chip" data-district="Idukki">Munnar</a>
-        <a href="/hotels-in-varkala" class="location-chip" data-district="Thiruvananthapuram">Varkala</a>
-        <a href="/hotels-in-thiruvananthapuram" class="location-chip" data-district="Thiruvananthapuram">Trivandrum</a>
-        <a href="/budget-hotels-in-kerala" class="location-chip location-chip--budget">Budget Stays</a>
-        <a href="/resorts-in-kerala" class="location-chip location-chip--resort">Resorts</a>
-        <button class="location-chip" onclick="document.getElementById('search-location').value='Wayanad'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))" type="button">Wayanad</button>
-        <button class="location-chip" onclick="document.getElementById('search-location').value='Alappuzha'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))" type="button">Alappuzha</button>
-        <button class="location-chip" onclick="document.getElementById('search-location').value='Houseboats'; document.getElementById('search-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))" type="button">Houseboats</button>
+          <button type="submit" class="search-submit-button">
+            <i class="fas fa-search"></i> Search Hotels
+          </button>
+        </form>
       </div>
 
-      <!-- Advanced Filters Panel -->
+      <!-- Action Buttons with High-Contrast Clear Colors -->
+      <div class="hero-actions-row">
+        <button type="button" id="btn-use-location" class="hero-action-pill hero-action-nearme" title="Use my current location">
+          <i class="fas fa-location-arrow"></i> <span>Near Me</span>
+        </button>
+        <button type="button" id="btn-toggle-filters" class="hero-action-pill hero-action-filters" aria-expanded="false" aria-controls="advanced-filters-panel">
+          <i class="fas fa-sliders-h"></i> <span>More Filters</span>
+          <span id="active-filters-count" class="filters-count-badge" style="display:none; background:#108569; color:#fff; font-size:11px; padding:2px 6px; border-radius:10px; margin-left:4px;">0</span>
+        </button>
+      </div>
+
+      <!-- Curated Travel Vibe Chips -->
+      <div class="hero-quick-categories">
+        <a href="/hotels-in-munnar" class="quick-category-chip">⛰️ Munnar Hills</a>
+        <a href="/hotels-in-kochi" class="quick-category-chip">🏙️ Kochi Urban</a>
+        <a href="/?district=Alappuzha" class="quick-category-chip">🚢 Houseboats</a>
+        <a href="/hotels-in-varkala" class="quick-category-chip">🌊 Varkala Cliffs</a>
+        <a href="/?district=Wayanad" class="quick-category-chip">🌿 Wayanad</a>
+        <a href="/resorts-in-kerala" class="quick-category-chip">💎 Luxury Resorts</a>
+        <a href="/budget-hotels-in-kerala" class="quick-category-chip">💰 Budget Stays</a>
+      </div>
+
+      <!-- Advanced Filters Panel (Collapsible with Dates, Guests, Price & Amenities) -->
       <div class="filters-panel" id="advanced-filters-panel"
-        style="display:none; background: var(--white); border-radius: 12px; margin-top: 20px; padding: 24px; text-align: left; box-shadow: var(--shadow-md); border: 1px solid var(--border); color: var(--text-main);">
-        <div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: 20px;">
+        style="display:none; background: var(--white); border-radius: 16px; margin-top: 20px; padding: 24px; text-align: left; box-shadow: var(--shadow-lg); border: 1px solid var(--border); color: var(--text-main); max-width: 1040px; margin-left: auto; margin-right: auto;">
+        
+        <!-- Filter Row 1: Dates & Guests -->
+        <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border);">
           <div class="filter-col">
-            <label
-              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Price
-              Range (per night)</label>
-            <div style="display:flex; gap:10px; align-items:center;">
-              <input type="number" id="filter-price-min" placeholder="Min (₹)" inputmode="numeric"
-                style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Check-In Date</label>
+            <input type="date" id="search-checkin" style="width:100%; border: 1.5px solid var(--border); padding: 10px 14px; border-radius: 10px; font-size:13.5px; font-weight:600; background: var(--light); color:var(--text-main); outline:none;" aria-label="Check-in date">
+          </div>
+          <div class="filter-col">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Check-Out Date</label>
+            <input type="date" id="search-checkout" style="width:100%; border: 1.5px solid var(--border); padding: 10px 14px; border-radius: 10px; font-size:13.5px; font-weight:600; background: var(--light); color:var(--text-main); outline:none;" aria-label="Check-out date">
+          </div>
+          <div class="filter-col">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Guests &amp; Rooms</label>
+            <select id="search-guests-select" style="width:100%; border: 1.5px solid var(--border); padding: 10px 14px; border-radius: 10px; font-size:13.5px; font-weight:600; background: var(--light); color:var(--text-main); outline:none; cursor:pointer;" aria-label="Guests and Rooms">
+              <option value="2 Guests, 1 Room" selected>2 Guests, 1 Room</option>
+              <option value="1 Guest, 1 Room">1 Guest, 1 Room</option>
+              <option value="3 Guests, 1 Room">3 Guests, 1 Room</option>
+              <option value="4 Guests, 2 Rooms">4 Guests, 2 Rooms</option>
+              <option value="Family (5+), 2+ Rooms">Family (5+ Guests)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filter Row 2: Price, Rating, Category, Sort -->
+        <div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: 16px;">
+          <div class="filter-col">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Price Range (₹)</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="number" id="filter-price-min" placeholder="Min (₹)" inputmode="numeric" style="width: 100%; border: 1.5px solid var(--border); padding: 10px 12px; border-radius: 10px; font-size:13px; outline:none; background:var(--light);">
               <span style="color:var(--text-secondary); font-size:12px;">to</span>
-              <input type="number" id="filter-price-max" placeholder="Max (₹)" inputmode="numeric"
-                style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; outline:none; background:transparent;">
+              <input type="number" id="filter-price-max" placeholder="Max (₹)" inputmode="numeric" style="width: 100%; border: 1.5px solid var(--border); padding: 10px 12px; border-radius: 10px; font-size:13px; outline:none; background:var(--light);">
             </div>
           </div>
           <div class="filter-col">
-            <label
-              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Minimum
-              Rating</label>
-            <select id="filter-rating"
-              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Minimum Rating</label>
+            <select id="filter-rating" style="width:100%; border: 1.5px solid var(--border); padding: 10px 12px; border-radius: 10px; font-size:13px; background: var(--light); outline:none; cursor:pointer;">
               <option value="">All Ratings</option>
               <option value="4.5">4.5+ ★ Excellent</option>
               <option value="4.0">4.0+ ★ Very Good</option>
@@ -322,16 +336,14 @@
             </select>
           </div>
           <div class="filter-col">
-            <label
-              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Category</label>
-            <select id="filter-category"
-              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Category</label>
+            <select id="filter-category" style="width:100%; border: 1.5px solid var(--border); padding: 10px 12px; border-radius: 10px; font-size:13px; background: var(--light); outline:none; cursor:pointer;">
               <option value="">All Categories</option>
+              <option value="Luxury Resorts">💎 Luxury Resorts</option>
               <option value="Beach Resorts">🏖️ Beach Resorts</option>
               <option value="Hill Station Hotels">⛰️ Hill Station Hotels</option>
               <option value="Houseboats">🚢 Houseboats</option>
               <option value="Homestays">🏡 Homestays</option>
-              <option value="Luxury Resorts">💎 Luxury Resorts</option>
               <option value="Budget Hotels">💰 Budget Hotels</option>
               <option value="Business Hotels">💼 Business Hotels</option>
               <option value="Family Hotels">👨‍👩‍👧 Family Hotels</option>
@@ -346,11 +358,8 @@
             </select>
           </div>
           <div class="filter-col">
-            <label
-              style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 8px;">Sort
-              Stays By</label>
-            <select id="filter-sorting"
-              style="width:100%; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-size:13px; background: transparent; outline:none;">
+            <label style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px;">Sort Stays By</label>
+            <select id="filter-sorting" style="width:100%; border: 1.5px solid var(--border); padding: 10px 12px; border-radius: 10px; font-size:13px; background: var(--light); outline:none; cursor:pointer;">
               <option value="recommended">Recommended</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
@@ -359,49 +368,25 @@
             </select>
           </div>
         </div>
-        <div
-          style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 20px; align-items:center;">
-          <span
-            style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; display: inline-block; align-self: center; margin-right: 10px;">Amenities:</span>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Free Wi-Fi" style="accent-color:var(--primary);"> Free
-            WiFi</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Swimming Pool" style="accent-color:var(--primary);">
-            Pool</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Free Parking" style="accent-color:var(--primary);">
-            Parking</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Restaurant" style="accent-color:var(--primary);">
-            Dining</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Air Conditioning" style="accent-color:var(--primary);">
-            AC</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Lake View" style="accent-color:var(--primary);"> Lake
-            View</label>
-          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px;"><input
-              type="checkbox" class="filter-amenity" value="Spa & Wellness" style="accent-color:var(--primary);">
-            Spa</label>
-          <button type="button" id="btn-clear-filters" onclick="clearAllFilters()"
-            style="margin-left:auto; font-size:12px; font-weight:600; color:var(--primary); background:none; border:1.5px solid var(--primary); border-radius:30px; padding:6px 16px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:5px;"><i
-              class="fas fa-times"></i> Clear Filters</button>
-        </div>
-      </div>
-      <!-- Advanced Filters Backdrop (mobile) -->
-      <div class="filters-backdrop" onclick="document.getElementById('btn-toggle-filters').click()"></div>
 
-      <!-- Category quick-links under search -->
-      <div class="hero-quick-links">
-        <span class="hero-ql-label">Trending:</span>
-        <button class="hero-ql" data-search="Kochi">Kochi</button>
-        <button class="hero-ql" data-search="Munnar">Munnar</button>
-        <button class="hero-ql" data-search="Alappuzha">Alappuzha</button>
-        <button class="hero-ql" data-search="Wayanad">Wayanad</button>
-        <button class="hero-ql" data-search="Varkala">Varkala</button>
-        <button class="hero-ql" data-search="Kovalam">Kovalam</button>
-        <button class="hero-ql" data-search="Houseboats">Houseboats</button>
+        <!-- Filter Row 3: Amenities & Actions -->
+        <div style="margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; display:flex; flex-wrap:wrap; gap: 16px; align-items:center;">
+          <span style="font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase;">Amenities:</span>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" class="filter-amenity" value="Free Wi-Fi" style="accent-color:var(--primary);"> Free WiFi</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" class="filter-amenity" value="Swimming Pool" style="accent-color:var(--primary);"> Pool</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" class="filter-amenity" value="Free Parking" style="accent-color:var(--primary);"> Parking</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" class="filter-amenity" value="Restaurant" style="accent-color:var(--primary);"> Dining</label>
+          <label class="checkbox-label" style="font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" class="filter-amenity" value="Air Conditioning" style="accent-color:var(--primary);"> AC</label>
+          
+          <div style="margin-left:auto; display:flex; gap:10px;">
+            <button type="button" id="btn-clear-filters" onclick="clearAllFilters()" style="font-size:12.5px; font-weight:700; color:var(--text-secondary); background:none; border:1.5px solid var(--border); border-radius:30px; padding:7px 18px; cursor:pointer;">
+              <i class="fas fa-times"></i> Clear
+            </button>
+            <button type="button" onclick="document.getElementById('search-form').dispatchEvent(new Event('submit'))" style="font-size:12.5px; font-weight:700; color:#fff; background:var(--primary); border:none; border-radius:30px; padding:7px 20px; cursor:pointer;">
+              <i class="fas fa-check"></i> Apply Filters
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -411,8 +396,7 @@
     <div class="container">
       <div class="section-header">
         <div>
-          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels
-            Near You</h2>
+          <h2><i class="fas fa-location-arrow" style="color:var(--primary);font-size:18px;margin-right:8px;"></i>Hotels Near You</h2>
           <p id="nearby-hotels-label">Finding hotels close to your location…</p>
         </div>
       </div>
@@ -420,133 +404,108 @@
     </div>
   </section>
 
-
-  <!-- Hotels Near Me Districts Section -->
-  <section id="popular-destinations" style="background-color: #FAF9F6;">
+  <!-- 1. POPULAR DESTINATIONS (Airbnb Style Compact Grid) -->
+  <section id="popular-destinations" style="background-color: var(--light); padding: 56px 0;">
     <div class="container">
       <div class="section-header">
         <div>
-          <h2>Search By Destination</h2>
-          <p>Search hotels by district across all of Kerala</p>
+          <h2>Top Kerala Destinations</h2>
+          <p>Explore handpicked stays across Kerala's most beloved holiday escapes</p>
         </div>
-        <a href="#hotels-near-you" class="btn btn-link">View all hotels <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="grid destination-grid">
-        <a class="destination-card" href="/hotels-in-kochi" data-destination="Ernakulam">
-          <img src="/dest/kochi.webp" alt="Hotels in Kochi, Ernakulam Kerala" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kochi (Ernakulam)</h3>
-            <span class="dest-link-hint">View Hotels</span>
+      <div class="destinations-modern-grid">
+        <a class="destination-modern-card" href="/hotels-in-munnar" data-destination="Idukki">
+          <img src="/dest/munnar.webp" alt="Munnar Tea Hills Kerala" loading="lazy">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Munnar</h3>
+            <span class="destination-modern-subtitle">Tea Hills &amp; Mist • 120+ Stays</span>
           </div>
         </a>
-        <a class="destination-card" href="/hotels-in-munnar" data-destination="Idukki">
-          <img src="/dest/munnar.webp" alt="Hotels in Munnar, Idukki Kerala" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Munnar (Idukki)</h3>
-            <span class="dest-link-hint">View Hotels</span>
+        <a class="destination-modern-card" href="/hotels-in-kochi" data-destination="Ernakulam">
+          <img src="/dest/kochi.webp" alt="Hotels in Kochi Ernakulam" loading="lazy">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Kochi</h3>
+            <span class="destination-modern-subtitle">Heritage &amp; City • 180+ Stays</span>
           </div>
         </a>
-        <a class="destination-card" href="/?district=Alappuzha" data-destination="Alappuzha">
-          <img src="/dest/alappuzha.webp" alt="Alappuzha Backwaters Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Alappuzha</h3>
-            <span class="dest-link-hint">View Hotels</span>
+        <a class="destination-modern-card" href="/?district=Alappuzha" data-destination="Alappuzha">
+          <img src="/dest/alappuzha.webp" alt="Alappuzha Backwaters & Houseboats" loading="lazy">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Alappuzha</h3>
+            <span class="destination-modern-subtitle">Backwaters &amp; Houseboats • 95+ Stays</span>
           </div>
         </a>
-        <a class="destination-card" href="/hotels-in-thiruvananthapuram" data-destination="Thiruvananthapuram">
-          <img src="/dest/trivandrum.webp" alt="Hotels in Thiruvananthapuram Trivandrum" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Thiruvananthapuram</h3>
-            <span class="dest-link-hint">View Hotels</span>
+        <a class="destination-modern-card" href="/hotels-in-varkala" data-destination="Thiruvananthapuram">
+          <img src="/dest/varkala.webp" alt="Varkala Sea Cliff Resorts" loading="lazy" onerror="this.src='/dest/trivandrum.webp'">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Varkala</h3>
+            <span class="destination-modern-subtitle">Sea Cliffs &amp; Beach • 65+ Stays</span>
           </div>
         </a>
-        <a class="destination-card" href="/?district=Wayanad" data-destination="Wayanad">
-          <img src="/dest/wayanad.webp" alt="Wayanad Hotels and Resorts" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Wayanad</h3>
-            <span class="dest-link-hint">View Hotels</span>
+        <a class="destination-modern-card" href="/?district=Wayanad" data-destination="Wayanad">
+          <img src="/dest/wayanad.webp" alt="Wayanad Rainforests & Nature Stays" loading="lazy">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Wayanad</h3>
+            <span class="destination-modern-subtitle">Rainforests &amp; Mist • 110+ Stays</span>
           </div>
         </a>
-        <a class="destination-card" href="/?district=Kozhikode" data-destination="Kozhikode">
-          <img src="/dest/kozhikode.webp" alt="Kozhikode Calicut Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kozhikode</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Thrissur" data-destination="Thrissur">
-          <img src="/dest/thrissur.webp" alt="Thrissur Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Thrissur</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Kannur" data-destination="Kannur">
-          <img src="/dest/kannur.webp" alt="Kannur Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kannur</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/hotels-in-kollam" data-destination="Kollam">
-          <img src="/dest/kollam.webp" alt="Hotels in Kollam Kerala" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kollam</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Kottayam" data-destination="Kottayam">
-          <img src="/dest/kottayam.webp" alt="Kottayam Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kottayam</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Palakkad" data-destination="Palakkad">
-          <img src="/dest/palakkad.webp" alt="Palakkad Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Palakkad</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Malappuram" data-destination="Malappuram">
-          <img src="/dest/malappuram.webp" alt="Malappuram Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Malappuram</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Pathanamthitta" data-destination="Pathanamthitta">
-          <img src="/dest/pathanamthitta.webp" alt="Pathanamthitta Kerala Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Pathanamthitta</h3>
-            <span class="dest-link-hint">View Hotels</span>
-          </div>
-        </a>
-        <a class="destination-card" href="/?district=Kasaragod" data-destination="Kasaragod">
-          <img src="/dest/kasaragod.webp" alt="Bekal Fort Kasaragod Hotels" loading="lazy" width="300" height="200">
-          <div class="destination-overlay">
-            <h3>Kasaragod</h3>
-            <span class="dest-link-hint">View Hotels</span>
+        <a class="destination-modern-card" href="/hotels-in-thiruvananthapuram" data-destination="Thiruvananthapuram">
+          <img src="/dest/trivandrum.webp" alt="Trivandrum & Kovalam Stays" loading="lazy">
+          <div class="destination-modern-overlay">
+            <h3 class="destination-modern-title">Kovalam &amp; Trivandrum</h3>
+            <span class="destination-modern-subtitle">Capital &amp; Beaches • 85+ Stays</span>
           </div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Hotels Near You -->
-  <section id="hotels-near-you" style="border-top: 1px solid var(--border); background-color: var(--white);">
+  <!-- 2. FEATURED & TRENDING STAYS -->
+  <section id="featured-hotels-section" style="padding: 56px 0; background-color: var(--white); border-top: 1px solid var(--border);">
     <div class="container">
       <div class="section-header">
         <div>
-          <h2>Hotels Near You</h2>
-          <p>Based on your current location and searches</p>
+          <h2>⭐ Featured &amp; Trending Stays</h2>
+          <p>Top rated boutique resorts, heritage estates, and scenic retreats chosen by travelers</p>
+        </div>
+        <a href="#hotels-near-you" class="btn btn-outline btn-sm" style="border-radius:20px; font-weight:700;">View All Stays</a>
+      </div>
+
+      <div class="grid hotels-grid" id="featured-hotels-grid">
+        <!-- Rendered Dynamically from app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. HANDPICKED LUXURY & BACKWATER RETREATS -->
+  <section id="curated-hotels-section" style="padding: 56px 0; background-color: #F8FAFC; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>💎 Luxury Resorts &amp; Backwater Escapes</h2>
+          <p>5-star sanctuaries, private pool villas, and iconic cruising houseboats</p>
+        </div>
+        <a href="/resorts-in-kerala" class="btn btn-outline btn-sm" style="border-radius:20px; font-weight:700;">Explore Luxury Stays</a>
+      </div>
+
+      <div class="grid hotels-grid" id="curated-hotels-grid">
+        <!-- Rendered Dynamically from app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ALL STAYS & LIVE SEARCH RESULTS GRID -->
+  <section id="hotels-near-you" style="padding: 56px 0; border-top: 1px solid var(--border); background-color: var(--white);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Explore All Kerala Stays</h2>
+          <p>Filtered and live results across all 14 Kerala districts</p>
         </div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <span id="filter-results-count"
-            style="font-size:13px; color:var(--text-secondary); font-weight:500; display:none;"></span>
-          <a href="#" class="btn btn-outline">View all</a>
+          <span id="filter-results-count" style="font-size:13px; color:var(--text-secondary); font-weight:600; display:none;"></span>
+          <button onclick="clearAllFilters()" class="btn btn-outline btn-sm" style="border-radius:20px; font-weight:700;">Show All</button>
         </div>
       </div>
 
@@ -556,29 +515,15 @@
     </div>
   </section>
 
-  <!-- Featured Hotels -->
-  <section id="featured-hotels" style="background-color: #FAF9F6; border-top: 1px solid var(--border);">
+  <!-- 5. BROWSE BY CATEGORY / TRAVEL VIBE -->
+  <section id="categories" style="background-color: #F8FAFC; border-top: 1px solid var(--border); padding: 56px 0;">
     <div class="container">
       <div class="section-header">
         <div>
-          <h2>Featured Hotels</h2>
-          <p>Handpicked stays for an unforgettable Keralan experience</p>
+          <h2>Browse by Travel Vibe</h2>
+          <p>Find authentic accommodations tailored to your Kerala holiday style</p>
         </div>
-        <a href="#" class="btn btn-link">View all hotels <i class="fas fa-arrow-right"></i></a>
-      </div>
-
-      <div class="grid hotels-grid" id="featured-hotels-grid">
-        <!-- Rendered Dynamically from app.js -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Browse by Category -->
-  <section id="categories" style="background-color: var(--white); border-top: 1px solid var(--border);">
-    <div class="container">
-      <div class="section-header">
-        <h2>Browse by Category</h2>
-        <p>Find options matching your travel flavor</p>
+        <a href="/categories.html" class="btn btn-outline btn-sm" style="border-radius:20px; font-weight:700;">All Categories</a>
       </div>
 
       <div class="grid category-grid">
@@ -606,130 +551,87 @@
           <div class="category-icon"><i class="fas fa-wallet"></i></div>
           <span>Budget Hotels</span>
         </div>
-        <div class="category-card" data-category="Business Hotels">
-          <div class="category-icon"><i class="fas fa-briefcase"></i></div>
-          <span>Business Hotels</span>
-        </div>
         <div class="category-card" data-category="Family Hotels">
           <div class="category-icon"><i class="fas fa-users"></i></div>
-          <span>Family Hotels</span>
+          <span>Family Stays</span>
         </div>
         <div class="category-card" data-category="Ayurveda Resorts">
           <div class="category-icon"><i class="fas fa-spa"></i></div>
-          <span>Ayurveda</span>
+          <span>Ayurveda &amp; Wellness</span>
         </div>
-        <div class="category-card" data-category="Eco Lodges">
-          <div class="category-icon"><i class="fas fa-leaf"></i></div>
-          <span>Eco Lodges</span>
-        </div>
-        <div class="category-card" data-category="Treehouse Stays">
-          <div class="category-icon"><i class="fas fa-tree"></i></div>
-          <span>Treehouse Stays</span>
-        </div>
-        <div class="category-card" data-category="Heritage Hotels">
-          <div class="category-icon"><i class="fas fa-landmark"></i></div>
-          <span>Heritage Hotels</span>
-        </div>
-        <div class="category-card" data-category="Wildlife Resorts">
-          <div class="category-icon"><i class="fas fa-paw"></i></div>
-          <span>Wildlife Resorts</span>
-        </div>
-        <div class="category-card" data-category="Couple Retreats">
-          <div class="category-icon"><i class="fas fa-heart"></i></div>
-          <span>Couple Retreats</span>
-        </div>
-        <div class="category-card" data-category="Pilgrimage Stays">
-          <div class="category-icon"><i class="fas fa-pray"></i></div>
-          <span>Pilgrimage Stays</span>
-        </div>
-        <div class="category-card" data-category="Backpacker Hostels">
-          <div class="category-icon"><i class="fas fa-bed"></i></div>
-          <span>Backpacker Hostels</span>
-        </div>
-      </div>
-      <div style="text-align:center; margin-top:24px;">
-        <a href="/categories.html" class="btn btn-outline"
-          style="border-radius:30px; padding:10px 28px; font-size:14px; font-weight:600;">
-          <i class="fas fa-th-large" style="margin-right:8px;"></i>View All Categories
-        </a>
       </div>
     </div>
   </section>
 
-  <!-- Why Book With Us Section -->
-  <section class="container">
-    <div class="why-book">
-      <h2 style="font-size: 22px; text-align: center;">Why Book With Us?</h2>
-      <div class="grid why-book-grid">
-        <div class="why-card">
-          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
-          <h4>Verified Hotels</h4>
-          <p>Handpicked and verified hotels across Kerala.</p>
+  <!-- 6. WHY BOOK WITH US / TRUST & ASSURANCE -->
+  <section style="padding: 56px 0; background: var(--white); border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header" style="text-align:center; justify-content:center; margin-bottom: 24px;">
+        <div>
+          <h2>Why Book With HotelsNearMeInKerala?</h2>
+          <p>We connect travelers directly with certified Kerala hospitality partners</p>
         </div>
-        <div class="why-card">
-          <div class="why-icon"><i class="fas fa-tags"></i></div>
+      </div>
+
+      <div class="trust-cards-grid">
+        <div class="trust-feature-card">
+          <div class="trust-feature-icon"><i class="fas fa-shield-check"></i></div>
+          <h4>100% Verified Properties</h4>
+          <p>Handpicked hotels, villas, and homestays verified for cleanliness, safety, and authentic hospitality.</p>
+        </div>
+        <div class="trust-feature-card">
+          <div class="trust-feature-icon"><i class="fab fa-whatsapp"></i></div>
+          <h4>Direct WhatsApp Booking</h4>
+          <p>Connect and chat directly with hotel managers and local hosts without middleman delays.</p>
+        </div>
+        <div class="trust-feature-card">
+          <div class="trust-feature-icon"><i class="fas fa-tags"></i></div>
           <h4>Best Price Guarantee</h4>
-          <p>Get the best deals and exclusive offers.</p>
+          <p>Transparent local tariffs with zero booking surcharges or hidden convenience fees.</p>
         </div>
-        <div class="why-card">
-          <div class="why-icon"><i class="fas fa-bolt"></i></div>
-          <h4>Instant Booking</h4>
-          <p>Book your stay instantly and hassle-free.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-icon"><i class="fas fa-lock"></i></div>
-          <h4>Secure Payments</h4>
-          <p>100% secure payments with trusted partners.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-icon"><i class="fas fa-headset"></i></div>
-          <h4>Local Support</h4>
-          <p>24/7 support from our Kerala based team.</p>
+        <div class="trust-feature-card">
+          <div class="trust-feature-icon"><i class="fas fa-headset"></i></div>
+          <h4>24/7 Kerala Local Support</h4>
+          <p>Dedicated travel support team based right here in Kerala to assist your trip at every step.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Customer Testimonials -->
-  <section style="background-color: var(--white); border-top: 1px solid var(--border);">
+  <!-- 7. GUEST REVIEWS / TESTIMONIALS -->
+  <section style="background-color: #F8FAFC; border-top: 1px solid var(--border); padding: 56px 0;">
     <div class="container">
       <div class="section-header">
-        <h2>What Our Travelers Say</h2>
-        <p>Real stories from verified guests who booked through us</p>
+        <div>
+          <h2>What Our Travelers Say</h2>
+          <p>Real experiences from guests who booked their Kerala holiday with us</p>
+        </div>
       </div>
 
       <div class="grid testimonials-grid">
         <div class="testimonial-card">
-          <p class="testimonial-quote">"Found the perfect stay in Munnar within minutes. The booking process was simple
-            and the support team is very helpful."</p>
+          <p class="testimonial-quote">"Found an incredible tea estate resort in Munnar within 2 minutes. WhatsApp booking directly with the property was super smooth and hassle-free!"</p>
           <div class="testimonial-user">
-            <img
-              src="/dest/testimonial1.webp"
-              alt="Rahul K." width="80" height="80">
+            <img src="/dest/testimonial1.webp" alt="Rahul K." width="80" height="80">
             <div>
               <h4>Rahul K.</h4>
-              <span>Bangalore</span>
+              <span>Bangalore, Karnataka</span>
             </div>
             <div class="testimonial-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
-          <p class="testimonial-quote">"Much easier than searching multiple websites. Great collection of hotels and
-            genuine prices. Highly recommended!"</p>
+          <p class="testimonial-quote">"Booked an authentic luxury houseboat in Alleppey. Transparent pricing, no hidden fees, and the local host gave us the warmest Kerala hospitality."</p>
           <div class="testimonial-user">
-            <img
-              src="/dest/testimonial2.webp"
-              alt="Ameen A." width="80" height="80">
+            <img src="/dest/testimonial2.webp" alt="Ameen A." width="80" height="80">
             <div>
               <h4>Ameen A.</h4>
-              <span>Kochi</span>
+              <span>Kochi, Kerala</span>
             </div>
             <div class="testimonial-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
           </div>
         </div>
@@ -737,7 +639,7 @@
     </div>
   </section>
 
-  <!-- Recently Viewed Hotels -->
+  <!-- 8. RECENTLY VIEWED HOTELS -->
   <section id="recently-viewed-section" style="display:none; background-color: var(--white); border-top: 1px solid var(--border);">
     <div class="container">
       <div class="section-header">
@@ -751,13 +653,13 @@
     </div>
   </section>
 
-  <!-- Trending Locations -->
-  <section style="background: linear-gradient(135deg, #0d2b22 0%, #1a4a38 100%); color:#fff; padding: 60px 0;" aria-labelledby="trending-heading">
+  <!-- 9. TRENDING DESTINATIONS PILLS -->
+  <section style="background: linear-gradient(135deg, #0d2b22 0%, #1a4a38 100%); color:#fff; padding: 50px 0;" aria-labelledby="trending-heading">
     <div class="container">
       <div class="section-header" style="border-bottom-color: rgba(255,255,255,0.1);">
         <div>
-          <h2 id="trending-heading" style="color:#fff;"><i class="fas fa-fire" style="color:#FF9A02;margin-right:8px;"></i>Trending Destinations</h2>
-          <p style="color:rgba(255,255,255,0.7);">Most searched Kerala destinations right now</p>
+          <h2 id="trending-heading" style="color:#fff;"><i class="fas fa-fire" style="color:#FF9A02;margin-right:8px;"></i>Trending Kerala Searches</h2>
+          <p style="color:rgba(255,255,255,0.7);">Popular vacation spots travelers are booking right now</p>
         </div>
       </div>
       <div class="trending-chips">
@@ -775,9 +677,9 @@
     </div>
   </section>
 
-  <!-- District Explorer Tags -->
-  <section class="container" aria-labelledby="district-heading">
-    <h2 id="district-heading" style="font-size: 20px; margin-bottom: 25px;">Explore Hotels by District</h2>
+  <!-- 10. DISTRICT EXPLORER TAGS -->
+  <section class="container" style="padding: 48px 0;" aria-labelledby="district-heading">
+    <h2 id="district-heading" style="font-size: 20px; margin-bottom: 20px;">Explore Hotels by District</h2>
     <div class="district-grid">
       <a href="/hotels-in-kollam" class="district-tag">Kollam</a>
       <a href="/hotels-in-thiruvananthapuram" class="district-tag">Thiruvananthapuram</a>
@@ -796,8 +698,8 @@
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section style="background-color: #FAF9F6; border-top: 1px solid var(--border); padding: 60px 0;" aria-labelledby="faq-heading">
+  <!-- 11. FAQ ACCORDION -->
+  <section style="background-color: #FAF9F6; border-top: 1px solid var(--border); padding: 56px 0;" aria-labelledby="faq-heading">
     <div class="container">
       <div class="section-header">
         <div>
@@ -857,21 +759,18 @@
             <i class="fas fa-chevron-down faq-icon"></i>
           </button>
           <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <p itemprop="text">Yes, we support local cancellation policies. You can view individual hotel cancellation rules under the <a href="/cancellation">cancellation policy page</a> or contact our customer support team directly via WhatsApp.</p>
+            <p itemprop="text">Yes, we support local cancellation policies. You can view individual hotel cancellation rules under the <a href="/cancellation.html">cancellation policy page</a> or contact our customer support team directly via WhatsApp.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-
-
   <!-- Contact CTA -->
   <section style="background: linear-gradient(135deg, var(--primary) 0%, #0d6b56 100%); color:#fff; text-align:center;">
     <div class="container" style="padding-top:60px; padding-bottom:60px;">
       <h2 style="color:#fff; font-size:28px; margin-bottom:12px;">Need Help Finding the Perfect Stay?</h2>
-      <p style="opacity:.9; font-size:16px; margin-bottom:30px;">Our Kerala travel experts are ready to help you plan
-        the perfect trip.</p>
+      <p style="opacity:.9; font-size:16px; margin-bottom:30px;">Our Kerala travel experts are ready to help you plan the perfect trip.</p>
       <a href="/contact.html" class="btn"
         style="background:#fff; color:var(--primary); border-radius:50px; padding:14px 36px; font-weight:700; font-size:15px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
         <i class="fas fa-envelope"></i> Contact Us

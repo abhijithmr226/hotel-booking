@@ -266,18 +266,9 @@ function initFaqAccordion() {
    7. Dark Mode Toggle
 ───────────────────────────────────────────────────── */
 function initDarkMode() {
-  // Create toggle button if it doesn't exist
-  let toggle = document.getElementById('dark-mode-toggle');
-  if (!toggle) {
-    toggle = document.createElement('button');
-    toggle.id = 'dark-mode-toggle';
-    toggle.className = 'dark-mode-toggle';
-    toggle.setAttribute('aria-label', 'Toggle dark mode');
-    toggle.innerHTML = '<i class="fas fa-moon"></i>';
-    document.body.appendChild(toggle);
-  }
+  const toggle = document.getElementById('dark-mode-toggle');
+  if (!toggle) return;
 
-  // Restore saved preference
   const saved = localStorage.getItem('knm_theme') || 'light';
   applyTheme(saved, toggle);
 

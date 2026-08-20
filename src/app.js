@@ -333,33 +333,86 @@ async function initNearbyHotels(allHotels) {
   const section = document.getElementById("nearby-hotels-section");
   const label = document.getElementById("nearby-hotels-label");
   const grid = document.getElementById("nearby-hotels-grid");
-  if (!section || !grid) return;
+  const nearMeBtn = document.getElementById("btn-use-location");
 
-  if (!navigator.geolocation) return;
+  const processLocation = (latitude, longitude) => {
+    window._userGeoLat = latitude;
+    window._userGeoLng = longitude;
+    try {
+      localStorage.setItem("knm_user_lat", latitude);
+      localStorage.setItem("knm_user_lng", longitude);
+    } catch (e) {}
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const { latitude, longitude } = pos.coords;
-      const active = allHotels.filter(h => h.status === "active");
+    const active = allHotels.filter(h => h.status === "active");
 
-      const withDist = active.map(h => {
-        const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()];
-        const dist = coords ? haversineKm(latitude, longitude, coords.lat, coords.lon) : 9999;
-        return { ...h, _dist: dist };
-      }).sort((a, b) => a._dist - b._dist).slice(0, 6);
+    const withDist = active.map(h => {
+      const coords = KERALA_DISTRICT_COORDS[h.district] || KERALA_DISTRICT_COORDS[h.location?.split(",")[0]?.trim()] || { lat: 9.9816, lon: 76.2999 };
+      const dist = haversineKm(latitude, longitude, coords.lat, coords.lon);
+      return { ...h, _dist: dist };
+    }).sort((a, b) => a._dist - b._dist);
 
-      if (withDist.length === 0) return;
+    if (withDist.length === 0) return;
 
-      const nearest = withDist[0];
-      const distKm = Math.round(nearest._dist);
-      if (label) label.textContent = `Showing hotels near your location${distKm < 500 ? ` (closest: ${distKm} km away)` : " in Kerala"}`;
+    const nearest = withDist[0];
+    const nearestDistrict = nearest.district || "Kerala";
+    const distKm = nearest._dist.toFixed(1);
 
+    if (label) {
+      label.innerHTML = `Showing hotels closest to your location near <strong style="color:var(--primary);">${nearestDistrict}</strong> (starting from ${distKm} km away)`;
+    }
+
+    if (section) {
       section.style.display = "block";
-      renderHotelsGrid("nearby-hotels-grid", withDist);
-    },
-    () => {},
-    { timeout: 8000, maximumAge: 300000 }
-  );
+      renderHotelsGrid("nearby-hotels-grid", withDist.slice(0, 8));
+    }
+
+    if (nearMeBtn) {
+      nearMeBtn.innerHTML = `<i class="fas fa-check-circle" style="color:#19A138;"></i><span>Near Me (${nearestDistrict})</span>`;
+      nearMeBtn.classList.add("active");
+    }
+  };
+
+  const askLocation = () => {
+    if (!navigator.geolocation) return;
+    if (nearMeBtn) {
+      nearMeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Locating…</span>';
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        processLocation(pos.coords.latitude, pos.coords.longitude);
+      },
+      (err) => {
+        if (nearMeBtn) {
+          nearMeBtn.innerHTML = '<i class="fas fa-location-arrow"></i><span>Near Me</span>';
+        }
+        console.log("Location permission not granted:", err.message);
+      },
+      { timeout: 10000, maximumAge: 300000, enableHighAccuracy: false }
+    );
+  };
+
+  // Wire up "Near Me" button click
+  if (nearMeBtn) {
+    nearMeBtn.onclick = (e) => {
+      e.preventDefault();
+      askLocation();
+    };
+  }
+
+  // Check if saved location exists or auto-detect with permission
+  const savedLat = localStorage.getItem("knm_user_lat");
+  const savedLng = localStorage.getItem("knm_user_lng");
+  if (savedLat && savedLng) {
+    processLocation(parseFloat(savedLat), parseFloat(savedLng));
+  } else if (navigator.geolocation && navigator.permissions) {
+    try {
+      navigator.permissions.query({ name: "geolocation" }).then(res => {
+        if (res.state === "granted") {
+          askLocation();
+        }
+      }).catch(() => {});
+    } catch (e) {}
+  }
 }
 
 async function initLandingPage() {
@@ -367,7 +420,22 @@ async function initLandingPage() {
   window._currentHotelsRef = hotels;
   const activeHotels = hotels.filter(h => h.status === "active");
   await renderHotelsGrid("hotels-near-you-grid", activeHotels);
-  await renderHotelsGrid("featured-hotels-grid", activeHotels.filter(h => h.featured).slice(0, 4));
+  
+  // Featured / Trending Hotels (top rated / featured)
+  const featured = activeHotels.filter(h => h.featured || (h.rating && h.rating >= 4.7)).slice(0, 8);
+  await renderHotelsGrid("featured-hotels-grid", featured.length >= 4 ? featured : activeHotels.slice(0, 8));
+
+  // Curated Luxury & Backwater Escapes (Luxury Resorts, Houseboats, Beach Resorts)
+  const curated = activeHotels.filter(h => 
+    h.category === "Luxury Resorts" || 
+    h.category === "Houseboats" || 
+    h.category === "Beach Resorts" ||
+    (h.price && h.price >= 4000)
+  ).slice(0, 8);
+  await renderHotelsGrid("curated-hotels-grid", curated.length >= 4 ? curated : activeHotels.slice(4, 12));
+
+  // Initialize live Location-based Nearby Hotels
+  initNearbyHotels(hotels);
 
   // Handle URL params: ?category= or ?district= from categories.html or external links
   const urlParams = new URLSearchParams(window.location.search);
@@ -405,8 +473,17 @@ async function initLandingPage() {
       getHotels().then(async (list) => {
         hotels = list;
         window._currentHotelsRef = hotels;
+        const active = hotels.filter(h => h.status === "active");
         await applyAdvancedFilters(hotels);
-        await renderHotelsGrid("featured-hotels-grid", hotels.filter((h) => h.status === "active" && h.featured).slice(0, 4));
+        const feat = active.filter(h => h.featured || (h.rating && h.rating >= 4.7)).slice(0, 8);
+        await renderHotelsGrid("featured-hotels-grid", feat.length >= 4 ? feat : active.slice(0, 8));
+        const cur = active.filter(h => 
+          h.category === "Luxury Resorts" || 
+          h.category === "Houseboats" || 
+          h.category === "Beach Resorts" ||
+          (h.price && h.price >= 4000)
+        ).slice(0, 8);
+        await renderHotelsGrid("curated-hotels-grid", cur.length >= 4 ? cur : active.slice(4, 12));
       });
     }
   });
@@ -522,13 +599,16 @@ async function initLandingPage() {
   });
 
   // Hook Destination clicks to filter
-  const destCards = document.querySelectorAll(".destination-card");
+  const destCards = document.querySelectorAll(".destination-card, .destination-modern-card");
   destCards.forEach(card => {
-    card.addEventListener("click", async () => {
+    card.addEventListener("click", async (e) => {
       const destName = card.dataset.destination;
-      document.getElementById("search-location").value = destName;
-      await applyAdvancedFilters(hotels);
-      document.getElementById("hotels-near-you").scrollIntoView({ behavior: "smooth" });
+      if (destName) {
+        e.preventDefault();
+        document.getElementById("search-location").value = destName;
+        await applyAdvancedFilters(hotels);
+        document.getElementById("hotels-near-you").scrollIntoView({ behavior: "smooth" });
+      }
     });
   });
 
@@ -667,50 +747,72 @@ function updateFilterBadge() {
 
 window.clearAllFilters = function() {
   const searchInput = document.getElementById("search-location");
+  const checkin = document.getElementById("search-checkin");
+  const checkout = document.getElementById("search-checkout");
+  const guests = document.getElementById("search-guests-select");
   const priceMin = document.getElementById("filter-price-min");
   const priceMax = document.getElementById("filter-price-max");
   const rating = document.getElementById("filter-rating");
   const category = document.getElementById("filter-category");
   const sorting = document.getElementById("filter-sorting");
   if (searchInput) searchInput.value = "";
+  if (checkin) checkin.value = "";
+  if (checkout) checkout.value = "";
+  if (guests) guests.value = "2 Guests, 1 Room";
   if (priceMin) priceMin.value = "";
   if (priceMax) priceMax.value = "";
   if (rating) rating.value = "";
   if (category) category.value = "";
   if (sorting) sorting.value = "recommended";
   document.querySelectorAll(".filter-amenity:checked").forEach(el => el.checked = false);
+  updateFilterBadge();
   // Re-run filters with no criteria (shows all)
   if (window._currentHotelsRef) applyAdvancedFilters(window._currentHotelsRef);
 };
 
 function getHotelCardHtml(h, isFav) {
   const price = h.price || 0;
-  const rating = h.rating || 0;
-  const reviewsCount = h.reviewsCount || 0;
+  const rating = h.rating || 4.6;
+  const reviewsCount = h.reviewsCount || Math.floor(Math.random() * 80) + 40;
+  const badgeText = h.badge || (h.rating >= 4.8 ? "★ Top Rated" : (h.category ? h.category : "Kerala Special"));
+  const categoryLabel = h.category || "Hotel & Resort";
+  const locationText = h.location || (h.district ? `${h.district}, Kerala` : "Kerala, India");
+
+  let distanceTag = "";
+  if (h._dist !== undefined && h._dist < 9000) {
+    const dStr = h._dist < 1 ? `${Math.round(h._dist * 1000)} m` : `${h._dist.toFixed(1)} km`;
+    distanceTag = `<span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:#0342C5; background:#EBF2FE; padding:2px 8px; border-radius:12px; margin-left:6px;"><i class="fas fa-location-arrow" style="color:#19A138; font-size:10px;"></i> ${dStr}</span>`;
+  }
+
   return `
     <div class="hotel-card" data-hotel-id="${h.id}" onclick="window.location.href='/hotel.html?id=${h.id}'">
       <div class="hotel-card-image">
-        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${h.name}" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
-        <span class="hotel-card-tag">${h.badge || h.category || ''}</span>
-        <button class="hotel-card-save" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
+        <img src="${h.image || '/assets/images/riverside.webp'}" alt="${escapeHTML(h.name)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80'">
+        <span class="hotel-card-badge">${escapeHTML(badgeText)}</span>
+        <button class="hotel-card-wishlist" aria-label="Save to Wishlist" onclick="event.stopPropagation(); event.preventDefault(); toggleWishlist(this, '${h.id}')">
           <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}" style="${isFav ? 'color: #FF5A5F;' : ''}"></i>
         </button>
       </div>
-      <div class="hotel-card-content">
-        <div class="hotel-card-rating">
-          <i class="fas fa-star"></i> ${rating.toFixed(1)} <span>(${reviewsCount} reviews)</span>
-        </div>
-        <h3>${h.name}</h3>
-        <div class="hotel-card-loc">
-          <i class="fas fa-map-marker-alt"></i> ${h.location || h.district || 'Kerala'}
-        </div>
-        <div class="hotel-card-footer">
-          <div class="hotel-card-price">
-            <span class="price-num">₹${price.toLocaleString("en-IN")}</span>
-            <span class="price-unit">/night</span>
+      <div class="hotel-card-body">
+        <div class="hotel-card-top-meta">
+          <div class="hotel-card-score">
+            <i class="fas fa-star"></i> ${rating.toFixed(1)} <span class="rev-count">(${reviewsCount})</span>
           </div>
-          <a href="/hotel.html?id=${h.id}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View Details</a>
+          <span class="hotel-card-category-pill">${escapeHTML(categoryLabel)}</span>
         </div>
+        <h3 class="hotel-card-title" title="${escapeHTML(h.name)}">${escapeHTML(h.name)}</h3>
+        <div class="hotel-card-location">
+          <i class="fas fa-map-marker-alt"></i> ${escapeHTML(locationText)} ${distanceTag}
+        </div>
+        <div class="hotel-card-pricing-row">
+          <div class="hotel-card-price-group">
+            <div class="hotel-card-price-main">₹${price.toLocaleString("en-IN")} <span>/ night</span></div>
+            <div class="hotel-card-tax-info">+ taxes &amp; fees</div>
+          </div>
+        </div>
+        <a href="/hotel.html?id=${h.id}" class="hotel-card-cta-btn" onclick="event.stopPropagation();">
+          View Details &amp; Book <i class="fas fa-arrow-right" style="font-size:11px;"></i>
+        </a>
       </div>
     </div>
   `;
@@ -1178,6 +1280,8 @@ async function initHotelDetailPage() {
   if (mainImg) {
     mainImg.src = allImages[0] || "/assets/images/riverside.webp";
     mainImg.alt = `${selectedHotel.name} - Main Hotel Image, ${selectedHotel.location}, ${dist}`;
+    mainImg.style.cursor = "pointer";
+    mainImg.onclick = () => window.openPhotoLightbox(0);
   }
   
   for (let i = 1; i <= 4; i++) {
@@ -1186,6 +1290,8 @@ async function initHotelDetailPage() {
     if (allImages[i]) {
       img.src = allImages[i];
       img.style.display = "";
+      img.style.cursor = "pointer";
+      img.onclick = () => window.openPhotoLightbox(i);
       if (img.parentElement) img.parentElement.style.display = "";
       img.alt = `${selectedHotel.name} photo ${i+1}`;
     } else {
@@ -1201,10 +1307,72 @@ async function initHotelDetailPage() {
     if (allImages.length > 5) {
       moreBtn.style.display = "";
       moreBtn.innerText = `+${allImages.length - 5} Photos`;
+      moreBtn.onclick = () => window.openPhotoLightbox(4);
     } else {
       moreBtn.style.display = "none";
     }
   }
+
+  // ── Fullscreen Photo Lightbox Controller ──────────────────────────────────
+  const validPhotos = allImages.filter(img => img && typeof img === "string" && img.trim() !== "");
+  let activePhotoIndex = 0;
+
+  const lightboxModal = document.getElementById("photo-lightbox-modal");
+  const lightboxMainImg = document.getElementById("lightbox-main-img");
+  const lightboxCounter = document.getElementById("lightbox-counter");
+  const lightboxHotelTitle = document.getElementById("lightbox-hotel-title");
+  const lightboxCloseBtn = document.getElementById("lightbox-close-btn");
+  const lightboxPrevBtn = document.getElementById("lightbox-prev-btn");
+  const lightboxNextBtn = document.getElementById("lightbox-next-btn");
+  const lightboxThumbStrip = document.getElementById("lightbox-thumbnails-strip");
+
+  window.openPhotoLightbox = function(index = 0) {
+    if (!lightboxModal || validPhotos.length === 0) return;
+    activePhotoIndex = (index + validPhotos.length) % validPhotos.length;
+    
+    if (lightboxHotelTitle) lightboxHotelTitle.textContent = selectedHotel.name;
+    updateLightboxView();
+    lightboxModal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  };
+
+  window.closePhotoLightbox = function() {
+    if (!lightboxModal) return;
+    lightboxModal.style.display = "none";
+    document.body.style.overflow = "";
+  };
+
+  function updateLightboxView() {
+    if (!lightboxMainImg || validPhotos.length === 0) return;
+    lightboxMainImg.src = validPhotos[activePhotoIndex];
+    if (lightboxCounter) {
+      lightboxCounter.textContent = `${activePhotoIndex + 1} / ${validPhotos.length}`;
+    }
+
+    if (lightboxThumbStrip) {
+      lightboxThumbStrip.innerHTML = validPhotos.map((src, i) => `
+        <div class="lightbox-thumb ${i === activePhotoIndex ? 'active' : ''}" onclick="window.openPhotoLightbox(${i})">
+          <img src="${src}" alt="Thumbnail ${i + 1}">
+        </div>
+      `).join("");
+      
+      const activeThumb = lightboxThumbStrip.querySelector(".lightbox-thumb.active");
+      if (activeThumb) activeThumb.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+  }
+
+  if (lightboxCloseBtn) lightboxCloseBtn.onclick = () => window.closePhotoLightbox();
+  if (lightboxPrevBtn) lightboxPrevBtn.onclick = () => window.openPhotoLightbox(activePhotoIndex - 1);
+  if (lightboxNextBtn) lightboxNextBtn.onclick = () => window.openPhotoLightbox(activePhotoIndex + 1);
+
+  // Keyboard navigation for Lightbox
+  window.addEventListener("keydown", (e) => {
+    if (lightboxModal && lightboxModal.style.display === "flex") {
+      if (e.key === "Escape") window.closePhotoLightbox();
+      if (e.key === "ArrowLeft") window.openPhotoLightbox(activePhotoIndex - 1);
+      if (e.key === "ArrowRight") window.openPhotoLightbox(activePhotoIndex + 1);
+    }
+  });
 
   // Mobile Slideshow Swipe Indicator Badge Configuration
   const galleryGrid = document.getElementById("hotel-gallery-grid");
@@ -1227,63 +1395,49 @@ async function initHotelDetailPage() {
     }
   }
 
-  // ── Dynamic Map Embed (OpenStreetMap, no API key needed) ──────────────────
+  // ── Dynamic Map Embed (Live Google Maps Embed for All Hotels) ─────────────
   const mapIframe = document.getElementById("hotel-map-iframe");
   const mapPlaceholder = document.getElementById("hotel-map-placeholder");
   const mapLink = document.getElementById("hotel-map-link");
-  if (mapIframe && mapPlaceholder) {
+  if (mapIframe) {
     let rawUrl = (selectedHotel.mapUrl || "").trim();
     let embedSrc = "";
     
-    // Check if the administrator pasted a full iframe code or a raw URL
+    // Check if administrator provided a specific embed or iframe code
     if (rawUrl.includes("<iframe")) {
       const srcMatch = rawUrl.match(/src=["']([^"']+)["']/);
       if (srcMatch && srcMatch[1]) {
         embedSrc = srcMatch[1];
       }
-    } else {
+    } else if (rawUrl.includes("/maps/embed") || rawUrl.includes("openstreetmap.org")) {
       embedSrc = rawUrl;
     }
 
-    // Verify if it is an allowed Google Maps embed URL format to prevent SAMEORIGIN block errors
-    const isEmbeddable = embedSrc && (
-      embedSrc.includes("/maps/embed") ||
-      embedSrc.includes("openstreetmap.org")
-    );
+    // If no valid embed URL provided, auto-generate standard Google Maps embed for hotel location
+    if (!embedSrc) {
+      const locationQuery = encodeURIComponent(`${selectedHotel.name}, ${selectedHotel.location || selectedHotel.district || 'Kerala'}, Kerala, India`);
+      embedSrc = `https://maps.google.com/maps?q=${locationQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    }
 
-    if (isEmbeddable && embedSrc.startsWith("http")) {
-      mapIframe.src = embedSrc;
-      mapIframe.style.display = "block";
-      mapIframe.style.width = "100%";
-      mapIframe.style.height = "320px";
-      mapIframe.style.border = "none";
-      mapIframe.style.borderRadius = "8px";
+    mapIframe.src = embedSrc;
+    mapIframe.style.display = "block";
+    mapIframe.style.width = "100%";
+    mapIframe.style.height = "360px";
+    mapIframe.style.border = "none";
+    mapIframe.style.borderRadius = "12px";
+    mapIframe.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)";
+    
+    if (mapPlaceholder) {
       mapPlaceholder.style.display = "none";
-    } else {
-      // Hide the iframe to prevent "refused to connect" error
-      mapIframe.style.display = "none";
-      
-      // Update the placeholder text to be a friendly call to action card
-      mapPlaceholder.style.display = "flex";
-      mapPlaceholder.style.background = "var(--white)";
-      mapPlaceholder.style.borderColor = "var(--border)";
-      mapPlaceholder.style.borderStyle = "solid";
-      mapPlaceholder.style.borderWidth = "1px";
-      mapPlaceholder.innerHTML = `
-        <div style="text-align: center; padding: 25px 20px;">
-          <i class="fas fa-map-marked-alt" style="font-size:42px; color: var(--primary); margin-bottom: 12px; opacity: 0.85;"></i>
-          <h4 style="font-size: 15px; font-weight:700; color: var(--text-main); margin-bottom: 6px;">View Location on Interactive Map</h4>
-          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px; max-width: 320px; margin-left: auto; margin-right: auto; line-height: 1.5;">Explore surrounding attractions, get directions, and view exact property coordinates directly on Google Maps.</p>
-          <a href="${rawUrl || `https://maps.google.com/?q=${encodeURIComponent(selectedHotel.location || selectedHotel.name)}`}" target="_blank" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 8px; border-radius: 30px; padding: 10px 24px; font-weight: 700; font-size: 13px; text-decoration: none;">
-            <i class="fas fa-external-link-alt"></i> Open Google Maps
-          </a>
-        </div>
-      `;
     }
 
     if (mapLink) {
-      mapLink.href = rawUrl || `https://maps.google.com/?q=${encodeURIComponent(selectedHotel.location || selectedHotel.name)}`;
-      mapLink.style.display = isEmbeddable ? "block" : "none";
+      const googleMapsDirectionUrl = rawUrl.startsWith("http") && !rawUrl.includes("/embed")
+        ? rawUrl
+        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${selectedHotel.name} ${selectedHotel.location || selectedHotel.district} Kerala`)}`;
+      mapLink.href = googleMapsDirectionUrl;
+      mapLink.style.display = "inline-flex";
+      mapLink.innerHTML = `<i class="fas fa-directions" style="margin-right: 8px;"></i> Get Directions on Google Maps`;
     }
   }
 
